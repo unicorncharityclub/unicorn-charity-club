@@ -24,7 +24,7 @@
 }
 
 .nav__item--active {
-  background: #3b9f9d;
+  background: #22aaa8;
 }
 /*.nav__item--active::after {
   background-image: url(../../site_media/Images/menu_active_arrow.png);
@@ -39,7 +39,7 @@
 }*/
 
 .nav__item:hover {
-  background: #2bb9b7;
+  background: #22aaa8;
 }
 .nav__item {
   display: table-cell;

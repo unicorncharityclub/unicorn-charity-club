@@ -36,9 +36,9 @@
 }
 
 .header__logo-desktop {
-  height: 78px;
-  width: 350px;
-  padding-bottom: 25px;
+  height: 75px;
+  width: 325px;
+  padding-bottom: 20px;
 }
 
 @media only screen and (max-width: 40em) {
