@@ -41,7 +41,7 @@ class Main_View extends React.Component {
           <div class="Block">
             <div class="btn">
               <span class="photo-icon"></span>
-              <a href="#"> Photo</a>
+              <a href="#"> Photos</a>
               <span></span>
             </div>
           </div>

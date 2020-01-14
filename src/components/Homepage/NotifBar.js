@@ -24,11 +24,11 @@ class NotifBar extends Component {
         <div className="content_holder">
           <a href="/calender">
             <div className="Calender"></div>
-            <div className="Text">Calender</div>
+            <div className="Text">Calendar</div>
           </a>
           <a href="/Notification">
             <div className="Notification"></div>
-            <div className="Text">Notification</div>
+            <div className="Text">Notifications</div>
           </a>
           <a href="/Messages">
             <div className="Messages"></div>
