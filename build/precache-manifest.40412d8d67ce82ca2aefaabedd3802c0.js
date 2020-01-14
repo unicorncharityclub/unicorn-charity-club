@@ -1,18 +1,18 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b21cf5833b7c05db91650ada7e42c93a",
+    "revision": "4e9b521189f5174a94c85caffdde4cdd",
     "url": "/tesiatran/unicorn-charity-club/index.html"
   },
   {
-    "revision": "df413429186a7c579c73",
-    "url": "/tesiatran/unicorn-charity-club/static/css/main.6d01e879.chunk.css"
+    "revision": "e927a21bcc1bec5e1664",
+    "url": "/tesiatran/unicorn-charity-club/static/css/main.7597bbd2.chunk.css"
   },
   {
     "revision": "0510fd6415dcc9b65585",
     "url": "/tesiatran/unicorn-charity-club/static/js/2.35363203.chunk.js"
   },
   {
-    "revision": "df413429186a7c579c73",
+    "revision": "e927a21bcc1bec5e1664",
     "url": "/tesiatran/unicorn-charity-club/static/js/main.1b82b428.chunk.js"
   },
   {

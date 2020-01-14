@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/tesiatran/unicorn-charity-club/static/css/main.6d01e879.chunk.css",
+    "main.css": "/tesiatran/unicorn-charity-club/static/css/main.7597bbd2.chunk.css",
     "main.js": "/tesiatran/unicorn-charity-club/static/js/main.1b82b428.chunk.js",
     "main.js.map": "/tesiatran/unicorn-charity-club/static/js/main.1b82b428.chunk.js.map",
     "runtime-main.js": "/tesiatran/unicorn-charity-club/static/js/runtime-main.cdc17079.js",
@@ -8,9 +8,9 @@
     "static/js/2.35363203.chunk.js": "/tesiatran/unicorn-charity-club/static/js/2.35363203.chunk.js",
     "static/js/2.35363203.chunk.js.map": "/tesiatran/unicorn-charity-club/static/js/2.35363203.chunk.js.map",
     "index.html": "/tesiatran/unicorn-charity-club/index.html",
-    "precache-manifest.b967d35b154cedb192d4fcde2141254e.js": "/tesiatran/unicorn-charity-club/precache-manifest.b967d35b154cedb192d4fcde2141254e.js",
+    "precache-manifest.40412d8d67ce82ca2aefaabedd3802c0.js": "/tesiatran/unicorn-charity-club/precache-manifest.40412d8d67ce82ca2aefaabedd3802c0.js",
     "service-worker.js": "/tesiatran/unicorn-charity-club/service-worker.js",
-    "static/css/main.6d01e879.chunk.css.map": "/tesiatran/unicorn-charity-club/static/css/main.6d01e879.chunk.css.map",
+    "static/css/main.7597bbd2.chunk.css.map": "/tesiatran/unicorn-charity-club/static/css/main.7597bbd2.chunk.css.map",
     "static/media/NotifBar.css": "/tesiatran/unicorn-charity-club/static/media/Settings_Notifications.62bc3112.png",
     "static/media/Charity Project_Contact Info_3b9f9d.png": "/tesiatran/unicorn-charity-club/static/media/Charity Project_Contact Info_3b9f9d.18176673.png",
     "static/media/Charity Project_Impact Report_3b9f9d.png": "/tesiatran/unicorn-charity-club/static/media/Charity Project_Impact Report_3b9f9d.b9b0b402.png",
@@ -39,7 +39,7 @@
   "entrypoints": [
     "static/js/runtime-main.cdc17079.js",
     "static/js/2.35363203.chunk.js",
-    "static/css/main.6d01e879.chunk.css",
+    "static/css/main.7597bbd2.chunk.css",
     "static/js/main.1b82b428.chunk.js"
   ]
 }

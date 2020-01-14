@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/tesiatran/unicorn-charity-club/precache-manifest.b967d35b154cedb192d4fcde2141254e.js"
+  "/tesiatran/unicorn-charity-club/precache-manifest.40412d8d67ce82ca2aefaabedd3802c0.js"
 );
 
 self.addEventListener('message', (event) => {
