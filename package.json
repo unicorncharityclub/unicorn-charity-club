@@ -41,5 +41,18 @@
     "jsdoc": "^3.6.3",
     "react-stripe-checkout": "^2.6.3",
     "stripe": "^7.14.0"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tesiatran/unicorn-charity-club.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tesiatran/unicorn-charity-club/issues"
+  },
+  "homepage": "https://github.com/tesiatran/unicorn-charity-club#readme"
 }
