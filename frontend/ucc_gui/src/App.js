@@ -17,6 +17,7 @@ class App extends Component {
           <Router>
             <Navbar />
             <CustomLayout>
+                <a href="/account">My Account Page</a>
               <BaseRouter />
             </CustomLayout>
           </Router>
