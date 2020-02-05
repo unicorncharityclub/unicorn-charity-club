@@ -12,6 +12,7 @@ class App extends Component {
         <div className="content-wrapper">
           <Router>
             <Navbar />
+                <a href="/account">My Account Page</a>
               <BaseRouter />
           </Router>
         </div>
