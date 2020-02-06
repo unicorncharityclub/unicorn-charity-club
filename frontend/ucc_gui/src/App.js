@@ -1,28 +1,35 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import BaseRouter from './routes';
-import CustomLayout from './containers/Layout';
-import Navbar from "./components/Navbar/Navbar";
-
-/** importing CSS styles */
-//import 'antd/dist/antd.css';
+import React, { Component } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import BaseRouter from "./routes";
+import Navbar from "./containers/Navbar/Navbar";
+import Register from "./containers/Register/Register";
 import "./App.css";
 
-
 class App extends Component {
+    constructor(props) {
+    super(props);
+    this.state = {
+      user: {}
+    };
+  }
+
   render() {
     return (
-      <div className="App">
-        <div className="content-wrapper">
-          <Router>
-            <Navbar />
-            <CustomLayout>
-                <a href="/account">My Account Page</a>
+      <Router>
+        {this.state.user ? (
+          <div className="App">
+            <div className="content-wrapper">
+              <Navbar />
+              <a href="/account">My Account Page</a>
               <BaseRouter />
-            </CustomLayout>
-          </Router>
-        </div>
-      </div>
+            </div>
+          </div>
+        ) : (
+          <div className="App">
+            <Register />
+          </div>
+        )}
+      </Router>
     );
   }
 }
