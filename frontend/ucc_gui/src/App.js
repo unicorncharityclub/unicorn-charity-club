@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import BaseRouter from "./routes";
-import Navbar from "./components/Navbar/Navbar";
-import Register from "./components/Register/Register";
+import Navbar from "./containers/Navbar/Navbar";
+import Register from "./containers/Register/Register";
 import "./App.css";
 
 class App extends Component {
     constructor(props) {
     super(props);
     this.state = {
-      //user: {}
+      user: {}
     };
   }
 

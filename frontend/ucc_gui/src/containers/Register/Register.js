@@ -31,17 +31,17 @@ class Register extends React.Component {
             </div>
           </header>
 
-          <div class="header__toolbar not-logged-main">
+          <div className="header__toolbar not-logged-main">
             <NavLink to="/Login">
-              <div class="header__signin-buttons">
-                <button class="header__login_button" href="/accounts/log-in/">
+              <div className="header__signin-buttons">
+                <button className="header__login_button" href="/accounts/log-in/">
                   Log in
                 </button>
               </div>
             </NavLink>
           </div>
 
-          <div class="title">
+          <div className="title">
             <span>Let's get you started with Unicron Charity Club!!</span>
           </div>
           <RegisterForm />
@@ -56,10 +56,11 @@ export default Register;
 class RegisterForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { username: "", email: "", password: "", errors: [] };
+    this.state = { firstname: "", lastname: "", email: "", password: "", confirmpassword: "", errors: [] };
   }
 
   showValidationErr(elm, msg) {
+    console.log(msg);
     this.setState(prevState => ({
       errors: [...prevState.errors, { elm, msg }]
     }));
@@ -77,10 +78,16 @@ class RegisterForm extends React.Component {
     });
   }
 
-  onUsernameChange(e) {
-    this.setState({ username: e.target.value });
-    this.clearValidationErr("username");
+  onFirstNameChange(e) {
+    this.setState({ firstname: e.target.value });
+    this.clearValidationErr("firstname");
   }
+
+  onLastNameChange(e) {
+    this.setState({ lastname: e.target.value });
+    this.clearValidationErr("lastname");
+  }
+
   onEmailChange(e) {
     this.setState({ email: e.target.value });
     this.clearValidationErr("email");
@@ -91,60 +98,85 @@ class RegisterForm extends React.Component {
     this.clearValidationErr("password");
   }
 
+  onConfirmPasswordChange(e) {
+    this.setState({ confirmpassword: e.target.value });
+    this.clearValidationErr("confirmpassword");
+  }
+
   submitRegister(e) {
-    if (this.state.username === "") {
-      this.showValidationErr("Username", "Username cannot be empty");
+    e.preventDefault();
+    console.log(this.state);
+    if (this.state.firstname === "") {
+      this.showValidationErr("firstname", "First name cannot be empty");
+    }
+    if (this.state.lastname === "") {
+      this.showValidationErr("lastname", "Last name cannot be empty");
     }
     if (this.state.email === "") {
-      this.showValidationErr("Email", "Email cannot be empty");
-    } else if (this.state.password === "") {
-      this.showValidationErr("Password", "Password cannot be empty");
+      this.showValidationErr("email", "Email cannot be empty");
+    }
+    if (this.state.password === "") {
+      this.showValidationErr("password", "Password cannot be empty");
+    }
+    if (this.state.password !== this.state.confirmpassword) {
+      this.showValidationErr("password", "Password and Confirm Password dont match");
+    }
+    if (this.state.confirmpassword === "") {
+      this.showValidationErr("confirmpassword", "Confirm Password cannot be empty");
     }
   }
 
   render() {
-    let usernameErr = null,
-      emailErr = null,
-      passwordErr = null;
+    let emailErr = null,
+      passwordErr = null,
+      confirmpasswordErr = null;
+    console.log(this.state);
     for (let err of this.state.errors) {
-      if (err.elm === "username") {
-        usernameErr = err.msg;
-      }
       if (err.elm === "email") {
         emailErr = err.msg;
       }
       if (err.elm === "password") {
         passwordErr = err.msg;
       }
+      if (err.elm === "confirmpassword") {
+        confirmpasswordErr = err.msg;
+      }
     }
     return (
       <form
-        class="register-form form-wrapper"
+        className="register-form form-wrapper"
         name="form"
-        method="POST"
-
+        onSubmit={this.submitRegister}
       >
         <section>
-          <div class="form-item">
-            <label>Username:</label>
+          <div className="form-item">
+            <label>First name:</label>
             <input
-              name="username"
+              name="firstname"
               type="text"
-              id="username"
-              placeholder="Username"
+              id="firstname"
+              placeholder="First Name"
               value={this.state.value}
-              onChange={this.onUsernameChange.bind(this)}
+              onChange={this.onFirstNameChange.bind(this)}
             />
-            <small className="danger-error">
-              {usernameErr ? usernameErr : ""}
-            </small>
           </div>
 
+          <div className="form-item">
+            <label>Last name:</label>
+            <input
+              name="lastname"
+              type="text"
+              id="lastname"
+              placeholder="Last Name"
+              value={this.state.value}
+              onChange={this.onLastNameChange.bind(this)}
+            />
+          </div>
 
-          <div class="form-item">
+          <div className="form-item">
             <label>Email ID:</label>
             <input
-              name="username"
+              name="email"
               type="text"
               id="email"
               placeholder="Email"
@@ -154,7 +186,7 @@ class RegisterForm extends React.Component {
             <small className="danger-error">{emailErr ? emailErr : ""}</small>
           </div>
 
-          <div class="form-item">
+          <div className="form-item">
             <label>Password:</label>
             <input
               name="password"
@@ -169,18 +201,18 @@ class RegisterForm extends React.Component {
             </small>
           </div>
 
-          <div class="form-item">
-            <label>Password Confirmation:</label>
+          <div className="form-item">
+            <label>Confirm Password:</label>
             <input
               name="password-confirmation"
               type="password"
-              id="password"
-              placeholder="Password Confirmation"
+              id="password-confirmation"
+              placeholder="Confirm Password"
               value={this.state.value}
-              onChange={this.onPasswordChange.bind(this)}
+              onChange={this.onConfirmPasswordChange.bind(this)}
             />
             <small className="danger-error">
-              {passwordErr ? passwordErr : ""}
+              {confirmpasswordErr ? confirmpasswordErr : ""}
             </small>
           </div>
 
@@ -198,7 +230,6 @@ class RegisterForm extends React.Component {
           />
 
           <button
-            disabled="true"
             id="button"
             className="register-btn"
             type="submit"
