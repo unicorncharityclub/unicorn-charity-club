@@ -1,13 +1,6 @@
-from django.urls import path
+from .views import MyaccountViewSet
+from rest_framework.routers import DefaultRouter
 
-from .views import (
-    MyaccountListView,
-    MyaccountDetailView
-
-)
-
-urlpatterns = [
-    path('', MyaccountListView.as_view()),
-    path('<pk>', MyaccountDetailView.as_view())
-
-]
+router = DefaultRouter()
+router.register(r'', MyaccountViewSet)
+urlpatterns = router.urls
