@@ -4,6 +4,7 @@
  */
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+import axios from 'axios';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Arrow_backward from "../../image/arrow-backward.png";
 //import Mobile_toolbar from "../Mobile_toolbar/Mobile_toolbar";
@@ -29,6 +30,21 @@ import "./Account.css";
  * @todo connect to database for individual user
  */
 class Account extends React.Component {
+
+    state = {
+        account : []
+    }
+
+    componentDidMount() {
+        axios.get('http://127.0.0.1:8000/myaccount/')
+            .then(res => {
+                    this.setState({
+                        account: res.data[0]
+                    });
+                console.log(res.data[0])
+            })
+    }
+
   render() {
     return (
       <Router>
@@ -38,8 +54,8 @@ class Account extends React.Component {
               <div className="header__wrapper">
                 <div className="header__logo">
                   <div className="header-menu-mobile">
-                    <NavLink to={"/Menu"}>
-                      <a href="/Menu">
+                    <NavLink to={"/"}>
+                      <a href="/">
                         <img src={Arrow_backward} alt="Backward Arrow" />
                       </a>
                     </NavLink>
@@ -53,18 +69,18 @@ class Account extends React.Component {
               <div className="menu__content">
                 <div className="menu__item_title">
                   {/* <a href="/"> Name</a> */}
-                  <textarea placeholder="Name">Name</textarea>
+                  <textarea placeholder="Name" value={this.state.account.Name}>Name</textarea>
                   <img src={Settings_camera} alt="Settings_camera" />
                 </div>
                 <div className="menu__item" style={{ paddingBottom: "0px" }}>
                   <img src={Settings_home} alt="Settings_home" />
                   {/* <a href="/"> Address</a> */}
-                  <textarea placeholder="Address">Address</textarea>
+                  <textarea placeholder="Address" value={this.state.account.Address}>Address</textarea>
                 </div>
                 <div className="menu__item" style={{ paddingBottom: "0px" }}>
                   <img src={Settings_email} alt="Settings_email" />
                   {/* <a href="/"> Email</a> */}
-                  <textarea placeholder="Email">Email</textarea>
+                  <textarea placeholder="Email" value={this.state.account.Email}>Email</textarea>
                 </div>
                 <div className="menu__item" style={{ paddingBottom: "0px" }}>
                   <img
@@ -73,7 +89,7 @@ class Account extends React.Component {
                     style={{ width: "27px", paddingRight: "10px" }}
                   />
                   {/* <a href="/"> Mobile</a> */}
-                  <textarea placeholder="Mobile">Mobile</textarea>
+                  <textarea placeholder="Mobile" value={this.state.account.Mobile}>Mobile</textarea>
                 </div>
                 <div className="menu__item" style={{ paddingBottom: "0px" }}>
                   <img
