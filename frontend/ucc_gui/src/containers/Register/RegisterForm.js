@@ -1,10 +1,23 @@
 import React from "react";
+import axios from 'axios';
 import {Checkbox, FormControlLabel} from "@material-ui/core";
+import AlerMessage from '../../components/AlertMessage';
+import TextField from '@material-ui/core/TextField';
+
+function getCurrentDate(separator='-'){
+    let newDate = new Date()
+    let date = newDate.getDate();
+    let month = newDate.getMonth() + 1;
+    let year = newDate.getFullYear();
+
+    return `${year}${separator}${month<10?`0${month}`:`${month}`}${separator}${date<10?`0${date}`:`${date}`}`
+  }
+
 
 class RegisterForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { firstname: "", lastname: "", email: "", password: "", confirmpassword: "", terms: "", errors: [] };
+    this.state = { first_name: "", last_name: "", email: "", password: "", confirmpassword: "", terms: "", dob: "", status: "", errors: [] };
   }
 
   showValidationErr(elm, msg) {
@@ -26,18 +39,23 @@ class RegisterForm extends React.Component {
   }
 
   onFirstNameChange(e) {
-    this.setState({ firstname: e.target.value });
-    this.clearValidationErr("firstname");
+    this.setState({ first_name: e.target.value });
+    this.clearValidationErr("first_name");
   }
 
   onLastNameChange(e) {
-    this.setState({ lastname: e.target.value });
-    this.clearValidationErr("lastname");
+    this.setState({ last_name: e.target.value });
+    this.clearValidationErr("last_name");
   }
 
   onEmailChange(e) {
     this.setState({ email: e.target.value });
     this.clearValidationErr("email");
+  }
+
+  onDobChange(e){
+    this.setState({ dob: e.target.value });
+    this.clearValidationErr("dob");
   }
 
   onPasswordChange(e) {
@@ -58,13 +76,25 @@ class RegisterForm extends React.Component {
   submitRegister(e) {
     e.preventDefault();
     let valid = true;
-    if (this.state.firstname === "") {
+    if (this.state.first_name === "") {
       valid = false;
-      this.showValidationErr("firstname", "First name cannot be empty");
+      this.showValidationErr("first_name", "First name cannot be empty");
     }
-    if (this.state.lastname === "") {
+    if (this.state.last_name === "") {
       valid = false;
-      this.showValidationErr("lastname", "Last name cannot be empty");
+      this.showValidationErr("last_name", "Last name cannot be empty");
+    }
+    if (this.state.dob === "") {
+      valid = false;
+      this.showValidationErr("dob", "Date of Birth cannot be empty");
+    }
+    else
+    {
+      if(this.state.dob>getCurrentDate())
+      {
+        valid = false;
+        this.showValidationErr("dob", "Invalid Date of Birth");
+      }
     }
     if (this.state.email === "") {
       valid = false;
@@ -79,9 +109,9 @@ class RegisterForm extends React.Component {
         this.showValidationErr("email", "Invalid Email id");
       }
     }
-    if (this.state.password === "") {
+    if (this.state.password === "" || this.state.password.length<6) {
       valid = false;
-      this.showValidationErr("password", "Password cannot be empty");
+      this.showValidationErr("password", "Password should have minimum 6 characters");
     }
     if (this.state.password !== this.state.confirmpassword) {
       valid = false;
@@ -98,24 +128,41 @@ class RegisterForm extends React.Component {
 
     if(valid===true)
     {
-      this.handleInsert();
+      this.handleInsert(this);
     }
   }
 
-  handleInsert() {
-    console.log(this.state);
-    //TODO : Fire the POST API, once created
+
+  updateResponseStatus(data)
+  {
+    if(data==="Success") {
+      data = "User successfully registers. Proceed to Login.";
+    }
+    this.setState(prevState => ({
+      status: data
+    }));
   }
 
+  handleInsert(obj, event) {
+    var status = "";
+    axios.post(`http://127.0.0.1:8000/register/`, this.state)
+    .then(function (response) {
+        status = response.data['status'];
+        obj.updateResponseStatus(status);
+      })
+      .catch(function (error) {
+        console.log(error);
+    });
+  };
 
   render() {
     let emailErr = null,
       passwordErr = null,
       confirmpasswordErr = null,
-    firstNameErr = null,
-    lastNameErr = null,
-    termsErr = null;
-
+      firstNameErr = null,
+      lastNameErr = null,
+      termsErr = null,
+      dobErr = null;
 
     for (let err of this.state.errors) {
       if (err.elm === "email") {
@@ -127,14 +174,17 @@ class RegisterForm extends React.Component {
       if (err.elm === "confirmpassword") {
         confirmpasswordErr = err.msg;
       }
-      if (err.elm === "firstname") {
+      if (err.elm === "first_name") {
         firstNameErr = err.msg;
       }
-      if (err.elm === "lastname") {
+      if (err.elm === "last_name") {
         lastNameErr = err.msg;
       }
       if (err.elm === "terms") {
         termsErr = err.msg;
+      }
+      if (err.elm === "dob") {
+        dobErr = err.msg;
       }
     }
     return (
@@ -147,9 +197,9 @@ class RegisterForm extends React.Component {
           <div className="form-item">
             <label>First name:</label>
             <input
-              name="firstname"
+              name="first_name"
               type="text"
-              id="firstname"
+              id="first_name"
               placeholder="First Name"
               value={this.state.value}
               onChange={this.onFirstNameChange.bind(this)}
@@ -162,9 +212,9 @@ class RegisterForm extends React.Component {
           <div className="form-item">
             <label>Last name:</label>
             <input
-              name="lastname"
+              name="last_name"
               type="text"
-              id="lastname"
+              id="last_name"
               placeholder="Last Name"
               value={this.state.value}
               onChange={this.onLastNameChange.bind(this)}
@@ -186,6 +236,25 @@ class RegisterForm extends React.Component {
             />
             <small className="danger-error">{emailErr ? emailErr : ""}</small>
           </div>
+
+          <div className="form-item">
+            <label>Date of Birth:</label>
+            <br/>
+            <br/>
+          <TextField
+            id="dob"
+            name="dob"
+            type="date"
+            style={{borderBottom:"0px"}}
+            value={this.state.dob}
+            onChange={this.onDobChange.bind(this)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+
+          </div>
+          <small className="danger-error">{dobErr ? dobErr : ""}</small>
 
           <div className="form-item">
             <label>Password:</label>
@@ -216,7 +285,6 @@ class RegisterForm extends React.Component {
               {confirmpasswordErr ? confirmpasswordErr : ""}
             </small>
           </div>
-
           <div className="terms-checkbox">
           <FormControlLabel
             control={
@@ -244,7 +312,12 @@ class RegisterForm extends React.Component {
           >
             Register
           </button>
+        <small className="danger-error">
+          <AlerMessage alertMessage={this.state.status} />
+        </small>
         </section>
+
+
       </form>
     );
   }
