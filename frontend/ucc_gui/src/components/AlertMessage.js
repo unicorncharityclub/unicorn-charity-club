@@ -3,7 +3,7 @@ import React from "react";
 class AlertMessage extends React.Component {
     render() {
         return (
-            <div>
+            <div style={{color:"red", fontSize: "1.5em"}}>
                 {this.props.alertMessage}
             </div>
         );

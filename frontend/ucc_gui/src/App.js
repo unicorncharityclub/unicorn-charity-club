@@ -4,6 +4,7 @@ import BaseRouter from "./routes";
 import Navbar from "./containers/Navbar/Navbar";
 import Register from "./containers/Register/Register";
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 class App extends Component {
     constructor(props) {
