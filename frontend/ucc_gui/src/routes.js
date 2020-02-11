@@ -12,6 +12,7 @@ const BaseRouter = () => (
         <Route exact path='/articles/:articleID' component={ArticleDetail} />
 
         <Route exact path='/account/' component={Account} />
+        <Route exact path='/Menu/' component={Account} />
     </div>
 );
 
