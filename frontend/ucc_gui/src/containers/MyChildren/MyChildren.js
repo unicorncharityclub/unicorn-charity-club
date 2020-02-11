@@ -44,15 +44,16 @@ class MyChildren extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://127.0.0.1:8000/childaccount/')
+        const id = this.props.match.params.id;
+        axios.get(`http://127.0.0.1:8000/childaccount/${id}`)
             .then(res => {
                     this.setState({
-                        Name: res.data[this.props.id].Name,
-                        DOB: res.data[this.props.id].DOB,
-                        School: res.data[this.props.id].School,
-                        SchoolGrade: res.data[this.props.id].SchoolGrade,
-                        UnicornName: res.data[this.props.id].UnicornName,
-                        UnicornPowers: res.data[this.props.id].UnicornPowers
+                        Name: res.data.Name,
+                        DOB: res.data.DOB,
+                        School: res.data.School,
+                        SchoolGrade: res.data.SchoolGrade,
+                        UnicornName: res.data.UnicornName,
+                        UnicornPowers: res.data.UnicornPowers
                     });
                 console.log(res.data)
             })
@@ -68,82 +69,93 @@ class MyChildren extends React.Component {
         return value === "" ? "":value;
     }
 
+    saveHandler(event){
+        event.preventDefault();
+
+    }
+
   render() {
     return (
         <Router>
-      <form>
-        <div className="form-wrapper">
-          <div className="child-form">
-            <label>Name:</label>
-            <input type="text" name="name"
-                   placeholder="First Name Last Name"
-                   value={this.defaultIfEmpty(this.state.Name)}
-                   onChange={this.changeHandler.bind(this)}
-            />
-          </div>
-          <div className="child-form">
-            <label>Birth Date: </label>
-            <input
-              type="date"
-              name="date"
-              placeholder="12 May 2012"
-              value={this.defaultIfEmpty(this.state.DOB)}
-              onChange={this.changeHandler.bind(this)}
-            />
-          </div>
-          <div className="child-form">
-            <label>School:</label>
-            <input type="text"
-                   name="school"
-                   placeholder="School Name"
-                   value={this.defaultIfEmpty(this.state.School)}
-                   onChange={this.changeHandler.bind(this)}
-            />
-          </div>
-          <div className="child-form" style={{ marginBottom: "20px" }}>
-            <label>School Grade: </label>
+            <div className="container">
+                <div className="content">
+                    <div className="menu" style={{ display: "block" }}>
+                      <form onsubmit={this.saveHandler}>
+                        <div className="form-wrapper">
+                          <div className="child-form">
+                            <label>Name:</label>
+                            <input type="text" name="name"
+                                   placeholder="First Name Last Name"
+                                   value={this.defaultIfEmpty(this.state.Name)}
+                                   onChange={this.changeHandler.bind(this)}
+                            />
+                          </div>
+                          <div className="child-form">
+                            <label>Birth Date: </label>
+                            <input
+                              type="date"
+                              name="date"
+                              placeholder="12 May 2012"
+                              value={this.defaultIfEmpty(this.state.DOB)}
+                              onChange={this.changeHandler.bind(this)}
+                            />
+                          </div>
+                          <div className="child-form">
+                            <label>School:</label>
+                            <input type="text"
+                                   name="school"
+                                   placeholder="School Name"
+                                   value={this.defaultIfEmpty(this.state.School)}
+                                   onChange={this.changeHandler.bind(this)}
+                            />
+                          </div>
+                          <div className="child-form" style={{ marginBottom: "20px" }}>
+                            <label>School Grade: </label>
 
-            <select
-              placeholder="Select School Grade"
-              onChange={this.changeHandler.bind(this)}
-              value={this.defaultIfEmpty(this.state.SchoolGrade)}
-              className="child-form-select"
-            >
-              <option value="Select School Grade">Select School Grade</option>
-              <option value="Kindergarten">Kindergarten</option>
-              <option value="Grade 1">Grade 1</option>
-              <option value="Grade 2">Grade 2</option>
-              <option value="Grade 3">Grade 3</option>
-              <option value="Grade 4">Grade 4</option>
-              <option value="Grade 5">Grade 5</option>
-              <option value="Grade 6">Grade 6</option>
-            </select>
-          </div>
-          <hr className="form-separator" />
-        </div>
-        <div className="blessing-form">
-          <div className="blessing-name">Blessing: Helpful Hearts</div>
-          <div className="blessing-tagline">Color Horn Rand: Red</div>
+                            <select
+                              placeholder="Select School Grade"
+                              onChange={this.changeHandler.bind(this)}
+                              value={this.defaultIfEmpty(this.state.SchoolGrade)}
+                              className="child-form-select"
+                            >
+                              <option value="Select School Grade">Select School Grade</option>
+                              <option value="Kindergarten">Kindergarten</option>
+                              <option value="Grade 1">Grade 1</option>
+                              <option value="Grade 2">Grade 2</option>
+                              <option value="Grade 3">Grade 3</option>
+                              <option value="Grade 4">Grade 4</option>
+                              <option value="Grade 5">Grade 5</option>
+                              <option value="Grade 6">Grade 6</option>
+                            </select>
+                          </div>
+                          <hr className="form-separator" />
+                        </div>
+                        <div className="blessing-form">
+                          <div className="blessing-name">Blessing: Helpful Hearts</div>
+                          <div className="blessing-tagline">Color Horn Rand: Red</div>
 
-          <div className="blessing-info">
-            <label>Unicorn Name: </label>
-            <input type="text"
-                   name="Unicorn name"
-                   placeholder="Unicorn Name"
-                   value={this.defaultIfEmpty(this.state.UnicornName)}
-                   onChange={this.changeHandler.bind(this)}
-            />
-            <label>Unicorn Powers: </label>
-            <textarea
-              name="Unicorn Powers"
-              placeholder="What powers help you make a positive impact on the worked?"
-              value={this.defaultIfEmpty(this.state.UnicornPowers)}
-              onChange={this.changeHandler.bind(this)}
-            />
-            <label>Imacpt Emblem</label>
-          </div>
-        </div>
-      </form>
+                          <div className="blessing-info">
+                            <label>Unicorn Name: </label>
+                            <input type="text"
+                                   name="Unicorn name"
+                                   placeholder="Unicorn Name"
+                                   value={this.defaultIfEmpty(this.state.UnicornName)}
+                                   onChange={this.changeHandler.bind(this)}
+                            />
+                            <label>Unicorn Powers: </label>
+                            <textarea
+                              name="Unicorn Powers"
+                              placeholder="What powers help you make a positive impact on the worked?"
+                              value={this.defaultIfEmpty(this.state.UnicornPowers)}
+                              onChange={this.changeHandler.bind(this)}
+                            />
+                            <label>Imacpt Emblem</label>
+                          </div>
+                          </div>
+                      </form>
+                    </div>
+                </div>
+            </div>
         </Router>
     );
   }
