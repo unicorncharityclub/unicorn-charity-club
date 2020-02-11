@@ -4,6 +4,8 @@ import BaseRouter from "./routes";
 import Header from "./containers/Header/Header";
 import Navbar from "./containers/Navbar/Navbar";
 import Register from "./containers/Register/Register";
+import MyChildren from "./containers/MyChildren/AddChild";
+import { Route } from 'react-router-dom';
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -25,6 +27,7 @@ class App extends Component {
               <Navbar />
               <a href="/account">My Account Page</a>
               <a href="/menu">Menu</a>
+               <a href="/MyChildren">My Children</a>
               <BaseRouter />
             </div>
           </div>
