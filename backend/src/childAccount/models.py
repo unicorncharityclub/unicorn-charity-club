@@ -9,12 +9,12 @@ def today_utc():
 class ChildAccount(models.Model):
     school_grade_choices = (
         ('Kindergarten', 'Kindergarten'),
-        ('First', 'First'),
-        ('Second', 'Second'),
-        ('Third', 'Third'),
-        ('Fourth', 'Fourth'),
-        ('Fifth', 'Fifth'),
-        ('Sixth', 'Sixth')
+        ('Grade 1', 'Grade 1'),
+        ('Grade 2', 'Grade 2'),
+        ('Grade 3', 'Grade 3'),
+        ('Grade 4', 'Grade 4'),
+        ('Grade 5', 'Grade 5'),
+        ('Grade 6', 'Grade 6')
     )
     Name = models.CharField(max_length=100)
     DOB = models.DateField(default=today_utc)

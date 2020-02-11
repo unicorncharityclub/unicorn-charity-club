@@ -3,6 +3,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import BaseRouter from "./routes";
 import Navbar from "./containers/Navbar/Navbar";
 import Register from "./containers/Register/Register";
+import MyChildren from "./containers/MyChildren/AddChild";
+import { Route } from 'react-router-dom';
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -22,6 +24,7 @@ class App extends Component {
             <div className="content-wrapper">
               <Navbar />
               <a href="/account">My Account Page</a>
+                <a href="/MyChildren">My Children</a>
               <BaseRouter />
             </div>
           </div>

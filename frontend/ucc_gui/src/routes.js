@@ -5,6 +5,7 @@ import ArticleList from './containers/ArticleListView';
 
 import ArticleDetail from './containers/ArticleDetailView';
 import Account from './containers/Account/Account.js';
+import MyChildren from "./containers/MyChildren/MyChildren";
 
 const BaseRouter = () => (
     <div>
@@ -12,6 +13,7 @@ const BaseRouter = () => (
         <Route exact path='/articles/:articleID' component={ArticleDetail} />
 
         <Route exact path='/account/' component={Account} />
+        <Route exact path='/MyChildren/' component={() => <MyChildren id={0} />} />
     </div>
 );
 
