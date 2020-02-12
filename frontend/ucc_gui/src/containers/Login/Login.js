@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import Logo from "../../site_media/Logo_Horizontal_No_Tagline.png";
+import React from "react";
 import LoginForm from "./Login_Form";
 import "./Login.css";
 
