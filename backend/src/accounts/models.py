@@ -38,7 +38,7 @@ class User(AbstractBaseUser):
     dob = models.DateField(blank=True, null=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['dob']  # Email & Password are required by default.
+    #REQUIRED_FIELDS = ['dob']  # Email & Password are required by default.
 
     objects = UserManager()
 
