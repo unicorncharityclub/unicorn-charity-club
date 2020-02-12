@@ -363,7 +363,7 @@ class RegisterForm extends React.Component {
             <Row>
               <Col md={{ span: 4, offset: 4 }}>
                 <a href="/login/">
-                  Already Registered, Continue to Login.
+                  Already Registered? Continue to Login.
                 </a>
               </Col>
             </Row>

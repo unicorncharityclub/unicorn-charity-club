@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import BaseRouter from "./routes";
 import Navbar from "./containers/Navbar/Navbar";
-import Register from "./containers/Register/Register";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import RegisterBannerImage from "./components/Register/RegisterBannerImage";
 
 class App extends Component {
     constructor(props) {
@@ -22,12 +22,13 @@ class App extends Component {
             <div className="content-wrapper">
               <Navbar />
               <a href="/account">My Account Page</a>
-              <BaseRouter />
+              <BaseRouter userState={"registered"}/>
             </div>
           </div>
         ) : (
           <div className="App">
-            <Register />
+            <RegisterBannerImage/>
+            <BaseRouter userState={"unregistered"}/>
           </div>
         )}
       </Router>
