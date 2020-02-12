@@ -22,16 +22,15 @@ class App extends Component {
           <div className="App">
             <div className="content-wrapper">
               <Navbar />
-              <BaseRouter userState={"registered"}/>
+              <BaseRouter userState="registered"/>
                 <a href="/account">My Account Page</a>
                 <a href="/MyChildren">My Children</a>
-              <BaseRouter />
             </div>
           </div>
         ) : (
           <div className="App">
             <RegisterBannerImage/>
-            <BaseRouter userState={"unregistered"}/>
+            <BaseRouter userState="unregistered"/>
           </div>
         )}
       </Router>

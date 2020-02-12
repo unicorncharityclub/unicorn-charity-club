@@ -21,8 +21,8 @@ class BaseRouter extends React.Component {
               <Route exact path='/MyChildren/:id' component={MyChildren} />
             </div>
           );
-        case "unregistered":
         default:
+        case "unregistered":
           return (
             <div>
               <Route exact path="/" component={Login} />
