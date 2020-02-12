@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import BaseRouter from "./routes";
+import Header from "./containers/Header/Header";
 import Navbar from "./containers/Navbar/Navbar";
 
 import "./App.css";
@@ -21,9 +22,10 @@ class App extends Component {
         {this.state.user ? (
           <div className="App">
             <div className="content-wrapper">
+              <Header />
               <Navbar />
               <BaseRouter userState="registered"/>
-                <a href="/account">My Account Page</a>
+                <a href="/Account">My Account Page</a>
                 <a href="/MyChildren">My Children</a>
             </div>
           </div>
