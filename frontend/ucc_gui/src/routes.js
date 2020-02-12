@@ -7,6 +7,7 @@ import Account from "./containers/Account/Account.js";
 import Login from "./containers/Login/Login";
 import Register from "./containers/Register/Register";
 import MyChildren from "./containers/MyChildren/MyChildren";
+import Payment from "./containers/Payment/Payment";
 
 class BaseRouter extends React.Component {
     render() {
@@ -17,7 +18,8 @@ class BaseRouter extends React.Component {
               <Route exact path="/" component={ArticleList} />
               <Route exact path="/articles/:articleID" component={ArticleDetail}
               />
-              <Route exact path="/account" component={Account} />
+              <Route exact path="/Account" component={Account} />
+              <Route exact path='/Menu/Payment' component={Payment} />
               <Route exact path='/MyChildren/:id' component={MyChildren} />
             </div>
           );
