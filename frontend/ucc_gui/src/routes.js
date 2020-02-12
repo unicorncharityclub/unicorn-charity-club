@@ -6,7 +6,7 @@ import ArticleDetail from "./containers/ArticleDetailView";
 import Account from "./containers/Account/Account.js";
 import Login from "./containers/Login/Login";
 import Register from "./containers/Register/Register";
-
+import MyChildren from "./containers/MyChildren/MyChildren";
 
 class BaseRouter extends React.Component {
     render() {
@@ -18,6 +18,7 @@ class BaseRouter extends React.Component {
               <Route exact path="/articles/:articleID" component={ArticleDetail}
               />
               <Route exact path="/account" component={Account} />
+              <Route exact path='/MyChildren/:id' component={MyChildren} />
             </div>
           );
         case "unregistered":
@@ -31,6 +32,5 @@ class BaseRouter extends React.Component {
       }
     }
 }
-
 
 export default BaseRouter;

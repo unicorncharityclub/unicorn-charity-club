@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import BaseRouter from "./routes";
 import Navbar from "./containers/Navbar/Navbar";
+
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import RegisterBannerImage from "./components/Register/RegisterBannerImage";
@@ -21,8 +22,10 @@ class App extends Component {
           <div className="App">
             <div className="content-wrapper">
               <Navbar />
-              <a href="/account">My Account Page</a>
               <BaseRouter userState={"registered"}/>
+                <a href="/account">My Account Page</a>
+                <a href="/MyChildren">My Children</a>
+              <BaseRouter />
             </div>
           </div>
         ) : (

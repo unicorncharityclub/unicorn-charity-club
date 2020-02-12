@@ -48,7 +48,7 @@ class Account extends React.Component {
                         Address: res.data[0].Address,
                     });
                 console.log(res.data[0].Name)
-            })
+            }).catch(error => console.log(error))
     }
 
     handleChange(event) {
@@ -78,8 +78,6 @@ class Account extends React.Component {
         })
         .then(res => console.log(res))
         .catch(error => console.log(error))
-
-
     }
 
   render() {
