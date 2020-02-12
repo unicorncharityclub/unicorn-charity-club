@@ -24,3 +24,4 @@ typed-ast==1.1.0
 urllib3==1.24.2
 whitenoise==3.3.1
 wrapt==1.10.11
+pillow==7.0.0
