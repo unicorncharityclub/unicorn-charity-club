@@ -58,7 +58,6 @@ class Login_Form extends React.Component {
       let token = response.data["token"];
       cookie.save('user_id', user_id);
       cookie.save('token', token);
-
       this.props.dispatch({ type: "LOGIN_SUCCESS", user_id:user_id, token:token});
     }
     else {
@@ -87,7 +86,6 @@ class Login_Form extends React.Component {
   }
 
   onEmailChange(e) {
-    this.props.dispatch({ type: "INCREMENT" });
     this.setState({ email: e.target.value });
     this.clearValidationErr("email");
   }
