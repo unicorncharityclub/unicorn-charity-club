@@ -15,12 +15,11 @@ class UCC_App extends Component {
   }
 
   componentDidMount() {
-        if(cookie.load('user_id')!==undefined)
-        {
-            this.props.dispatch({ type: "LOGIN_SUCCESS", user_id:cookie.load('user_id'), token:cookie.load('token')});
-        }
+    if(cookie.load('user_id')!==undefined)
+    {
+        this.props.dispatch({ type: "LOGIN_SUCCESS", user_id:cookie.load('user_id'), token:cookie.load('token')});
+    }
   }
-
 
     render() {
     return (
