@@ -4,7 +4,7 @@ class Payment extends React.Component {
   render() {
     return (
     <div>
-        <p>This is Payment Page</p>
+        <p> Payment Page </p>
     </div>
     );
   }

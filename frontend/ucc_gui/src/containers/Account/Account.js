@@ -47,7 +47,7 @@ class Account extends React.Component {
                         Mobile: res.data[0].Mobile,
                         Address: res.data[0].Address,
                     });
-                console.log(res.data[0].Name)
+                console.log(res.data[0])
             }).catch(error => console.log(error))
     }
 
@@ -88,10 +88,10 @@ class Account extends React.Component {
                 <form onSubmit={this.handleSaveBtn}>
                       <div className="header__wrapper">
                         <div className="header__logo">
-                          <div className="header-menu-mobile">
                             <NavLink to={"/"}>
                                 <img src={Arrow_backward} alt="Backward Arrow" />
                             </NavLink>
+                          <div className="header-menu-mobile">
                           </div>
                         </div>
                         <div className="header-title">
