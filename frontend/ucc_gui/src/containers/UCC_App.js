@@ -28,11 +28,9 @@ class UCC_App extends Component {
         {this.props.token !== '' ? (
           <div className="App">
             <div className="content-wrapper">
-                <Header />
+              <Header />
               <Navbar />
               <BaseRouter userState="registered" appState={this.state}/>
-                <a href="/account">My Account Page</a>
-                <a href="/MyChildren">My Children</a>
             </div>
           </div>
         ) : (

@@ -82,7 +82,6 @@ class Account extends React.Component {
 
   render() {
     return (
-      <Router>
         <div className="container">
           <div className="content">
             <div className="menu" style={{ display: "block" }}>
@@ -91,9 +90,7 @@ class Account extends React.Component {
                         <div className="header__logo">
                           <div className="header-menu-mobile">
                             <NavLink to={"/"}>
-                              <a href="/">
                                 <img src={Arrow_backward} alt="Backward Arrow" />
-                              </a>
                             </NavLink>
                           </div>
                         </div>
@@ -135,7 +132,7 @@ class Account extends React.Component {
                             alt="Settings_notifications"
                           />
                           {/* <a href="/"> Notifications</a> */}
-                          <textarea placeholder="Notifications">Notifications</textarea>
+                          <textarea placeholder="Notifications" defaultValue="Notifications" ></textarea>
                         </div>
                       </div>
                 </form>
@@ -144,7 +141,6 @@ class Account extends React.Component {
             </div>
           </div>
         </div>
-      </Router>
     );
   }
 }
