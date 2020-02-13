@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {BrowserRouter as Router} from "react-router-dom";
 import Navbar from "./Navbar/Navbar";
+import Header from "./Header/Header";
 import BaseRouter from "../routes";
 import RegisterBannerImage from "../components/Register/RegisterBannerImage";
 import { connect } from 'react-redux';
@@ -27,6 +28,7 @@ class UCC_App extends Component {
         {this.props.token !== '' ? (
           <div className="App">
             <div className="content-wrapper">
+                <Header />
               <Navbar />
               <BaseRouter userState="registered" appState={this.state}/>
                 <a href="/account">My Account Page</a>
