@@ -2,17 +2,19 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Login.css";
 import axios from "axios";
+import AlertMessage from "../../components/AlertMessage";
+import { connect } from 'react-redux';
+import cookie from 'react-cookies'
 
 class Login_Form extends React.Component {
   constructor(props) {
     super(props);
     this.login = this.login.bind(this);
-    this.state = { email: "", password: "", errors: [] };
+    this.state = { email: "", password: "", status: "", errors: [] };
   }
 
   login(e) {
     e.preventDefault();
-    console.log(this.state);
     let valid = true;
     if (this.state.email === "") {
       this.showValidationErr("email", "Email cannot be empty");
@@ -33,22 +35,37 @@ class Login_Form extends React.Component {
       valid=false;
     }
 
-    if(valid===true) {
-      //TODO: access the api
+    if(valid === true) {
+      this.handleValidateUser(this);
     }
   }
 
-  handleInsert(obj, event) {
-    var status = "";
+  handleValidateUser(obj, event) {
     axios
-      .post(`http://127.0.0.1:8000/register/`, this.state)
+      .post(`http://127.0.0.1:8000/account/login`, this.state)
       .then(function(response) {
-        status = response.data["status"];
-        obj.updateResponseStatus(status);
+        obj.updateResponseStatus(response);
       })
       .catch(function(error) {
         console.log(error);
       });
+  }
+
+  updateResponseStatus(response) {
+    let response_status = response.data["status"];
+    if (response_status === "Success") {
+      let user_id = response.data["user_id"];
+      let token = response.data["token"];
+      cookie.save('user_id', user_id);
+      cookie.save('token', token);
+
+      this.props.dispatch({ type: "LOGIN_SUCCESS", user_id:user_id, token:token});
+    }
+    else {
+      this.setState(prevState => ({
+        status: response_status
+      }));
+    }
   }
 
   showValidationErr(elm, msg) {
@@ -65,11 +82,12 @@ class Login_Form extends React.Component {
           newArr.push(err);
         }
       }
-      return { errors: newArr };
+      return { errors: newArr, status : "" };
     });
   }
 
   onEmailChange(e) {
+    this.props.dispatch({ type: "INCREMENT" });
     this.setState({ email: e.target.value });
     this.clearValidationErr("email");
   }
@@ -93,6 +111,7 @@ class Login_Form extends React.Component {
 
     return (
       <div className="login-form">
+        <AlertMessage alertMessage={this.state.status} />
         <form className="login__form" name="form" method="POST">
 
           <div className="form-item">
@@ -142,4 +161,5 @@ class Login_Form extends React.Component {
   }
 }
 
-export default Login_Form;
+
+export default connect()(Login_Form);

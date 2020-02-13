@@ -36,16 +36,21 @@ def login_user(request):
             email = json_data["email"]
             password = json_data["password"]
             user = User.objects.get(email = email)
-            user_authenticated = authenticate(request, email = email, password = password)
-            login(request, user)
-            response['status'] = "Success"
-            response['use_id'] = request.user.id
-            response['token'] = django.middleware.csrf.get_token(request)
-            print(response)
+            #user_authenticated = authenticate(request, email = email, password = password)
+            #print(user_authenticated)
+            if user.password == password and user.is_active == True:
+                login(request, user)
+                response['status'] = "Success"
+                response['user_id'] = request.user.id
+                response['token'] = django.middleware.csrf.get_token(request)
+            else:
+                response['status'] = "Wrong Username or Password"
         except ValueError:
             response['status'] = "Invalid Request"
         except DatabaseError:
-            response['status'] = "No User exists"
+            response['status'] = "User Not Registered"
+        except User.DoesNotExist:
+            response['status'] = "User Not Registered"
     return JsonResponse(response)
 
 

@@ -25,7 +25,7 @@ class BaseRouter extends React.Component {
         case "unregistered":
           return (
             <div>
-              <Route exact path="/" component={Login} />
+              <Route exact path="/" render={(props) => <Login {...props} appState={this.props.appState} />}  />
               <Route exact path="/register" component={Register} />
             </div>
           );
