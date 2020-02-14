@@ -3,7 +3,6 @@ import axios from "axios";
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import AlertMessage from "../../components/AlertMessage";
 import TextField from "@material-ui/core/TextField";
-
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -48,7 +47,7 @@ class RegisterForm extends React.Component {
           newArr.push(err);
         }
       }
-      return { errors: newArr };
+      return { errors: newArr, status : "" };
     });
   }
 
@@ -152,7 +151,7 @@ class RegisterForm extends React.Component {
 
   updateResponseStatus(data) {
     if (data === "Success") {
-      data = "User successfully registers. Proceed to Login.";
+      data = "User successfully registered. Proceed to Login.";
     }
     this.setState(prevState => ({
       status: data
@@ -162,7 +161,7 @@ class RegisterForm extends React.Component {
   handleInsert(obj, event) {
     var status = "";
     axios
-      .post(`http://127.0.0.1:8000/register/`, this.state)
+      .post(`http://127.0.0.1:8000/account/register`, this.state)
       .then(function(response) {
         status = response.data["status"];
         obj.updateResponseStatus(status);
@@ -362,7 +361,7 @@ class RegisterForm extends React.Component {
 
             <Row>
               <Col md={{ span: 4, offset: 4 }}>
-                <a href="/login/">
+                <a href="/">
                   Already Registered? Continue to Login.
                 </a>
               </Col>

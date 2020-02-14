@@ -11,6 +11,8 @@ import BaseRouter from "../../routes";
 import Account from "../Account/Account";
 import MyChildren from "../MyChildren/MyChildren";
 import Payment from "../Payment/Payment";
+import Terms_and_Conditions from "../Terms_and_Conditions/Terms_and_Conditions";
+import Security_and_Privacy from "../Security_and_Privacy/Security_and_Privacy";
 import Navbar from "../Navbar/Navbar";
 /** @import CSS styles */
 import "./Settings.css";
@@ -62,8 +64,11 @@ class Settings extends Component {
                   <a href="/Menu/Payment" >
                         <div className="settings-dropdown__item">&nbsp;Payment</div>
                   </a>
-                  <a href="/" >
+                  <a href="/Menu/Terms_and_Conditions" >
                         <div className="settings-dropdown__item">Terms&nbsp;&&nbsp;Conditions</div>
+                  </a>
+                  <a href="/Menu/Security_and_Privacy" >
+                        <div className="settings-dropdown__item">Security&nbsp;and&nbsp;Privacy</div>
                   </a>
                    <a href="/" onClick={this.logout} className="logout-link">
                         <div className="settings-dropdown__item">Logout</div>

@@ -47,7 +47,7 @@ class Account extends React.Component {
                         Mobile: res.data[0].Mobile,
                         Address: res.data[0].Address,
                     });
-                console.log(res.data[0].Name)
+                console.log(res.data[0])
             }).catch(error => console.log(error))
     }
 
@@ -82,19 +82,16 @@ class Account extends React.Component {
 
   render() {
     return (
-      <Router>
         <div className="container">
           <div className="content">
             <div className="menu" style={{ display: "block" }}>
                 <form onSubmit={this.handleSaveBtn}>
                       <div className="header__wrapper">
                         <div className="header__logo">
-                          <div className="header-menu-mobile">
                             <NavLink to={"/"}>
-                              <a href="/">
                                 <img src={Arrow_backward} alt="Backward Arrow" />
-                              </a>
                             </NavLink>
+                          <div className="header-menu-mobile">
                           </div>
                         </div>
                         <div className="header-title">
@@ -135,7 +132,7 @@ class Account extends React.Component {
                             alt="Settings_notifications"
                           />
                           {/* <a href="/"> Notifications</a> */}
-                          <textarea placeholder="Notifications">Notifications</textarea>
+                          <textarea placeholder="Notifications" defaultValue="Notifications" ></textarea>
                         </div>
                       </div>
                 </form>
@@ -144,7 +141,6 @@ class Account extends React.Component {
             </div>
           </div>
         </div>
-      </Router>
     );
   }
 }

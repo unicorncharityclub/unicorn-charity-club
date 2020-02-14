@@ -1,41 +1,19 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-import BaseRouter from "./routes";
-import Header from "./containers/Header/Header";
-import Navbar from "./containers/Navbar/Navbar";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import RegisterBannerImage from "./components/Register/RegisterBannerImage";
+import baseReducer from "./reducers/reducer"
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import UCC_App from "./containers/UCC_App";
+const store = createStore(baseReducer);
 
 class App extends Component {
-    constructor(props) {
-    super(props);
-    this.state = {
-      user: {}
-    };
-  }
-
   render() {
     return (
-      <Router>
-        {this.state.user ? (
-          <div className="App">
-            <div className="content-wrapper">
-              <Header />
-              <Navbar />
-              <BaseRouter userState="registered"/>
-                <a href="/Account">My Account Page</a>
-                <a href="/MyChildren">My Children</a>
-            </div>
-          </div>
-        ) : (
-          <div className="App">
-            <RegisterBannerImage/>
-            <BaseRouter userState="unregistered"/>
-          </div>
-        )}
-      </Router>
+        <Provider store={store}>
+            <UCC_App/>
+        </Provider>
     );
   }
 }

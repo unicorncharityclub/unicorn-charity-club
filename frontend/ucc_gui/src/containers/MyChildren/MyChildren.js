@@ -76,11 +76,10 @@ class MyChildren extends React.Component {
 
   render() {
     return (
-        <Router>
             <div className="container">
                 <div className="content">
                     <div className="menu" style={{ display: "block" }}>
-                      <form onsubmit={this.saveHandler}>
+                      <form onSubmit={this.saveHandler}>
                         <div className="form-wrapper">
                           <div className="child-form">
                             <label>Name:</label>
@@ -156,7 +155,6 @@ class MyChildren extends React.Component {
                     </div>
                 </div>
             </div>
-        </Router>
     );
   }
 }
