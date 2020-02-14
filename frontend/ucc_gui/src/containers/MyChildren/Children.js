@@ -46,7 +46,6 @@ const Children= props => {
               </div>
             </NavLink>
           </div>
-          {/* </div> */}
         </div>
       </Router>
     );
