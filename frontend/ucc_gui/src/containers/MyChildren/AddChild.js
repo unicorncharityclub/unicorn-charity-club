@@ -51,22 +51,42 @@ class AddChild extends React.Component {
 
     saveHandler(event){
         event.preventDefault();
-        const Name = event.target.elements.Name.value;
-        const DOB = event.target.elements.DOB.value;
-        const School = event.target.elements.School.value;
-        const SchoolGrade = event.target.elements.SchoolGrade.value;
-        const UnicornName = event.target.elements.UnicornName.value;
-        const UnicornPowers = event.target.elements.UnicornPowers.value;
-        console.log(Name, DOB, School, SchoolGrade, UnicornName, UnicornPowers);
+        let form_data = new FormData();
+        // const Name = event.target.elements.Name.value;
+        // const DOB = event.target.elements.DOB.value;
+        // const School = event.target.elements.School.value;
+        // const SchoolGrade = event.target.elements.SchoolGrade.value;
+        // const UnicornName = event.target.elements.UnicornName.value;
+        // const UnicornPowers = event.target.elements.UnicornPowers.value;
+        // const ImpactEmblem = event.target.elements.ImpactEmblem.value;
+        try {
+            form_data.append('Name', this.state.Name);
+            form_data.append('DOB', this.state.DOB);
+            form_data.append('School', this.state.School);
+            form_data.append('SchoolGrade', this.state.SchoolGrade);
+            form_data.append('UnicornName', this.state.UnicornName);
+            form_data.append('UnicornPowers', this.state.UnicornPowers);
+            form_data.append('ImpactEmblem', this.state.ImpactEmblem, this.state.ImpactEmblem.name);
+        } catch(err) {
+            console.log(err)
+        }
+        //console.log(Name, DOB, School, SchoolGrade, UnicornName, UnicornPowers);
 
-        return axios.post('http://127.0.0.1:8000/childaccount/', {
-                Name: Name,
-                DOB: DOB,
-                School: School,
-                SchoolGrade: SchoolGrade,
-                UnicornName: UnicornName,
-                UnicornPowers: UnicornPowers
-
+        return axios.post('http://127.0.0.1:8000/childaccount/', form_data,
+        //     {
+        //         Name: Name,
+        //         DOB: DOB,
+        //         School: School,
+        //         SchoolGrade: SchoolGrade,
+        //         UnicornName: UnicornName,
+        //         UnicornPowers: UnicornPowers,
+        //         //ImpactEmblem: ImpactEmblem
+        //
+        // })
+        {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
         })
         .then(res => console.log(res))
         .catch(error => console.log(error))
@@ -82,6 +102,7 @@ class AddChild extends React.Component {
 
   render() {
       return (
+          <Router>
           <div style={{display: "block"}}>
           <div className="header__wrapper">
               <div className="header__logo">
@@ -94,11 +115,11 @@ class AddChild extends React.Component {
               <div className="header-title">
                   My Child
                   <div className="header-link">
-                      <input type="submit" form="update-form" value="Save"/>
+                      <input type="submit" form="add-form" value="Save"/>
                   </div>
               </div>
           </div>
-          <form id="update-form" onSubmit={(event) => this.saveHandler(event, this.props.match.params.id)}>
+          <form id="aa-form" onSubmit={(event) => this.saveHandler(event)}>
               <div className="form-wrapper">
                   <div className="child-form">
                       <label>Name:</label>
@@ -161,7 +182,14 @@ class AddChild extends React.Component {
                              value={this.defaultIfEmpty(this.state.UnicornName)}
                              onChange={this.changeHandler.bind(this)}
                       />
-                      <label>Imacpt Emblem</label>
+                      <label>Unicorn Powers: </label>
+                      <textarea
+                          name="UnicornPowers"
+                          placeholder="What powers help you make a positive impact on the worked?"
+                          value={this.defaultIfEmpty(this.state.UnicornPowers)}
+                          onChange={this.changeHandler.bind(this)}
+                      />
+                      <label>Impact Emblem</label>
                       <input style={{display: 'none'}}
                              type="file"
                              name="ImpactEmblem"
@@ -175,6 +203,7 @@ class AddChild extends React.Component {
               </div>
           </form>
       </div>
+          </Router>
     );
   }
 }

@@ -28,8 +28,8 @@ class ChildAccount(models.Model):
     UnicornName = models.CharField(max_length=100,
                                    blank=True)
     UnicornPowers = models.TextField(blank=True)
-    ImpactEmblem = models.ImageField(blank=True)
-    Photo = models.ImageField(blank=True)
+    ImpactEmblem = models.ImageField(blank=True, upload_to='upload/')
+    Photo = models.ImageField(blank=True, upload_to='upload/')
     # ParentId = models.ForeignKey(Myaccount, on_delete=models.CASCADE)
 
     def __str__(self):
