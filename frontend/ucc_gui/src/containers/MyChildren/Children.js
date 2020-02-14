@@ -34,12 +34,12 @@ const Children= props => {
                   </List.Item>
                 )}
               />
-              <div className="menu__item">
+               </div>
+        </div>
+              <div className="addChild">
                 <img src={Add_child} alt="Add child" />
                 <a href={"/AddChild"}> Add Child</a>
-                </div>
-          </div>
-        </div>
+              </div>
       </Router>
     );
 };
