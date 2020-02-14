@@ -2,11 +2,6 @@ import React, { Component } from "react";
 import axios from 'axios';
 //import { NavLink } from "react-router-dom";
 import {
-  Form,
-  Row,
-  Col,
-  FormGroup,
-  FormControl,
   DatePicker
 } from "react-bootstrap";
 import {BrowserRouter as Router, NavLink, Route} from "react-router-dom";
@@ -71,6 +66,12 @@ class MyChildren extends React.Component {
         return value === "" ? "":value;
     }
 
+    imageHandler(event){
+        this.state({
+            ImpactEmblem: event.target.files[0]
+        })
+    }
+
     saveHandler(event, id){
         event.preventDefault();
         const Name = event.target.elements.Name.value;
@@ -81,15 +82,14 @@ class MyChildren extends React.Component {
         const UnicornPowers = event.target.elements.UnicornPowers.value;
         console.log(Name, DOB, School, SchoolGrade, UnicornName, UnicornPowers);
 
-        return axios.put(`http://127.0.0.1:8000/childaccount/${id}/`, {
+        return axios.put(`http://127.0.0.1:8000/childaccount/${id}/`,
+            {
                 Name: Name,
                 DOB: DOB,
                 School: School,
                 SchoolGrade: SchoolGrade,
                 UnicornName: UnicornName,
-                UnicornPowers: UnicornPowers,
-                ImpactEmblem: null,
-                Photo: null
+                UnicornPowers: UnicornPowers
 
         })
         .then(res => console.log(res))
@@ -121,7 +121,7 @@ class MyChildren extends React.Component {
                       <label>Name:</label>
                       <input type="text" name="Name"
                              placeholder="First Name Last Name"
-                             defaultValue={this.defaultIfEmpty(this.state.Name)}
+                             value={this.defaultIfEmpty(this.state.Name)}
                              onChange={this.changeHandler.bind(this)}
                       />
                   </div>
@@ -131,7 +131,7 @@ class MyChildren extends React.Component {
                           type="date"
                           name="DOB"
                           placeholder="12 May 2012"
-                          defaultValue={this.defaultIfEmpty(this.state.DOB)}
+                          value={this.defaultIfEmpty(this.state.DOB)}
                           onChange={this.changeHandler.bind(this)}
                       />
                   </div>
@@ -140,7 +140,7 @@ class MyChildren extends React.Component {
                       <input type="text"
                              name="School"
                              placeholder="School Name"
-                             defaultValue={this.defaultIfEmpty(this.state.School)}
+                             value={this.defaultIfEmpty(this.state.School)}
                              onChange={this.changeHandler.bind(this)}
                       />
                   </div>
@@ -151,7 +151,7 @@ class MyChildren extends React.Component {
                           name="SchoolGrade"
                           placeholder="Select School Grade"
                           onChange={this.changeHandler.bind(this)}
-                          defaultValue={this.defaultIfEmpty(this.state.SchoolGrade)}
+                          value={this.defaultIfEmpty(this.state.SchoolGrade)}
                           className="child-form-select"
                       >
                           <option value="Select School Grade">Select School Grade</option>
@@ -175,17 +175,19 @@ class MyChildren extends React.Component {
                       <input type="text"
                              name="UnicornName"
                              placeholder="Unicorn Name"
-                             defaultValue={this.defaultIfEmpty(this.state.UnicornName)}
+                             value={this.defaultIfEmpty(this.state.UnicornName)}
                              onChange={this.changeHandler.bind(this)}
                       />
                       <label>Unicorn Powers: </label>
                       <textarea
                           name="UnicornPowers"
                           placeholder="What powers help you make a positive impact on the worked?"
-                          defaultValue={this.defaultIfEmpty(this.state.UnicornPowers)}
+                          value={this.defaultIfEmpty(this.state.UnicornPowers)}
                           onChange={this.changeHandler.bind(this)}
                       />
                       <label>Imacpt Emblem</label>
+                      <input type="file" placeholder="Upload Photo" onChange={this.imageHandler}>
+                      </input>
                   </div>
               </div>
           </form>
