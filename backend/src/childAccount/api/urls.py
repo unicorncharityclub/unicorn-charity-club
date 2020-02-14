@@ -1,13 +1,8 @@
-from django.urls import path
+from .views import ChildAccountViewSet
+from rest_framework.routers import DefaultRouter
 
-from .views import (
-    ChildAccountListView,
-    ChildAccountDetailView
 
-)
+router = DefaultRouter()
+router.register(r'', ChildAccountViewSet)
+urlpatterns = router.urls
 
-urlpatterns = [
-    path('', ChildAccountListView.as_view()),
-    path('<pk>', ChildAccountDetailView.as_view())
-
-]

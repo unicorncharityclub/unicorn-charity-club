@@ -10,6 +10,7 @@ import Terms_and_Conditions from "./containers/Terms_and_Conditions/Terms_and_Co
 import Security_and_Privacy from "./containers/Security_and_Privacy/Security_and_Privacy";
 import Feeds from "./containers/Feeds/Feeds";
 import ChildrenList from "./containers/MyChildren/ChildrenList";
+import AddChild from "./containers/MyChildren/AddChild";
 
 class BaseRouter extends React.Component {
     render() {

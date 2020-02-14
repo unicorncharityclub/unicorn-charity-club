@@ -1,14 +1,12 @@
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework import viewsets
 
 from childAccount.models import ChildAccount
 from .serializers import ChildAccountSerializer
 
 
-class ChildAccountListView(ListAPIView):
-    queryset = ChildAccount.objects.all()
+class ChildAccountViewSet(viewsets.ModelViewSet):
+
     serializer_class = ChildAccountSerializer
+    queryset = ChildAccount.objects.all()
 
 
-class ChildAccountDetailView(RetrieveAPIView):
-    queryset = ChildAccount.objects.all()
-    serializer_class = ChildAccountSerializer
