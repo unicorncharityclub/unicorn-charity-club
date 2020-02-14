@@ -9,9 +9,10 @@ import {
   FormControl,
   DatePicker
 } from "react-bootstrap";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import {BrowserRouter as Router, NavLink, Route} from "react-router-dom";
 import "../Account/Account.css";
 import "./MyChildren.css";
+import Arrow_backward from "../../image/arrow-backward.png";
 
 
 /**
@@ -61,6 +62,7 @@ class MyChildren extends React.Component {
 
     changeHandler(event){
         this.setState({
+            ...this.state,
             [event.target.name]: event.target.value
         })
     }
@@ -69,93 +71,126 @@ class MyChildren extends React.Component {
         return value === "" ? "":value;
     }
 
-    saveHandler(event){
+    saveHandler(event, id){
         event.preventDefault();
+        const Name = event.target.elements.Name.value;
+        const DOB = event.target.elements.DOB.value;
+        const School = event.target.elements.School.value;
+        const SchoolGrade = event.target.elements.SchoolGrade.value;
+        const UnicornName = event.target.elements.UnicornName.value;
+        const UnicornPowers = event.target.elements.UnicornPowers.value;
+        console.log(Name, DOB, School, SchoolGrade, UnicornName, UnicornPowers);
+
+        return axios.put(`http://127.0.0.1:8000/childaccount/${id}/`, {
+                Name: Name,
+                DOB: DOB,
+                School: School,
+                SchoolGrade: SchoolGrade,
+                UnicornName: UnicornName,
+                UnicornPowers: UnicornPowers,
+                ImpactEmblem: null,
+                Photo: null
+
+        })
+        .then(res => console.log(res))
+        .catch(error => console.log(error))
 
     }
 
   render() {
-    return (
-            <div className="container">
-                <div className="content">
-                    <div style={{ display: "block" }}>
-                      <form onSubmit={this.saveHandler}>
-                        <div className="form-wrapper">
-                          <div className="child-form">
-                            <label>Name:</label>
-                            <input type="text" name="name"
-                                   placeholder="First Name Last Name"
-                                   value={this.defaultIfEmpty(this.state.Name)}
-                                   onChange={this.changeHandler.bind(this)}
-                            />
-                          </div>
-                          <div className="child-form">
-                            <label>Birth Date: </label>
-                            <input
-                              type="date"
-                              name="date"
-                              placeholder="12 May 2012"
-                              value={this.defaultIfEmpty(this.state.DOB)}
-                              onChange={this.changeHandler.bind(this)}
-                            />
-                          </div>
-                          <div className="child-form">
-                            <label>School:</label>
-                            <input type="text"
-                                   name="school"
-                                   placeholder="School Name"
-                                   value={this.defaultIfEmpty(this.state.School)}
-                                   onChange={this.changeHandler.bind(this)}
-                            />
-                          </div>
-                          <div className="child-form" style={{ marginBottom: "20px" }}>
-                            <label>School Grade: </label>
+      return (
+          <div style={{display: "block"}}>
+          <div className="header__wrapper">
+              <div className="header__logo">
+                  <NavLink to={"/"}>
+                      <img src={Arrow_backward} alt="Backward Arrow"/>
+                  </NavLink>
+                  <div className="header-menu-mobile">
+                  </div>
+              </div>
+              <div className="header-title">
+                  My Child
+                  <div className="header-link">
+                      <input type="submit" form="update-form" value="Save"/>
+                  </div>
+              </div>
+          </div>
+          <form id="update-form" onSubmit={(event) => this.saveHandler(event, this.props.match.params.id)}>
+              <div className="form-wrapper">
+                  <div className="child-form">
+                      <label>Name:</label>
+                      <input type="text" name="Name"
+                             placeholder="First Name Last Name"
+                             defaultValue={this.defaultIfEmpty(this.state.Name)}
+                             onChange={this.changeHandler.bind(this)}
+                      />
+                  </div>
+                  <div className="child-form">
+                      <label>Birth Date: </label>
+                      <input
+                          type="date"
+                          name="DOB"
+                          placeholder="12 May 2012"
+                          defaultValue={this.defaultIfEmpty(this.state.DOB)}
+                          onChange={this.changeHandler.bind(this)}
+                      />
+                  </div>
+                  <div className="child-form">
+                      <label>School:</label>
+                      <input type="text"
+                             name="School"
+                             placeholder="School Name"
+                             defaultValue={this.defaultIfEmpty(this.state.School)}
+                             onChange={this.changeHandler.bind(this)}
+                      />
+                  </div>
+                  <div className="child-form" style={{marginBottom: "20px"}}>
+                      <label>School Grade: </label>
 
-                            <select
-                              placeholder="Select School Grade"
-                              onChange={this.changeHandler.bind(this)}
-                              value={this.defaultIfEmpty(this.state.SchoolGrade)}
-                              className="child-form-select"
-                            >
-                              <option value="Select School Grade">Select School Grade</option>
-                              <option value="Kindergarten">Kindergarten</option>
-                              <option value="Grade 1">Grade 1</option>
-                              <option value="Grade 2">Grade 2</option>
-                              <option value="Grade 3">Grade 3</option>
-                              <option value="Grade 4">Grade 4</option>
-                              <option value="Grade 5">Grade 5</option>
-                              <option value="Grade 6">Grade 6</option>
-                            </select>
-                          </div>
-                          <hr className="form-separator" />
-                        </div>
-                        <div className="blessing-form">
-                          <div className="blessing-name">Blessing: Helpful Hearts</div>
-                          <div className="blessing-tagline">Color Horn Rand: Red</div>
+                      <select
+                          name="SchoolGrade"
+                          placeholder="Select School Grade"
+                          onChange={this.changeHandler.bind(this)}
+                          defaultValue={this.defaultIfEmpty(this.state.SchoolGrade)}
+                          className="child-form-select"
+                      >
+                          <option value="Select School Grade">Select School Grade</option>
+                          <option value="Kindergarten">Kindergarten</option>
+                          <option value="Grade 1">Grade 1</option>
+                          <option value="Grade 2">Grade 2</option>
+                          <option value="Grade 3">Grade 3</option>
+                          <option value="Grade 4">Grade 4</option>
+                          <option value="Grade 5">Grade 5</option>
+                          <option value="Grade 6">Grade 6</option>
+                      </select>
+                  </div>
+                  <hr className="form-separator"/>
+              </div>
+              <div className="blessing-form">
+                  <div className="blessing-name">Blessing: Helpful Hearts</div>
+                  <div className="blessing-tagline">Color Horn Rand: Red</div>
 
-                          <div className="blessing-info">
-                            <label>Unicorn Name: </label>
-                            <input type="text"
-                                   name="Unicorn name"
-                                   placeholder="Unicorn Name"
-                                   value={this.defaultIfEmpty(this.state.UnicornName)}
-                                   onChange={this.changeHandler.bind(this)}
-                            />
-                            <label>Unicorn Powers: </label>
-                            <textarea
-                              name="Unicorn Powers"
-                              placeholder="What powers help you make a positive impact on the worked?"
-                              value={this.defaultIfEmpty(this.state.UnicornPowers)}
-                              onChange={this.changeHandler.bind(this)}
-                            />
-                            <label>Imacpt Emblem</label>
-                          </div>
-                          </div>
-                      </form>
-                    </div>
-                </div>
-            </div>
-    );
+                  <div className="blessing-info">
+                      <label>Unicorn Name: </label>
+                      <input type="text"
+                             name="UnicornName"
+                             placeholder="Unicorn Name"
+                             defaultValue={this.defaultIfEmpty(this.state.UnicornName)}
+                             onChange={this.changeHandler.bind(this)}
+                      />
+                      <label>Unicorn Powers: </label>
+                      <textarea
+                          name="UnicornPowers"
+                          placeholder="What powers help you make a positive impact on the worked?"
+                          defaultValue={this.defaultIfEmpty(this.state.UnicornPowers)}
+                          onChange={this.changeHandler.bind(this)}
+                      />
+                      <label>Imacpt Emblem</label>
+                  </div>
+              </div>
+          </form>
+      </div>
+  );
   }
 }
 
