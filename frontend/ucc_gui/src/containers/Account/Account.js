@@ -84,7 +84,7 @@ class Account extends React.Component {
     return (
         <div className="container">
           <div className="content">
-            <div className="menu" style={{ display: "block" }}>
+            <div style={{ display: "block" }}>
                 <form onSubmit={this.handleSaveBtn}>
                       <div className="header__wrapper">
                         <div className="header__logo">

@@ -5,7 +5,7 @@ import Header from "./Header/Header";
 import BaseRouter from "../routes";
 import RegisterBannerImage from "../components/Register/RegisterBannerImage";
 import { connect } from 'react-redux';
-import cookie from 'react-cookies'
+import cookie from 'react-cookies';
 
 class UCC_App extends Component {
     constructor(props) {

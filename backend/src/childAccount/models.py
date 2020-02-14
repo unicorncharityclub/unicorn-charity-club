@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import datetime
 
+# from ..myaccount.models import Myaccount
+
 
 def today_utc():
     return datetime.utcnow().date()
@@ -28,6 +30,7 @@ class ChildAccount(models.Model):
     UnicornPowers = models.TextField(blank=True)
     ImpactEmblem = models.ImageField(blank=True)
     Photo = models.ImageField(blank=True)
+    # ParentId = models.ForeignKey(Myaccount, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.Name
@@ -52,5 +55,6 @@ class ChildAccount(models.Model):
 
     def get_photo(self):
         return self.Photo
+
 
 
