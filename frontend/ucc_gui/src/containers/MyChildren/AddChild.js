@@ -119,7 +119,7 @@ class AddChild extends React.Component {
                   </div>
               </div>
           </div>
-          <form id="aa-form" onSubmit={(event) => this.saveHandler(event)}>
+          <form id="add-form" onSubmit={(event) => this.saveHandler(event)}>
               <div className="form-wrapper">
                   <div className="child-form">
                       <label>Name:</label>
