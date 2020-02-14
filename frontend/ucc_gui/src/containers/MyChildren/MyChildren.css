@@ -30,6 +30,28 @@
   margin-right: 10px;
 }
 
+.addChild img {
+  float: left;
+  width: 30px;
+  height: 30.88px;
+
+  margin-bottom: 40px;
+  margin-right: 10px;
+  align-items: center;
+  display: inline-block;
+}
+
+.addChild a {
+  margin-left: 30px;
+  margin-bottom: 10px;
+  color: #000;
+  font-size: 1.75rem;
+  text-decoration: none;
+  font-family: "TeX";
+  font-size: 17px;
+  padding: 5px 5px 15px 5px;
+  align-items: center;
+}
 .child-form {
   float: left;
   position: relative;
