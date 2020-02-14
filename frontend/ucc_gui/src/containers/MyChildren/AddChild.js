@@ -42,6 +42,13 @@ class AddChild extends React.Component {
         return value === "" ? "":value;
     }
 
+    imageHandler(event){
+        this.setState({
+            ImpactEmblem: event.target.files[0]
+        })
+        console.log(event.target.files[0])
+    }
+
     saveHandler(event){
         event.preventDefault();
         const Name = event.target.elements.Name.value;
@@ -143,8 +150,8 @@ class AddChild extends React.Component {
                   <hr className="form-separator"/>
               </div>
               <div className="blessing-form">
-                  <div className="blessing-name">Blessing: Helpful Hearts</div>
-                  <div className="blessing-tagline">Color Horn Rand: Red</div>
+                  <div className="blessing-name">Blessing: {this.props.blessing_group}</div>
+                  <div className="blessing-tagline">Color Horn Rank: {this.props.color_horn_rank}</div>
 
                   <div className="blessing-info">
                       <label>Unicorn Name: </label>
@@ -154,16 +161,16 @@ class AddChild extends React.Component {
                              value={this.defaultIfEmpty(this.state.UnicornName)}
                              onChange={this.changeHandler.bind(this)}
                       />
-                      <label>Unicorn Powers: </label>
-                      <textarea
-                          name="UnicornPowers"
-                          placeholder="What powers help you make a positive impact on the worked?"
-                          value={this.defaultIfEmpty(this.state.UnicornPowers)}
-                          onChange={this.changeHandler.bind(this)}
-                      />
                       <label>Imacpt Emblem</label>
-                      <input type="file" placeholder="Upload Photo" onChange={this.imageHandler}>
+                      <input style={{display: 'none'}}
+                             type="file"
+                             name="ImpactEmblem"
+                             //value={this.defaultIfEmpty(this.state.ImpactEmblem)}
+                             accept=".png, .jpeg, .jpg"
+                             onChange={this.imageHandler.bind(this)}
+                            ref={imageInput => this.imageInput = imageInput}>
                       </input>
+                      <button onClick={() =>  this.imageInput.click()}>Upload Photo</button>
                   </div>
               </div>
           </form>

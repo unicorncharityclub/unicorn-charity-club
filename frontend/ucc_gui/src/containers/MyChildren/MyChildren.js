@@ -49,7 +49,9 @@ class MyChildren extends React.Component {
                         School: res.data.School,
                         SchoolGrade: res.data.SchoolGrade,
                         UnicornName: res.data.UnicornName,
-                        UnicornPowers: res.data.UnicornPowers
+                        UnicornPowers: res.data.UnicornPowers,
+                        ImpactEmblem: res.data.ImpactEmblem,
+                        Photo: res.data.Photo
                     });
                 console.log(res.data)
             })
@@ -67,9 +69,10 @@ class MyChildren extends React.Component {
     }
 
     imageHandler(event){
-        this.state({
+        this.setState({
             ImpactEmblem: event.target.files[0]
         })
+        console.log(event.target.files[0])
     }
 
     saveHandler(event, id){
@@ -80,6 +83,7 @@ class MyChildren extends React.Component {
         const SchoolGrade = event.target.elements.SchoolGrade.value;
         const UnicornName = event.target.elements.UnicornName.value;
         const UnicornPowers = event.target.elements.UnicornPowers.value;
+        //const ImpactEmblem = event.target.elements.ImpactEmblem.value;
         console.log(Name, DOB, School, SchoolGrade, UnicornName, UnicornPowers);
 
         return axios.put(`http://127.0.0.1:8000/childaccount/${id}/`,
@@ -89,7 +93,8 @@ class MyChildren extends React.Component {
                 School: School,
                 SchoolGrade: SchoolGrade,
                 UnicornName: UnicornName,
-                UnicornPowers: UnicornPowers
+                UnicornPowers: UnicornPowers,
+                //ImpactEmblem: ImpactEmblem
 
         })
         .then(res => console.log(res))
@@ -186,8 +191,15 @@ class MyChildren extends React.Component {
                           onChange={this.changeHandler.bind(this)}
                       />
                       <label>Imacpt Emblem</label>
-                      <input type="file" placeholder="Upload Photo" onChange={this.imageHandler}>
+                      <input style={{display: 'none'}}
+                             type="file"
+                             name="ImpactEmblem"
+                             //value={this.defaultIfEmpty(this.state.ImpactEmblem)}
+                             accept=".png, .jpeg, .jpg"
+                             onChange={this.imageHandler.bind(this)}
+                            ref={imageInput => this.imageInput = imageInput}>
                       </input>
+                      <button onClick={() =>  this.imageInput.click()}>Upload Photo</button>
                   </div>
               </div>
           </form>
