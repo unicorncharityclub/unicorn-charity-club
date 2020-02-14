@@ -63,7 +63,7 @@ class Mobile_toolbar extends Component {
 
                       <div className="mobile-toolbar-menu__item">
                         {/* <a href="/">My Children</a> */}
-                        <NavLink to={"/Menu/MyChildren"} onClick={() => this.closeMenu()}>My Children</NavLink>
+                        <a href="/MyChildren">My Children</a>
                       </div>
 
                       <div className="mobile-toolbar-menu__item">

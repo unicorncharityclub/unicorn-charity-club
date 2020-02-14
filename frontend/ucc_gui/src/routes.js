@@ -25,6 +25,7 @@ class BaseRouter extends React.Component {
               <Route exact path='/Menu/Security_and_Privacy' component={Security_and_Privacy} />
               <Route exact path='/MyChildren' component={ChildrenList} />
               <Route exact path='/MyChildren/:id' component={MyChildren} />
+                <Route exact path='/AddChild' component={AddChild} />
             </div>
           );
         default:

@@ -34,12 +34,10 @@ const Children= props => {
                   </List.Item>
                 )}
               />
-            <NavLink to={"/addChild"}>
               <div className="menu__item">
-                <img src={Add_child} alt="add child" />
+                <img src={Add_child} alt="Add child" />
                 <a href={"/AddChild"}> Add Child</a>
-              </div>
-            </NavLink>
+                </div>
           </div>
         </div>
       </Router>

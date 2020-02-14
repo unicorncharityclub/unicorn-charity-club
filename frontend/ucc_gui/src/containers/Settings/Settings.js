@@ -58,7 +58,7 @@ class Settings extends Component {
                   <a href="/Account" >
                         <div className="settings-dropdown__item">My&nbsp;Account</div>
                   </a>
-                  <a href="/Menu/MyChildren" >
+                  <a href="/MyChildren" >
                         <div className="settings-dropdown__item">My&nbsp;Children</div>
                   </a>
                   <a href="/Menu/Payment" >

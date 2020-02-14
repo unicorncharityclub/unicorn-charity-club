@@ -78,7 +78,7 @@ class MyChildren extends React.Component {
     return (
             <div className="container">
                 <div className="content">
-                    <div className="menu" style={{ display: "block" }}>
+                    <div style={{ display: "block" }}>
                       <form onSubmit={this.saveHandler}>
                         <div className="form-wrapper">
                           <div className="child-form">
