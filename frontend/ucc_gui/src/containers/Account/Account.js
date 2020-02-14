@@ -82,8 +82,6 @@ class Account extends React.Component {
 
   render() {
     return (
-        <div className="container">
-          <div className="content">
             <div style={{ display: "block" }}>
                 <form onSubmit={this.handleSaveBtn}>
                       <div className="header__wrapper">
@@ -139,8 +137,7 @@ class Account extends React.Component {
 
               {/* form ends here */}
             </div>
-          </div>
-        </div>
+
     );
   }
 }
