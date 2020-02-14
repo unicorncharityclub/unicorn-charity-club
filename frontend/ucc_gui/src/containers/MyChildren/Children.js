@@ -6,21 +6,19 @@ import Arrow_backward from "../../image/arrow-backward.png";
 import Add_child from "../../site_media/Images/Add_Child.png";
 import Child_avatar from "../../site_media/Images/Default_Avatar.png";
 import { NavLink } from "react-router-dom";
-import {List} from "@material-ui/core";
-import Avatar from "@material-ui/core/Avatar";
+import {List} from "antd";
+import AddChild from "./AddChild";
 
 const Children= props => {
     return (
       <Router>
-        <div className="menu" id="container" style={{ display: "block" }}>
+        <div style={{ display: "block" }}>
           <div className="header__wrapper">
             <div className="header__logo">
               <div className="header-menu-mobile">
-                <NavLink to={"/Menu"}>
                   <a href="/Menu">
                     <img src={Arrow_backward} alt="Backward Arrow" />
                   </a>
-                </NavLink>
               </div>
             </div>
             <div className="header-title">My Children</div>
@@ -32,17 +30,14 @@ const Children= props => {
                   <List.Item
                     key={item.Name}
                   >
-                    <List.Item.Meta
-                      avatar={<Avatar src={Child_avatar} />}
-                      Name={<a href={`/childaccount/${item.id}`}> {item.Name} </a>}
-                    />
+                   {<a href={`/MyChildren/${item.id}`}> {item.Name} </a>}
                   </List.Item>
                 )}
               />
             <NavLink to={"/addChild"}>
               <div className="menu__item">
-                <img src={Add_child} alt="add achild" />
-                <a href="/"> Add Child</a>
+                <img src={Add_child} alt="add child" />
+                <a href={"/AddChild"}> Add Child</a>
               </div>
             </NavLink>
           </div>
