@@ -5,15 +5,15 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Arrow_forward from "../../image/arrow-forward.png";
-import Arrow_backward from "../../image/arrow-backward.png";
-import Account from "../Account/Account";
-import MyChildren from "../MyChildren/MyChildren";
-import BaseRouter from "../../routes";
+import Arrow_forward from "../../../image/arrow-forward.png";
+import Arrow_backward from "../../../image/arrow-backward.png";
+import Account from "../../Account/Account";
+import MyChildren from "../../MyChildren/MyChildren";
+import BaseRouter from "../../../routes";
 import Payment from "../Payment/Payment";
 import Terms_and_Conditions from "../Terms_and_Conditions/Terms_and_Conditions";
 import Security_and_Privacy from "../Security_and_Privacy/Security_and_Privacy";
-import Navbar from "../Navbar/Navbar";
+import Navbar from "../../Navbar/Navbar";
 /** @import CSS styles */
 import "./Mobile_toolbar.css";
 
@@ -67,19 +67,19 @@ class Mobile_toolbar extends Component {
                       </div>
 
                       <div className="mobile-toolbar-menu__item">
-                        <a href="/Menu/Payment" >
+                        <a href="/Payment" >
                             Payment
                         </a>
                       </div>
 
                       <div className="mobile-toolbar-menu__item">
-                        <a href="/Menu/Terms_and_Conditions" >
+                        <a href="/Terms_and_Conditions" >
                             Terms_and_Conditions
                         </a>
                       </div>
 
                       <div className="mobile-toolbar-menu__item">
-                        <a href="/Menu/Security_and_Privacy" >
+                        <a href="/Security_and_Privacy" >
                             Security_and_Privacy
                         </a>
                       </div>
@@ -91,11 +91,6 @@ class Mobile_toolbar extends Component {
                       </div>
                 </div>
             <Navbar />
-            {/* <Switch> */}
-            <Route path="/Menu/Account" exact component={Account} />
-            <Route path="/Menu/MyChildren" exact component={MyChildren} />
-            {/* </Switch> */}
-
           </div>
         </div>
       </Router>
