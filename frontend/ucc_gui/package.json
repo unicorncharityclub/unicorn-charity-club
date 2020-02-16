@@ -3,13 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.9.1",
+    "@material-ui/pickers": "^3.2.10",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
     "antd": "^3.26.7",
+    "bootstrap": "^4.4.1",
     "react": "^16.12.0",
+    "react-bootstrap": "^1.0.0-beta.16",
+    "react-cookie": "^4.0.3",
+    "react-cookies": "^0.1.1",
+    "react-date-picker": "^7.10.0",
+    "react-datepicker": "^2.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.3.1"
+    "react-native": "^0.61.5",
+    "react-native-elements": "^1.2.7",
+    "react-responsive-picture": "^3.2.2",
+    "react-scripts": "3.3.1",
+    "redux": "^4.0.5"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -25,7 +25,7 @@ SECRET_KEY = '$@^(pvzgs@t5chtsp(z^2o5l=t(g3sll-8v-r^(vrn)emoz=l#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['198.199.110.71', '127.0.0.1']
 
 
 # Application definition
@@ -38,8 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'articles',
+    'myaccount',
     'corsheaders',
     'rest_framework',
+    'accounts',
+    'childAccount',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +61,7 @@ ROOT_URLCONF = 'ucc.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'ucc/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,6 +73,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'ucc.wsgi.application'
 
@@ -122,6 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -131,3 +136,5 @@ REST_FRAMEWORK = {
     ]
 }
 CORS_ORIGIN_ALLOW_ALL = True
+
+AUTH_USER_MODEL = 'accounts.User'

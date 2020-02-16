@@ -1,20 +1,19 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import BaseRouter from './routes';
-import 'antd/dist/antd.css';
+import React, { Component } from "react";
 
-import CustomLayout from './containers/Layout';
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import baseReducer from "./reducers/reducer"
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import UCC_App from "./containers/UCC_App";
+const store = createStore(baseReducer);
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Router>
-          <CustomLayout>
-              <BaseRouter />
-          </CustomLayout>
-        </Router>
-      </div>
+        <Provider store={store}>
+            <UCC_App/>
+        </Provider>
     );
   }
 }
