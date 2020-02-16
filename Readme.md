@@ -4,7 +4,7 @@
 3. Open command prompt inside the backend folder. "\unicorn-charity-club\backend" and then run thr following command
 	- "virtualenv env"
 
-4. Now open Intelij and from Intelij terminal run the following commands
+4. Now open Pycharm and from Pycharm terminal run the following commands
 	- then cd to the following folder "cd env\Scripts\"
 	- then run "activate"
 	- then cd back upto the backend folder
