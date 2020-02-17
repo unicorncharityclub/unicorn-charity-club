@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router} from "react-router-dom";
 import Arrow_backward from "../../../image/arrow-backward.png";
 import Navbar from "../../Navbar/Navbar";
-/** @import CSS styles */
 import "./Mobile_toolbar.css";
 import {connect} from "react-redux";
 import cookie from "react-cookies";

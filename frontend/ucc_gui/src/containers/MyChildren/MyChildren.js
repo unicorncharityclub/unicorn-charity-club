@@ -1,10 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import axios from 'axios';
-//import { NavLink } from "react-router-dom";
-import {
-  DatePicker
-} from "react-bootstrap";
-import {BrowserRouter as Router, NavLink, Route} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import "../Account/Account.css";
 import "./MyChildren.css";
 import Arrow_backward from "../../image/arrow-backward.png";

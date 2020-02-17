@@ -2,10 +2,9 @@
  * 'npm i --save react'
  * 'npm i --save react-router-dom'
  */
-import React, { Component } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import axios from 'axios';
-import { BrowserRouter as Router, Route } from "react-router-dom";
 import Arrow_backward from "../../image/arrow-backward.png";
 //import Mobile_toolbar from "../Mobile_toolbar/Mobile_toolbar";
 import Settings_camera from "../../site_media/Images/Settings_Camera.png";
