@@ -110,7 +110,7 @@ class ChildForm extends React.Component {
                       <input type="text" name="Name"
                              placeholder="First Name Last Name"
                              value={this.defaultIfEmpty(this.props.Name)}
-                             onChange={this.changeHandler}
+                             onChange={this.changeHandler.bind(this)}
                       />
                   </div>
                   <div className="child-form">
