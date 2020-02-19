@@ -13,6 +13,9 @@ import Settings_home from "../../site_media/Images/Settings_Address.png";
 import Settings_mobile from "../../site_media/Images/Settings_Mobile.png";
 import Settings_notifications from "../../site_media/Images/Settings_Notifications.png";
 import cookie from 'react-cookies'
+//import Avatar from 'react-avatar';
+import { makeStyles } from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
 /** @import CSS styles */
 import "./Account.css";
 
@@ -29,13 +32,16 @@ import "./Account.css";
  * @returns {Account}
  * @todo connect to database for individual user
  */
+
+
 class Account extends React.Component {
 
     state = {
         Name: '',
         Email : '',
         Mobile : '',
-        Address : ''
+        Address : '',
+        ProfilePic : Settings_camera
     }
     user_id;
 
@@ -61,6 +67,12 @@ class Account extends React.Component {
         })
     }
 
+    imageHandler(event){
+        this.setState({
+            ProfilePic: URL.createObjectURL(event.target.files[0])
+        })
+        console.log(event.target.files[0])
+    }
 
     handleSaveBtn = (event) => {
         event.preventDefault();
@@ -69,7 +81,7 @@ class Account extends React.Component {
         const Mobile = event.target.elements.Mobile.value;
         const Email = event.target.elements.Email.value;
 
-        console.log(Name, Address, Mobile, Email);
+        console.log(event.target.elements);
 
         const account_id =  cookie.load('user_id');
         const token = cookie.load('XSRF-TOKEN');
@@ -86,6 +98,9 @@ class Account extends React.Component {
         .then(res => console.log(res))
         .catch(error => console.log(error))
     };
+
+
+
 
   render() {
     return (
@@ -107,10 +122,14 @@ class Account extends React.Component {
                         </div>
                       </div>
                       <div className="menu__content">
+                        <div className="root_profilepic">
+                            <Avatar className = "profilepic" src={this.state.ProfilePic}/>
+                            <input type="file" onChange={this.imageHandler.bind(this)}/>
+                         </div>
+
                         <div className="menu__item_title">
                           {/* <a href="/"> Name</a> */}
                           <textarea name="Name" placeholder="Name" value={this.state.Name} onChange={this.handleChange.bind(this)}>Name</textarea>
-                          <img src={Settings_camera} alt="Settings_camera" />
                         </div>
                         <div className="menu__item" style={{ paddingBottom: "0px" }}>
                           <img src={Settings_home} alt="Settings_home" />

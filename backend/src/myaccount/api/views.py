@@ -16,11 +16,13 @@ def get_account_details(request, user_id):
                     email = user.email
                     address = user.myaccount.Address
                     mobile = user.myaccount.Mobile
+
                     response['status'] = '"Success'
                     response["name"] = name
                     response['email'] = email
                     response['address'] = address
                     response['mobile'] = mobile
+
                 else:
                     response['status'] = "Wrong user id"
             except ValueError:

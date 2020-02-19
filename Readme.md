@@ -12,7 +12,7 @@
 	- then "cd src" and run the below 3 commands
 	- "python manage.py makemigrations"
 	- "python manage.py migrate"
-	- "python manage.py runserver"
+	- "cd"
 
 5. Now from the normal command prompt terminal go to fronend\ucc_gui folder. "\unicorn-charity-club\frontend\ucc_gui"
 	- run command "npm i"
