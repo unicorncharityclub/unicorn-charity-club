@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import "../containers/Account/Account.css";
 import "../containers/MyChildren/MyChildren.css";
 import Arrow_backward from "./../image/arrow-backward.png";
+import Upload_photo from "./../image/add-child-button-mobile.png";
 
 
 /**
@@ -50,46 +51,42 @@ class ChildForm extends React.Component {
 
     imageHandler(event){
         this.setState({
-            ImpactEmblem: event.target.files[0]
+            Photo: event.target.files[0]
         })
         console.log(event.target.files[0])
     }
 
     saveHandler(event,  requestType, id){
         event.preventDefault();
-        const Name = event.target.elements.Name.value;
-        const DOB = event.target.elements.DOB.value;
-        const School = event.target.elements.School.value;
-        const SchoolGrade = event.target.elements.SchoolGrade.value;
-        const UnicornName = event.target.elements.UnicornName.value;
-        const UnicornPowers = event.target.elements.UnicornPowers.value;
-
-        console.log(Name, DOB, School, SchoolGrade, UnicornName, UnicornPowers);
+        let form_data = new FormData();
+        try {
+            form_data.append('Name', this.state.Name);
+            form_data.append('DOB', this.state.DOB);
+            form_data.append('School', this.state.School);
+            form_data.append('SchoolGrade', this.state.SchoolGrade);
+            form_data.append('UnicornName', this.state.UnicornName);
+            form_data.append('UnicornPowers', this.state.UnicornPowers);
+            form_data.append('Photo', this.state.Photo, this.state.Photo.name);
+        } catch(err) {
+            console.log(err)
+        }
 
         switch( requestType ) {
             case 'post':
-            return axios.post('http://127.0.0.1:8000/childaccount/',
+            return axios.post('http://127.0.0.1:8000/childaccount/', form_data,
                     {
-                        Name: Name,
-                        DOB: DOB,
-                        School: School,
-                        SchoolGrade: SchoolGrade,
-                        UnicornName: UnicornName,
-                        UnicornPowers: UnicornPowers
-
+                        headers: {
+                            'content-type': 'multipart/form-data'
+                        }
                     })
                     .then(res => console.log(res))
                     .catch(error => console.log(error))
             case 'put':
-                return axios.put(`http://127.0.0.1:8000/childaccount/${id}/`,
+                return axios.put(`http://127.0.0.1:8000/childaccount/${id}/`, form_data,
                     {
-                        Name: Name,
-                        DOB: DOB,
-                        School: School,
-                        SchoolGrade: SchoolGrade,
-                        UnicornName: UnicornName,
-                        UnicornPowers: UnicornPowers
-
+                        headers: {
+                            'content-type': 'multipart/form-data'
+                        }
                     })
                     .then(res => console.log(res))
                     .catch(error => console.log(error))
@@ -118,6 +115,15 @@ class ChildForm extends React.Component {
               this.props.requestType,
               this.props.id )}>
               <div className="form-wrapper">
+                  <div className="child-form">
+                      <label htmlFor="file">Upload Photo</label>
+                          <input id="file" style={{display: 'none'}}
+                                     type="file"
+                                     name="Photo"
+                                     accept=".png, .jpeg, .jpg"
+                                     onChange={this.imageHandler.bind(this)}
+                          />
+                  </div>
                   <div className="child-form">
                       <label>Name:</label>
                       <input type="text" name="Name"
@@ -185,16 +191,6 @@ class ChildForm extends React.Component {
                           value={this.defaultIfEmpty(this.state.UnicornPowers)}
                           onChange={this.changeHandler.bind(this)}
                       />
-                      <label>Impact Emblem</label>
-                      <input style={{display: 'none'}}
-                             type="file"
-                             name="ImpactEmblem"
-                             //value={this.defaultIfEmpty(this.state.ImpactEmblem)}
-                             accept=".png, .jpeg, .jpg"
-                             onChange={this.imageHandler.bind(this)}
-                            ref={imageInput => this.imageInput = imageInput}>
-                      </input>
-                      <button onClick={() =>  this.imageInput.click()}>Upload Photo</button>
                   </div>
               </div>
           </form>
