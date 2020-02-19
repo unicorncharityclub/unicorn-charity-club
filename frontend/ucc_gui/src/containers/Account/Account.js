@@ -73,15 +73,17 @@ class Account extends React.Component {
 
         // hardcoding for now..
         const account_id =  cookie.load('user_id');
-        const token = cookie.load('token');
-        axios.defaults.withCredentials= true;
+        const token = cookie.load('XSRF-TOKEN');
+      //  axios.defaults.withCredentials= true;
+        //axios.defaults.xsrfCookieName = 'token'
+        //axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
         console.log(token)
-        axios.put(`http://127.0.0.1:8000/myaccount/${account_id}`, {
-                 Name: Name,
-                Email: Email,
-                Mobile: Mobile,
-                Address: Address
-        },
+        axios.post(`http://127.0.0.1:8000/myaccount/update/${account_id}`, this.state
+        ,{
+            headers: {
+                'X-XSRF-TOKEN': token,
+            }
+        }
             )
         .then(res => console.log(res))
         .catch(error => console.log(error))

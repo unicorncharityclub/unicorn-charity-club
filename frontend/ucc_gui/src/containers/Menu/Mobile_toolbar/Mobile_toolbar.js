@@ -31,7 +31,7 @@ class Mobile_toolbar extends Component {
       let user_id = "";
       let token = "";
       cookie.save('user_id', user_id);
-      cookie.save('token', token);
+      cookie.save('XSRF-TOKEN', token);
       this.props.dispatch({ type: "LOGOUT_SUCCESS", user_id:user_id, token:token});
   }
 
