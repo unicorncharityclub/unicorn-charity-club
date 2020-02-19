@@ -71,11 +71,11 @@ class Account extends React.Component {
 
         console.log(Name, Address, Mobile, Email);
 
-        // hardcoding for now..
         const account_id =  cookie.load('user_id');
-        const token = cookie.load('token');
-        axios.defaults.withCredentials= true;
+        const token = cookie.load('XSRF-TOKEN');
         console.log(token)
+        axios.defaults.withCredentials = true;
+        axios.defaults.xsrfHeaderName = "X-CSRFToken";
         axios.put(`http://127.0.0.1:8000/myaccount/${account_id}`, {
                  Name: Name,
                 Email: Email,
@@ -85,7 +85,7 @@ class Account extends React.Component {
             )
         .then(res => console.log(res))
         .catch(error => console.log(error))
-    }
+    };
 
   render() {
     return (
