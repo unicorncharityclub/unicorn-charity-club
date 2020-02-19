@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from 'axios';
-//import { NavLink } from "react-router-dom";
 import {BrowserRouter as Router, NavLink, Route} from "react-router-dom";
 import "../Account/Account.css";
 import "./MyChildren.css";
@@ -34,10 +33,6 @@ class MyChildren extends React.Component {
             ImpactEmblem: "",
             Photo: "",
         }
-    }
-
-    updateValue(val) {
-    this.setState ({ value: val });
     }
 
     componentDidMount() {

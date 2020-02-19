@@ -7,15 +7,15 @@ import ChildForm from "../../components/ChildForm"
 
 /**
  * @description Creates a form for all details of individual child
- * @class ChildForm
+ * @class AddChild
  * @implements BroweserRouter as Router
  * @extends React.Component
- * @type {ChildForm}
- * @example <ChildForm />
+ * @type {AddChild}
+ * @example <AddChild />
  * pre-condition: all the imports
  * post-condition: returns a form for all details of individual child
  * @param null
- * @returns {ChildForm}
+ * @returns {AddChild}
  */
 class AddChild extends React.Component {
 

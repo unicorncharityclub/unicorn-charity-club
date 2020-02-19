@@ -8,27 +8,40 @@ import Arrow_backward from "./../image/arrow-backward.png";
 
 /**
  * @description Fetches all the details of children associated with a parent account
- * @class MyChildren
+ * @class ChildForm
  * @implements BroweserRouter as Router
  * @extends React.Component
- * @type {MyChildren}
- * @example <MyChildren />
+ * @type {ChildForm}
+ * @example <ChildForm />
  * pre-condition: all the imports
  * post-condition: returns a form for all details of individual child
  * @param null
- * @returns {MyChildren}
+ * @returns {ChildForm}
  */
 
 class ChildForm extends React.Component {
 
+    state = {
+            Name: this.props.Name,
+            DOB: this.props.DOB,
+            School: this.props.School,
+            SchoolGrade: this.props.SchoolGrade,
+            UnicornName: this.props.UnicornName,
+            UnicornPowers: this.props.UnicornPowers,
+            ImpactEmblem: this.props.ImpactEmblem,
+            Photo: this.props.Photo,
+        };
 
+    componentWillReceiveProps(nextProps, nextContext){
+         this.setState(nextProps);
+    }
 
     changeHandler = (event) =>{
         this.setState({
             ...this.state,
             [event.target.name]: event.target.value
         })
-    }
+    };
 
 
     defaultIfEmpty(value){
@@ -109,8 +122,8 @@ class ChildForm extends React.Component {
                       <label>Name:</label>
                       <input type="text" name="Name"
                              placeholder="First Name Last Name"
-                             value={this.defaultIfEmpty(this.props.Name)}
-                             onChange={this.changeHandler.bind(this)}
+                             value={this.defaultIfEmpty(this.state.Name)}
+                             onChange={event => this.changeHandler(event)}
                       />
                   </div>
                   <div className="child-form">
@@ -119,7 +132,7 @@ class ChildForm extends React.Component {
                           type="date"
                           name="DOB"
                           placeholder="12 May 2012"
-                          value={this.defaultIfEmpty(this.props.DOB)}
+                          value={this.defaultIfEmpty(this.state.DOB)}
                           onChange={this.changeHandler.bind(this)}
                       />
                   </div>
@@ -128,7 +141,7 @@ class ChildForm extends React.Component {
                       <input type="text"
                              name="School"
                              placeholder="School Name"
-                             value={this.defaultIfEmpty(this.props.School)}
+                             value={this.defaultIfEmpty(this.state.School)}
                              onChange={this.changeHandler.bind(this)}
                       />
                   </div>
@@ -138,7 +151,7 @@ class ChildForm extends React.Component {
                       <select className="child-form-select"
                           name="SchoolGrade"
                           placeholder="Select School Grade"
-                          value={this.defaultIfEmpty(this.props.SchoolGrade)}
+                          value={this.defaultIfEmpty(this.state.SchoolGrade)}
                           onChange={this.changeHandler.bind(this)}
                       >
                           <option value="Select School Grade">Select School Grade</option>
@@ -162,14 +175,14 @@ class ChildForm extends React.Component {
                       <input type="text"
                              name="UnicornName"
                              placeholder="Unicorn Name"
-                             value={this.defaultIfEmpty(this.props.UnicornName)}
+                             value={this.defaultIfEmpty(this.state.UnicornName)}
                              onChange={this.changeHandler.bind(this)}
                       />
                       <label>Unicorn Powers: </label>
                       <textarea
                           name="UnicornPowers"
                           placeholder="What powers help you make a positive impact on the worked?"
-                          value={this.defaultIfEmpty(this.props.UnicornPowers)}
+                          value={this.defaultIfEmpty(this.state.UnicornPowers)}
                           onChange={this.changeHandler.bind(this)}
                       />
                       <label>Impact Emblem</label>
