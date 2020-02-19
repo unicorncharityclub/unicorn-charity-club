@@ -57,7 +57,7 @@ class Login_Form extends React.Component {
       let user_id = response.data["user_id"];
       let token = response.data["token"];
       cookie.save('user_id', user_id);
-      cookie.save('token', token);
+      cookie.save('XSRF-TOKEN', token);
       this.props.dispatch({ type: "LOGIN_SUCCESS", user_id:user_id, token:token});
     }
     else {

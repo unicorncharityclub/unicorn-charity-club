@@ -4,10 +4,7 @@ import "../Account/Account.css";
 import "./MyChildren.css";
 import Arrow_backward from "../../image/arrow-backward.png";
 import Add_child from "../../site_media/Images/Add_Child.png";
-import Child_avatar from "../../site_media/Images/Default_Avatar.png";
-import { NavLink } from "react-router-dom";
 import {List} from "antd";
-import AddChild from "./AddChild";
 
 const Children= props => {
     return (

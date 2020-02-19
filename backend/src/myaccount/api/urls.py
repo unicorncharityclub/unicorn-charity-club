@@ -1,6 +1,8 @@
-from .views import MyaccountViewSet
+from .views import get_account_details
 from rest_framework.routers import DefaultRouter
+from django.urls import path
 
-router = DefaultRouter()
-router.register(r'', MyaccountViewSet)
-urlpatterns = router.urls
+urlpatterns = [
+    path('<int:user_id>', get_account_details),
+
+]

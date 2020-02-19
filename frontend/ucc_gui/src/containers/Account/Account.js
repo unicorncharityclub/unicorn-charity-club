@@ -2,10 +2,9 @@
  * 'npm i --save react'
  * 'npm i --save react-router-dom'
  */
-import React, { Component } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import axios from 'axios';
-import { BrowserRouter as Router, Route } from "react-router-dom";
 import Arrow_backward from "../../image/arrow-backward.png";
 //import Mobile_toolbar from "../Mobile_toolbar/Mobile_toolbar";
 import Settings_camera from "../../site_media/Images/Settings_Camera.png";
@@ -13,6 +12,7 @@ import Settings_email from "../../site_media/Images/Settings_Email.png";
 import Settings_home from "../../site_media/Images/Settings_Address.png";
 import Settings_mobile from "../../site_media/Images/Settings_Mobile.png";
 import Settings_notifications from "../../site_media/Images/Settings_Notifications.png";
+import cookie from 'react-cookies'
 /** @import CSS styles */
 import "./Account.css";
 
@@ -37,17 +37,20 @@ class Account extends React.Component {
         Mobile : '',
         Address : ''
     }
+    user_id;
 
     componentDidMount() {
-        axios.get('http://127.0.0.1:8000/myaccount/')
+        const user_id = cookie.load('user_id');
+        console.log(user_id)
+        axios.get(`http://127.0.0.1:8000/myaccount/${user_id}`)
             .then(res => {
                     this.setState({
-                        Name: res.data[0].Name,
-                        Email: res.data[0].Email,
-                        Mobile: res.data[0].Mobile,
-                        Address: res.data[0].Address,
+                        Name: res.data.name,
+                        Email: res.data.email,
+                        Mobile: res.data.mobile,
+                        Address: res.data.address,
                     });
-                console.log(res.data[0])
+                console.log(res.data)
             }).catch(error => console.log(error))
     }
 
@@ -69,13 +72,17 @@ class Account extends React.Component {
         console.log(Name, Address, Mobile, Email);
 
         // hardcoding for now..
-        const account_id = 1
-        axios.put(`http://127.0.0.1:8000/myaccount/${account_id}/`, {
+        const account_id =  cookie.load('user_id');
+        const token = cookie.load('token');
+        axios.defaults.withCredentials= true;
+        console.log(token)
+        axios.put(`http://127.0.0.1:8000/myaccount/${account_id}`, {
                  Name: Name,
                 Email: Email,
                 Mobile: Mobile,
                 Address: Address
-        })
+        },
+            )
         .then(res => console.log(res))
         .catch(error => console.log(error))
     }

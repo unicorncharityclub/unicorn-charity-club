@@ -11,6 +11,11 @@ const baseReducer = (state = initialState, action) => {
         user_id: action.user_id,
         token: action.token
       };
+      case 'LOGOUT_SUCCESS':
+      return {
+        user_id: action.user_id,
+        token: action.token
+      };
     default:
       return state;
   }
