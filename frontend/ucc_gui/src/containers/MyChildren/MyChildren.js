@@ -34,10 +34,6 @@ class MyChildren extends React.Component {
         }
     }
 
-    updateValue(val) {
-    this.setState ({ value: val });
-    }
-
     componentDidMount() {
         const id = this.props.match.params.id;
         axios.get(`http://127.0.0.1:8000/childaccount/${id}`)
