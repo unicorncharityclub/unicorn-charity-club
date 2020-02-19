@@ -2,7 +2,6 @@ from rest_framework import viewsets
 import json
 from accounts.models import User
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 
 def get_account_details(request, user_id):
@@ -35,3 +34,4 @@ def get_account_details(request, user_id):
             user.save()
             print(user)
         return JsonResponse(response)
+

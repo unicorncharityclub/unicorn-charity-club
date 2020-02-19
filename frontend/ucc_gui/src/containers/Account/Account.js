@@ -81,7 +81,7 @@ class Account extends React.Component {
                 Email: Email,
                 Mobile: Mobile,
                 Address: Address
-        },
+        }
             )
         .then(res => console.log(res))
         .catch(error => console.log(error))
