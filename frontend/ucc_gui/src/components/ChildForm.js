@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import "../containers/Account/Account.css";
 import "../containers/MyChildren/MyChildren.css";
 import Arrow_backward from "./../image/arrow-backward.png";
-import Upload_photo from "./../image/add-child-button-mobile.png";
+import Upload_photo from "./../image/Default-profile-picture.png";
 
 
 /**
@@ -22,7 +22,9 @@ import Upload_photo from "./../image/add-child-button-mobile.png";
 
 class ChildForm extends React.Component {
 
-    state = {
+    constructor(props) {
+        super(props);
+        this.state = {
             Name: this.props.Name,
             DOB: this.props.DOB,
             School: this.props.School,
@@ -31,7 +33,9 @@ class ChildForm extends React.Component {
             UnicornPowers: this.props.UnicornPowers,
             ImpactEmblem: this.props.ImpactEmblem,
             Photo: this.props.Photo,
-        };
+            finalImage: ''
+        }
+    };
 
     componentWillReceiveProps(nextProps, nextContext){
          this.setState(nextProps);
@@ -51,7 +55,8 @@ class ChildForm extends React.Component {
 
     imageHandler(event){
         this.setState({
-            Photo: event.target.files[0]
+            Photo: URL.createObjectURL(event.target.files[0]),
+            finalImage: event.target.files[0]
         })
         console.log(event.target.files[0])
     }
@@ -66,7 +71,7 @@ class ChildForm extends React.Component {
             form_data.append('SchoolGrade', this.state.SchoolGrade);
             form_data.append('UnicornName', this.state.UnicornName);
             form_data.append('UnicornPowers', this.state.UnicornPowers);
-            form_data.append('Photo', this.state.Photo, this.state.Photo.name);
+            form_data.append('Photo', this.state.finalImage, this.state.finalImage.name);
         } catch(err) {
             console.log(err)
         }
@@ -79,7 +84,7 @@ class ChildForm extends React.Component {
                             'content-type': 'multipart/form-data'
                         }
                     })
-                    .then(res => console.log(res))
+                    .then(res => {console.log(res)})
                     .catch(error => console.log(error))
             case 'put':
                 return axios.put(`http://127.0.0.1:8000/childaccount/${id}/`, form_data,
@@ -115,8 +120,9 @@ class ChildForm extends React.Component {
               this.props.requestType,
               this.props.id )}>
               <div className="form-wrapper">
-                  <div className="child-form">
-                      <label htmlFor="file">Upload Photo</label>
+                  <div className="blessing-form">
+                      <img className="profile-picture" src={this.state.Photo || Upload_photo} alt=""/>
+                      <label className="upload-photo" htmlFor="file">Upload Photo</label>
                           <input id="file" style={{display: 'none'}}
                                      type="file"
                                      name="Photo"
@@ -170,7 +176,7 @@ class ChildForm extends React.Component {
                           <option value="Grade 6">Grade 6</option>
                       </select>
                   </div>
-                  <hr className="form-separator"/>
+                  {/*<hr className="form-separator"/>*/}
               </div>
               <div className="blessing-form">
                   <div className="blessing-name">Blessing: Helpful Hearts</div>

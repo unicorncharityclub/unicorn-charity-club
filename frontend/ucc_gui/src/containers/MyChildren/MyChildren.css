@@ -211,3 +211,19 @@ textarea:focus {
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
+.profile-picture {
+  display: inline-block;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+
+  object-fit: cover;
+}
+
+.upload-photo{
+    text-align: center;
+    position: relative;
+    vertical-align: bottom;
+    color: #3b9f9d;
+}
