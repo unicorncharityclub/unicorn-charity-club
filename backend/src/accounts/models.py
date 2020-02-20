@@ -40,7 +40,7 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    gender = models.CharField(max_length=1, choices=gender_choices)
+    gender = models.CharField(max_length=6, choices=gender_choices, default="")
     dob = models.DateField(blank=True, null=True)
 
     USERNAME_FIELD = 'email'
