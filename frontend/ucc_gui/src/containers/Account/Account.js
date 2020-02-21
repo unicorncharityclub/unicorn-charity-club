@@ -41,7 +41,7 @@ class Account extends React.Component {
         Email : '',
         Mobile : '',
         Address : '',
-        ProfilePic : Settings_camera
+        ProfilePic : ""
     }
     user_id;
 
@@ -55,6 +55,7 @@ class Account extends React.Component {
                         Email: res.data.email,
                         Mobile: res.data.mobile,
                         Address: res.data.address,
+                        ProfilePic: res.data.profilepic
                     });
                 console.log(res.data)
             }).catch(error => console.log(error))
@@ -80,6 +81,7 @@ class Account extends React.Component {
         const Address = event.target.elements.Address.value;
         const Mobile = event.target.elements.Mobile.value;
         const Email = event.target.elements.Email.value;
+//        const ProfilePic = event.target.elements.ProfilePic.url;
 
         console.log(event.target.elements);
 
@@ -92,7 +94,8 @@ class Account extends React.Component {
                  Name: Name,
                 Email: Email,
                 Mobile: Mobile,
-                Address: Address
+                Address: Address,
+//                ProfilePic : ProfilePic
         }
             )
         .then(res => console.log(res))
@@ -123,6 +126,7 @@ class Account extends React.Component {
                       </div>
                       <div className="menu__content">
                         <div className="root_profilepic">
+                        {console.log(this.state.ProfilePic)}
                             <Avatar className = "profilepic" src={this.state.ProfilePic}/>
                             <input type="file" onChange={this.imageHandler.bind(this)}/>
                          </div>

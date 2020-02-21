@@ -13,11 +13,14 @@ def get_account_details(request, user_id):
                 email = user.email
                 address = user.myaccount.Address
                 mobile = user.myaccount.Mobile
+                profilepic = user.myaccount.ProfilePic
+                print(profilepic.url)
                 response['status'] = '"Success'
                 response["name"] = name
                 response['email'] = email
                 response['address'] = address
                 response['mobile'] = mobile
+                response['profilepic'] = profilepic.url
             else:
                 response['status'] = "Wrong user id"
         except ValueError:

@@ -12,12 +12,14 @@ class Myaccount(models.Model):
     user = models.OneToOneField(
        settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
     )
+    # these 2 fields coming from account model
     #Name = models.CharField(max_length=120)
-    Address = models.TextField()
     #Email = models.EmailField()
+    Address = models.TextField()
     phone_regex = RegexValidator(regex=r'^\+?1?\d{11}$',
                                  message="Phone number must be entered in the format: '+1xxxxxxxxxx'. Phone number should be 10 digits.")
     Mobile = models.CharField(validators=[phone_regex], max_length=17, blank=True)
+
     ProfilePic = models.ImageField(upload_to='profilePictures', blank=True)
 
     def __str__(self):
