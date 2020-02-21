@@ -26,6 +26,11 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
+    gender_choices = [
+        ('Male', 'M'),
+        ('Female', 'F')
+
+    ]
     email = models.EmailField(
         verbose_name='email address',
         max_length=255,
@@ -35,6 +40,7 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
+    gender = models.CharField(max_length=6, choices=gender_choices, default="")
     dob = models.DateField(blank=True, null=True)
 
     USERNAME_FIELD = 'email'
