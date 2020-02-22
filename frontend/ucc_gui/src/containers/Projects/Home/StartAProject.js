@@ -13,7 +13,7 @@ class ProjectsHome extends React.Component {
             Start a Project
         </div>
 
-        <div className="marginSpaceTop">
+        <div className="marginSpaceTop marginSpaceBottom">
           <FormControl variant="outlined" style={{marginLeft: '15%', border: '2px solid black',
             width : "70%"}}>
             <Select native >
@@ -23,6 +23,10 @@ class ProjectsHome extends React.Component {
               <option value={30}>Thirty</option>
             </Select>
           </FormControl>
+        </div>
+
+        <div>
+          Hello World
         </div>
       </div>
     );
