@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('accounts.api.urls')),
     path('myaccount/', include('myaccount.api.urls')),
-    path('childaccount/', include('childAccount.api.urls'))
+    path('childaccount/', include('childAccount.api.urls')),
+    path('charityproject/', include('charityprojects.api.urls'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
