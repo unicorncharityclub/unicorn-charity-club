@@ -35,19 +35,20 @@ import "./Account.css";
 
 
 class Account extends React.Component {
-
     state = {
         Name: '',
         Email : '',
         Mobile : '',
         Address : '',
-        ProfilePic : Settings_camera
+        ProfilePic : '',
+        FinalImage : ''
     }
     user_id;
 
     componentDidMount() {
         const user_id = cookie.load('user_id');
         console.log(user_id)
+        // hardcoding for now. .
         axios.get(`http://127.0.0.1:8000/myaccount/${user_id}`)
             .then(res => {
                     this.setState({
@@ -55,7 +56,10 @@ class Account extends React.Component {
                         Email: res.data.email,
                         Mobile: res.data.mobile,
                         Address: res.data.address,
+                        ProfilePic: res.data.profilepic
                     });
+
+
                 console.log(res.data)
             }).catch(error => console.log(error))
     }
@@ -69,37 +73,64 @@ class Account extends React.Component {
 
     imageHandler(event){
         this.setState({
-            ProfilePic: URL.createObjectURL(event.target.files[0])
+            ProfilePic: URL.createObjectURL(event.target.files[0]),
+            FinalImage : event.target.files[0]
         })
         console.log(event.target.files[0])
     }
 
     handleSaveBtn = (event) => {
         event.preventDefault();
-        const Name = event.target.elements.Name.value;
-        const Address = event.target.elements.Address.value;
-        const Mobile = event.target.elements.Mobile.value;
-        const Email = event.target.elements.Email.value;
+        let form_data = new FormData();
+        try {
+            form_data.append('Name', this.state.Name);
+            form_data.append('Address', this.state.Address);
+            form_data.append('Mobile', this.state.Mobile);
+            form_data.append('Email', this.state.Email);
+            form_data.append('ProfilePic', this.state.FinalImage, this.state.FinalImage.name);
+        } catch(err) {
+            console.log(err)
+        }
+        console.log(form_data);
+//        const Name = event.target.elements.Name.value;
+//        const Address = event.target.elements.Address.value;
+//        const Mobile = event.target.elements.Mobile.value;
+//        const Email = event.target.elements.Email.value;
+//        const ProfilePic = this.state.FinalImage;
 
-        console.log(event.target.elements);
-
+//        console.log(event.target.elements);
+//        console.log("pp: " + this.state.ProfilePic);
         const account_id =  cookie.load('user_id');
         const token = cookie.load('XSRF-TOKEN');
         console.log(token)
         axios.defaults.withCredentials = true;
         axios.defaults.xsrfHeaderName = "X-CSRFToken";
-        axios.put(`http://127.0.0.1:8000/myaccount/${account_id}`, {
-                 Name: Name,
-                Email: Email,
-                Mobile: Mobile,
-                Address: Address
-        }
-            )
-        .then(res => console.log(res))
-        .catch(error => console.log(error))
+//        axios.put(`http://127.0.0.1:8000/myaccount/${account_id}`, {
+//                 Name: Name,
+//                Email: Email,
+//                Mobile: Mobile,
+//                Address: Address,
+//                ProfilePic : ProfilePic
+//        },{
+//                        headers: {
+//                            'content-type': 'multipart/form-data'
+//                        }
+//                    }
+//            )
+//        .then(res => console.log(res))
+//        .catch(error => console.log(error))
+
+            axios.put(`http://127.0.0.1:8000/myaccount/${account_id}/`, form_data,
+                    {
+                        headers: {
+                            'content-type': 'multipart/form-data'
+                        }
+                    })
+                    .then(res => console.log(res))
+                    .catch(error => console.log(error))
+
+
     };
-
-
 
 
   render() {
@@ -123,6 +154,7 @@ class Account extends React.Component {
                       </div>
                       <div className="menu__content">
                         <div className="root_profilepic">
+                        {this.state.ProfilePic}
                             <Avatar className = "profilepic" src={this.state.ProfilePic}/>
                             <input type="file" onChange={this.imageHandler.bind(this)}/>
                          </div>
