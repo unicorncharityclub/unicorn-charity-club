@@ -4,15 +4,16 @@ from django.db import models
 
 
 class CharityProjects(models.Model):
+    objects = None
     Name = models.CharField(max_length=100)
     Goal = models.TextField(default="")
     Mission = models.TextField(default="")
     Category = models.CharField(max_length=50)
-    Video_Name = models.CharField(max_length=30)
-    Video = models.FileField(upload_to='projectVideo/')
-    Badge = models.ImageField(upload_to='projectBadge/')
+    Video_Name = models.CharField(max_length=30, blank=True, null= True)
+    Video = models.FileField(upload_to='projectVideo/', blank=True, null=True)
+    Badge = models.ImageField(upload_to='projectBadge/', blank=True, null=True)
     Tags = models.TextField(default="")
-    Banner = models.ImageField(upload_to='projectBanner/')
+    Banner = models.ImageField(upload_to='projectBanner/', blank=True, null=True)
 
     def __str__(self):
         return self.Name
