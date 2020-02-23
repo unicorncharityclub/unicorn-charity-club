@@ -97,6 +97,7 @@ class Account extends React.Component {
 //        const Mobile = event.target.elements.Mobile.value;
 //        const Email = event.target.elements.Email.value;
 //        const ProfilePic = this.state.FinalImage;
+//        const ProfilePicName = this.state.FinalImage.name;
 
 //        console.log(event.target.elements);
 //        console.log("pp: " + this.state.ProfilePic);
@@ -111,6 +112,7 @@ class Account extends React.Component {
 //                Mobile: Mobile,
 //                Address: Address,
 //                ProfilePic : ProfilePic
+//                ProfilePicName : ProfilePicName
 //        },{
 //                        headers: {
 //                            'content-type': 'multipart/form-data'
@@ -120,7 +122,7 @@ class Account extends React.Component {
 //        .then(res => console.log(res))
 //        .catch(error => console.log(error))
 
-            axios.put(`http://127.0.0.1:8000/myaccount/${account_id}/`, form_data,
+           return axios.put(`http://127.0.0.1:8000/myaccount/${account_id}/`, form_data,
                     {
                         headers: {
                             'content-type': 'multipart/form-data'
