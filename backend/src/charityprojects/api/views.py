@@ -4,7 +4,7 @@ from django.http import JsonResponse
 
 
 def charity_project_details(request, project_id):
-    response = {'status':"Invalid Request"}
+    response = {'status': "Invalid Request"}
     project = CharityProjects.objects.get(pk=project_id)
     if request.method == "GET":
         try:
@@ -16,7 +16,7 @@ def charity_project_details(request, project_id):
                 response["project_video"] = project.Video_Name
                 response["project_category"] = project.Category
                 response["project_tags"] = project.Tags
-                response["project_banner"] = project.Banner.url
+                response["project_banner"] = request.build_absolute_uri(project.Banner.url)
             else:
                 response['status'] = "Wrong project id"
         except ValueError:
@@ -34,6 +34,20 @@ def all_project_list(request):
     return JsonResponse(response)
 
 
+def all_project_info_list(request):
+    response = {'status': "Success"}
+    projects = CharityProjects.objects.all()
+    project_list = []
+    for project in projects:
+        each_project = {"project_id": project.id, "project_name": project.Name, "project_goal": project.Goal, "project_mission": project.Mission,
+                        "project_video": project.Video_Name, "project_category": project.Category,
+                        "project_tags": project.Tags, "project_banner": request.build_absolute_uri(project.Banner.url)}
+        project_list.append(each_project)
+
+    response['project_list'] = project_list
+    return JsonResponse(response)
+
+
 def project_category(request):
     response = {'status': "Success"}
     category_list = []
@@ -42,8 +56,3 @@ def project_category(request):
         category_list.append(project.Category)
         response['category_list'] = category_list
     return JsonResponse(response)
-
-
-
-
-

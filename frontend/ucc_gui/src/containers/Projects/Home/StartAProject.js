@@ -1,9 +1,22 @@
 import React from "react";
 import { Select } from '@material-ui/core';
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
 
 class ProjectsHome extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+         projects: [
+            { id: 1, image: 'http://127.0.0.1:8000/static/project_banner/Desert.jpg'},
+            { id: 2, image: 'http://127.0.0.1:8000/static/project_banner/Desert.jpg'},
+            { id: 3, image: 'http://127.0.0.1:8000/static/project_banner/Desert.jpg'},
+            { id: 4, image: 'http://127.0.0.1:8000/static/project_banner/Desert.jpg'},
+         ]
+      }
+   }
+
+
   render() {
     return (
       <div>
@@ -26,8 +39,9 @@ class ProjectsHome extends React.Component {
         </div>
 
         <div>
-          Hello World
-        </div>
+            <h1 id='title'>Charity Projects</h1>
+            <ProjectGrid projectData={this.state.projects}/>
+         </div>
       </div>
     );
   }
