@@ -32,11 +32,12 @@ def get_account_details(request, user_id):
         response = {'status': "Invalid Request"}
         if request.method == 'PUT':
             print("inside method")
-            json_data = json.loads(request.body)
-            user.email = json_data['Email']
-            user.myaccount.Address = json_data['Address']
-            user.myaccount.Mobile = json_data['Mobile']
-            response['status'] = "Success"
-            user.save()
+            print(request.body)
+            #json_data = json.loads(request.body)
+            #user.email = json_data['Email']
+            #user.myaccount.Address = json_data['Address']
+            #user.myaccount.Mobile = json_data['Mobile']
+            #response['status'] = "Success"
+            #user.save()
             print(user)
     return JsonResponse(response)
