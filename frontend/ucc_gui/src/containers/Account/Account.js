@@ -47,8 +47,7 @@ class Account extends React.Component {
 
     componentDidMount() {
         const user_id = cookie.load('user_id');
-        console.log(user_id)
-        // hardcoding for now. .
+        console.log(user_id)        
         axios.get(`http://127.0.0.1:8000/myaccount/${user_id}`)
             .then(res => {
                     this.setState({

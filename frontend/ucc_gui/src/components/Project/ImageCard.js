@@ -35,15 +35,13 @@ class ImgMediaCard extends React.Component {
                     />
                 </CardActionArea>
 
-                {/*
+        
                 <CardActions style={{backgroundColor:"lightblue"}}>
-                    <Button size="small" color="primary">
-                        {/*  This link goes to the ProjectDetails page for resp pids  */}                                      
-                        {<a href={`/Projects/${this.props.id}`}> Start Project {this.props.id} </a>}  
+                    <Button size="small" color="primary">                      
                         
-                    {/* </Button>
+                     </Button>
                 </CardActions>
-            */} 
+        
             </Card>
         );
     }

@@ -1,46 +1,57 @@
 import React from "react";
 import Avatar from '@material-ui/core/Avatar';
+import axios from "axios";
 
 class ProjectInfo extends React.Component {
   constructor(props) {
     super(props);    
 
-    // hard coding this for now 
     this.state = {
-      id: this.props.id, 
-      projectName : 'Project Tigers',
-      projectCategory : 'Project Tigers Category',
-      projectTags : ['Project Tigers Tag 1', 'Project Tigers Tag 2'],      
-      ProjectImage : 'http://127.0.0.1:8000/static/project_banner/Desert.jpg',
-      ProjectMission: '',
-      ProjectGoal: '',
-      ProjectVideo: ''
-
+      Project_id: this.props.id, 
+      ProjectName : '',
+      ProjectCategory : '',
+      ProjectTags : '',
+      ProjectBanner : ''
     }
 
  }  
   
   
     componentDidMount () {
-    //   const { id } = this.props.match.params
-  
-    //   fetch(`https://api.twitter.com/user/${id}`)
-    //     .then((user) => {
-    //       this.setState(() => ({ user }))
-    //     })
+        // backend get call
+        axios.get(`http://127.0.0.1:8000/charityproject/${this.state.Project_id}`)
+      .then(res => {
+              this.setState({                  
+                  ProjectName : res.data.project_name,
+                  ProjectCategory : res.data.project_category,
+                  ProjectTags : res.data.project_tags,
+                  ProjectBanner : res.data.project_banner
+              });
+
+
+          console.log(res.data)
+      }).catch(error => console.log(error))
+
     }
     render() {
       return(
-            <div>
-                This is Project Info Component..
-                <div> 
-                  <Avatar className = "profilepic" src={this.state.ProjectImage}/>
-                  <h2>{this.state.projectName}</h2> 
-                  <p>Project id :{this.state.id}   </p>
-                  <p>{this.state.projectCategory}</p> 
-                  <p>{this.state.projectTags}</p>                    
-                                               
-                </div>
+            <div>                                 
+                  <table>
+                    <tr>
+                      <td>
+                        <Avatar className = "profilepic" src={this.state.ProjectBanner}/>
+                      </td>                      
+                      <td>                        
+                        
+                          <h2 className="textHeader">{this.state.ProjectName}</h2>
+                          <p>
+                          Project id :{this.state.Project_id} <br/>
+                          Category: {this.state.ProjectCategory} <br />                          
+                          Tags: {this.state.ProjectTags} <br/>
+                        </p>   
+                      </td>
+                    </tr>
+                  </table>                
             </div>
         )
     }
