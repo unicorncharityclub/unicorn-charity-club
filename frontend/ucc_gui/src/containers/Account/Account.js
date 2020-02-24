@@ -158,7 +158,7 @@ class Account extends React.Component {
                         <div className="root_profilepic">
                         {this.state.ProfilePic}
                             <Avatar className = "profilepic" src={this.state.ProfilePic}/>
-                            <input type="file" onChange={this.imageHandler.bind(this)}/>
+                            <input type="file" name="ProfilePic" onChange={this.imageHandler.bind(this)}/>
                          </div>
 
                         <div className="menu__item_title">

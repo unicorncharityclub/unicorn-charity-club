@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from .serializers import MyaccountSerializer
 from rest_framework.decorators import api_view
 from rest_framework.decorators import parser_classes
+from django.core.files.storage import FileSystemStorage
 
 
 def get_account_details(request, user_id):
@@ -34,9 +35,9 @@ def get_account_details(request, user_id):
                 response['status'] = "Wrong user id"
         except ValueError:
             response['status'] = "Invalid Request"
-        #if request.method == 'PUT':
-            #print("inside method")
-            #print(request.body)
+        # if request.method == 'PUT':
+            # print("inside method")
+            # print(request.FILES)
             #json_data = json.loads(request.body)
             #user.email = json_data['Email']
             #user.myaccount.Address = json_data['Address']
@@ -50,11 +51,29 @@ def get_account_details(request, user_id):
 @api_view(['PUT'])
 @parser_classes([MultiPartParser, FormParser])
 def update_account_details(request, user_id):
-   # user = User.objects.filter(id=user_id)
-    #user = User.objects.get(pk=user_id)
+    print('inside this method')
+
+    # this comment code saves the image to /media/ path
+    # need to find a way to save it to media/profilePictures folder
+
+    # response = {'status': "Invalid Request"}
+    # print(request.FILES['ProfilePic'])
+    # uploaded_img = request.FILES['ProfilePic']
+    # fs = FileSystemStorage()
+    # fname = fs.save(uploaded_img.name, uploaded_img.file)
+    # url = fs.url(fname)
+    # print(url)
+    # response['status'] = "Success"
+
+    # return JsonResponse(response)
+
+
+   user = User.objects.filter(id=user_id)
+    user = User.objects.get(pk=user_id)
+
     data_serializer = MyaccountSerializer(data=request.data)
-    #data_serializer.user = user.id
-    #print(data_serializer.user)
+    data_serializer.user = user.id
+    print(data_serializer.user)
     print(data_serializer)
     if data_serializer.is_valid():
         print("here")
