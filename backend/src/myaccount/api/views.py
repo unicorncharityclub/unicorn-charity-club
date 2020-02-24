@@ -1,6 +1,12 @@
 import json
 from accounts.models import User
 from django.http import JsonResponse
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import status
+from rest_framework.response import Response
+from .serializers import MyaccountSerializer
+from rest_framework.decorators import api_view
+from rest_framework.decorators import parser_classes
 
 
 def get_account_details(request, user_id):
@@ -28,16 +34,32 @@ def get_account_details(request, user_id):
                 response['status'] = "Wrong user id"
         except ValueError:
             response['status'] = "Invalid Request"
-    elif request.method == "PUT":
-        response = {'status': "Invalid Request"}
-        if request.method == 'PUT':
-            print("inside method")
-            print(request.body)
+        #if request.method == 'PUT':
+            #print("inside method")
+            #print(request.body)
             #json_data = json.loads(request.body)
             #user.email = json_data['Email']
             #user.myaccount.Address = json_data['Address']
             #user.myaccount.Mobile = json_data['Mobile']
             #response['status'] = "Success"
             #user.save()
-            print(user)
+            #print(user)
     return JsonResponse(response)
+
+
+@api_view(['PUT'])
+@parser_classes([MultiPartParser, FormParser])
+def update_account_details(request, user_id):
+   # user = User.objects.filter(id=user_id)
+    user = User.objects.get(pk=user_id)
+    data_serializer = MyaccountSerializer(data=request.data)
+    data_serializer.user = user.id
+    #print(data_serializer.user)
+    print(data_serializer)
+    if data_serializer.is_valid():
+        print("here")
+        data_serializer.save()
+        return Response(data_serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        print('error', data_serializer.errors)
+        return Response(data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
