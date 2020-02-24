@@ -1,5 +1,5 @@
 from django.db import models
-
+from accounts.models import User
 # Create your models here.
 
 
@@ -32,6 +32,19 @@ class CharityProjects(models.Model):
 
     def get_project_banner(self):
         return self.Banner
+
+
+class ProjectUser(models.Model):
+    project_id = models.ForeignKey(CharityProjects, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    invited_by = models.EmailField(null=True, blank=True)
+
+    def __str__(self):
+        return '{} {} {}'.format(self.project_id, self.user_id, self.invited_by)
+
+    def fetch_invited_by(self, inviter_id):
+        user_email = User.objects.get(pk=inviter_id)
+        return user_email
 
 
 
