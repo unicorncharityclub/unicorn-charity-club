@@ -1,0 +1,9 @@
+.insideContent {
+    padding-left: 40px;
+}
+
+.startButton {
+    border-radius : 0rem;
+    width : 100%;
+    background-color: #2BB9B7;    
+}

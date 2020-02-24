@@ -10,7 +10,7 @@ def charity_project_details(request, project_id):
         try:
             if project:
                 response['status'] = "Success"
-                response[" project_name"] = project.Name
+                response["project_name"] = project.Name
                 response["project_goal"] = project.Goal
                 response["project_mission"] = project.Mission
                 response["project_video"] = project.Video_Name
