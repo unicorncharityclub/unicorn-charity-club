@@ -1,6 +1,7 @@
 import React from "react";
 import Avatar from '@material-ui/core/Avatar';
 import axios from "axios";
+import "./ProjectInfo.css";
 
 class ProjectInfo extends React.Component {
   constructor(props) {
@@ -41,14 +42,13 @@ class ProjectInfo extends React.Component {
                       <td>
                         <Avatar className = "profilepic" src={this.state.ProjectBanner}/>
                       </td>                      
-                      <td>                        
-                        
-                          <h2 className="textHeader">{this.state.ProjectName}</h2>
-                          <p>
-                          Project id :{this.state.Project_id} <br/>
-                          Category: {this.state.ProjectCategory} <br />                          
-                          Tags: {this.state.ProjectTags} <br/>
-                        </p>   
+                      <td>                                                
+                          <h2 className="projectTitle">{this.state.ProjectName}</h2>
+                          <p className="insideInfo">
+                            {/* Project id :{this.state.Project_id} <br/> */}
+                            Category: {this.state.ProjectCategory} <br />                          
+                            Tags: {this.state.ProjectTags} <br/>
+                          </p>   
                       </td>
                     </tr>
                   </table>                

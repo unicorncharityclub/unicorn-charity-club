@@ -2,6 +2,8 @@ import React from "react";
 import ProjectInfo from "../../../components/Project/ProjectDetails/ProjectInfo";
 import { Container } from "@material-ui/core";
 import axios from "axios";
+import "./ProjectDetails.css";
+import Button from 'react-bootstrap/Button'
 
 class ProjectDetails extends React.Component {
     constructor(props) {
@@ -28,7 +30,7 @@ class ProjectDetails extends React.Component {
           console.log(res.data)
       }).catch(error => console.log(error))
     }
-    
+
     render() {
       return(
             <div>  
@@ -36,21 +38,31 @@ class ProjectDetails extends React.Component {
                 <p> This is Project Details Page </p>                           
                   {console.log(this.props)}
                   <ProjectInfo id={this.props.match.params.id} />
-                  <div className="textHeader">                
-                      Start a Project
+                  
+                  <br/>
+                  <br/>
+
+                    <Button className = "startButton" variant="success" size="lg">
+                        START PROJECT
+                    </Button>
+                  <br/>
+                  <br/>
+                  
+                  <div>
+                    <h2 className="textHeader">Project Mission</h2>
+                    <p className = "insideContent">{ this.state.ProjectMission }</p>
                   </div>
                   <div>
-                    <h2>Project Mission</h2>
-                    <p>{ this.state.ProjectMission }</p>
+                    <h2 className="textHeader">Project Goal</h2>
+                    <p className = "insideContent">{ this.state.ProjectGoal }</p>
                   </div>
                   <div>
-                    <h2>Project Goal</h2>
-                    <p>{ this.state.ProjectGoal }</p>
+                    <h2 className="textHeader">Project Video</h2>
+                    <p className = "insideContent">{ this.state.ProjectVideo }</p>
                   </div>
-                  <div>
-                    <h2>Project Video</h2>
-                    <p>{ this.state.ProjectVideo }</p>
-                  </div>
+                  <hr/>
+                  {/* This should be a link later on.. */}
+                  <h5 className="textHeader">Explore More</h5>
                 </ Container>
             </div>
         )
