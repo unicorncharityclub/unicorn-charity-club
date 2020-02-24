@@ -87,6 +87,7 @@ class Account extends React.Component {
             form_data.append('Mobile', this.state.Mobile);
             form_data.append('Email', this.state.Email);
             form_data.append('ProfilePic', this.state.FinalImage, this.state.FinalImage.name);
+            form_data.append('User', cookie.load('user_id'));
         } catch(err) {
             console.log(err)
         }
