@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 class ImgMediaCard extends React.Component {
     render() {
         return (
-            <Card >
+            <Card >            
                 <CardActionArea>
                     <CardMedia
                         component="img"
@@ -27,7 +27,9 @@ class ImgMediaCard extends React.Component {
                 </CardActionArea>
                 <CardActions style={{backgroundColor:"lightblue"}}>
                     <Button size="small" color="primary">
-                        Start
+                        {/*  This link goes to the ProjectDetails page for resp pids  */}                                      
+                        {<a href={`/Projects/${this.props.id}`}> Start Project {this.props.id} </a>}  
+                        
                     </Button>
                 </CardActions>
             </Card>

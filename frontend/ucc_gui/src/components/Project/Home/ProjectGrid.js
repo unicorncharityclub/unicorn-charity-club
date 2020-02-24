@@ -10,7 +10,7 @@ class ProjectGrid extends React.Component {
         >
           {this.props.projectData.map(elem => (
             <Grid item xs={12} sm={6} md={4} key={this.props.projectData.indexOf(elem)}>
-              <ImgMediaCard imageSrc={elem.image} />
+              <ImgMediaCard imageSrc={elem.image} id={elem.id} />                          
             </Grid>
           ))}
         </Grid>

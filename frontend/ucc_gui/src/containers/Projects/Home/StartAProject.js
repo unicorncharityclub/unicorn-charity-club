@@ -38,11 +38,11 @@ class ProjectsHome extends React.Component {
           </FormControl>
         </div>
 
-        <div>
+         <div>
             <h1 id='title'>Charity Projects</h1>
             <ProjectGrid projectData={this.state.projects}/>
-         </div>
-      </div>
+         </div>         
+       </div>
     );
   }
 }
