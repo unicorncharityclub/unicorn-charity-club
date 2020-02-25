@@ -68,7 +68,7 @@ def update_account_details(request, user_id):
     # return JsonResponse(response)
 
 
-   user = User.objects.filter(id=user_id)
+    user = User.objects.filter(id=user_id)
     user = User.objects.get(pk=user_id)
 
     data_serializer = MyaccountSerializer(data=request.data)
