@@ -8,6 +8,8 @@ from .serializers import MyaccountSerializer
 from rest_framework.decorators import api_view
 from rest_framework.decorators import parser_classes
 
+from ..models import Myaccount
+
 
 def get_account_details(request, user_id):
     user = User.objects.get(pk=user_id)
@@ -50,18 +52,10 @@ def get_account_details(request, user_id):
 @api_view(['PUT'])
 @parser_classes([MultiPartParser, FormParser])
 def update_account_details(request, user_id):
-   # user = User.objects.filter(id=user_id)
-    #user = User.objects.get(pk=user_id)
-    data_serializer = MyaccountSerializer(data=request.data)
-    #data_serializer.user = user.id
-    #print(data_serializer.user)
-    print(data_serializer)
+    accountObject = Myaccount.objects.get(User=user_id)
+    data_serializer = MyaccountSerializer(accountObject, data=request.data)
     if data_serializer.is_valid():
-        print("here")
-        print(data_serializer.get_initial())
-
         data_serializer.save()
-
         return Response(data_serializer.data, status=status.HTTP_201_CREATED)
     else:
         print('error', data_serializer.errors)
