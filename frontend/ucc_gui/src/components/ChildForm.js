@@ -5,6 +5,7 @@ import "../containers/Account/Account.css";
 import "../containers/MyChildren/MyChildren.css";
 import Arrow_backward from "./../image/arrow-backward.png";
 import Upload_photo from "./../image/Default-profile-picture.png";
+import CheckBox from "./Form/Checkbox";
 
 
 /**
@@ -29,11 +30,15 @@ class ChildForm extends React.Component {
             DOB: this.props.DOB,
             School: this.props.School,
             SchoolGrade: this.props.SchoolGrade,
-            UnicornName: this.props.UnicornName,
-            UnicornPowers: this.props.UnicornPowers,
-            ImpactEmblem: this.props.ImpactEmblem,
+            Gender: this.props.Gender,
+            Aboutme: this.props.Aboutme,
+            FavoriteThing: this.props.FavoriteThing,
+            Dream: this.props.Dream,
+            SuperPowers: this.props.SuperPowers,
+            Support:this.props.Support,
             Photo: this.props.Photo,
-            finalImage: ''
+            finalImage: '',
+            checkedItems: new Map()
         }
     };
 
@@ -46,6 +51,14 @@ class ChildForm extends React.Component {
             ...this.state,
             [event.target.name]: event.target.value
         })
+    };
+
+    handleChange = e => {
+            const item = e.target.name;
+            const isChecked = e.target.checked;
+            this.setState(prevState => ({
+                checkedItems: prevState.checkedItems.set(item, isChecked)
+            }));
     };
 
 
@@ -67,10 +80,14 @@ class ChildForm extends React.Component {
         try {
             form_data.append('Name', this.state.Name);
             form_data.append('DOB', this.state.DOB);
+            form_data.append('Gender', this.state.Gender);
             form_data.append('School', this.state.School);
             form_data.append('SchoolGrade', this.state.SchoolGrade);
-            form_data.append('UnicornName', this.state.UnicornName);
-            form_data.append('UnicornPowers', this.state.UnicornPowers);
+            form_data.append('Aboutme', this.state.Aboutme);
+            form_data.append('FavoriteThing', this.state.FavoriteThing);
+            form_data.append('Dream', this.state.Dream);
+            form_data.append('SuperPowers', this.state.SuperPowers);
+            form_data.append('Support', this.state.Support);
             form_data.append('Photo', this.state.finalImage, this.state.finalImage.name);
         } catch(err) {
             console.log(err)
@@ -99,6 +116,17 @@ class ChildForm extends React.Component {
     }
 
   render() {
+        const checkboxes = ["Animals",
+                    "Art, Culture, Humanities",
+                    "Health and Wellness",
+                    "Community Development",
+                    "Education",
+                    "Environment",
+                    "Human and Civil Rights",
+                    "International Causes",
+                    "Research and Public Policy"
+            ];
+
       return (
           <div style={{display: "block"}}>
           <div className="header__wrapper">
@@ -112,7 +140,8 @@ class ChildForm extends React.Component {
               <div className="header-title">
                   My Child
                   <div className="header-link">
-                      <input type="submit" form="child-form" value="Save"/>
+                      <label htmlFor="save">Save</label>
+                      <input id="save" type="submit" form="child-form" style={{display: 'none'}}/>
                   </div>
               </div>
           </div>
@@ -149,6 +178,20 @@ class ChildForm extends React.Component {
                       />
                   </div>
                   <div className="child-form">
+                      <label>Gender: </label>
+                      <div className="radio__container">
+                      <div className="radio-inline">
+                          <input className="radio" id="boy" name="Gender" type="radio" value="Boy"
+                                 checked/>
+                              <label className="radio__label" htmlFor="boy">Boy</label>
+                      </div>
+                      <div className="radio-inline">
+                          <input className="radio" id="girl" name="Gender" type="radio" value="Girl"/>
+                              <label className="radio__label" htmlFor="girl">Girl</label>
+                      </div>
+                      </div>
+                  </div>
+                  <div className="child-form">
                       <label>School:</label>
                       <input type="text"
                              name="School"
@@ -176,28 +219,54 @@ class ChildForm extends React.Component {
                           <option value="Grade 6">Grade 6</option>
                       </select>
                   </div>
-                  {/*<hr className="form-separator"/>*/}
-              </div>
-              <div className="blessing-form">
-                  <div className="blessing-name">Blessing: Helpful Hearts</div>
-                  <div className="blessing-tagline">Color Horn Rand: Red</div>
-
-                  <div className="blessing-info">
-                      <label>Unicorn Name: </label>
-                      <input type="text"
-                             name="UnicornName"
-                             placeholder="Unicorn Name"
-                             value={this.defaultIfEmpty(this.state.UnicornName)}
+                  <div className="child-form">
+                  <hr className="form-separator"/>
+                  </div>
+               <div className="blessing-info">
+                      <label>About Me:</label>
+                      <textarea type="text"
+                             name="Aboutme"
+                             placeholder="Tell us what you are..."
+                             value={this.defaultIfEmpty(this.state.Aboutme)}
                              onChange={this.changeHandler.bind(this)}
                       />
-                      <label>Unicorn Powers: </label>
-                      <textarea
-                          name="UnicornPowers"
-                          placeholder="What powers help you make a positive impact on the worked?"
-                          value={this.defaultIfEmpty(this.state.UnicornPowers)}
-                          onChange={this.changeHandler.bind(this)}
+               </div>
+               <div className="blessing-info">
+                      <label>My favorite things are...</label>
+                      <textarea name="FavoriteThing"
+                             placeholder="What do you like to do; eat, listen to, play with, or travel to?"
+                             value={this.defaultIfEmpty(this.state.FavoriteThing)}
+                             onChange={this.changeHandler.bind(this)}
                       />
-                  </div>
+               </div>
+               <div className="blessing-info">
+                      <label>I have a dream that one day...</label>
+                      <textarea name="Dream"
+                             placeholder="How would you want the world to be different from today?"
+                             value={this.defaultIfEmpty(this.state.Dream)}
+                             onChange={this.changeHandler.bind(this)}
+                      />
+               </div>
+              <div className="blessing-info">
+                      <label>I have the super power(s) to...</label>
+                      <textarea name="SuperPowers"
+                             placeholder="What powers help you make a greatest impact on the world?"
+                             value={this.defaultIfEmpty(this.state.SuperPowers)}
+                             onChange={this.changeHandler.bind(this)}
+                      />
+               </div>
+               <div className="blessing-info">
+                      {/*<label>I want to make the world a better place by supporting(check all that apply):</label>*/}
+                    <CheckBox
+                            name="Support"
+                            title="I want to make the world a better place by supporting(check all that apply):"
+                            //checked={this.state.checkedItems.get(name)}
+                            //selectedOptions
+                            onChange={this.handleChange}
+                            type="checkbox"
+                            options={checkboxes}
+                        />
+                </div>
               </div>
           </form>
       </div>

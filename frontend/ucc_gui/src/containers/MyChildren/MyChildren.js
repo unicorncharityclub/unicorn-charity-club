@@ -25,11 +25,14 @@ class MyChildren extends React.Component {
         this.state = {
             Name: "",
             DOB: "",
+            Gender:"",
             School: "",
             SchoolGrade: "",
-            UnicornName: "",
-            UnicornPowers: "",
-            ImpactEmblem: "",
+            Aboutme: "",
+            FavoriteThing: "",
+            Dream: "",
+            SuperPowers: "",
+            Support: "",
             Photo: "",
         }
     }
@@ -43,9 +46,6 @@ class MyChildren extends React.Component {
                         DOB: res.data.DOB,
                         School: res.data.School,
                         SchoolGrade: res.data.SchoolGrade,
-                        UnicornName: res.data.UnicornName,
-                        UnicornPowers: res.data.UnicornPowers,
-                        ImpactEmblem: res.data.ImpactEmblem,
                         Photo: res.data.Photo
                     });
                 console.log(res.data)
@@ -58,11 +58,14 @@ class MyChildren extends React.Component {
           <div>
             <ChildForm Name={this.state.Name}
                        DOB={this.state.DOB}
+                       Gender={this.state.Gender}
                        School={this.state.School}
                        SchoolGrade={this.state.SchoolGrade}
-                       UnicornName={this.state.UnicornName}
-                       UnicornPowers={this.state.UnicornPowers}
-                       ImpactEmblem={this.state.ImpactEmblem}
+                       Aboutme={this.state.Aboutme}
+                       FavoriteThing={this.state.FavoriteThing}
+                       Dream={this.state.Dream}
+                       SuperPowers={this.state.SuperPowers}
+                       Support={this.state.Support}
                        Photo={this.state.Photo}
                 requestType="put" id={this.props.match.params.id}/>
           </div>
