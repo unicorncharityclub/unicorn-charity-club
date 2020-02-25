@@ -1,6 +1,7 @@
 from django.db import models
 from accounts.models import User
 # Create your models here.
+from prize.models import Prize
 
 
 class CharityProjects(models.Model):
@@ -45,6 +46,15 @@ class ProjectUser(models.Model):
     def fetch_invited_by(self, inviter_id):
         user_email = User.objects.get(pk=inviter_id)
         return user_email
+
+
+class ProjectUserDetails(models.Model):
+    pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE)
+    prize_given_id = models.ForeignKey(Prize, on_delete=models.CASCADE)
+    video = models.FileField(upload_to='InvitationVideo')
+
+    def __str__(self):
+        return '{} {} {} {}'.format(self.pu_id,  self.prize_given_id, self.video)
 
 
 
