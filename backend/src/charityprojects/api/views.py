@@ -1,7 +1,8 @@
 import json
-from ..models import CharityProjects
+from ..models import CharityProjects, ProjectUser, ProjectUserDetails
 from django.http import JsonResponse
-
+from django.views.decorators.csrf import csrf_exempt
+from accounts.models import User
 
 def charity_project_details(request, project_id):
     response = {'status': "Invalid Request"}
@@ -58,3 +59,25 @@ def project_category(request):
         category_list.append(project.Category)
         response['category_list'] = category_list
     return JsonResponse(response)
+
+#Remove once front end is done
+@csrf_exempt
+def start_project(request):
+    response = {'status': "Invalid Request"}
+    if request.method == 'POST':
+        try:
+            json_data = json.loads(request.body)
+            project_id = json_data["project_id"]
+            user_id = json_data["user_id"]
+            user = User.objects.get(pk=user_id)
+            project = CharityProjects.objects.get(pk=project_id)
+            project_user = ProjectUser.objects.create(project_id=project, user_id=user)
+            project_user.save()
+            pu_id = project_user.id
+            response["pu_id"] = pu_id
+            response['status'] = "Success"
+        except ValueError:
+            response['status'] = "Invalid Request"
+    return JsonResponse(response)
+
+

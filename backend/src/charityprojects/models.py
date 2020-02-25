@@ -36,6 +36,7 @@ class CharityProjects(models.Model):
 
 
 class ProjectUser(models.Model):
+    objects = None
     project_id = models.ForeignKey(CharityProjects, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     invited_by = models.EmailField(null=True, blank=True)
