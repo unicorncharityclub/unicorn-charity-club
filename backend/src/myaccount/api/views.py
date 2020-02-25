@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from .serializers import MyaccountSerializer
 from rest_framework.decorators import api_view
 from rest_framework.decorators import parser_classes
+from django.core.files.storage import FileSystemStorage
 
 from ..models import Myaccount
 
@@ -36,9 +37,9 @@ def get_account_details(request, user_id):
                 response['status'] = "Wrong user id"
         except ValueError:
             response['status'] = "Invalid Request"
-        #if request.method == 'PUT':
-            #print("inside method")
-            #print(request.body)
+        # if request.method == 'PUT':
+            # print("inside method")
+            # print(request.FILES)
             #json_data = json.loads(request.body)
             #user.email = json_data['Email']
             #user.myaccount.Address = json_data['Address']
