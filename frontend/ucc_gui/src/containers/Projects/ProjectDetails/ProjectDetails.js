@@ -3,7 +3,11 @@ import ProjectInfo from "../../../components/Project/ProjectDetails/ProjectInfo"
 import { Container } from "@material-ui/core";
 import axios from "axios";
 import "./ProjectDetails.css";
-import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button';
+import "../../../../node_modules/video-react/dist/video-react.css"
+import { Player } from 'video-react';
+
+
 
 class ProjectDetails extends React.Component {
     constructor(props) {
@@ -11,6 +15,7 @@ class ProjectDetails extends React.Component {
         this.state = {
           ProjectMission : '',
           ProjectGoal : '',
+          ProjectVideoName : '',
           ProjectVideo : ''
         }
                        
@@ -23,6 +28,7 @@ class ProjectDetails extends React.Component {
               this.setState({                  
                   ProjectMission : res.data.project_mission,
                   ProjectGoal : res.data.project_goal,
+                  ProjectVideoName : res.data.project_video_name,
                   ProjectVideo : res.data.project_video
               });
 
@@ -52,17 +58,29 @@ class ProjectDetails extends React.Component {
                     <h2 className="textHeader">Project Mission</h2>
                     <p className = "insideContent">{ this.state.ProjectMission }</p>
                   </div>
+
                   <div>
                     <h2 className="textHeader">Project Goal</h2>
                     <p className = "insideContent">{ this.state.ProjectGoal }</p>
                   </div>
+
                   <div>
-                    <h2 className="textHeader">Project Video</h2>
-                    <p className = "insideContent">{ this.state.ProjectVideo }</p>
+                    <h2 className="textHeader">Project Video</h2>                    
+                    <p className = "insideContent">Project Name : { this.state.ProjectVideoName }</p>
+                    <Player
+                      playsInline                      
+                      src={this.state.ProjectVideo}
+                    />
                   </div>
+
                   <hr/>
                   {/* This should be a link later on.. */}
-                  <h5 className="textHeader">Explore More</h5>
+                  <a href="https://www.pinterest.com/" target="_blank">
+                    <h5 className="textHeader">
+                      <span className = "explore">Explore More</span>
+                    </h5>
+                  </a>
+
                 </ Container>
             </div>
         )

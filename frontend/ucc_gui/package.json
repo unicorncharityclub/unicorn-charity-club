@@ -24,10 +24,11 @@
     "react-native-elements": "^1.2.7",
     "react-responsive-picture": "^3.2.2",
     "react-scripts": "3.3.1",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "video-react": "^0.14.1"
   },
   "scripts": {
-    "start": "react-scripts start", 
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

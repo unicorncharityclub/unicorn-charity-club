@@ -6,6 +6,7 @@ from django.http import JsonResponse
 def charity_project_details(request, project_id):
     response = {'status': "Invalid Request"}
     project = CharityProjects.objects.get(pk=project_id)
+    print(request.build_absolute_uri(project.Video.url))
     if request.method == "GET":
         try:
             if project:
@@ -13,7 +14,8 @@ def charity_project_details(request, project_id):
                 response["project_name"] = project.Name
                 response["project_goal"] = project.Goal
                 response["project_mission"] = project.Mission
-                response["project_video"] = project.Video_Name
+                response["project_video_name"] = project.Video_Name
+                response["project_video"] = request.build_absolute_uri(project.Video.url)
                 response["project_category"] = project.Category
                 response["project_tags"] = project.Tags
                 response["project_banner"] = request.build_absolute_uri(project.Banner.url)
