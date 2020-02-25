@@ -7,9 +7,13 @@ import Button from 'react-bootstrap/Button';
 import "../../../../node_modules/video-react/dist/video-react.css"
 import { Player } from 'video-react';
 
-
-
 class ProjectDetails extends React.Component {
+    onSubmit()
+    {
+        const project_id = this.props.match.params.id;
+        this.props.history.push('/Projects/${project_id}/StartNewProject');
+    }
+
     constructor(props) {
         super(props); 
         this.state = {
@@ -48,7 +52,7 @@ class ProjectDetails extends React.Component {
                   <br/>
                   <br/>
 
-                    <Button className = "startButton" variant="success" size="lg">
+                    <Button onClick={this.onSubmit.bind(this)} className = "startButton" variant="success" size="lg">
                         START PROJECT
                     </Button>
                   <br/>
