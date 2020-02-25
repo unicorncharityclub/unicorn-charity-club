@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from django.urls import path
 
 urlpatterns = [
-    path('<int:user_id>', get_account_details),
-    path('<int:user_id>/', update_account_details)
+    path('<str:user_emailid>', get_account_details),
+    path('<str:user_emailid>/', update_account_details)
 
 ]
