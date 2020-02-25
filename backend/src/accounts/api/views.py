@@ -41,7 +41,7 @@ def login_user(request):
             if user.password == password and user.is_active == True:
                 login(request, user)
                 response['status'] = "Success"
-                response['user_id'] = request.user.id
+                response['user_emailid'] = request.user.email
                 response['token'] = django.middleware.csrf.get_token(request)
             else:
                 response['status'] = "Wrong Username or Password"
