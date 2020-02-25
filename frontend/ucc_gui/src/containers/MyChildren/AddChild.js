@@ -23,11 +23,14 @@ class AddChild extends React.Component {
         this.state = {
             Name: "",
             DOB: "",
+            Gender:"",
             School: "",
             SchoolGrade: "",
-            UnicornName: "",
-            UnicornPowers: "",
-            ImpactEmblem: "",
+            Aboutme: "",
+            FavoriteThing: "",
+            Dream: "",
+            SuperPowers: "",
+            Support: "",
             Photo: "",
         }
     }
@@ -38,11 +41,14 @@ class AddChild extends React.Component {
           <div>
             <ChildForm Name={this.state.Name}
                        DOB={this.state.DOB}
+                       Gender={this.state.Gender}
                        School={this.state.School}
                        SchoolGrade={this.state.SchoolGrade}
-                       UnicornName={this.state.UnicornName}
-                       UnicornPowers={this.state.UnicornPowers}
-                       ImpactEmblem={this.state.ImpactEmblem}
+                       Aboutme={this.state.Aboutme}
+                       FavoriteThing={this.state.FavoriteThing}
+                       Dream={this.state.Dream}
+                       SuperPowers={this.state.SuperPowers}
+                       Support={this.state.Support}
                        Photo={this.state.Photo}
                 requestType="post" id={null}/>
           </div>
