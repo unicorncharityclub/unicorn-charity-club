@@ -19,7 +19,7 @@ class Myaccount(models.Model):
     ProfilePic = models.ImageField(upload_to='profilePictures', blank=True)
 
     def __str__(self):
-        return '{} {} {}'.format(self.Address,  self.Mobile, self.ProfilePic, self.id)
+        return '{} {} {}'.format(self.Address,  self.Mobile, self.ProfilePic)
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):

@@ -15,9 +15,9 @@ class UCC_App extends Component {
   }
 
   componentDidMount() {
-    if(cookie.load('user_id')!==undefined)
+    if(cookie.load('user_emailid')!==undefined)
     {
-        this.props.dispatch({ type: "LOGIN_SUCCESS", user_id:cookie.load('user_id'), token:cookie.load('XSRF-TOKEN')});
+        this.props.dispatch({ type: "LOGIN_SUCCESS", user_emailid:cookie.load('user_emailid'), token:cookie.load('XSRF-TOKEN')});
     }
   }
 
@@ -45,7 +45,7 @@ class UCC_App extends Component {
 
 function mapStateToProps(state) {
   return {
-    user_id: state.user_id,
+    user_emailid: state.user_emailid,
     token: state.token
   };
 }

@@ -38,12 +38,12 @@ class Account extends React.Component {
         ProfilePic : '',
         FinalImage : ''
     }
-    user_id;
+    user_emailid;
 
     componentDidMount() {
-        const user_id = cookie.load('user_id');
-        console.log(user_id)        
-        axios.get(`http://127.0.0.1:8000/myaccount/${user_id}`)
+        const user_emailid = cookie.load('user_emailid');
+        console.log(user_emailid)
+        axios.get(`http://127.0.0.1:8000/myaccount/${user_emailid}`)
             .then(res => {
                     this.setState({
                         Name: res.data.name,
@@ -68,7 +68,6 @@ class Account extends React.Component {
             ProfilePic: URL.createObjectURL(event.target.files[0]),
             FinalImage : event.target.files[0]
         })
-        // console.log(event.target.files[0])
     }
 
     handleSaveBtn = (event) => {
@@ -80,19 +79,16 @@ class Account extends React.Component {
             form_data.append('Mobile', this.state.Mobile);
             form_data.append('Email', this.state.Email);
             form_data.append('ProfilePic', this.state.FinalImage, this.state.FinalImage.name);
-            form_data.append('User', cookie.load('user_id'));
         } catch(err) {
             console.log(err)
         }
-        
-        // console.log(form_data);
-        const account_id =  cookie.load('user_id');
+
+        const account_emailid =  cookie.load('user_emailid');
         const token = cookie.load('XSRF-TOKEN');
-        // console.log(token)
         axios.defaults.withCredentials = true;
         axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
-        return axios.put(`http://127.0.0.1:8000/myaccount/${account_id}/`, form_data,
+        return axios.put(`http://127.0.0.1:8000/myaccount/${account_emailid}/`, form_data,
                 {
                     headers: {
                         'content-type': 'multipart/form-data'
@@ -141,7 +137,7 @@ class Account extends React.Component {
                         <div className="menu__item" style={{ paddingBottom: "0px" }}>
                           <img src={Settings_email} alt="Settings_email" />
                           {/* <a href="/"> Email</a> */}
-                          <textarea name="Email" placeholder="Email" value={this.state.Email} onChange={this.handleChange.bind(this)}>Email</textarea>
+                          <textarea readOnly name="Email" placeholder="Email" value={this.state.Email} onChange={this.handleChange.bind(this)}>Email</textarea>
                         </div>
                         <div className="menu__item" style={{ paddingBottom: "0px" }}>
                           <img
