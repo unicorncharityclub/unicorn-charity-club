@@ -1,7 +1,3 @@
-/** @import modules
- * 'npm i --save react'
- * 'npm i --save react-router-dom'
- */
 import React from "react";
 import { NavLink } from "react-router-dom";
 import axios from 'axios';
@@ -13,7 +9,6 @@ import Settings_home from "../../site_media/Images/Settings_Address.png";
 import Settings_mobile from "../../site_media/Images/Settings_Mobile.png";
 import Settings_notifications from "../../site_media/Images/Settings_Notifications.png";
 import cookie from 'react-cookies'
-//import Avatar from 'react-avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 /** @import CSS styles */
@@ -57,8 +52,6 @@ class Account extends React.Component {
                         Address: res.data.address,
                         ProfilePic: res.data.profilepic
                     });
-
-
                 console.log(res.data)
             }).catch(error => console.log(error))
     }
@@ -75,7 +68,7 @@ class Account extends React.Component {
             ProfilePic: URL.createObjectURL(event.target.files[0]),
             FinalImage : event.target.files[0]
         })
-        console.log(event.target.files[0])
+        // console.log(event.target.files[0])
     }
 
     handleSaveBtn = (event) => {
@@ -91,47 +84,22 @@ class Account extends React.Component {
         } catch(err) {
             console.log(err)
         }
-        console.log(form_data);
-//        const Name = event.target.elements.Name.value;
-//        const Address = event.target.elements.Address.value;
-//        const Mobile = event.target.elements.Mobile.value;
-//        const Email = event.target.elements.Email.value;
-//        const ProfilePic = this.state.FinalImage;
-//        const ProfilePicName = this.state.FinalImage.name;
-
-//        console.log(event.target.elements);
-//        console.log("pp: " + this.state.ProfilePic);
+        
+        // console.log(form_data);
         const account_id =  cookie.load('user_id');
         const token = cookie.load('XSRF-TOKEN');
-        console.log(token)
+        // console.log(token)
         axios.defaults.withCredentials = true;
         axios.defaults.xsrfHeaderName = "X-CSRFToken";
-//        axios.put(`http://127.0.0.1:8000/myaccount/${account_id}`, {
-//                 Name: Name,
-//                Email: Email,
-//                Mobile: Mobile,
-//                Address: Address,
-//                ProfilePic : ProfilePic
-//                ProfilePicName : ProfilePicName
-//        },{
-//                        headers: {
-//                            'content-type': 'multipart/form-data'
-//                        }
-//                    }
-//            )
-//        .then(res => console.log(res))
-//        .catch(error => console.log(error))
 
-           return axios.put(`http://127.0.0.1:8000/myaccount/${account_id}/`, form_data,
-                    {
-                        headers: {
-                            'content-type': 'multipart/form-data'
-                        }
-                    })
-                    .then(res => console.log(res))
-                    .catch(error => console.log(error))
-
-
+        return axios.put(`http://127.0.0.1:8000/myaccount/${account_id}/`, form_data,
+                {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                })
+                .then(res => console.log(res))
+                .catch(error => console.log(error))
     };
 
 
@@ -156,7 +124,7 @@ class Account extends React.Component {
                       </div>
                       <div className="menu__content">
                         <div className="root_profilepic">
-                        {this.state.ProfilePic}
+                        {/* {this.state.ProfilePic} */}
                             <Avatar className = "profilepic" src={this.state.ProfilePic}/>
                             <input type="file" name="ProfilePic" onChange={this.imageHandler.bind(this)}/>
                          </div>
