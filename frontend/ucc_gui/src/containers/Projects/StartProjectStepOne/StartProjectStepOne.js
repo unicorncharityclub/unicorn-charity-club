@@ -1,43 +1,37 @@
 import React from "react";
+import "./StartProjectStepOne.css";
 import axios from "axios";
-import {Container} from "@material-ui/core";
-import ProjectInfo from "../../components/Project/ProjectDetails/ProjectInfo";
 import Button from "react-bootstrap/Button";
-import {Player} from "video-react";
+import {Container} from "@material-ui/core";
 
-class StartNewProject extends React.Component {
-  constructor(props) {
-        super(props);
+
+class StartProjectStepOne extends React.Component {
+    constructor(props) {
+        super(props); 
         this.state = {
-          ShareYourStory : '',
-          ProjectVideoName : '',
+          ProjectBadge : '',
+          ProjectBanner : '',
+          ProjectName : '',
+          ProjectCategory : '',
           ProjectVideo : ''
         }
-     }
+     }  
 
      onChange(e){
       let files= e.target.files;
       console.warn("data file", files)
      }
 
-     componentDidMount () {
-      const project_id = this.props.match.params.id;
-      axios.get(`http://127.0.0.1:8000/charityproject/${project_id}/StartNewProject`)
-      .then(res => {
-              this.setState({
-                  ProjectVideoName : res.data.project_video_name,
-                  ProjectVideo : res.data.project_video
-              });
 
+    componentDidMount () {
 
-          console.log(res.data)
-      }).catch(error => console.log(error))
     }
 
-  render() {
-    return (
-    <div>
-              <Container>
+    render() {
+      return(
+            <div>  
+
+                    <Container>
 
                   <div>
                     <h2 className="textHeader">Share Your Story</h2>
@@ -63,7 +57,6 @@ class StartNewProject extends React.Component {
             </div>
         )
     }
-}
+  }
 
-
-export default StartNewProject;
+export default StartProjectStepOne;

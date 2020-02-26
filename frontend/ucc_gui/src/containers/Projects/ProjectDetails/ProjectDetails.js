@@ -11,7 +11,7 @@ class ProjectDetails extends React.Component {
     onSubmit()
     {
         const project_id = this.props.match.params.id;
-        this.props.history.push('/Projects/${project_id}/StartNewProject');
+        this.props.history.push(`/Projects/${project_id}/StartNewProject`);
     }
 
     constructor(props) {
@@ -22,7 +22,6 @@ class ProjectDetails extends React.Component {
           ProjectVideoName : '',
           ProjectVideo : ''
         }
-                       
      }  
 
     componentDidMount () {

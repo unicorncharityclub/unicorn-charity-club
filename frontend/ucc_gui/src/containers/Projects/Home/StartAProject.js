@@ -11,7 +11,9 @@ class ProjectsHome extends React.Component {
           categoryList : [],
           projectsList : [
               {
-                  "project_banner": ""
+                  "project_banner": "",
+                  "project_id": "",
+                  "project_category": ""
               }
           ],
           selectedCategory : ""
