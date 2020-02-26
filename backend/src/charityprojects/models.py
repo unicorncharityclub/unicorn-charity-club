@@ -50,12 +50,13 @@ class ProjectUser(models.Model):
 
 
 class ProjectUserDetails(models.Model):
+    objects = None
     pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE)
     prize_given_id = models.ForeignKey(Prize, on_delete=models.CASCADE)
     video = models.FileField(upload_to='InvitationVideo')
 
     def __str__(self):
-        return '{} {} {} {}'.format(self.pu_id,  self.prize_given_id, self.video)
+        return '{} {} {} '.format(self.pu_id,  self.prize_given_id, self.video)
 
 
 
