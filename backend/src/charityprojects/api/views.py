@@ -19,11 +19,17 @@ def charity_project_details(request, project_id):
                 response["project_name"] = project.Name
                 response["project_goal"] = project.Goal
                 response["project_mission"] = project.Mission
-                response["project_video_name"] = project.Video_Name
-                response["project_video"] = request.build_absolute_uri(project.Video.url)
+                if project.project.Video_Name:
+                    response["project_video_name"] = project.Video_Name
+                    response["project_video"] = request.build_absolute_uri(project.Video.url)
+                else:
+                    response["project_video_name"] = ""
+                    response["project_video"] = ""
+
                 response["project_category"] = project.Category
                 response["project_tags"] = project.Tags
-                response["project_banner"] = request.build_absolute_uri(project.Banner.url)
+                if project.Banner:
+                    response["project_banner"] = request.build_absolute_uri(project.Banner.url)
             else:
                 response['status'] = "Wrong project id"
         except ValueError:
@@ -119,11 +125,3 @@ def update_project_prize(request,pu_id):
         else:
             response['status'] = 'Wrong project user reference'
     return JsonResponse(response)
-
-
-
-
-
-
-
-
