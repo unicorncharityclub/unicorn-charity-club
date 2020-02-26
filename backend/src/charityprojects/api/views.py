@@ -3,6 +3,10 @@ from ..models import CharityProjects, ProjectUser, ProjectUserDetails
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from accounts.models import User
+from .serializers import ProjectUserSerializer
+from rest_framework import status
+from rest_framework.response import Response
+
 
 def charity_project_details(request, project_id):
     response = {'status': "Invalid Request"}
@@ -64,20 +68,62 @@ def project_category(request):
 @csrf_exempt
 def start_project(request):
     response = {'status': "Invalid Request"}
+    invited_by = ""
     if request.method == 'POST':
         try:
             json_data = json.loads(request.body)
             project_id = json_data["project_id"]
             user_id = json_data["user_id"]
+            if 'invited_by' not in json_data:
+                invited_by = ""
             user = User.objects.get(pk=user_id)
             project = CharityProjects.objects.get(pk=project_id)
-            project_user = ProjectUser.objects.create(project_id=project, user_id=user)
+            project_user = ProjectUser.objects.create(project_id=project, user_id=user, invited_by=invited_by)
             project_user.save()
             pu_id = project_user.id
+            project_user_details = ProjectUserDetails.objects.create(pu_id=project_user)
+            project_user_details.save()
             response["pu_id"] = pu_id
             response['status'] = "Success"
+
         except ValueError:
             response['status'] = "Invalid Request"
     return JsonResponse(response)
+
+
+def update_project_invitation_video_details(request, pu_id):
+    if request.method == 'PUT':
+        project_user = ProjectUserDetails.objects.get(pk=pu_id)
+        if project_user:
+            project_user_serializer = ProjectUserSerializer(project_user, data=request.data)
+            if project_user_serializer.is_valid():
+                project_user_serializer.save()
+                return Response(project_user_serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                print('error', project_user_serializer.errors)
+                return Response(project_user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+def update_project_prize(request,pu_id):
+    response = {'status': "Invalid Request"}
+    if request.method == 'PUT':
+        project_user = ProjectUserDetails.objects.get(pk=pu_id)
+        if project_user:
+            json_data = json.loads(request.body)
+            prize_id = json_data["project_id"]
+            project_user.prize_given_id = prize_id
+            project_user.save()
+            response['status'] = "Success"
+        else:
+            response['status'] = 'Wrong project user reference'
+    return JsonResponse(response)
+
+
+
+
+
+
 
 
