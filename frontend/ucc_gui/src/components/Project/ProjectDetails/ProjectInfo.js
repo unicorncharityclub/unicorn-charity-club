@@ -1,5 +1,4 @@
 import React from "react";
-import Avatar from '@material-ui/core/Avatar';
 import axios from "axios";
 import "./ProjectInfo.css";
 import Image from "react-bootstrap/Image";
@@ -34,12 +33,12 @@ class ProjectInfo extends React.Component {
     render() {
       return(
         <div>
-            <div style={{borderRadius: "10px", borderStyle:"solid", margin:"10px", marginLeft:"10px"}}>
-                <div style={{display:"flex",margin:"10px"}}>
-                    <div style={{width:"15%", height:"100%",  margin:"5px", float:"left"}}>
-                        <Image src={this.state.ProjectBanner} style={{width:"130px", height:"130px", }} roundedCircle/>
+            <div className="ProjectInfo_MainDiv"  >
+                <div className="ProjectInfo_Container">
+                    <div className="ProjectInfo_Badge" >
+                        <Image src={this.state.ProjectBanner} style={{width: "100%", maxHeight: "100%"}} roundedCircle/>
                     </div>
-                    <div style={{width:"80%", height:"100%", float:"left"}}>
+                    <div className="ProjectInfo_Text" >
                         <table>
                           <tbody>
                             <tr>

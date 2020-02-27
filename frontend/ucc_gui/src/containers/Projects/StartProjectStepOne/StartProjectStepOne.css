@@ -1,0 +1,41 @@
+.headerStepBanner
+{
+    height:400px;
+    position:relative
+}
+
+.stepper
+{
+    height: 30%;
+    position: absolute;
+    bottom: 0;
+    width : 100%
+}
+
+.banner
+{
+    height: 70%;
+    width: 100%;
+}
+
+@media screen and (max-device-width: 640px){
+  .stepper
+    {
+      position: absolute;
+      top: 0;
+        height: 30%;
+        width : 100%
+    }
+
+    .banner
+    {
+        height: 70%;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+}
+
+@media screen and (max-device-width: 480px){
+  /* some CSS here */
+}

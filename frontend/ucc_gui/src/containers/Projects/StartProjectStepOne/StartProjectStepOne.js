@@ -46,7 +46,6 @@ class StartProjectStepOne extends React.Component {
 
         axios.defaults.withCredentials = true;
         axios.defaults.xsrfHeaderName = "X-CSRFToken";
-        console.log(form_data)
         axios.put(`http://127.0.0.1:8000/charityproject/invitationVideo`, form_data,
         {
             headers: {
@@ -75,10 +74,18 @@ class StartProjectStepOne extends React.Component {
 
     render() {
       return(
-            <div style={{margin:"10px"}}>
-                <ProgressStepper currentStep="0"/>
-                <ProjectBanner image={this.state.ProjectBanner}/>
+            <div style={{margin:"10px", marginBottom:"150px"}}>
+                <div className="headerStepBanner">
+                    <div className="stepper" >
+                        <ProgressStepper currentStep="0" />
+                    </div>
+                    <div className="banner">
+                        <ProjectBanner image={this.state.ProjectBanner}  />
+                    </div>
+                </div>
+
                 <ProjectInfo id={this.state.ProjectId} />
+
                 <ProjectContent videoHandler={this.videoHandler.bind(this)}
                                 userProjectVideo={this.state.UserProjectVideo}/>
                 <div style={{width:"60%", float:"right", alignText:"left", marginBottom:"10px"}}>
