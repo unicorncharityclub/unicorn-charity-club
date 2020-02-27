@@ -6,6 +6,8 @@ import ProjectInfo from "../../../components/Project/ProjectDetails/ProjectInfo"
 import ProjectContent from "../../../components/Project/ProjectStepOne/ProjectContent";
 import cookie from "react-cookies";
 import Button from "react-bootstrap/Button";
+import ProgressStepper from "../../../components/Project/ProgressStepper";
+
 
 
 class StartProjectStepOne extends React.Component {
@@ -72,6 +74,7 @@ class StartProjectStepOne extends React.Component {
     render() {
       return(
             <div style={{margin:"10px"}}>
+                <ProgressStepper currentStep="0"/>
                 <ProjectBanner image={this.state.ProjectBanner}/>
                 <ProjectInfo id={this.state.ProjectId} />
                 <ProjectContent videoHandler={this.videoHandler.bind(this)}

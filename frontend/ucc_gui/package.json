@@ -22,10 +22,13 @@
     "react-date-picker": "^7.10.0",
     "react-datepicker": "^2.12.0",
     "react-dom": "^16.12.0",
+    "react-form-stepper": "^1.2.3",
     "react-native": "^0.61.5",
     "react-native-elements": "^1.2.7",
+    "react-native-simple-stepper": "^3.0.0",
     "react-responsive-picture": "^3.2.2",
     "react-scripts": "3.3.1",
+    "react-step-progress-bar": "^1.0.3",
     "redux": "^4.0.5",
     "video-react": "^0.14.1"
   },
