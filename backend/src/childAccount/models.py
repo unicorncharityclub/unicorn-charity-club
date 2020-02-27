@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import datetime
 
-# from ..myaccount.models import Myaccount
+from accounts.models import User
 
 
 def today_utc():
@@ -25,12 +25,13 @@ class ChildAccount(models.Model):
     SchoolGrade = models.CharField(max_length=15,
                                    choices=school_grade_choices,
                                    default='Kindergarten')
-    UnicornName = models.CharField(max_length=100,
-                                   blank=True)
-    UnicornPowers = models.TextField(blank=True)
-    ImpactEmblem = models.ImageField(blank=True, upload_to='upload/')
+    Aboutme = models.TextField(blank=True)
+    FavoriteThing = models.TextField(blank=True)
+    Dream = models.TextField(blank=True)
+    SuperPowers = models.TextField(blank=True)
+    Support = models.CharField(max_length=255, blank=True)
     Photo = models.ImageField(blank=True, upload_to='upload/')
-    # ParentId = models.ForeignKey(Myaccount, on_delete=models.CASCADE)
+    UserId = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.Name
@@ -42,16 +43,22 @@ class ChildAccount(models.Model):
         return self.School
 
     def get_school_grade(self):
-        return self.get_school_grade()
+        return self.SchoolGrade
 
-    def get_unicorn_name(self):
-        return self.UnicornName
+    def get_aboutme(self):
+        return self.Aboutme
 
-    def get_unicorn_powers(self):
-        return self.UnicornPowers
+    def get_favorite_thing(self):
+        return self.FavoriteThing
 
-    def get_impact_emblem(self):
-        return self.ImpactEmblem
+    def get_dream(self):
+        return self.Dream
+
+    def get_super_powers(self):
+        return self.SuperPowers
+
+    def get_support(self):
+        return self.Support
 
     def get_photo(self):
         return self.Photo
