@@ -21,6 +21,7 @@ class ProjectDetails extends React.Component {
                 )
                 .then(res => this.props.history.push(`/Projects/${project_id}/StartNewProject`))
                 .catch(error => console.log(error))
+
     }
 
     constructor(props) {
@@ -44,16 +45,14 @@ class ProjectDetails extends React.Component {
                   ProjectVideoName : res.data.project_video_name,
                   ProjectVideo : res.data.project_video
               });
-          console.log(res.data)
       }).catch(error => console.log(error))
     }
 
     render() {
       return(
             <div>  
-              <Container>
-                <p> This is Project Details Page </p>                           
-                  {console.log(this.props)}
+              <Container>                                        
+                  {/* {console.log(this.props)} */}
                   <ProjectInfo id={this.props.match.params.id} />
                   
                   <br/>
