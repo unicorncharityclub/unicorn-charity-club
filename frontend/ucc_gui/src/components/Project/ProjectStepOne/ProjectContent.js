@@ -12,10 +12,13 @@ class ProjectContent extends React.Component {
             <div style={{borderRadius: "10px", borderStyle:"solid", margin:"10px"}}>
                   <div style={{margin:"10px"}}>
                       <TextBlueHeading message="Share Your Story"/>
-                        <TextBlack message = "Create a personal video that tells your friends and family about your new project. Be sure to:"/>
+                        <b><TextBlack message = "Create a personal video that tells your friends and family about your new project. Be sure to:"/></b>
                         <ul style={{paddingLeft:"60px"}}>
+                            <br/>
                             <li><TextBlack message = "Explain why you chose this project."/></li>
+                            <br/>
                             <li><TextBlack message = "Explain why people should support the project mission."/></li>
+                            <br/>
                             <li><TextBlack message = "Ask your friends and family to join your project."/></li>
                         </ul>
                         <br/>
