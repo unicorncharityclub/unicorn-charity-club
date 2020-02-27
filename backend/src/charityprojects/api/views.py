@@ -89,15 +89,33 @@ def start_project(request):
             if 'invited_by' not in json_data:
                 invited_by = ""
             project = CharityProjects.objects.get(pk=project_id)
-            project_user = ProjectUser.objects.create(project_id=project, user_id=user, invited_by=invited_by)
-            project_user.save()
-            pu_id = project_user.id
-            project_user_details = ProjectUserDetails.objects.create(pu_id=project_user)
-            project_user_details.save()
-            response["pu_id"] = pu_id
-            response['status'] = "Success"
+            project_user_records = ProjectUser.objects.all()
+            if project_user_records.count() > 0:
+                for record in project_user_records:
+                    project_name = record.project_id
+                    started_user = record.user_id
+                    purecord_id = record.id
+                    if project_name == project and started_user == user:
+                        response['status'] = "Entry already exists."
+                        project_user_details_records = ProjectUserDetails.objects.all()
+                        for precord in project_user_details_records:
+                            if precord.video == "":
+                                response['status'] = "No video uploaded. Complete step2 "
+                            elif precord.prize_given_id == "":
+                                response['status'] = "Select prize for project. Complete step3"
+                    else:
+                        project_user = ProjectUser.objects.create(project_id=project, user_id=user,
+                                                                  invited_by=invited_by)
+                        project_user.save()
+                        pu_id = project_user.id
+                        project_user_details = ProjectUserDetails.objects.create(pu_id=project_user)
+                        project_user_details.save()
+                        response["pu_id"] = pu_id
+                        response['status'] = "Success"
+
         except ValueError:
             response['status'] = "Invalid Request"
+    print(response)
     return JsonResponse(response)
 
 
@@ -127,13 +145,17 @@ def update_project_invitation_video_details(request):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-def update_project_prize(request, pu_id):
+def update_project_prize(request):
     response = {'status': "Invalid Request"}
     if request.method == 'PUT':
+        json_data = json.loads(request.body)
+        user_email_id = request.data["user_email"]
+        project_id = json_data["project_id"]
+        prize_id = json_data["prize_id"]
+        pu_id = ProjectUser.objects.get(user_id=user_email_id,
+                                        project_id_id=project_id).id
         project_user = ProjectUserDetails.objects.get(pk=pu_id)
         if project_user:
-            json_data = json.loads(request.body)
-            prize_id = json_data["project_id"]
             project_user.prize_given_id = prize_id
             project_user.save()
             response['status'] = "Success"
