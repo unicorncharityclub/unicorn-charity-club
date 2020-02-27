@@ -31,7 +31,7 @@ class ChildAccount(models.Model):
     SuperPowers = models.TextField(blank=True)
     Support = models.CharField(max_length=255, blank=True)
     Photo = models.ImageField(blank=True, upload_to='upload/')
-    UserId = models.ForeignKey(User, on_delete=models.CASCADE)
+    UserId = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.Name
