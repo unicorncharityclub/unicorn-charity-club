@@ -11,7 +11,7 @@ class ProjectDetails extends React.Component {
     onSubmit()
     {
         const project_id = this.props.match.params.id;
-        this.props.history.push('/Projects/${project_id}/StartNewProject');
+        this.props.history.push(`/Projects/${project_id}/StartNewProject`);
     }
 
     constructor(props) {
@@ -37,16 +37,15 @@ class ProjectDetails extends React.Component {
               });
 
 
-          console.log(res.data)
+          // console.log(res.data)
       }).catch(error => console.log(error))
     }
 
     render() {
       return(
             <div>  
-              <Container>
-                <p> This is Project Details Page </p>                           
-                  {console.log(this.props)}
+              <Container>                                        
+                  {/* {console.log(this.props)} */}
                   <ProjectInfo id={this.props.match.params.id} />
                   
                   <br/>

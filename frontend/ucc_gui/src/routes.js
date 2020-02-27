@@ -15,6 +15,7 @@ import ProjectsHome from "./containers/Projects/Home/ProjectsHome"
 import ProjectDetails from "./containers/Projects/ProjectDetails/ProjectDetails"
 import Button from "react-bootstrap/Button";
 import StartNewProject from "./containers/StartNewProject/StartNewProject";
+import PlanProjectGift from "./containers/Projects/PlanProjectGift/PlanProjectGift";
 
 
 class BaseRouter extends React.Component {
@@ -34,7 +35,7 @@ class BaseRouter extends React.Component {
               <Route exact path='/Projects/:id' component={ProjectDetails} />
 
               <Route exact path='/Projects/:id/StartNewProject' component={StartNewProject} />
-
+              <Route exact path='/Projects/:id/PlanProjectGift' component={PlanProjectGift} />
               <Route exact path='/AddChild' component={() => <AddChild blessing_group={"Helpful Hearts"} color_horn_rank={"Red"}/>}/>
             </div>
           );

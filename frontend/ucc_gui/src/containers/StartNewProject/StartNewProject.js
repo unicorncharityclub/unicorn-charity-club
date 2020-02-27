@@ -20,6 +20,13 @@ class StartNewProject extends React.Component {
       console.warn("data file", files)
      }
 
+     onNextClicked()
+    {
+        // open next page on click of next
+        const project_id = this.props.match.params.id;
+        this.props.history.push(`/Projects/${project_id}/PlanProjectGift`);        
+    }
+
      componentDidMount () {
       const project_id = this.props.match.params.id;
       axios.get(`http://127.0.0.1:8000/charityproject/${project_id}/StartNewProject`)
@@ -57,7 +64,7 @@ class StartNewProject extends React.Component {
                 <br/>
                 <br/>
                   <Button className = "backButton" variant="light" size="lg"> BACK </Button>
-                  <Button className = "nextButton" variant="success" size="lg"> NEXT </Button>
+                  <Button onClick={this.onNextClicked.bind(this)} className = "nextButton" variant="success" size="lg"> NEXT </Button>
 
                 </ Container>
             </div>
