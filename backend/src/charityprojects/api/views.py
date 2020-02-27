@@ -21,7 +21,7 @@ def charity_project_details(request, project_id):
                 response["project_name"] = project.Name
                 response["project_goal"] = project.Goal
                 response["project_mission"] = project.Mission
-                if project.project.Video_Name:
+                if project.Video_Name:
                     response["project_video_name"] = project.Video_Name
                     response["project_video"] = request.build_absolute_uri(project.Video.url)
                 else:
@@ -107,14 +107,16 @@ def update_project_invitation_video_details(request):
     if request.method == 'PUT':
         user_emailid = request.data["Email"]
         project_id = request.data["ProjectId"]
-        user = User.objects.get(email=user_emailid)
-        pu_id = ProjectUser.objects.get(user_id_id=user.id, project_id_id=project_id).id
-        project_user = ProjectUserDetails.objects.get(pk=pu_id)
-        project_user_update_data = {"pu_id": project_user.id, "video": request.data["ProjectVideo"]}
+
+        user_id = User.objects.get(email=user_emailid).id #get user id from email id
+        pu_id = ProjectUser.objects.get(user_id_id=user_id, project_id_id=project_id).id # from project user table get id
+        project_user_details = ProjectUserDetails.objects.get(pu_id_id=pu_id)
+
+        project_user_update_data = {"pu_id": pu_id, "video": request.data["ProjectVideo"]}
         # Create new dictionary containing data to update
 
-        if project_user:
-            project_user_serializer = ProjectUserSerializer(project_user, data=project_user_update_data)
+        if project_user_details:
+            project_user_serializer = ProjectUserSerializer(project_user_details, data=project_user_update_data)
             if project_user_serializer.is_valid():
                 project_user_serializer.save()
                 return Response(project_user_serializer.data, status=status.HTTP_201_CREATED)
