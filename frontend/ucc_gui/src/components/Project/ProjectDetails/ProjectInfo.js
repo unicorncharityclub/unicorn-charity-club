@@ -28,30 +28,29 @@ class ProjectInfo extends React.Component {
                   ProjectTags : res.data.project_tags,
                   ProjectBanner : res.data.project_banner
               });
-
-
-          console.log(res.data)
       }).catch(error => console.log(error))
 
     }
     render() {
       return(
-            <div>                                 
-                  <table>
+            <div>
+              <table>
+                  <tbody>
                     <tr>
                       <td>
                         <Avatar className = "profilepic" src={this.state.ProjectBanner}/>
-                      </td>                      
-                      <td>                                                
+                      </td>
+                      <td>
                           <h2 className="projectTitle">{this.state.ProjectName}</h2>
                           <p className="insideInfo">
                             {/* Project id :{this.state.Project_id} <br/> */}
-                            Category: {this.state.ProjectCategory} <br />                          
+                            Category: {this.state.ProjectCategory} <br />
                             Tags: {this.state.ProjectTags} <br/>
-                          </p>   
+                          </p>
                       </td>
                     </tr>
-                  </table>                
+                  </tbody>
+              </table>
             </div>
         )
     }

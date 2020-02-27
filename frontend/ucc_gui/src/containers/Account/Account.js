@@ -2,15 +2,14 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import axios from 'axios';
 import Arrow_backward from "../../image/arrow-backward.png";
-//import Mobile_toolbar from "../Mobile_toolbar/Mobile_toolbar";
-import Settings_camera from "../../site_media/Images/Settings_Camera.png";
 import Settings_email from "../../site_media/Images/Settings_Email.png";
 import Settings_home from "../../site_media/Images/Settings_Address.png";
 import Settings_mobile from "../../site_media/Images/Settings_Mobile.png";
 import Settings_notifications from "../../site_media/Images/Settings_Notifications.png";
 import cookie from 'react-cookies'
-import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
+
+
 /** @import CSS styles */
 import "./Account.css";
 

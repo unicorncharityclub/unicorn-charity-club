@@ -51,8 +51,8 @@ class ProjectUser(models.Model):
 
 class ProjectUserDetails(models.Model):
     objects = None
-    pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE)
-    prize_given_id = models.ForeignKey(Prize, on_delete=models.CASCADE)
+    pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
+    prize_given_id = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
     video = models.FileField(upload_to='InvitationVideo')
 
     def __str__(self):

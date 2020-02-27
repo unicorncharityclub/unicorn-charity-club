@@ -6,12 +6,21 @@ import "./ProjectDetails.css";
 import Button from 'react-bootstrap/Button';
 import "../../../../node_modules/video-react/dist/video-react.css"
 import { Player } from 'video-react';
+import cookie from "react-cookies";
 
 class ProjectDetails extends React.Component {
     onSubmit()
     {
         const project_id = this.props.match.params.id;
-        this.props.history.push(`/Projects/${project_id}/StartNewProject`);
+        axios.defaults.withCredentials = true;
+        axios.defaults.xsrfHeaderName = "X-CSRFToken";
+
+        axios.post('http://127.0.0.1:8000/charityproject/start',
+            {"project_id":project_id,
+                    "user_emailid": this.state.UserEmailId},
+                )
+                .then(res => this.props.history.push(`/Projects/${project_id}/StartNewProject`))
+                .catch(error => console.log(error))
     }
 
     constructor(props) {
@@ -20,7 +29,8 @@ class ProjectDetails extends React.Component {
           ProjectMission : '',
           ProjectGoal : '',
           ProjectVideoName : '',
-          ProjectVideo : ''
+          ProjectVideo : '',
+            UserEmailId: cookie.load('user_emailid')
         }
      }  
 
@@ -34,8 +44,6 @@ class ProjectDetails extends React.Component {
                   ProjectVideoName : res.data.project_video_name,
                   ProjectVideo : res.data.project_video
               });
-
-
           console.log(res.data)
       }).catch(error => console.log(error))
     }
@@ -88,7 +96,5 @@ class ProjectDetails extends React.Component {
             </div>
         )
     }
-
   }
-
 export default ProjectDetails;  
