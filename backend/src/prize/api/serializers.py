@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from prize.models import prize
+from ..models import Prize
 class PrizeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = prize
+        model = Prize
         fields = ('Category',  'Tags', 'Name', 'Image')
