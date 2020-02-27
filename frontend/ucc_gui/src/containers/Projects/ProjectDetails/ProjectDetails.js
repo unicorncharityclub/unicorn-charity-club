@@ -6,19 +6,33 @@ import "./ProjectDetails.css";
 import Button from 'react-bootstrap/Button';
 import "../../../../node_modules/video-react/dist/video-react.css"
 import { Player } from 'video-react';
-
-
+import cookie from "react-cookies";
 
 class ProjectDetails extends React.Component {
+    onSubmit()
+    {
+        const project_id = this.props.match.params.id;
+        axios.defaults.withCredentials = true;
+        axios.defaults.xsrfHeaderName = "X-CSRFToken";
+
+        axios.post('http://127.0.0.1:8000/charityproject/start',
+            {"project_id":project_id,
+                    "user_emailid": this.state.UserEmailId},
+                )
+                .then(res => this.props.history.push(`/Projects/${project_id}/StartNewProject`))
+                .catch(error => console.log(error))
+
+    }
+
     constructor(props) {
         super(props); 
         this.state = {
           ProjectMission : '',
           ProjectGoal : '',
           ProjectVideoName : '',
-          ProjectVideo : ''
+          ProjectVideo : '',
+            UserEmailId: cookie.load('user_emailid')
         }
-                       
      }  
 
     componentDidMount () {
@@ -31,24 +45,20 @@ class ProjectDetails extends React.Component {
                   ProjectVideoName : res.data.project_video_name,
                   ProjectVideo : res.data.project_video
               });
-
-
-          console.log(res.data)
       }).catch(error => console.log(error))
     }
 
     render() {
       return(
             <div>  
-              <Container>
-                <p> This is Project Details Page </p>                           
-                  {console.log(this.props)}
+              <Container>                                        
+                  {/* {console.log(this.props)} */}
                   <ProjectInfo id={this.props.match.params.id} />
                   
                   <br/>
                   <br/>
 
-                    <Button className = "startButton" variant="success" size="lg">
+                    <Button onClick={this.onSubmit.bind(this)} className = "startButton" variant="success" size="lg">
                         START PROJECT
                     </Button>
                   <br/>
@@ -85,7 +95,5 @@ class ProjectDetails extends React.Component {
             </div>
         )
     }
-
   }
-
 export default ProjectDetails;  

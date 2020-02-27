@@ -10,11 +10,11 @@ class CharityProjects(models.Model):
     Goal = models.TextField(default="")
     Mission = models.TextField(default="")
     Category = models.CharField(max_length=50)
-    Video_Name = models.CharField(max_length=30, blank=True, null= True)
-    Video = models.FileField(upload_to='projectVideo/', blank=True, null=True)
-    Badge = models.ImageField(upload_to='projectBadge/', blank=True, null=True)
+    Video_Name = models.CharField(max_length=30, blank=True, null=True)
+    Video = models.FileField(upload_to='upload/projectVideo/', blank=True, null=True)
+    Badge = models.ImageField(upload_to='upload/projectBadge/', blank=True, null=True)
     Tags = models.TextField(default="")
-    Banner = models.ImageField(upload_to='projectBanner/', blank=True, null=True)
+    Banner = models.ImageField(upload_to='upload/projectBanner/', blank=True, null=True)
 
     def __str__(self):
         return self.Name
@@ -36,6 +36,7 @@ class CharityProjects(models.Model):
 
 
 class ProjectUser(models.Model):
+    objects = None
     project_id = models.ForeignKey(CharityProjects, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     invited_by = models.EmailField(null=True, blank=True)
@@ -49,13 +50,11 @@ class ProjectUser(models.Model):
 
 
 class ProjectUserDetails(models.Model):
-    pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE)
-    prize_given_id = models.ForeignKey(Prize, on_delete=models.CASCADE)
+    objects = None
+    pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
+    prize_given_id = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
     video = models.FileField(upload_to='InvitationVideo')
 
     def __str__(self):
-        return '{} {} {} {}'.format(self.pu_id,  self.prize_given_id, self.video)
-
-
-
+        return '{} {} {} '.format(self.pu_id,  self.prize_given_id, self.video)
 

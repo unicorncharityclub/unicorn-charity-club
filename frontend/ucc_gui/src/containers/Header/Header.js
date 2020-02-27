@@ -36,7 +36,7 @@ class Header extends React.Component {
                 className="header__logo-mobile"
                 alt="Unicorn Charity Club"
               />
-            </a>
+            </a>            
           </div>
           <Settings />
           <NavLink to={"/Mobile_toolbar"}>

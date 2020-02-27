@@ -3,6 +3,8 @@ import Grid from "@material-ui/core/Grid";
 import ImgMediaCard from "../ImageCard";
 
 class ProjectGrid extends React.Component {
+
+
     projectSelectedHandler(value) {
         window.open('Projects/'+value,"_self");
     }
@@ -16,7 +18,7 @@ class ProjectGrid extends React.Component {
           .filter(elem => elem.project_category.startsWith(this.props.category))
           .map(elem => (
                    <Grid item xs={12} sm={6} md={6} key={this.props.projectData.indexOf(elem)} >
-                   <ImgMediaCard imageSrc={elem.project_banner} imageId={elem.project_id} onClick={this.projectSelectedHandler} />   
+                   <ImgMediaCard imageSrc={elem.project_banner} imageId={elem.project_id} onClick={this.projectSelectedHandler.bind(this)} />
             </Grid>
           ))}
         </Grid>
