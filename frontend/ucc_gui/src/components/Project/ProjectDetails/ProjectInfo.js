@@ -49,26 +49,26 @@ class ProjectInfo extends React.Component {
                             </tr>
                           <tr>
                               <td>
-                                  <TextBlack message="Category : "/>
+                                  <TextBlack message="Category"/>
                               </td>
                               <td>
-                                  <TextBlack message={this.state.ProjectCategory}/>
-                              </td>
-                            </tr>
-                          <tr>
-                              <td>
-                                  <TextBlack message="Tags : "/>
-                              </td>
-                              <td>
-                                  <TextBlack message={this.state.ProjectTags}/>
+                                  <TextBlack message={" : "+this.state.ProjectCategory}/>
                               </td>
                             </tr>
                           <tr>
                               <td>
-                                  <TextBlack message="Mission : "/>
+                                  <TextBlack message="Tags"/>
                               </td>
                               <td>
-                                  <TextBlack message={this.state.ProjectMission}/>
+                                  <TextBlack message={" : "+this.state.ProjectTags}/>
+                              </td>
+                            </tr>
+                          <tr>
+                              <td>
+                                  <TextBlack message="Mission"/>
+                              </td>
+                              <td>
+                                  <TextBlack message={" : "+this.state.ProjectMission}/>
                               </td>
                             </tr>
                           </tbody>

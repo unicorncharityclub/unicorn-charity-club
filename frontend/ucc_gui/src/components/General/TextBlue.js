@@ -1,13 +1,13 @@
 import React from "react";
 
-class TextBlack extends React.Component {
+class TextBlue extends React.Component {
     render() {
         return (
-            <div style={{color:"#2BB9B7", fontSize: "1.1em", paddingLeft: "20px"}}>
+            <div style={{color:"#2BB9B7", fontSize: "1.1em"}}>
                 {this.props.message}
             </div>
         );
     }
 }
 
-export default TextBlack;
+export default TextBlue;

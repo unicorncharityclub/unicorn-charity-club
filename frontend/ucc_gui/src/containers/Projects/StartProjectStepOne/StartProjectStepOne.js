@@ -7,6 +7,8 @@ import ProjectContent from "../../../components/Project/ProjectStepOne/ProjectCo
 import cookie from "react-cookies";
 import Button from "react-bootstrap/Button";
 import ProgressStepper from "../../../components/Project/ProgressStepper";
+import TextBlue from "../../../components/General/TextBlue";
+import TextWhite from "../../../components/General/TextWhite";
 
 
 
@@ -79,8 +81,14 @@ class StartProjectStepOne extends React.Component {
                 <ProjectInfo id={this.state.ProjectId} />
                 <ProjectContent videoHandler={this.videoHandler.bind(this)}
                                 userProjectVideo={this.state.UserProjectVideo}/>
-                    <Button className = "backButton" variant="light" size="lg"> BACK </Button>
-                      <Button className = "nextButton" variant="success" size="lg" onClick={this.moveToStepTwoHandler.bind(this)}> NEXT </Button>
+                <div style={{width:"60%", float:"right", alignText:"left", marginBottom:"10px"}}>
+                    <Button style={{ borderRadius : "50px 0px 0px 50px", backgroundColor:"white", border:"2px solid"}} className = "backButton" variant="light" size="lg">
+                        <TextBlue message="SAVE "/>
+                    </Button>
+                    <Button style={{ borderRadius : "0px 50px 50px 0px", border:"2px solid black"}} className = "nextButton" variant="success" size="lg" onClick={this.moveToStepTwoHandler.bind(this)}>
+                        <TextWhite message="NEXT "/>
+                    </Button>
+                </div>
             </div>
         )
     }

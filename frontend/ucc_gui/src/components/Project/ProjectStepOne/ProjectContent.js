@@ -34,7 +34,7 @@ class ProjectContent extends React.Component {
 
                           {
                             this.props.userProjectVideo ?
-                                <div style={{margin:"50px", borderStyle:"solid", height:"150px", width:"400px"}}>
+                                <div style={{margin:"50px", borderStyle:"solid"}}>
                                     <Player playsInline src={URL.createObjectURL(this.props.userProjectVideo)} />
                                 </div>
                                 :''
