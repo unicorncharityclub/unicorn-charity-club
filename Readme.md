@@ -1,3 +1,6 @@
+
+- Installation Steps
+
 1. Install pip
 2. Install virtualenv using command 
 	"pip install virtualenv"
@@ -18,3 +21,11 @@
 	- run command "npm i"
 	- then "npm run build"
 	- then "npm start"
+
+
+ - Sprint 1
+    - [Sprint 1 Group Submission](https://drive.google.com/open?id=1nyUlNRcSyFXlhM8cT2pbfkGXOWyObx7M)
+    - [Design Document](https://drive.google.com/drive/u/0/folders/16iWl7UfPZNTXw8qiN73iCsT5Q5KmO85m)
+    - [Taiga - Sprint 1 Scrum board](https://tree.taiga.io/project/bhawana-application-for-social-impact-youth-organization/taskboard/sprint-1-16308?kanban-status=1752159)    
+ 
+ 
