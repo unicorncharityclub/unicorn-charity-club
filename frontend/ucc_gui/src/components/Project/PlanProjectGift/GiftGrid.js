@@ -14,6 +14,13 @@ class GiftGrid extends React.Component {
 
           {/* Need to create a grid here */}
           {/* Need to call Imagecard component here as well */}
+          {this.props.prizeData          
+          .map(elem => (
+                   <Grid item xs={12} sm={6} md={6} key={this.props.prizeData.indexOf(elem)} >                     
+                   <ImgMediaCard imageSrc={elem} imageId={this.props.prizeData.indexOf(elem)} />
+            </Grid>
+          ))}          
+
         </Grid>
       </div>
     );

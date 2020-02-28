@@ -22,7 +22,10 @@ class PlanProjectGift extends React.Component {
 
     fetchPrizeDetails(obj) {
         axios.get(`http://127.0.0.1:8000/prize/prizeList`)
-            .then(function(response) {obj.setPrizeDetails(response);})
+            .then(function(response) {
+                obj.setPrizeDetails(response);
+                console.log(response);
+            })
             .catch(function(error) {console.log(error);});
     }
 
@@ -41,9 +44,9 @@ class PlanProjectGift extends React.Component {
                 <Container>
 
                     {/*just checking to see if image is returned*/}
-                    <div>
-                        <img src={this.state.imageList}/>
-                    </div>
+                    {/* <div> */}
+                        {/* <img src={this.state.imageList}/> */}
+                    {/* </div> */}
 
 
                     {/*TODO:
@@ -64,7 +67,7 @@ class PlanProjectGift extends React.Component {
                     </div>
                     <div>
                         {/* Here the Project Gifts.. */}
-                        <GiftGrid />
+                        <GiftGrid prizeData = {this.state.imageList} />
                     </div>
                     <br/>
                     <div className="buttons">
