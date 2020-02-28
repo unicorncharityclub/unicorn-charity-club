@@ -144,15 +144,19 @@ def update_project_invitation_video_details(request):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
+# @api_view(['PUT'])
+# @parser_classes([MultiPartParser, FormParser])
 def update_project_prize(request):
     response = {'status': "Invalid Request"}
     if request.method == 'PUT':
+        print('inside update project prize')
         json_data = json.loads(request.body)
-        user_email_id = request.data["user_email"]
+        print(json_data)
+        user_email_id = json_data["user_email"]
+        user_id = User.objects.get(email=user_email_id).id  # get user id from email id
         project_id = json_data["project_id"]
         prize_id = json_data["prize_id"]
-        pu_id = ProjectUser.objects.get(user_id=user_email_id,
+        pu_id = ProjectUser.objects.get(user_id=user_id,
                                         project_id_id=project_id).id
         project_user = ProjectUserDetails.objects.get(pk=pu_id)
         if project_user:
@@ -162,3 +166,6 @@ def update_project_prize(request):
         else:
             response['status'] = 'Wrong project user reference'
     return JsonResponse(response)
+
+
+
