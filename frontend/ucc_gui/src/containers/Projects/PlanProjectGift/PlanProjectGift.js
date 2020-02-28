@@ -8,14 +8,21 @@ import axios from "axios";
 import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
 import ProgressStepper from "../../../components/Project/ProgressStepper";
 import ProjectBanner from "../../../components/Project/ProjectBanner";
+import cookie from 'react-cookies';
 
 
 class PlanProjectGift extends React.Component {
     constructor(props) {
         super(props); 
         this.state = {                        
-            ProjectBanner : '',    
-            imageList : []
+            ProjectBanner : '', 
+            PhotoSelectedId : "",   
+            imageList : [
+                {
+                    "prize_id" : "",
+                    "prize_url" : ""
+                }
+            ]
         }
      }  
 
@@ -35,10 +42,9 @@ class PlanProjectGift extends React.Component {
         }).catch(error => console.log(error))
     }
 
-    setPrizeDetails(response) {
-        let imageList = response.data["image_list"];
+    setPrizeDetails(response) {            
         this.setState(prevState => ({
-        imageList: imageList
+        imageList: response.data["image_list"]
       }));
 
     }
@@ -61,22 +67,33 @@ class PlanProjectGift extends React.Component {
             .catch(function(error) {console.log(error);});
     }
 
+    giftPlanSelectedHandler(value) {
+        console.log(value);
+        this.setState(prevState => ({
+            PhotoSelectedId : value
+        }))
+    }
+
+    moveToStepThreeHandler() {
+    
+            axios.defaults.withCredentials = true;
+            axios.defaults.xsrfHeaderName = "X-CSRFToken";
+            axios.put(`http://127.0.0.1:8000/charityproject/projectPrize`, {
+                "project_id" : this.props.match.params.id,
+                "user_email" : cookie.load('user_emailid'),
+                "prize_id" : this.state.PhotoSelectedId
+
+            })            
+            .catch(error => console.log(error))
+    }
+    
+
     render() {
       return(
             <div>  
                 <br/>                
                 <Container>
 
-                    {/*just checking to see if image is returned*/}
-                    {/* <div> */}
-                        {/* <img src={this.state.imageList}/> */}
-                    {/* </div> */}
-
-
-                    {/*TODO:
-                    PLACE IMAGES IN GRID FORMAT
-                    CURRENTLY DATABASE HAS ONLY 1 IMAGE, ADD 5-9 MORE FROM BACKEND TO TEST FOR UI
-                    */}
                     { console.log(this.props)}
                     <div className="headerStepBanner">
                         <div className="stepper" >
@@ -86,8 +103,7 @@ class PlanProjectGift extends React.Component {
                             <ProjectBanner image={this.state.ProjectBanner} />
                         </div>
                     </div>
-
-                    {/* Here need the component for showing 1-2-3 */}
+              
                     <div>
                         <ProjectInfo id={this.props.match.params.id} />
                     </div>
@@ -98,13 +114,14 @@ class PlanProjectGift extends React.Component {
                         <p className = "insideContent">Reward your Project Team with a secret gift when they complete the Project.</p>
                     </div>
                     <div>
-                        {/* Here the Project Gifts.. */}
-                        <GiftGrid prizeData = {this.state.imageList} />
+                        {this.state.imageList[0].prize_url?
+                        (<GiftGrid prizeData = {this.state.imageList} onClick={this.giftPlanSelectedHandler.bind(this)} />):(<div/>)}
+                        
                     </div>
                     <br/>
                     <div className="buttons">
                         <Button className = "backButton" variant="light" size="lg"> BACK </Button>
-                        <Button className = "nextButton" variant="success" size="lg"> NEXT </Button>
+                        <Button className = "nextButton" variant="success" size="lg" onClick={this.moveToStepThreeHandler.bind(this)}> NEXT </Button>
                     </div>
 
 
