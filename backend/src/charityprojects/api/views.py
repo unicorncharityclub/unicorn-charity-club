@@ -127,8 +127,8 @@ def update_project_invitation_video_details(request):
         project_id = request.data["ProjectId"]
 
         user_id = User.objects.get(email=user_emailid).id #get user id from email id
-        pu_id = ProjectUser.objects.get(user_id_id=user_id, project_id_id=project_id).id # from project user table get id
-        project_user_details = ProjectUserDetails.objects.get(pu_id_id=pu_id)
+        pu_id = ProjectUser.objects.filter(user_id_id=user_id, project_id_id=project_id)[0].id # from project user table get id
+        project_user_details = ProjectUserDetails.objects.filter(pu_id_id=pu_id)[0].id
 
         project_user_update_data = {"pu_id": pu_id, "video": request.data["ProjectVideo"]}
         # Create new dictionary containing data to update
@@ -156,9 +156,11 @@ def update_project_prize(request):
         user_id = User.objects.get(email=user_email_id).id  # get user id from email id
         project_id = json_data["project_id"]
         prize_id = json_data["prize_id"]
-        pu_id = ProjectUser.objects.get(user_id=user_id,
-                                        project_id_id=project_id).id
-        project_user = ProjectUserDetails.objects.get(pk=pu_id)
+        pu_id = ProjectUser.objects.filter(user_id=user_id,
+                                        project_id_id=project_id)[0].id
+        print("pi-id", pu_id)
+        project_user = ProjectUser.objects.filter(pk=pu_id)[0]
+        print("project_user", project_user)
         if project_user:
             project_user.prize_given_id = prize_id
             project_user.save()
