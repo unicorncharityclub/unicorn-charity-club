@@ -3,6 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import ImgMediaCard from "../ImageCard";
 
 class GiftGrid extends React.Component {
+  
     giftSelectedHandler(value) {
         // window.open('Projects/'+value,"_self");
     }

@@ -6,18 +6,41 @@ import Button from "react-bootstrap/Button";
 import GiftGrid from "../../../components/Project/PlanProjectGift/GiftGrid";
 import axios from "axios";
 import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
+import ProgressStepper from "../../../components/Project/ProgressStepper";
+import ProjectBanner from "../../../components/Project/ProjectBanner";
 
 
 class PlanProjectGift extends React.Component {
     constructor(props) {
         super(props); 
-        this.state = {
-            imageList : [],
+        this.state = {                        
+            ProjectBanner : '',    
+            imageList : []
         }
      }  
 
     componentDidMount () {
         this.fetchPrizeDetails(this);
+        this.fetchProjectBanner();
+    }
+
+    fetchProjectBanner(){
+        const project_id = this.props.match.params.id;
+        axios.get(`http://127.0.0.1:8000/charityproject/${project_id}`)
+        .then(res => {
+              this.setState({                  
+                  ProjectBanner : res.data["project_banner"]                                
+              });
+        //   console.log(res.data)
+        }).catch(error => console.log(error))
+    }
+
+    setPrizeDetails(response) {
+        let imageList = response.data["image_list"];
+        this.setState(prevState => ({
+        imageList: imageList
+      }));
+
     }
 
     fetchPrizeDetails(obj) {
@@ -29,12 +52,13 @@ class PlanProjectGift extends React.Component {
             .catch(function(error) {console.log(error);});
     }
 
-    setPrizeDetails(response) {
-        let imageList = response.data["image_list"];
-        this.setState(prevState => ({
-        imageList: imageList
-      }));
-
+    fetchPrizeDetails(obj) {
+        axios.get(`http://127.0.0.1:8000/prize/prizeList`)
+            .then(function(response) {
+                obj.setPrizeDetails(response);
+                console.log(response);
+            })
+            .catch(function(error) {console.log(error);});
     }
 
     render() {
@@ -53,7 +77,15 @@ class PlanProjectGift extends React.Component {
                     PLACE IMAGES IN GRID FORMAT
                     CURRENTLY DATABASE HAS ONLY 1 IMAGE, ADD 5-9 MORE FROM BACKEND TO TEST FOR UI
                     */}
-
+                    { console.log(this.props)}
+                    <div className="headerStepBanner">
+                        <div className="stepper" >
+                            <ProgressStepper currentStep="1" />
+                        </div>
+                        <div className="banner">
+                            <ProjectBanner image={this.state.ProjectBanner} />
+                        </div>
+                    </div>
 
                     {/* Here need the component for showing 1-2-3 */}
                     <div>
