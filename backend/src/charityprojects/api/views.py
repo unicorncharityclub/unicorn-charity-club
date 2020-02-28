@@ -90,6 +90,7 @@ def start_project(request):
                 invited_by = ""
             project = CharityProjects.objects.get(pk=project_id)
             project_user_records = ProjectUser.objects.all()
+
             if project_user_records.count() > 0:
                 for record in project_user_records:
                     project_name = record.project_id
@@ -103,15 +104,15 @@ def start_project(request):
                                 response['status'] = "No video uploaded. Complete step2 "
                             elif precord.prize_given_id == "":
                                 response['status'] = "Select prize for project. Complete step3"
-                    else:
-                        project_user = ProjectUser.objects.create(project_id=project, user_id=user,
-                                                                  invited_by=invited_by)
-                        project_user.save()
-                        pu_id = project_user.id
-                        project_user_details = ProjectUserDetails.objects.create(pu_id=project_user)
-                        project_user_details.save()
-                        response["pu_id"] = pu_id
-                        response['status'] = "Success"
+            else:
+                project_user = ProjectUser.objects.create(project_id=project, user_id=user,
+                                                          invited_by=invited_by)
+                project_user.save()
+                pu_id = project_user.id
+                project_user_details = ProjectUserDetails.objects.create(pu_id=project_user)
+                project_user_details.save()
+                response["pu_id"] = pu_id
+                response['status'] = "Success"
 
         except ValueError:
             response['status'] = "Invalid Request"
@@ -128,9 +129,8 @@ def update_project_invitation_video_details(request):
 
         user_id = User.objects.get(email=user_emailid).id #get user id from email id
         pu_id = ProjectUser.objects.filter(user_id_id=user_id, project_id_id=project_id)[0].id # from project user table get id
-        project_user_details = ProjectUserDetails.objects.filter(pu_id_id=pu_id)[0].id
-
-        project_user_update_data = {"pu_id": pu_id, "video": request.data["ProjectVideo"]}
+        project_user_details = ProjectUserDetails.objects.filter(pu_id=pu_id)[0]
+        project_user_update_data = {"video": request.data["ProjectVideo"]}
         # Create new dictionary containing data to update
 
         if project_user_details:
