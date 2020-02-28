@@ -2,7 +2,7 @@ import json
 
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
-from ..models import CharityProjects, ProjectUser, ProjectUserDetails
+from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize
 from django.http import JsonResponse
 from accounts.models import User
 from .serializers import ProjectUserSerializer
@@ -159,11 +159,11 @@ def update_project_prize(request):
         pu_id = ProjectUser.objects.filter(user_id=user_id,
                                         project_id_id=project_id)[0].id
         print("pi-id", pu_id)
-        project_user = ProjectUser.objects.filter(pk=pu_id)[0]
-        print("project_user", project_user)
-        if project_user:
-            project_user.prize_given_id = prize_id
-            project_user.save()
+        project_user_details = ProjectUserDetails.objects.filter(pu_id=pu_id)[0]
+        print("project_user_details", project_user_details)
+        if project_user_details:
+            project_user_details.prize_given_id = Prize.objects.get(pk=prize_id)
+            project_user_details.save()
             response['status'] = "Success"
         else:
             response['status'] = 'Wrong project user reference'
