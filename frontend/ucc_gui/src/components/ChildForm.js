@@ -6,6 +6,7 @@ import "../containers/MyChildren/MyChildren.css";
 import Arrow_backward from "./../image/arrow-backward.png";
 import Upload_photo from "./../image/Default-profile-picture.png";
 import CheckBox from "./Form/Checkbox";
+import * as cookie from "react-cookies";
 
 
 /**
@@ -37,6 +38,7 @@ class ChildForm extends React.Component {
             SuperPowers: this.props.SuperPowers,
             Support:this.props.Support,
             Photo: this.props.Photo,
+            id: this.props.id,
             finalImage: '',
             checkedItems: new Map()
         }
@@ -89,13 +91,14 @@ class ChildForm extends React.Component {
             form_data.append('SuperPowers', this.state.SuperPowers);
             form_data.append('Support', this.state.Support);
             form_data.append('Photo', this.state.finalImage, this.state.finalImage.name);
+            form_data.append('id', this.state.id)
         } catch(err) {
             console.log(err)
         }
 
         switch( requestType ) {
             case 'post':
-            return axios.post('http://127.0.0.1:8000/childaccount/', form_data,
+            return axios.post(`http://127.0.0.1:8000/childaccount/addchild/${cookie.load('user_emailid')}/`, form_data,
                     {
                         headers: {
                             'content-type': 'multipart/form-data'
@@ -104,7 +107,7 @@ class ChildForm extends React.Component {
                     .then(res => {console.log(res)})
                     .catch(error => console.log(error))
             case 'put':
-                return axios.put(`http://127.0.0.1:8000/childaccount/${id}/`, form_data,
+                return axios.put(`http://127.0.0.1:8000/childaccount/child/${id}/`, form_data,
                     {
                         headers: {
                             'content-type': 'multipart/form-data'

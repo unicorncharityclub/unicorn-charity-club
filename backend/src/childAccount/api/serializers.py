@@ -6,5 +6,6 @@ from childAccount.models import ChildAccount
 class ChildAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChildAccount
-        fields = ('id', 'Name', 'DOB', 'School', 'SchoolGrade', 'UnicornName', 'UnicornPowers', 'ImpactEmblem', 'Photo')
+        fields = ('id', 'Name', 'DOB', 'School', 'SchoolGrade', 'Aboutme',
+                  'FavoriteThing', 'Dream', 'SuperPowers', 'Photo', 'UserId')
 

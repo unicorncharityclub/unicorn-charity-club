@@ -18,8 +18,17 @@ class ChildAccount(models.Model):
         ('Grade 5', 'Grade 5'),
         ('Grade 6', 'Grade 6')
     )
+
+    gender_choices = (
+        ('Boy', 'Boy'),
+        ('Girl', 'Girl')
+    )
+
     Name = models.CharField(max_length=100)
     DOB = models.DateField(default=today_utc)
+    Gender = models.CharField(max_length=5,
+                              choices=gender_choices,
+                              null=True)
     School = models.CharField(max_length=255,
                               blank=True)
     SchoolGrade = models.CharField(max_length=15,
@@ -32,6 +41,9 @@ class ChildAccount(models.Model):
     Support = models.CharField(max_length=255, blank=True)
     Photo = models.ImageField(blank=True, upload_to='upload/')
     UserId = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        unique_together = ('Name', 'DOB',)
 
     def __str__(self):
         return self.Name

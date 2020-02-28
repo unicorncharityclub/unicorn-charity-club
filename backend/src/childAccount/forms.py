@@ -3,16 +3,16 @@ from .models import ChildAccount
 
 
 class ChildAccountForm(forms.ModelForm):
-    SUPPORT_CHOICES =[
-        ('Animals', 'Animals'),
-        ('Arts, Culture, Humanities', 'Arts, Culture, Humanities'),
-        ('Community Development', 'Community Development'),
-        ('Education', 'Education'),
-        ('Environment', 'Environment'),
-        ('Health and Wellness', 'Health and Wellness'),
-        ('Human and Civil Rights', 'Human and Civil Rights'),
-        ('International Causes', 'International Causes'),
-        ('Research and Public Policy', 'Research and Public Policy')
+    SUPPORT_CHOICES = [
+        (1, 'Animals'),
+        (2, 'Arts, Culture, Humanities'),
+        (3, 'Community Development'),
+        (4, 'Education'),
+        (5, 'Environment'),
+        (6, 'Health and Wellness'),
+        (7, 'Human and Civil Rights'),
+        (8, 'International Causes'),
+        (9, 'Research and Public Policy')
     ]
     Support = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
                                         choices=SUPPORT_CHOICES,
@@ -20,5 +20,7 @@ class ChildAccountForm(forms.ModelForm):
 
     class meta:
         model = ChildAccount
-        fields = ['Name', 'Gender', 'School', 'SchoolGrade', 'Aboutme', 'FavoriteThing', 'Dream', 'Support', 'Photo']
+        fields = ['Name', 'Gender', 'School', 'SchoolGrade', 'Aboutme', 'FavoriteThing', 'Dream',
+                  'SuperPowers', 'Support', 'Photo']
+
 

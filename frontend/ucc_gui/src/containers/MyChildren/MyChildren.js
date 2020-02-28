@@ -39,13 +39,19 @@ class MyChildren extends React.Component {
 
     componentDidMount() {
         const id = this.props.match.params.id;
-        axios.get(`http://127.0.0.1:8000/childaccount/${id}`)
+        axios.get(`http://127.0.0.1:8000/childaccount/child/${id}`)
             .then(res => {
                     this.setState({
                         Name: res.data.Name,
                         DOB: res.data.DOB,
+                        Gender: res.data.Gender,
                         School: res.data.School,
                         SchoolGrade: res.data.SchoolGrade,
+                        Aboutme: res.data.Aboutme,
+                        FavoriteThing: res.data.FavoriteThing,
+                        Dream: res.data.Dream,
+                        SuperPowers: res.data.SuperPowers,
+                        Support: res.data.Support,
                         Photo: res.data.Photo
                     });
                 console.log(res.data)
