@@ -19,6 +19,17 @@
   }
 }
 
+.MuiAvatar-root.MuiAvatar-circle.profilepic {
+    height: 120px;
+    width: 120px;
+}
+
+.root_profilepic {
+    padding-left:10px;
+    padding-top:10px;
+}
+
+
 .content {
   position: relative;
   padding-left: 0.9375rem;

@@ -10,7 +10,11 @@ class Settings extends Component {
     this.logout = this.logout.bind(this);
   }
   logout() {
-      //TODO logout
+      let user_id = "";
+      let token = "";
+      cookie.save('user_id', user_id);
+      cookie.save('XSRF-TOKEN', token);
+      this.props.dispatch({ type: "LOGOUT_SUCCESS", user_id:user_id, token:token});
   }
   render() {
     return (

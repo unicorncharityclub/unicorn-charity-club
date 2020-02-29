@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Settings from "../Menu/Settings/Settings";
@@ -36,7 +36,7 @@ class Header extends React.Component {
                 className="header__logo-mobile"
                 alt="Unicorn Charity Club"
               />
-            </a>
+            </a>            
           </div>
           <Settings />
           <NavLink to={"/Mobile_toolbar"}>

@@ -5,14 +5,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import baseReducer from "./reducers/reducer"
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import UCC_App from "./containers/UCC_App";
+import UCC_APP from "./containers/UCC_App";
 const store = createStore(baseReducer);
 
 class App extends Component {
   render() {
     return (
         <Provider store={store}>
-            <UCC_App/>
+            <UCC_APP/>
         </Provider>
     );
   }

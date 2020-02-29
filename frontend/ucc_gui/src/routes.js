@@ -11,6 +11,11 @@ import Security_and_Privacy from "./containers/Menu/Security_and_Privacy/Securit
 import Feeds from "./containers/Feeds/Feeds";
 import ChildrenList from "./containers/MyChildren/ChildrenList";
 import AddChild from "./containers/MyChildren/AddChild";
+import ProjectsHome from "./containers/Projects/Home/ProjectsHome"
+import ProjectDetails from "./containers/Projects/ProjectDetails/ProjectDetails"
+import StartProjectStepOne from "./containers/Projects/StartProjectStepOne/StartProjectStepOne";
+import PlanProjectGift from "./containers/Projects/PlanProjectGift/PlanProjectGift";
+
 
 class BaseRouter extends React.Component {
     render() {
@@ -25,7 +30,12 @@ class BaseRouter extends React.Component {
               <Route exact path='/Menu/Security_and_Privacy' component={Security_and_Privacy} />
               <Route exact path='/MyChildren' component={ChildrenList} />
               <Route exact path='/MyChildren/:id' component={MyChildren} />
-                <Route exact path='/AddChild' component={() => <AddChild blessing_group={"Helpful Hearts"} color_horn_rank={"Red"}/>}/>
+              <Route exact path='/Projects/' component={ProjectsHome} />
+              <Route exact path='/Projects/:id' component={ProjectDetails} />
+              <Route exact path='/Projects/:id/StartNewProject' component={StartProjectStepOne} />
+              <Route exact path='/Projects/:id/PlanProjectGift' component={PlanProjectGift} />
+
+              <Route exact path='/AddChild' component={() => <AddChild blessing_group={"Helpful Hearts"} color_horn_rank={"Red"}/>}/>
             </div>
           );
         default:

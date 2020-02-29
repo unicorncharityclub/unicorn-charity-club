@@ -1,18 +1,15 @@
-/** @import modules
- * 'npm i --save react'
- * 'npm i --save react-router-dom'
- */
-import React, { Component } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import axios from 'axios';
-import { BrowserRouter as Router, Route } from "react-router-dom";
 import Arrow_backward from "../../image/arrow-backward.png";
-//import Mobile_toolbar from "../Mobile_toolbar/Mobile_toolbar";
-import Settings_camera from "../../site_media/Images/Settings_Camera.png";
 import Settings_email from "../../site_media/Images/Settings_Email.png";
 import Settings_home from "../../site_media/Images/Settings_Address.png";
 import Settings_mobile from "../../site_media/Images/Settings_Mobile.png";
 import Settings_notifications from "../../site_media/Images/Settings_Notifications.png";
+import cookie from 'react-cookies'
+import Avatar from '@material-ui/core/Avatar';
+
+
 /** @import CSS styles */
 import "./Account.css";
 
@@ -29,25 +26,32 @@ import "./Account.css";
  * @returns {Account}
  * @todo connect to database for individual user
  */
-class Account extends React.Component {
 
+
+class Account extends React.Component {
     state = {
         Name: '',
         Email : '',
         Mobile : '',
-        Address : ''
+        Address : '',
+        ProfilePic : '',
+        FinalImage : ''
     }
+    user_emailid;
 
     componentDidMount() {
-        axios.get('http://127.0.0.1:8000/myaccount/')
+        const user_emailid = cookie.load('user_emailid');
+        console.log(user_emailid)
+        axios.get(`http://127.0.0.1:8000/myaccount/${user_emailid}`)
             .then(res => {
                     this.setState({
-                        Name: res.data[0].Name,
-                        Email: res.data[0].Email,
-                        Mobile: res.data[0].Mobile,
-                        Address: res.data[0].Address,
+                        Name: res.data.name,
+                        Email: res.data.email,
+                        Mobile: res.data.mobile,
+                        Address: res.data.address,
+                        ProfilePic: res.data.profilepic
                     });
-                console.log(res.data[0])
+                console.log(res.data)
             }).catch(error => console.log(error))
     }
 
@@ -58,27 +62,41 @@ class Account extends React.Component {
         })
     }
 
+    imageHandler(event){
+        this.setState({
+            ProfilePic: URL.createObjectURL(event.target.files[0]),
+            FinalImage : event.target.files[0]
+        })
+    }
 
     handleSaveBtn = (event) => {
         event.preventDefault();
-        const Name = event.target.elements.Name.value;
-        const Address = event.target.elements.Address.value;
-        const Mobile = event.target.elements.Mobile.value;
-        const Email = event.target.elements.Email.value;
+        let form_data = new FormData();
+        try {
+            form_data.append('Name', this.state.Name);
+            form_data.append('Address', this.state.Address);
+            form_data.append('Mobile', this.state.Mobile);
+            form_data.append('Email', this.state.Email);
+            form_data.append('ProfilePic', this.state.FinalImage, this.state.FinalImage.name);
+        } catch(err) {
+            console.log(err)
+        }
 
-        console.log(Name, Address, Mobile, Email);
+        const account_emailid =  cookie.load('user_emailid');
+        const token = cookie.load('XSRF-TOKEN');
+        axios.defaults.withCredentials = true;
+        axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
-        // hardcoding for now..
-        const account_id = 1
-        axios.put(`http://127.0.0.1:8000/myaccount/${account_id}/`, {
-                 Name: Name,
-                Email: Email,
-                Mobile: Mobile,
-                Address: Address
-        })
-        .then(res => console.log(res))
-        .catch(error => console.log(error))
-    }
+        return axios.put(`http://127.0.0.1:8000/myaccount/${account_emailid}/`, form_data,
+                {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                })
+                .then(res => console.log(res))
+                .catch(error => console.log(error))
+    };
+
 
   render() {
     return (
@@ -100,10 +118,15 @@ class Account extends React.Component {
                         </div>
                       </div>
                       <div className="menu__content">
+                        <div className="root_profilepic">
+                        {/* {this.state.ProfilePic} */}
+                            <Avatar className = "profilepic" src={this.state.ProfilePic}/>
+                            <input type="file" name="ProfilePic" onChange={this.imageHandler.bind(this)}/>
+                         </div>
+
                         <div className="menu__item_title">
                           {/* <a href="/"> Name</a> */}
                           <textarea name="Name" placeholder="Name" value={this.state.Name} onChange={this.handleChange.bind(this)}>Name</textarea>
-                          <img src={Settings_camera} alt="Settings_camera" />
                         </div>
                         <div className="menu__item" style={{ paddingBottom: "0px" }}>
                           <img src={Settings_home} alt="Settings_home" />
@@ -113,7 +136,7 @@ class Account extends React.Component {
                         <div className="menu__item" style={{ paddingBottom: "0px" }}>
                           <img src={Settings_email} alt="Settings_email" />
                           {/* <a href="/"> Email</a> */}
-                          <textarea name="Email" placeholder="Email" value={this.state.Email} onChange={this.handleChange.bind(this)}>Email</textarea>
+                          <textarea readOnly name="Email" placeholder="Email" value={this.state.Email} onChange={this.handleChange.bind(this)}>Email</textarea>
                         </div>
                         <div className="menu__item" style={{ paddingBottom: "0px" }}>
                           <img
