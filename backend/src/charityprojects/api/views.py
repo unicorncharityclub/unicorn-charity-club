@@ -89,31 +89,30 @@ def start_project(request):
             if 'invited_by' not in json_data:
                 invited_by = ""
             project = CharityProjects.objects.get(pk=project_id)
-            project_user_records = ProjectUser.objects.all()
-
+            user_id = User.objects.get(email=json_data["user_emailid"]).id
+            project_user_records = ProjectUser.objects.filter(project_id_id=project_id, user_id_id=user_id)
             if project_user_records.count() > 0:
                 for record in project_user_records:
-                    project_name = record.project_id
-                    started_user = record.user_id
                     purecord_id = record.id
-                    if project_name == project and started_user == user:
-                        response['status'] = "Entry already exists."
-                        project_user_details_records = ProjectUserDetails.objects.all()
-                        for precord in project_user_details_records:
-                            if precord.video == "":
-                                response['status'] = "No video uploaded. Complete step2 "
-                            elif precord.prize_given_id == "":
-                                response['status'] = "Select prize for project. Complete step3"
+                    print(record.project_status)
+                    response['status'] = "Entry already exists."
+                    response['project_status'] = record.project_status
+                    project_user_details_records = ProjectUserDetails.objects.filter(pu_id=purecord_id)
+                    for precord in project_user_details_records:
+                        if precord.video == "":
+                            response['status'] = "No video uploaded. Complete step2 "
+                        elif precord.prize_given_id is None:
+                            response['status'] = "Select prize for project. Complete step3"
             else:
                 project_user = ProjectUser.objects.create(project_id=project, user_id=user,
-                                                          invited_by=invited_by)
+                                                                  invited_by=invited_by, project_status="PlanningPhase1")
                 project_user.save()
+                print("Created new record")
                 pu_id = project_user.id
                 project_user_details = ProjectUserDetails.objects.create(pu_id=project_user)
                 project_user_details.save()
                 response["pu_id"] = pu_id
                 response['status'] = "Success"
-
         except ValueError:
             response['status'] = "Invalid Request"
     print(response)
@@ -128,7 +127,8 @@ def update_project_invitation_video_details(request):
         project_id = request.data["ProjectId"]
 
         user_id = User.objects.get(email=user_emailid).id #get user id from email id
-        pu_id = ProjectUser.objects.filter(user_id_id=user_id, project_id_id=project_id)[0].id # from project user table get id
+        project_user_record = ProjectUser.objects.filter(user_id_id=user_id, project_id_id=project_id)[0]# from project user table get id
+        pu_id = project_user_record.id
         project_user_details = ProjectUserDetails.objects.filter(pu_id=pu_id)[0]
         project_user_update_data = {"video": request.data["ProjectVideo"]}
         # Create new dictionary containing data to update
@@ -137,6 +137,8 @@ def update_project_invitation_video_details(request):
             project_user_serializer = ProjectUserSerializer(project_user_details, data=project_user_update_data)
             if project_user_serializer.is_valid():
                 project_user_serializer.save()
+                project_user_record.project_status = "PlanningPhase2"
+                project_user_record.save()
                 return Response(project_user_serializer.data, status=status.HTTP_201_CREATED)
             else:
                 print('error', project_user_serializer.errors)
@@ -144,26 +146,27 @@ def update_project_invitation_video_details(request):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
 # @api_view(['PUT'])
 # @parser_classes([MultiPartParser, FormParser])
 def update_project_prize(request):
     response = {'status': "Invalid Request"}
     if request.method == 'PUT':
-        print('inside update project prize')
         json_data = json.loads(request.body)
-        print(json_data)
         user_email_id = json_data["user_email"]
         user_id = User.objects.get(email=user_email_id).id  # get user id from email id
         project_id = json_data["project_id"]
         prize_id = json_data["prize_id"]
-        pu_id = ProjectUser.objects.filter(user_id=user_id,
-                                        project_id_id=project_id)[0].id
-        print("pi-id", pu_id)
+        project_user_record = ProjectUser.objects.filter(user_id=user_id,
+                                        project_id_id=project_id)[0]
+        pu_id = project_user_record.id
         project_user_details = ProjectUserDetails.objects.filter(pu_id=pu_id)[0]
-        print("project_user_details", project_user_details)
+
         if project_user_details:
             project_user_details.prize_given_id = Prize.objects.get(pk=prize_id)
             project_user_details.save()
+            project_user_record.project_status = "PlanningPhase3"
+            project_user_record.save()
             response['status'] = "Success"
         else:
             response['status'] = 'Wrong project user reference'
