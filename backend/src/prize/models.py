@@ -1,7 +1,9 @@
 from django.db import models
 
+
 # Create your models here.
 class Prize(models.Model):
+    objects = None
     Category = models.CharField(max_length=120)
     Tags = models.CharField(max_length=120)
     Name = models.CharField(max_length=120)

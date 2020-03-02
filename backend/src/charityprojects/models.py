@@ -40,6 +40,11 @@ class ProjectUser(models.Model):
     project_id = models.ForeignKey(CharityProjects, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     invited_by = models.EmailField(null=True, blank=True)
+    date_joined = models.DateField(null=True, blank=True)
+    goal_date = models.DateField(null=True, blank=True)
+    challenge_status = models.CharField(max_length=100, blank=True)
+    project_status = models.CharField(max_length=100, blank=True)
+    adventure_id = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return '{} {} {}'.format(self.project_id, self.user_id, self.invited_by)
