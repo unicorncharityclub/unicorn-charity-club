@@ -1,6 +1,6 @@
 import React from "react";
 
-class TextBlack extends React.Component {
+class TextWhite extends React.Component {
     render() {
         return (
             <div style={{color:"white", fontSize: "1.1em"}}>
@@ -10,4 +10,4 @@ class TextBlack extends React.Component {
     }
 }
 
-export default TextBlack;
+export default TextWhite;
