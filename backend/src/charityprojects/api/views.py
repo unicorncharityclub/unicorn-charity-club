@@ -173,4 +173,22 @@ def update_project_prize(request):
     return JsonResponse(response)
 
 
+def update_project_challenge_status_explore(request):
+    response = {'status': "Invalid Request"}
+    if request.method == 'PUT':
+        json_data = json.loads(request.body)
+        user_email_id = json_data["user_email"]
+        user_id = User.objects.get(email=user_email_id).id
+        project_id = json_data["project_id"]
+        project_join_date = json_data["joining_date"]
+        project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0] #ideally only one entry should be there
+        if project_user_record:
+            project_user_record.date_joined = project_join_date
+            project_user_record.challenge_status = "Challenge1Complete"
+            project_user_record.save()
+            return Response(status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
 
