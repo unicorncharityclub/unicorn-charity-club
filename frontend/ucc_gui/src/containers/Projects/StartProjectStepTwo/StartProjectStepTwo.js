@@ -1,5 +1,5 @@
 import React from "react";
-import "./PlanProjectGift.css";
+import "./StartProjectStepTwo.css";
 import { Container } from "@material-ui/core";
 import ProjectInfo from "../../../components/Project/ProjectDetails/ProjectInfo";
 import Button from "react-bootstrap/Button";
@@ -9,9 +9,10 @@ import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
 import ProgressStepper from "../../../components/Project/ProgressStepper";
 import ProjectBanner from "../../../components/Project/ProjectBanner";
 import cookie from 'react-cookies';
+import { withAlert } from 'react-alert'
 
 
-class PlanProjectGift extends React.Component {
+class StartProjectStepTwo extends React.Component {
     constructor(props) {
         super(props); 
         this.state = {                        
@@ -75,7 +76,9 @@ class PlanProjectGift extends React.Component {
     }
 
     moveToStepThreeHandler() {
-    
+        
+        // if the prize is selected
+        if (this.state.PhotoSelectedId){            
             axiosConfig.defaults.withCredentials = true;
             axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
             axiosConfig.put(`charityproject/projectPrize`, {
@@ -83,8 +86,17 @@ class PlanProjectGift extends React.Component {
                 "user_email" : cookie.load('user_emailid'),
                 "prize_id" : this.state.PhotoSelectedId
 
-            })            
+            })
+            .then(this.props.history.push(`/Projects/${this.state.ProjectId}/StartProjectStepThree`))            
             .catch(error => console.log(error))
+        }else{
+            // show message that need to select one prize to proceed.
+            const alert = this.props.alert;
+            alert.show('Please select one prize to proceed!');
+
+        }
+    
+            
     }
     
 
@@ -117,7 +129,7 @@ class PlanProjectGift extends React.Component {
                         {this.state.imageList[0].prize_url?
                         (<GiftGrid prizeData = {this.state.imageList} onClick={this.giftPlanSelectedHandler.bind(this)} />):(<div/>)}
                         
-                    </div>
+                    </div>                    
                     <br/>
                     <div className="buttons">
                         <Button className = "backButton" variant="light" size="lg"> BACK </Button>
@@ -131,4 +143,4 @@ class PlanProjectGift extends React.Component {
     }
   }
 
-export default PlanProjectGift;
+export default withAlert()(StartProjectStepTwo);

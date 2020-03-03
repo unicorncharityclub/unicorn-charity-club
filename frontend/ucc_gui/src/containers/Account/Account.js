@@ -5,6 +5,7 @@ import Settings_email from "../../site_media/Images/Settings_Email.png";
 import Settings_home from "../../site_media/Images/Settings_Address.png";
 import Settings_mobile from "../../site_media/Images/Settings_Mobile.png";
 import Settings_notifications from "../../site_media/Images/Settings_Notifications.png";
+import Upload_photo from "../../image/Default-profile-picture.png";
 import cookie from 'react-cookies'
 import Avatar from '@material-ui/core/Avatar';
 import axiosConfig from '../../axiosConfig'
@@ -48,7 +49,7 @@ class Account extends React.Component {
                         Email: res.data.email,
                         Mobile: res.data.mobile,
                         Address: res.data.address,
-                        ProfilePic: res.data.profilepic
+                        ProfilePic: res.data.profilepic,                        
                     });
                 console.log(res.data)
             }).catch(error => console.log(error))
@@ -66,6 +67,7 @@ class Account extends React.Component {
             ProfilePic: URL.createObjectURL(event.target.files[0]),
             FinalImage : event.target.files[0]
         })
+        console.log(this.state.FinalImage);
     }
 
     handleSaveBtn = (event) => {
@@ -76,7 +78,11 @@ class Account extends React.Component {
             form_data.append('Address', this.state.Address);
             form_data.append('Mobile', this.state.Mobile);
             form_data.append('Email', this.state.Email);
-            form_data.append('ProfilePic', this.state.FinalImage, this.state.FinalImage.name);
+
+            if (this.state.FinalImage){
+              form_data.append('ProfilePic', this.state.FinalImage, this.state.FinalImage.name);
+            }
+            
         } catch(err) {
             console.log(err)
         }
@@ -118,8 +124,19 @@ class Account extends React.Component {
                       <div className="menu__content">
                         <div className="root_profilepic">
                         {/* {this.state.ProfilePic} */}
-                            <Avatar className = "profilepic" src={this.state.ProfilePic}/>
-                            <input type="file" name="ProfilePic" onChange={this.imageHandler.bind(this)}/>
+                            {/* <Avatar className = "profilepic" src={this.state.ProfilePic}/>
+                            <label className="upload-photo" htmlFor="file">Upload Photo</label>
+                            <input type="file" name="ProfilePic" style={{display: 'none'}}  onChange={this.imageHandler.bind(this)}/> */}
+
+
+                            <img className="profile-picture" src={this.state.Photo || Upload_photo} alt=""/>
+                            <label className="upload-photo" htmlFor="file">Upload Photo</label>
+                                <input id="file" style={{display: 'none'}}
+                                          type="file"
+                                          name="Photo"
+                                          accept=".png, .jpeg, .jpg"
+                                          onChange={this.imageHandler.bind(this)}
+                                />
                          </div>
 
                         <div className="menu__item_title">

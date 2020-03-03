@@ -54,7 +54,7 @@ class MyChildren extends React.Component {
                         Support: res.data.Support,
                         Photo: res.data.Photo
                     });
-                console.log(res.data)
+                // console.log(res.data)
             })
     }
 
