@@ -2,7 +2,6 @@ import React from 'react';
 import {Player} from "video-react";
 import TextBlueHeading from "../../General/TextBlueHeading";
 import TextBlack from "../../General/TextBlack";
-import TextBlue from "../../General/TextBlue";
 import CameraAltRoundedIcon from '@material-ui/icons/CameraAltRounded';
 import Button from '@material-ui/core/Button';
 class ProjectContent extends React.Component {

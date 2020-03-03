@@ -12,9 +12,9 @@ class ProjectDetails extends React.Component {
     onSubmit()
     {
         const project_id = this.props.match.params.id;
+
         axiosConfig.defaults.withCredentials = true;
         axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-
         axiosConfig.post('charityproject/start',
             {"project_id":project_id,
                     "user_emailid": this.state.UserEmailId},
@@ -36,7 +36,8 @@ class ProjectDetails extends React.Component {
      }  
 
     componentDidMount () {
-      const project_id = this.props.match.params.id;      
+      const project_id = this.props.match.params.id;
+      console.log(project_id)
       axiosConfig.get(`charityproject/${project_id}`)
       .then(res => {
               this.setState({                  
@@ -54,7 +55,7 @@ class ProjectDetails extends React.Component {
               <Container>                                        
                   {/* {console.log(this.props)} */}
                   <ProjectInfo id={this.props.match.params.id} />
-                  
+
                   <br/>
                   <br/>
 

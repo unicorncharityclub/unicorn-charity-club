@@ -7,7 +7,6 @@ import Settings_mobile from "../../site_media/Images/Settings_Mobile.png";
 import Settings_notifications from "../../site_media/Images/Settings_Notifications.png";
 import Upload_photo from "../../image/Default-profile-picture.png";
 import cookie from 'react-cookies'
-import Avatar from '@material-ui/core/Avatar';
 import axiosConfig from '../../axiosConfig'
 
 /** @import CSS styles */

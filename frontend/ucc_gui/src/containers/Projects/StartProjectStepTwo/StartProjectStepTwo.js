@@ -5,7 +5,6 @@ import ProjectInfo from "../../../components/Project/ProjectDetails/ProjectInfo"
 import Button from "react-bootstrap/Button";
 import GiftGrid from "../../../components/Project/PlanProjectGift/GiftGrid";
 import axiosConfig from '../../../axiosConfig'
-import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
 import ProgressStepper from "../../../components/Project/ProgressStepper";
 import ProjectBanner from "../../../components/Project/ProjectBanner";
 import cookie from 'react-cookies';
@@ -59,14 +58,6 @@ class StartProjectStepTwo extends React.Component {
             .catch(function(error) {console.log(error);});
     }
 
-    fetchPrizeDetails(obj) {
-        axiosConfig.get(`prize/prizeList`)
-            .then(function(response) {
-                obj.setPrizeDetails(response);
-                console.log(response);
-            })
-            .catch(function(error) {console.log(error);});
-    }
 
     giftPlanSelectedHandler(value) {
         console.log(value);

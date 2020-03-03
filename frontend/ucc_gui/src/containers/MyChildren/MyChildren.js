@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import axiosConfig from '../../axiosConfig'
 import "../Account/Account.css";
 import "./MyChildren.css";

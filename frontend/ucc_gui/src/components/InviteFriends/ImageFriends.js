@@ -2,7 +2,6 @@ import React from 'react';
 import TextBlueHeading from "../General/TextBlueHeading";
 import TextBlack from "../General/TextBlack";
 import TextBlackSubHeading from "../General/TextBlackSubHeading";
-import AlertMessage from "../AlertMessage";
 import Search from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
 
