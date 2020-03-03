@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axiosConfig from '../../axiosConfig'
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import AlertMessage from "../../components/AlertMessage";
 import TextField from "@material-ui/core/TextField";
@@ -160,8 +160,8 @@ class RegisterForm extends React.Component {
 
   handleInsert(obj, event) {
     var status = "";
-    axios
-      .post(`http://127.0.0.1:8000/account/register`, this.state)
+    axiosConfig
+      .post(`account/register`, this.state)
       .then(function(response) {
         status = response.data["status"];
         obj.updateResponseStatus(status);

@@ -4,7 +4,7 @@ import { Container } from "@material-ui/core";
 import ProjectInfo from "../../../components/Project/ProjectDetails/ProjectInfo";
 import Button from "react-bootstrap/Button";
 import GiftGrid from "../../../components/Project/PlanProjectGift/GiftGrid";
-import axios from "axios";
+import axiosConfig from '../../../axiosConfig'
 import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
 import ProgressStepper from "../../../components/Project/ProgressStepper";
 import ProjectBanner from "../../../components/Project/ProjectBanner";
@@ -33,7 +33,7 @@ class PlanProjectGift extends React.Component {
 
     fetchProjectBanner(){
         const project_id = this.props.match.params.id;
-        axios.get(`http://127.0.0.1:8000/charityproject/${project_id}`)
+        axiosConfig.get(`charityproject/${project_id}`)
         .then(res => {
               this.setState({                  
                   ProjectBanner : res.data["project_banner"]                                
@@ -50,7 +50,7 @@ class PlanProjectGift extends React.Component {
     }
 
     fetchPrizeDetails(obj) {
-        axios.get(`http://127.0.0.1:8000/prize/prizeList`)
+        axiosConfig.get(`prize/prizeList`)
             .then(function(response) {
                 obj.setPrizeDetails(response);
                 console.log(response);
@@ -59,7 +59,7 @@ class PlanProjectGift extends React.Component {
     }
 
     fetchPrizeDetails(obj) {
-        axios.get(`http://127.0.0.1:8000/prize/prizeList`)
+        axiosConfig.get(`prize/prizeList`)
             .then(function(response) {
                 obj.setPrizeDetails(response);
                 console.log(response);
@@ -76,9 +76,9 @@ class PlanProjectGift extends React.Component {
 
     moveToStepThreeHandler() {
     
-            axios.defaults.withCredentials = true;
-            axios.defaults.xsrfHeaderName = "X-CSRFToken";
-            axios.put(`http://127.0.0.1:8000/charityproject/projectPrize`, {
+            axiosConfig.defaults.withCredentials = true;
+            axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+            axiosConfig.put(`charityproject/projectPrize`, {
                 "project_id" : this.props.match.params.id,
                 "user_email" : cookie.load('user_emailid'),
                 "prize_id" : this.state.PhotoSelectedId

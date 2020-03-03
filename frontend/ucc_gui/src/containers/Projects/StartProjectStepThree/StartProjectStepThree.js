@@ -1,6 +1,6 @@
 import React from "react";
 import "./StartProjectStepThree.css";
-import axios from "axios";
+import axiosConfig from '../../../axiosConfig'
 import ProjectBanner from "../../../components/Project/ProjectBanner";
 import ProjectInfo from "../../../components/Project/ProjectDetails/ProjectInfo";
 import cookie from "react-cookies";
@@ -22,7 +22,7 @@ class StartProjectStepThree extends React.Component {
 
     componentDidMount () {
         const project_id = this.props.match.params.id;
-        axios.get(`http://127.0.0.1:8000/charityproject/${project_id}`)
+        axiosConfig.get(`charityproject/${project_id}`)
       .then(res => {
               this.setState({
                   ProjectName : res.data["project_name"],

@@ -2,7 +2,8 @@ import React from "react";
 import { Select } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
-import axios from "axios";
+import axiosConfig from '../../../axiosConfig'
+
 
 class ProjectsHome extends React.Component {
     constructor(props) {
@@ -26,13 +27,13 @@ class ProjectsHome extends React.Component {
    }
 
     fetchListOfProjectCategory(obj) {
-        axios.get(`http://127.0.0.1:8000/charityproject/category`)
+        axiosConfig.get(`charityproject/category`)
             .then(function(response) {obj.setCategoryList(response);})
             .catch(function(error) {console.log(error);});
     }
 
     fetchProjectDetails(obj) {
-        axios.get(`http://127.0.0.1:8000/charityproject/all_project_info_list`)
+        axiosConfig.get(`charityproject/all_project_info_list`)
             .then(function(response) {obj.setProjectDetails(response);})
             .catch(function(error) {console.log(error);});
     }

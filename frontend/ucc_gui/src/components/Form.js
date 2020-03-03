@@ -1,8 +1,6 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
-
-import axios from 'axios';
-
+import axiosConfig from '../axiosConfig'
 const FormItem = Form.Item;
 
 class CustomForm extends React.Component {
@@ -13,14 +11,14 @@ class CustomForm extends React.Component {
 
         switch ( requestType ) {
             case 'post':
-                return axios.post('http://127.0.0.1:8000/api/', {
+                return axiosConfig.post('http://127.0.0.1:8000/api/', {
                     title: title,
                     content: content
                 })
                 .then(res => console.log(res))
                 .catch(error => console.err(error));
             case 'put':
-                return axios.put(`http://127.0.0.1:8000/api/${articleID}/`, {
+                return axiosConfig.put(`http://127.0.0.1:8000/api/${articleID}/`, {
                     title: title,
                     content: content
                 })

@@ -1,6 +1,6 @@
 import React from "react";
 import "./StartProjectStepOne.css";
-import axios from "axios";
+import axiosConfig from '../../../axiosConfig'
 import ProjectBanner from "../../../components/Project/ProjectBanner";
 import ProjectInfo from "../../../components/Project/ProjectDetails/ProjectInfo";
 import ProjectContent from "../../../components/Project/ProjectStepOne/ProjectContent";
@@ -44,9 +44,9 @@ class StartProjectStepOne extends React.Component {
             form_data.append('Email', this.state.UserEmailId);
             form_data.append('ProjectVideo', this.state.UserProjectVideo, this.state.UserProjectVideo.name);
 
-        axios.defaults.withCredentials = true;
-        axios.defaults.xsrfHeaderName = "X-CSRFToken";
-        axios.put(`http://127.0.0.1:8000/charityproject/invitationVideo`, form_data,
+        axiosConfig.defaults.withCredentials = true;
+        axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+        axiosConfig.put(`charityproject/invitationVideo`, form_data,
         {
             headers: {
                 'content-type': 'multipart/form-data'
@@ -58,7 +58,7 @@ class StartProjectStepOne extends React.Component {
 
     componentDidMount () {
         const project_id = this.props.match.params.id;
-        axios.get(`http://127.0.0.1:8000/charityproject/${project_id}`)
+        axiosConfig.get(`charityproject/${project_id}`)
       .then(res => {
               this.setState({
                   ProjectName : res.data["project_name"],

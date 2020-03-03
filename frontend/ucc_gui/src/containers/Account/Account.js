@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import axios from 'axios';
 import Arrow_backward from "../../image/arrow-backward.png";
 import Settings_email from "../../site_media/Images/Settings_Email.png";
 import Settings_home from "../../site_media/Images/Settings_Address.png";
@@ -8,7 +7,7 @@ import Settings_mobile from "../../site_media/Images/Settings_Mobile.png";
 import Settings_notifications from "../../site_media/Images/Settings_Notifications.png";
 import cookie from 'react-cookies'
 import Avatar from '@material-ui/core/Avatar';
-
+import axiosConfig from '../../axiosConfig'
 
 /** @import CSS styles */
 import "./Account.css";
@@ -41,8 +40,8 @@ class Account extends React.Component {
 
     componentDidMount() {
         const user_emailid = cookie.load('user_emailid');
-        console.log(user_emailid)
-        axios.get(`http://127.0.0.1:8000/myaccount/${user_emailid}`)
+        console.log(user_emailid);
+        axiosConfig.get(`myaccount/${user_emailid}`)
             .then(res => {
                     this.setState({
                         Name: res.data.name,
@@ -84,10 +83,9 @@ class Account extends React.Component {
 
         const account_emailid =  cookie.load('user_emailid');
         const token = cookie.load('XSRF-TOKEN');
-        axios.defaults.withCredentials = true;
-        axios.defaults.xsrfHeaderName = "X-CSRFToken";
-
-        return axios.put(`http://127.0.0.1:8000/myaccount/${account_emailid}/`, form_data,
+        axiosConfig.defaults.withCredentials = true;
+        axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+        return axiosConfig.put(`myaccount/${account_emailid}/`, form_data,
                 {
                     headers: {
                         'content-type': 'multipart/form-data'

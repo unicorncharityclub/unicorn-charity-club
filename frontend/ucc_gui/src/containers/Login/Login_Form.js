@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Login.css";
-import axios from "axios";
+import axiosConfig from '../../axiosConfig'
 import AlertMessage from "../../components/AlertMessage";
 import { connect } from 'react-redux';
 import cookie from 'react-cookies'
@@ -41,8 +41,8 @@ class Login_Form extends React.Component {
   }
 
   handleValidateUser(obj, event) {
-    axios
-      .post(`http://127.0.0.1:8000/account/login`, this.state)
+    axiosConfig
+      .post(`account/login`, this.state)
       .then(function(response) {
         obj.updateResponseStatus(response);
       })
