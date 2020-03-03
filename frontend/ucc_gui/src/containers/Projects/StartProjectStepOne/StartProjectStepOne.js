@@ -52,7 +52,7 @@ class StartProjectStepOne extends React.Component {
                 'content-type': 'multipart/form-data'
             }
         })
-        .then(this.props.history.push(`/Projects/${this.state.ProjectId}/PlanProjectGift`))
+        .then(this.props.history.push(`/Projects/${this.state.ProjectId}/StartProjectStepTwo`))
         .catch(error => console.log(error))
      }
 

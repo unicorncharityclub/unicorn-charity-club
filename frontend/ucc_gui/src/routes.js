@@ -14,7 +14,7 @@ import AddChild from "./containers/MyChildren/AddChild";
 import ProjectsHome from "./containers/Projects/Home/ProjectsHome"
 import ProjectDetails from "./containers/Projects/ProjectDetails/ProjectDetails"
 import StartProjectStepOne from "./containers/Projects/StartProjectStepOne/StartProjectStepOne";
-import PlanProjectGift from "./containers/Projects/PlanProjectGift/PlanProjectGift";
+import StartProjectStepTwo from "./containers/Projects/StartProjectStepTwo/StartProjectStepTwo";
 import StartProjectStepThree from "./containers/Projects/StartProjectStepThree/StartProjectStepThree";
 
 class BaseRouter extends React.Component {
@@ -33,7 +33,7 @@ class BaseRouter extends React.Component {
               <Route exact path='/Projects/' component={ProjectsHome} />
               <Route exact path='/Projects/:id' component={ProjectDetails} />
               <Route exact path='/Projects/:id/StartNewProject' component={StartProjectStepOne} />
-              <Route exact path='/Projects/:id/PlanProjectGift' component={PlanProjectGift} />
+              <Route exact path='/Projects/:id/StartProjectStepTwo' component={StartProjectStepTwo} />
               <Route exact path='/Projects/:id/InviteFriends' component={StartProjectStepThree} />
 
               <Route exact path='/AddChild' component={() => <AddChild blessing_group={"Helpful Hearts"} color_horn_rank={"Red"}/>}/>
