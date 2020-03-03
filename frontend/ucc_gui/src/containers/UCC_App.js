@@ -21,9 +21,12 @@ class UCC_App extends Component {
     }
   }
 
+  
+
     render() {
-    return (
-      <Router>
+
+    return (      
+      <Router>        
         {this.props.token !== '' ? (
           <div className="App">
             <div className="content-wrapper">
@@ -37,7 +40,7 @@ class UCC_App extends Component {
             <RegisterBannerImage/>
             <BaseRouter userState="unregistered" appState={this.state}/>
           </div>
-        )}
+        )}        
       </Router>
     );
   }

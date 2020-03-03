@@ -7,4 +7,4 @@ from ..models import Myaccount
 class MyaccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Myaccount
-        fields = ('Address', 'Mobile', 'ProfilePic', 'User')
+        fields = ('Address', 'Mobile', 'ProfilePic')
