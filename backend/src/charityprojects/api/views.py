@@ -5,7 +5,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize
 from django.http import JsonResponse
 from accounts.models import User
-from .serializers import ProjectUserSerializer
+from .serializers import ProjectUserSerializer, LearnNewSkillSerializer
 from rest_framework import status
 from rest_framework.response import Response
 
@@ -189,6 +189,27 @@ def update_project_challenge_status_explore(request):
             return Response(status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def challenge_learn_new_skill(request):
+    response = {'status': "Success"}
+    lst = {}
+    lst['newSkill'] = request.data['newSkill']
+    lst['description'] = request.data['description']
+    lst['video'] = request.data['video']
+    lst['pu_id'] = request.data["ProjectId"]
+    data_serializer = LearnNewSkillSerializer(data=lst)
+    if data_serializer.is_valid():
+        data_serializer.save()
+        return Response(data_serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        print('error', data_serializer.errors)
+        return Response(data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    print(request.data)
+
+    return JsonResponse(response)
 
 
 
