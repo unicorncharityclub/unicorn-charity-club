@@ -6,6 +6,7 @@ import ProjectInfo from "../../../components/Project/ProjectDetails/ProjectInfo"
 import cookie from "react-cookies";
 import ProgressStepper from "../../../components/Project/ProgressStepper";
 import InviteFriends from "../../../components/InviteFriends/ImageFriends";
+import FriendsSearchGrid from "../../../components/Project/ProjectStepThree/FriendsSearchGrid";
 
 
 class StartProjectStepThree extends React.Component {
@@ -16,7 +17,22 @@ class StartProjectStepThree extends React.Component {
             ProjectBanner : '',
             ProjectName : '',
             ProjectDateStarted: 'Date Started',
-            UserEmailId: cookie.load('user_emailid')
+            UserEmailId: cookie.load('user_emailid'),
+            PopupSearch : false,
+            FriendsSearchData : [
+                {emailId:"vt@gmail.com", image:"http://127.0.0.1:8000/media/profilePictures/1.jpg", name:"name1"},
+                {emailId:"abc@gmail.com", image:"http://127.0.0.1:8000/media/profilePictures/green.jpg", name:"name2"},
+                {emailId:"vt@gmail.com", image:"http://127.0.0.1:8000/media/profilePictures/1.jpg", name:"name3"},
+                {emailId:"abc@gmail.com", image:"http://127.0.0.1:8000/media/profilePictures/green.jpg", name:"name4"},
+                {emailId:"vt@gmail.com", image:"http://127.0.0.1:8000/media/profilePictures/1.jpg", name:"name5"},
+                {emailId:"abc@gmail.com", image:"http://127.0.0.1:8000/media/profilePictures/green.jpg", name:"name6"},
+                {emailId:"vt@gmail.com", image:"http://127.0.0.1:8000/media/profilePictures/1.jpg", name:"name1"},
+                {emailId:"abc@gmail.com", image:"http://127.0.0.1:8000/media/profilePictures/green.jpg", name:"name2"},
+                {emailId:"vt@gmail.com", image:"http://127.0.0.1:8000/media/profilePictures/1.jpg", name:"name3"},
+                {emailId:"abc@gmail.com", image:"http://127.0.0.1:8000/media/profilePictures/green.jpg", name:"name4"},
+                {emailId:"vt@gmail.com", image:"http://127.0.0.1:8000/media/profilePictures/1.jpg", name:"name5"},
+                {emailId:"abc@gmail.com", image:"http://127.0.0.1:8000/media/profilePictures/green.jpg", name:"name6"}
+            ]
         }
      }  
 
@@ -32,9 +48,24 @@ class StartProjectStepThree extends React.Component {
       }).catch(error => console.log(error))
     }
 
+    searchResultHandler(value) {
+        console.log(value)
+        this.setState({ PopupSearch : true});
+    }
+
     render() {
       return(
+
+
             <div style={{margin:"10px", marginBottom:"150px"}}>
+
+                {this.state.PopupSearch?(
+              <div id="popup" style={{position:"fixed",width:"40%",height:"70%",top:"20%",bottom: "10px",
+                  background:"#6b6a63", left: "50%",marginLeft: "-20%", zIndex: "100",marginTop: "-40px"}}>
+                  <FriendsSearchGrid friendsSearchData={this.state.FriendsSearchData} />
+              </div>
+                    ):(<div/>)}
+
                 <div className="headerStepBanner">
                     <div className="stepper" >
                         <ProgressStepper currentStep="2" />
@@ -43,10 +74,9 @@ class StartProjectStepThree extends React.Component {
                         <ProjectBanner image={this.state.ProjectBanner}  />
                     </div>
                 </div>
-
                 <ProjectInfo id={this.state.ProjectId} />
-
-                <InviteFriends />
+                <InviteFriends onClick={this.searchResultHandler.bind(this)}
+                               disabled={this.state.PopupSearch}/>
 
             </div>
         )

@@ -34,6 +34,7 @@ class InviteFriends extends React.Component {
         if(this.state.friendName)
         {
             this.setState({ searchStatus : "Search By Name"});
+            this.props.onClick("name")
         }
         else if(this.state.friendEmailid)
         {
@@ -44,6 +45,7 @@ class InviteFriends extends React.Component {
               else
               {
                   this.setState({ searchStatus : "Search By Email Id"});
+                  this.props.onClick("emailid")
               }
         }
         else
@@ -115,6 +117,7 @@ class InviteFriends extends React.Component {
                             component="span"
                             style={{textTransform:"None"}}
                             onClick={this.onSearchFriends.bind(this)}
+                            disabled={this.props.disabled}
                           >
                             <TextBlueHeading message="Search"/>
                           </Button>
