@@ -3,6 +3,7 @@ import { Select } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
 import axiosConfig from '../../../axiosConfig'
+import ActiveProjectInfo from "../../../components/Project/ActiveProjectInfo";
 
 
 class ProjectsHome extends React.Component {
@@ -61,8 +62,20 @@ class ProjectsHome extends React.Component {
   render() {
     return (
       <div>
-        <div className="blackDivider">
+        <div className="blackDivider"></div>
+        
+        <div className="textHeader">
+            Active
         </div>
+
+        <div>
+          <ActiveProjectInfo Project_id={1} / >
+        </div>
+
+
+  
+        <div className="blackDivider"></div>
+
         <div className="textHeader">
             Start a Project
         </div>
