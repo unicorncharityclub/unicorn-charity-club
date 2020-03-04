@@ -63,3 +63,9 @@ class ProjectUserDetails(models.Model):
     def __str__(self):
         return '{} {} {} '.format(self.pu_id,  self.prize_given_id, self.video)
 
+
+class LearnNewSkill(models.Model):
+    newSkill = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    video = models.FileField(upload_to='upload/challengeVideo', null=True)
+    pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
