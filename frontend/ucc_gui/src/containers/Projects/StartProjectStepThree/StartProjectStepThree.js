@@ -22,6 +22,7 @@ class StartProjectStepThree extends React.Component {
       SearchValue: "abc",
       SearchMoreAvailable: true,
       SearchOffset: 0,
+      SelectedEmailIdMap: new Map(),
       SelectedFriends : [],
       FriendsSearchData: [
         {
@@ -35,52 +36,52 @@ class StartProjectStepThree extends React.Component {
           name: "name2name2 name2name2"
         },
         {
-          emailId: "vt@gmail.com",
+          emailId: "vt1@gmail.com",
           image: "http://127.0.0.1:8000/media/profilePictures/1.jpg",
           name: "name3name3 name3name3"
         },
         {
-          emailId: "abc@gmail.com",
+          emailId: "abc1@gmail.com",
           image: "http://127.0.0.1:8000/media/profilePictures/green.jpg",
           name: "name4name4 name4name4"
         },
         {
-          emailId: "vt@gmail.com",
+          emailId: "vt2@gmail.com",
           image: "http://127.0.0.1:8000/media/profilePictures/1.jpg",
           name: "name5name5 name5name5"
         },
         {
-          emailId: "abc@gmail.com",
+          emailId: "abc2@gmail.com",
           image: "http://127.0.0.1:8000/media/profilePictures/green.jpg",
           name: "name6name6 name6name6"
         },
         {
-          emailId: "vt@gmail.com",
+          emailId: "vt3@gmail.com",
           image: "http://127.0.0.1:8000/media/profilePictures/1.jpg",
           name: "name1name1 name1name1"
         },
         {
-          emailId: "abc@gmail.com",
+          emailId: "abc3@gmail.com",
           image: "http://127.0.0.1:8000/media/profilePictures/green.jpg",
           name: "name2name2 name2name2"
         },
         {
-          emailId: "vt@gmail.com",
+          emailId: "vt4@gmail.com",
           image: "http://127.0.0.1:8000/media/profilePictures/1.jpg",
           name: "name3name3 name3name3"
         },
         {
-          emailId: "abc@gmail.com",
+          emailId: "abc4@gmail.com",
           image: "http://127.0.0.1:8000/media/profilePictures/green.jpg",
           name: "name4name4 name4name4"
         },
         {
-          emailId: "vt@gmail.com",
+          emailId: "vt5@gmail.com",
           image: "http://127.0.0.1:8000/media/profilePictures/1.jpg",
           name: "name5name5 name5name5"
         },
         {
-          emailId: "abc@gmail.com",
+          emailId: "abc5@gmail.com",
           image: "http://127.0.0.1:8000/media/profilePictures/green.jpg",
           name: "name6name6 name6name6"
         }
@@ -152,18 +153,24 @@ class StartProjectStepThree extends React.Component {
   }
 
   /*
-  When an image is clicked add the user details in the 'SelectedFriends' list
+  When an image is clicked
+   1. First check if the email id is existing in the map or not
+   2. If the email id is not existing in the map then add the user details in the 'SelectedFriends' list
+   3. Close the popup div
    */
   searchResultImageClick(value)
   {
-      console.log(value)
-      var newFriend = {}
+      const newFriend = {};
       newFriend["image"] = value[0];
       newFriend["emailId"] = value[1];
       newFriend["name"] = value[2];
 
-      this.setState(state=> {state.SelectedFriends.push(newFriend)});
-
+      if(!this.state.SelectedEmailIdMap.has(newFriend["emailId"]))
+      {
+        this.state.SelectedEmailIdMap.set(newFriend["emailId"], newFriend["emailId"]);
+        this.setState(state=> {state.SelectedFriends.push(newFriend)});
+      }
+      this.setState({ PopupSearch: false });
       console.log(this.state.SelectedFriends)
   }
 
@@ -216,6 +223,7 @@ class StartProjectStepThree extends React.Component {
           onClick={this.searchResultHandler.bind(this)}
           disabled={this.state.PopupSearch}
         />
+        
       </div>
     );
   }
