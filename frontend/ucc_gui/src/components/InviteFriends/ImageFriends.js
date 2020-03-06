@@ -34,7 +34,7 @@ class InviteFriends extends React.Component {
         if(this.state.friendName)
         {
             this.setState({ searchStatus : "Search By Name"});
-            this.props.onClick("name")
+            this.props.onClick(["name",this.state.friendName])
         }
         else if(this.state.friendEmailid)
         {
@@ -45,7 +45,7 @@ class InviteFriends extends React.Component {
               else
               {
                   this.setState({ searchStatus : "Search By Email Id"});
-                  this.props.onClick("emailid")
+                  this.props.onClick(["emailid",this.state.friendEmailid])
               }
         }
         else

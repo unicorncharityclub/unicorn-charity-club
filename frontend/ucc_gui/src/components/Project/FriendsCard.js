@@ -7,23 +7,23 @@ import CardContent from "@material-ui/core/CardContent";
 
 class ImgMediaCard extends React.Component {
 
-    handleImageClick(value) {
-        this.props.onClick(this.props.imageId)
+    searchResultImageClick(value) {
+        this.props.searchResultImageClick([this.props.imageSrc, this.props.imageId, this.props.imageName])
     }
 
     render() {
         return (
-            <Card onClick={this.handleImageClick.bind(this)}>
-                <CardActionArea style={{padding: "5px"}} >
-                    <CardMedia style={{objectFit: "cover"}}
+            <Card onClick={this.searchResultImageClick.bind(this)}>
+                <CardActionArea style={{padding: "3px"}} >
+                    <CardMedia style={{objectFit: "contain"}}
                         component="img"
-                        height="120"
+                        height="100"
                         image={this.props.imageSrc}
                         alt="Charity Project"
 
                     />
-                    <CardContent style={{padding:"2px", textAlign:"center"}}>
-                        ABC
+                    <CardContent style={{fontSize: "12px", padding:"0px", textAlign:"center"}}>
+                        {this.props.imageName}
                     </CardContent>
                 </CardActionArea>
             </Card>
