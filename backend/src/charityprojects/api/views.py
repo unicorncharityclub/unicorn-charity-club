@@ -249,7 +249,7 @@ def update_user_invitation(request):
                 invited_user_id = invited_user.id
                 invited_user_list.append(invited_user_id)
                 user_invitation = UserInvitation.objects.create(pu_id=project_user_id,
-                                                                user_id=user_id, friend_id=invited_user_id, status="Pending", invitation_message= message)
+                                                                friend_id=invited_user_id, status="Pending", invitation_message= message)
                 user_invitation.save()
             else:
                 response = {'status': "Requested user does not exist"}

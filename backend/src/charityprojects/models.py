@@ -73,12 +73,11 @@ class LearnNewSkill(models.Model):
 
 class UserInvitation(models.Model):
     objects = None
-    pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE)
     friend_id = models.IntegerField(blank=True)
     status = models.CharField(max_length=255, blank=True, null=True)
     prize_given_id = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
     invitation_message = models.TextField(blank=True)
 
     def __str__(self):
-        return '{} {} {} {} {} {}'.format(self.pu_id, self.user_id, self.friend_id, self.status, self.prize_given_id, self.invitation_message)
+        return '{} {} {} {} {}'.format(self.pu_id, self.friend_id, self.status, self.prize_given_id, self.invitation_message)
