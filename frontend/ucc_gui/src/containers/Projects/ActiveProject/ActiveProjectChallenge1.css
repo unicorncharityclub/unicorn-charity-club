@@ -1,0 +1,10 @@
+.doneButton {
+    border-radius : 0.5rem;
+    width : 20%;
+    color: white;
+    background-color: #2BB9B7;      
+}
+
+.doneButton:hover {
+    background-color: turquoise;
+}
