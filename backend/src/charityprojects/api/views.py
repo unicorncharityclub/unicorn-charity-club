@@ -2,7 +2,7 @@ import json
 
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
-from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize
+from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation
 from django.http import JsonResponse
 from accounts.models import User
 from .serializers import ProjectUserSerializer, LearnNewSkillSerializer
@@ -230,3 +230,31 @@ def update_project_challenge_status_ideation(request):
             return Response(status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+def update_user_invitation(request):
+    response = {'status': "Invalid Request"}
+    if request.method == 'POST':
+        invited_user_list = []
+        json_data = json.loads(request.body)
+        user_email_id = json_data["user_email"]
+        user_id = User.objects.get(email=user_email_id).id
+        project_id = json_data["project_id"]
+        invited_users = json_data["friend_list"]
+        message = json_data["invitation_message"]
+        project_user_id = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0].id
+        for email in invited_users:
+            invited_user = User.objects.get(email=email)
+            if invited_user:
+                invited_user_id = invited_user.id
+                invited_user_list.append(invited_user_id)
+                user_invitation = UserInvitation.objects.create(pu_id=project_user_id,
+                                                                friend_id=invited_user_id, status="Pending", invitation_message= message)
+                user_invitation.save()
+            else:
+                response = {'status': "Requested user does not exist"}
+
+        return JsonResponse(response)
+
+
+
