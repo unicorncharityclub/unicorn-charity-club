@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import FriendsMediaCard from "../FriendsCard";
+import FriendsMediaCard from "./FriendsCard";
 import Search from "@material-ui/icons/Search";
 import TextBlueHeading from "../../General/TextBlueHeading";
 import Button from "@material-ui/core/Button";

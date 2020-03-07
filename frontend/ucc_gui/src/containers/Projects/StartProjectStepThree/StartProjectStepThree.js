@@ -7,6 +7,7 @@ import cookie from "react-cookies";
 import ProgressStepper from "../../../components/Project/ProgressStepper";
 import InviteFriends from "../../../components/InviteFriends/ImageFriends";
 import FriendsSearchGrid from "../../../components/Project/ProjectStepThree/FriendsSearchGrid";
+import FriendsInvitedGrid from "../../../components/Project/ProjectStepThree/FriendsInvitedGrid";
 
 class StartProjectStepThree extends React.Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class StartProjectStepThree extends React.Component {
       SearchMoreAvailable: true,
       SearchOffset: 0,
       SelectedEmailIdMap: new Map(),
-      SelectedFriends : [],
+      SelectedFriends : new Map(),
       FriendsSearchData: [
         {
           emailId: "vt@gmail.com",
@@ -111,7 +112,6 @@ class StartProjectStepThree extends React.Component {
   SearchMoreAvailable is set to tru so the 'More' option on the popup screen is enabled
   */
   searchResultHandler(value) {
-    console.log(value);
     this.setState({ SearchType: value[0] });
     this.setState({ SearchValue: value[1] });
     this.setState({ PopupSearch: true });
@@ -165,13 +165,22 @@ class StartProjectStepThree extends React.Component {
       newFriend["emailId"] = value[1];
       newFriend["name"] = value[2];
 
-      if(!this.state.SelectedEmailIdMap.has(newFriend["emailId"]))
+      if(!this.state.SelectedFriends.has(newFriend["emailId"]))
       {
-        this.state.SelectedEmailIdMap.set(newFriend["emailId"], newFriend["emailId"]);
-        this.setState(state=> {state.SelectedFriends.push(newFriend)});
+        this.state.SelectedFriends.set(newFriend["emailId"], newFriend);
       }
       this.setState({ PopupSearch: false });
-      console.log(this.state.SelectedFriends)
+  }
+
+  /*
+  The method is used to remove an already selected friend whom we were going to send an invite.
+  The value is the email id
+   */
+  removeInviteClick(value)
+  {
+    this.state.SelectedFriends.delete(value);
+    // This is just a useless state change just to notify changes in the state
+    this.setState({ SearchOffset: 0 });
   }
 
   render() {
@@ -223,7 +232,8 @@ class StartProjectStepThree extends React.Component {
           onClick={this.searchResultHandler.bind(this)}
           disabled={this.state.PopupSearch}
         />
-        
+        <FriendsInvitedGrid friendsInvitedData={[...this.state.SelectedFriends.values()]} removeInviteClick={this.removeInviteClick.bind(this)}/>
+
       </div>
     );
   }
