@@ -16,6 +16,7 @@ import ProjectDetails from "./containers/Projects/ProjectDetails/ProjectDetails"
 import StartProjectStepOne from "./containers/Projects/StartProjectStepOne/StartProjectStepOne";
 import StartProjectStepTwo from "./containers/Projects/StartProjectStepTwo/StartProjectStepTwo";
 import StartProjectStepThree from "./containers/Projects/StartProjectStepThree/StartProjectStepThree";
+import ActiveProjectChallenge2 from "./containers/Projects/ActiveProjectChallenge2/ActiveProjectChallenge2"
 
 class BaseRouter extends React.Component {
     render() {
@@ -32,6 +33,7 @@ class BaseRouter extends React.Component {
               <Route exact path='/MyChildren/:id' component={MyChildren} />
               <Route exact path='/Projects/' component={ProjectsHome} />
               <Route exact path='/Projects/:id' component={ProjectDetails} />
+              <Route exact path='/Projects/:id/ActiveProjectChallenge2' component={ActiveProjectChallenge2} />
               <Route exact path='/Projects/:id/StartNewProject' component={StartProjectStepOne} />
               <Route exact path='/Projects/:id/StartProjectStepTwo' component={StartProjectStepTwo} />
               <Route exact path='/Projects/:id/InviteFriends' component={StartProjectStepThree} />
