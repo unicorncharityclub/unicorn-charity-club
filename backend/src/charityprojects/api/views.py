@@ -5,6 +5,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation
 from django.http import JsonResponse
 from accounts.models import User
+from childAccount.models import ChildAccount
 from .serializers import ProjectUserSerializer, LearnNewSkillSerializer
 from rest_framework import status
 from rest_framework.response import Response
@@ -255,6 +256,33 @@ def update_user_invitation(request):
                 response = {'status': "Requested user does not exist"}
 
         return JsonResponse(response)
+
+
+def get_children_list_from_parent(request):
+    response = {'status': "Invalid Request"}
+    children_details_list = []
+    json_data = json.loads(request.body)
+    user_email_id = json_data["user_email"]
+    user = User.objects.get(email=user_email_id)
+    user_id = user.id
+    if user_id:
+        user_name = user.first_name + user.last_name
+        children = ChildAccount.objects.filter(user_id=user_id)
+        if children:
+            for child in children:
+                child_details = {"child_id": child.id, "child_name": child.Name,
+                                 "child_photo": request.build_absolute_uri(child.Photo),
+                                 "child_email": user_email_id} #Made parents email as child emails
+                children_details_list.append(child_details)
+
+            response["user_name"] = user_name
+            response["children_list"] = children_details_list
+        else:
+            response["Status"] = "User has no child added"
+    else:
+        response["status"] = "User does not exist"
+
+
 
 
 
