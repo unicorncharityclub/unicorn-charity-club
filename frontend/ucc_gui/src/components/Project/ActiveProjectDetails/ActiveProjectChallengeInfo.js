@@ -3,14 +3,30 @@ import "./ActiveProjectChallengeInfo.css";
 import Image from "react-bootstrap/Image";
 import TextBlackHeading from "../../General/TextBlackHeading";
 import TextBlack from "../../General/TextBlack";
+import axiosConfig from '../../../axiosConfig'
 
 class ActiveProjectChallengeInfo extends React.Component {
   constructor(props) {
-    super(props);    
+    super(props); 
+    this.state = {
+      ProjectID : this.props.id,
+      ProjectName : '',
+      ProjectStatus : '',
+      ProjectDateJoined : '',
+      ProjectBanner : ''
+    }  
+    
  }
 
     componentDidMount () {
     // get axios function here 
+        axiosConfig.get(`http://127.0.0.1:8000/charityproject/${this.state.ProjectID}`)
+        .then(res => {
+                this.setState({                  
+                  ProjectName : res.data["project_name"],
+                  ProjectBanner : res.data["project_banner"],                     
+                });
+        }).catch(error => console.log(error))
 
     }
 
@@ -21,14 +37,14 @@ class ActiveProjectChallengeInfo extends React.Component {
             <div className="ProjectInfo_MainDiv"  >
                 <div className="ProjectInfo_Container">
                     <div className="ProjectInfo_Badge" >
-                        <Image src="#" style={{width: "100%", maxHeight: "100%"}} roundedCircle/>
+                        <Image src={this.state.ProjectBanner} style={{width: "100%", maxHeight: "100%"}} roundedCircle/>
                     </div>
                     <div className="ProjectInfo_Text" >
                         <table>
                           <tbody>
                             <tr>
                               <td colSpan={2}>
-                                  <TextBlackHeading message="Project Name"/>
+                                  <TextBlackHeading message={this.state.ProjectName}/>
                               </td>
                             </tr>
                           <tr>
