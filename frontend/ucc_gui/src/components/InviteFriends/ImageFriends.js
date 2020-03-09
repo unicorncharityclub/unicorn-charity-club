@@ -4,7 +4,6 @@ import TextBlack from "../General/TextBlack";
 import TextBlackSubHeading from "../General/TextBlackSubHeading";
 import Search from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
-import cookie from "react-cookies";
 import AlertMessage from "../AlertMessage";
 
 
@@ -33,7 +32,6 @@ class InviteFriends extends React.Component {
   onSearchFriends(e){
         if(this.state.friendName)
         {
-            this.setState({ searchStatus : "Search By Name"});
             this.props.onClick(["name",this.state.friendName])
         }
         else if(this.state.friendEmailid)
@@ -44,7 +42,6 @@ class InviteFriends extends React.Component {
               }
               else
               {
-                  this.setState({ searchStatus : "Search By Email Id"});
                   this.props.onClick(["emailid",this.state.friendEmailid])
               }
         }

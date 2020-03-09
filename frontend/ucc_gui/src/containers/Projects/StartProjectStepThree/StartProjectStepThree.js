@@ -8,7 +8,9 @@ import ProgressStepper from "../../../components/Project/ProgressStepper";
 import InviteFriends from "../../../components/InviteFriends/ImageFriends";
 import FriendsSearchGrid from "../../../components/Project/ProjectStepThree/FriendsSearchGrid";
 import FriendsInvitedGrid from "../../../components/Project/ProjectStepThree/FriendsInvitedGrid";
+import UnregisteredFriendsInvite from "../../../components/Project/ProjectStepThree/UnregisteredFriendsInvite";
 import TextArea from "../../../components/Form/TextArea";
+import TwoButtonLayout from "../../../components/General/TwoButtonLayout";
 
 class StartProjectStepThree extends React.Component {
   constructor(props) {
@@ -27,6 +29,8 @@ class StartProjectStepThree extends React.Component {
       SelectedEmailIdMap: new Map(),
       SelectedFriends : new Map(),
       InviteMessage : "Hello Friends",
+      UnregisteredUser : [{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""}],
+      UnregisteredUserIssue : "",
       FriendsSearchData: [
         {
           emailId: "vt@gmail.com",
@@ -184,10 +188,76 @@ class StartProjectStepThree extends React.Component {
     this.setState({ SearchOffset: 0 });
   }
 
+  // Update the state when the invite message changes
   inviteMessageChange(e)
   {
     this.setState({ InviteMessage: e.target.value});
   }
+
+  //Method to dynamically add more input text fields on button click
+  unregisteredUserAddMore()
+  {
+    let errorFlag = false;
+
+    for(let i=0;i<this.state.UnregisteredUser.length;i++)
+    {
+      if(this.state.UnregisteredUser[i]["email_address"].trim().length===0)
+      {
+        errorFlag = true;
+        break;
+      }
+    }
+    console.log(errorFlag)
+    if(errorFlag)
+    {
+      this.setState({UnregisteredUserIssue:"Empty Spaces Available"})
+    }
+    else
+    {
+      this.setState({UnregisteredUserIssue:""});
+      this.setState({UnregisteredUser:[...this.state.UnregisteredUser, {email_address:"", issue:""}]})
+    }
+    console.log(this.state.UnregisteredUser);
+  }
+
+  //When the email id on the unregistered user is updated
+  unregisteredUserEmailChange(e, index)
+  {
+
+    this.state.UnregisteredUser[index] = {email_address:e.target.value, issue:""};
+    this.setState({UnregisteredUser: this.state.UnregisteredUser});
+    this.setState({UnregisteredUserIssue:""});
+  }
+
+  //When an invite to an unregistered user is deleted
+  unregisteredUserDeleteClick(e, index)
+  {
+    this.setState({UnregisteredUserIssue:""});
+    this.state.UnregisteredUser.splice(index,1);
+    this.setState({UnregisteredUser: this.state.UnregisteredUser});
+  }
+
+  unregisteredUserEmailValidate(index)
+  {
+    const emailaddress = this.state.UnregisteredUser[index]["email_address"];
+    if(emailaddress.length>0 && emailaddress.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)===null)
+    {
+      this.state.UnregisteredUser[index] = {email_address:emailaddress, issue:"Invalid Email Id"};
+    }
+  }
+
+  saveButtonClick()
+  {
+
+  }
+
+  sendInviteButtonClick()
+  {
+
+  }
+
+
+
 
   render() {
     return (
@@ -242,10 +312,24 @@ class StartProjectStepThree extends React.Component {
         <div style={{width:"100%", padding:"10px", borderRadius: "10px", borderStyle:"solid"}}>
         <FriendsInvitedGrid friendsInvitedData={[...this.state.SelectedFriends.values()]} removeInviteClick={this.removeInviteClick.bind(this)}/>
         </div>
+
+        <br/>
+        <div style={{width:"100%", padding:"10px", borderRadius: "10px", borderStyle:"solid"}}>
+          <UnregisteredFriendsInvite unregisteredUser={this.state.UnregisteredUser}
+                                     unregisteredUserIssue={this.state.UnregisteredUserIssue}
+                                     unregisteredUserAddMoreClick={this.unregisteredUserAddMore.bind(this)}
+                                     unregisteredUserEmailChange={this.unregisteredUserEmailChange.bind(this)}
+                                     unregisteredUserDeleteClick={this.unregisteredUserDeleteClick.bind(this)}
+                                     unregisteredUserEmailValidate={this.unregisteredUserEmailValidate.bind(this)}/>
+        </div>
+
         <br/>
         <div style={{width:"100%", padding:"10px", borderRadius: "10px", borderStyle:"solid"}}>
         <TextArea title = "Invitation Message to Friends" value={this.state.InviteMessage} handleChange={this.inviteMessageChange.bind(this)}/>
         </div>
+        <br/>
+          <TwoButtonLayout button1Text="SAVE" button2Text="SEND INVITATIONS"
+                           button1Click={this.saveButtonClick.bind(this)} button2Click={this.sendInviteButtonClick.bind(this)}/>
       </div>
     );
   }
