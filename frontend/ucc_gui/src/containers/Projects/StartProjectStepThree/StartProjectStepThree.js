@@ -8,6 +8,7 @@ import ProgressStepper from "../../../components/Project/ProgressStepper";
 import InviteFriends from "../../../components/InviteFriends/ImageFriends";
 import FriendsSearchGrid from "../../../components/Project/ProjectStepThree/FriendsSearchGrid";
 import FriendsInvitedGrid from "../../../components/Project/ProjectStepThree/FriendsInvitedGrid";
+import TextArea from "../../../components/Form/TextArea";
 
 class StartProjectStepThree extends React.Component {
   constructor(props) {
@@ -18,13 +19,14 @@ class StartProjectStepThree extends React.Component {
       ProjectName: "",
       ProjectDateStarted: "Date Started",
       UserEmailId: cookie.load("user_emailid"),
-      PopupSearch: true,
+      PopupSearch: false,
       SearchType: "Name",
       SearchValue: "abc",
       SearchMoreAvailable: true,
       SearchOffset: 0,
       SelectedEmailIdMap: new Map(),
       SelectedFriends : new Map(),
+      InviteMessage : "Hello Friends",
       FriendsSearchData: [
         {
           emailId: "vt@gmail.com",
@@ -99,7 +101,6 @@ class StartProjectStepThree extends React.Component {
           ProjectName: res.data["project_name"],
           ProjectBanner: res.data["project_banner"]
         });
-        console.log(res.data);
       })
       .catch(error => console.log(error));
   }
@@ -183,6 +184,11 @@ class StartProjectStepThree extends React.Component {
     this.setState({ SearchOffset: 0 });
   }
 
+  inviteMessageChange(e)
+  {
+    this.setState({ InviteMessage: e.target.value});
+  }
+
   render() {
     return (
       <div style={{ margin: "10px", marginBottom: "150px" }}>
@@ -232,8 +238,14 @@ class StartProjectStepThree extends React.Component {
           onClick={this.searchResultHandler.bind(this)}
           disabled={this.state.PopupSearch}
         />
+        <br/>
+        <div style={{width:"100%", padding:"10px", borderRadius: "10px", borderStyle:"solid"}}>
         <FriendsInvitedGrid friendsInvitedData={[...this.state.SelectedFriends.values()]} removeInviteClick={this.removeInviteClick.bind(this)}/>
-
+        </div>
+        <br/>
+        <div style={{width:"100%", padding:"10px", borderRadius: "10px", borderStyle:"solid"}}>
+        <TextArea title = "Invitation Message to Friends" value={this.state.InviteMessage} handleChange={this.inviteMessageChange.bind(this)}/>
+        </div>
       </div>
     );
   }

@@ -18,8 +18,7 @@ class FriendsInvitedGrid extends React.Component {
   render() {
     return (
       <div style={{ flexGrow: 1 }}>
-          {console.log(this.props.friendsInvitedData)}
-        Search Result For {this.props.searchString}
+        Invites Being Sent To :
         <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start" style={{paddingLeft: "20px", paddingRight: "20px", paddingTop: "20px"}}>
 
           {this.props.friendsInvitedData.map(elem => (
