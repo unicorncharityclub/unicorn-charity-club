@@ -5,6 +5,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation
 from django.http import JsonResponse
 from accounts.models import User
+from childAccount.models import ChildAccount
 from .serializers import ProjectUserSerializer, LearnNewSkillSerializer
 from rest_framework import status
 from rest_framework.response import Response
@@ -255,6 +256,35 @@ def update_user_invitation(request):
                 response = {'status': "Requested user does not exist"}
 
         return JsonResponse(response)
+
+
+def get_friend_list(request):
+    response = {'status': "Invalid Request"}
+    friend_list = []
+    json_data = json.loads(request.body)
+    user_email_id = json_data["user_email"]
+    user = User.objects.get(email=user_email_id)
+    user_id = user.id
+    if user_id:
+        user_name = user.first_name + user.last_name
+        user_photo = request.build_absolute_uri(user.myaccount.ProfilePic)
+        user_details = {"user_id": user_id, "user_email": user_email_id, "user_name": user_name,
+                        "user_photo": user_photo}
+        friend_list.append(user_details)
+        children = ChildAccount.objects.filter(user_id=user_id)
+        if children:
+            for child in children:
+                child_details = {"user_id": child.id, "user_email": user_email_id, "user_name": child.Name,
+                                 "user_photo": request.build_absolute_uri(child.Photo)}#Made parents email as child emails
+                friend_list.append(child_details)
+
+        else:
+            response["Status"] = "User has no child added"
+        response["friend_list"] = friend_list
+    else:
+        response["status"] = "User does not exist"
+
+
 
 
 

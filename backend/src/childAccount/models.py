@@ -9,6 +9,7 @@ def today_utc():
 
 
 class ChildAccount(models.Model):
+    objects = None
     school_grade_choices = (
         ('Kindergarten', 'Kindergarten'),
         ('Grade 1', 'Grade 1'),
