@@ -258,27 +258,29 @@ def update_user_invitation(request):
         return JsonResponse(response)
 
 
-def get_children_list_from_parent(request):
+def get_friend_list(request):
     response = {'status': "Invalid Request"}
-    children_details_list = []
+    friend_list = []
     json_data = json.loads(request.body)
     user_email_id = json_data["user_email"]
     user = User.objects.get(email=user_email_id)
     user_id = user.id
     if user_id:
         user_name = user.first_name + user.last_name
+        user_photo = request.build_absolute_uri(user.myaccount.ProfilePic)
+        user_details = {"user_id": user_id, "user_email": user_email_id, "user_name": user_name,
+                        "user_photo": user_photo}
+        friend_list.append(user_details)
         children = ChildAccount.objects.filter(user_id=user_id)
         if children:
             for child in children:
-                child_details = {"child_id": child.id, "child_name": child.Name,
-                                 "child_photo": request.build_absolute_uri(child.Photo),
-                                 "child_email": user_email_id} #Made parents email as child emails
-                children_details_list.append(child_details)
+                child_details = {"user_id": child.id, "user_email": user_email_id, "user_name": child.Name,
+                                 "user_photo": request.build_absolute_uri(child.Photo)}#Made parents email as child emails
+                friend_list.append(child_details)
 
-            response["user_name"] = user_name
-            response["children_list"] = children_details_list
         else:
             response["Status"] = "User has no child added"
+        response["friend_list"] = friend_list
     else:
         response["status"] = "User does not exist"
 
