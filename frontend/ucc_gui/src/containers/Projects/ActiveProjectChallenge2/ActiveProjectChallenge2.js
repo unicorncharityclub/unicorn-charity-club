@@ -24,8 +24,15 @@ class ActiveProjectChallenge2 extends React.Component {
                   <div>
                     <Container>
                         <Challenge2Details id={this.props.match.params.id} />
+                        <div style={{width:"60%", float:"right", alignText:"left", marginBottom:"10px"}}>
+                            <Button style={{ borderRadius : "50px 50px 50px 50px", border:"2px solid black"}} className = "nextButton" variant="success" size="lg">
+                        <TextWhite message="DONE "/>
+                    </Button>
+                        </div>
                     </Container>
                   </div>
+
+
         )
     }
 }

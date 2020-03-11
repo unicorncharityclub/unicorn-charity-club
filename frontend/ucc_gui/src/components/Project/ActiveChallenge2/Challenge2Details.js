@@ -1,5 +1,7 @@
 import React from 'react';
 import "./Challenge2Details.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import TextBlueHeading from "../../General/TextBlueHeading";
 import TextBlack from "../../General/TextBlack";
 import Image from "react-bootstrap/Image";
@@ -8,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import axiosConfig from "../../../axiosConfig";
 import TextBlackHeading from "../../General/TextBlackHeading";
+import ProgressStepper from "../ProgressStepper";
+import ProjectBanner from "../ProjectBanner";
 class ProjectContent extends React.Component {
 
     constructor(props) {
@@ -15,7 +19,9 @@ class ProjectContent extends React.Component {
     this.state = {
       Project_id: this.props.id,
       ProjectName : '',
-      ProjectBanner : ''
+      ProjectBanner : '',
+        ProjectBadge : '',
+        startDate: new Date()
     }
  }
 
@@ -25,21 +31,37 @@ class ProjectContent extends React.Component {
       .then(res => {
               this.setState({
                   ProjectName : res.data.project_name,
-                  ProjectBanner : res.data.project_banner
+                  ProjectBanner : res.data.project_banner,
+                  ProjectBadge: res.data.project_badge
               });
       }).catch(error => console.log(error))
 
     }
 
+    handleChange = date => {
+    this.setState({
+      startDate: date
+    });
+  };
+
 
     render() {
         return (
             <div>
+                <div className="headerStepBanner">
+                    <div className="stepper" >
+                        <ProgressStepper currentStep="0" />
+                    </div>
+                    <div className="banner">
+                        <ProjectBanner image={this.state.ProjectBanner}  />
+                    </div>
+
+                </div>
 
                 <div className="ProjectInfo_MainDiv"  >
                 <div className="ProjectInfo_Container">
                       <div className="ProjectInfo_Badge" >
-                        <Image src={this.state.ProjectBanner} style={{width: "100%", maxHeight: "100%"}} roundedCircle/>
+                        <Image src={this.state.ProjectBadge} style={{width: "100%", maxHeight: "100%"}} roundedCircle/>
                       </div>
 
                       <div className="ProjectInfo_Text" >
@@ -101,6 +123,11 @@ class ProjectContent extends React.Component {
                             <br/>
 
                         </ul>
+                        <br/>
+
+                        <TextBlack message = "2. Set a target date to complete your goal"/>
+                        <DatePicker selected = {this.state.startDate}
+                        onChange={this.handleChange}/>
                         <br/>
                         </div>
 
