@@ -1,17 +1,75 @@
 import React from 'react';
-import {Player} from "video-react";
+import "./Challenge2Details.css";
 import TextBlueHeading from "../../General/TextBlueHeading";
 import TextBlack from "../../General/TextBlack";
+import Image from "react-bootstrap/Image";
 import CameraAltRoundedIcon from '@material-ui/icons/CameraAltRounded';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
+import axiosConfig from "../../../axiosConfig";
+import TextBlackHeading from "../../General/TextBlackHeading";
 class ProjectContent extends React.Component {
+
+    constructor(props) {
+    super(props);
+    this.state = {
+      Project_id: this.props.id,
+      ProjectName : '',
+      ProjectBanner : ''
+    }
+ }
+
+
+    componentDidMount () {
+        axiosConfig.get(`http://127.0.0.1:8000/charityproject/${this.state.Project_id}`)
+      .then(res => {
+              this.setState({
+                  ProjectName : res.data.project_name,
+                  ProjectBanner : res.data.project_banner
+              });
+      }).catch(error => console.log(error))
+
+    }
+
 
     render() {
         return (
-            <div style={{borderRadius: "10px", borderStyle:"solid", margin:"10px"}}>
-                  <div style={{margin:"10px"}}>
-                      <TextBlueHeading message="Challenge 2: Ideation"/>
+            <div>
+
+                <div className="ProjectInfo_MainDiv"  >
+                <div className="ProjectInfo_Container">
+                      <div className="ProjectInfo_Badge" >
+                        <Image src={this.state.ProjectBanner} style={{width: "100%", maxHeight: "100%"}} roundedCircle/>
+                      </div>
+
+                      <div className="ProjectInfo_Text" >
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td colSpan={2}>
+                                  <TextBlackHeading message={this.state.ProjectName}/>
+                              </td>
+                            </tr>
+
+                          <tr>
+                              <td>
+                                  <TextBlack message="Date joined:"/>
+                              </td>
+                            </tr>
+                          <tr>
+                              <td>
+                                  <TextBlack message="Status:"/>
+                              </td>
+                            </tr>
+                          </tbody>
+                      </table>
+                    </div>
+
+                </div>
+                </div>
+
+                <div>
+                <TextBlueHeading message="Challenge 2: Ideation"/>
                       <br/>
                         <TextBlack message = "SET YOUR GOAL"/>
                         <br/>
@@ -44,9 +102,9 @@ class ProjectContent extends React.Component {
 
                         </ul>
                         <br/>
+                        </div>
 
                   </div>
-            </div>
         );
     }
 }
