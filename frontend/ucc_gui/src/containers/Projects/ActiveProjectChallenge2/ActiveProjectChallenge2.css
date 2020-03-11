@@ -1,0 +1,26 @@
+.insideInfo {
+    padding-left: 20px;
+}
+
+.ButtonDetail
+{
+    text-align: right;
+    margin-bottom: 10px;
+    width: 50%;
+    margin-left: 40%;
+
+}
+
+
+@media screen and (max-device-width: 720px){
+
+
+}
+@media screen and (max-device-width: 480px){
+.ButtonDetail
+{
+
+    width: 50%;
+
+}
+}

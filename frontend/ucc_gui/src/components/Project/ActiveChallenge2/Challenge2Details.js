@@ -1,12 +1,10 @@
 import React from 'react';
-import "./Challenge2Details.css";
+import "./Challenge2Details.css"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import TextBlueHeading from "../../General/TextBlueHeading";
 import TextBlack from "../../General/TextBlack";
 import Image from "react-bootstrap/Image";
-import CameraAltRoundedIcon from '@material-ui/icons/CameraAltRounded';
-import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import axiosConfig from "../../../axiosConfig";
 import TextBlackHeading from "../../General/TextBlackHeading";
@@ -125,9 +123,11 @@ class ProjectContent extends React.Component {
                         </ul>
                         <br/>
 
-                        <TextBlack message = "2. Set a target date to complete your goal"/>
+                        <TextBlack message = "2. Set a target date to complete your goal:"/>
+                        <div className="DatePick">
                         <DatePicker selected = {this.state.startDate}
                         onChange={this.handleChange}/>
+                        </div>
                         <br/>
                         </div>
 
