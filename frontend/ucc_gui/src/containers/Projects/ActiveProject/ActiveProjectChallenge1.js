@@ -49,7 +49,7 @@ class ActiveProjectChallenge1 extends React.Component {
                 <ActiveProjectChallengeInfo id = {this.state.ProjectID}/>
                 <br/>
                 <div>
-                    <h2 className="textHeader">PLAN YOUR PROJECT GIFT</h2>
+                    <h2 className="textHeader">CHALLENGE 1: Exploration</h2>
                         <p className="insideContent">
                         PRESENTATION
                         <br/>

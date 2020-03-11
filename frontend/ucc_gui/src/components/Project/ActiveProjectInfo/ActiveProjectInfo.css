@@ -1,0 +1,74 @@
+.insideInfo {
+    padding-left: 20px;
+}
+
+.projectTitle {
+    padding-left: 20px;
+    
+}
+
+.ProjectInfo_MainDiv{
+    border-radius: 10px;
+    border-style:solid;
+    margin: 10px;
+    margin-left: 10px;
+    height:100%
+}
+
+.stepperspace{
+    padding-left: 300px;
+
+}
+
+.ProjectInfo_Container
+{
+    display:flex;
+    margin:10px;
+    height:100%;
+}
+
+.projectName {
+    float : left;
+}
+
+.firstCell {
+    padding-left: 10px;
+    width: 300px;
+    padding-bottom: 40px;
+}
+
+.ActiveProjectInfo_Badge
+{
+    /* width:20%; */
+    height:100%;
+    /* margin:5px; */
+    float:left
+}
+
+.ActiveProjectInfo_Text
+{
+    width:80%;
+    height:100%;
+    float:left
+}
+
+@media screen and (max-device-width: 720px){
+  .ProjectInfo_Badge
+    {
+        width:30%;
+    }
+    .ProjectInfo_Text
+    {
+        width:70%;
+    }
+}
+@media screen and (max-device-width: 480px){
+  .ProjectInfo_Badge
+    {
+        width:40%;
+    }
+    .ProjectInfo_Text
+    {
+        width:60%;
+    }
+}

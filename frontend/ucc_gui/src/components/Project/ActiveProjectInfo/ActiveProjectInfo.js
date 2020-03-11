@@ -1,10 +1,10 @@
 import React from "react";
-import axiosConfig from '../../axiosConfig'
-import "./ProjectDetails/ProjectInfo.css";
+import axiosConfig from '../../../axiosConfig'
+import "./ActiveProjectInfo.css";
 import Image from "react-bootstrap/Image";
-import TextBlackHeading from "../General/TextBlackHeading";
-import TextBlack from "../General/TextBlack";
-import ProgressStepper from "./ProgressStepper";
+import TextBlackHeading from "../../General/TextBlackHeading";
+import TextBlack from "../../General/TextBlack";
+import ProgressStepper from "../ProgressStepper";
 
 
 class ActiveProjectInfo extends React.Component {
@@ -33,19 +33,20 @@ class ActiveProjectInfo extends React.Component {
         <div>
             <div className="ProjectInfo_MainDiv"  >
                 <div className="ProjectInfo_Container">
-                    <div className="ProjectInfo_Badge" >                        
-                        <Image src={this.state.ProjectBanner} style={{width: "60%", maxHeight: "60%"}} roundedCircle/>
+                    <div className="ActiveProjectInfo_Badge" style={{width: "117px", height : "117px"}}>                        
+                        <Image src={this.state.ProjectBanner}  style={{width: "100%", height: "100%"}} roundedCircle/>
                     </div>
-                    <div className="ProjectInfo_Text" >
+                    <div className="ActiveProjectInfo_Text" >
                         <table >
                           <tbody>
                             <tr>
-                                <td colSpan={2}>
-                                    <a href = "/Projects/1/ActiveProjectChallenge1">
+                                <td className="firstCell" colSpan={2}>
+                                    <a className = "projectName" href = "/Projects/1/ActiveProjectChallenge1">
                                         <TextBlackHeading message={this.state.ProjectName}/>
                                     </a>
-                                    <TextBlack message="Date Joined On"/>                                   
-                                    <TextBlack message={" : "+this.state.ProjectJoinDate}/>
+                                    <br /> <br/>
+                                    <TextBlack message={"Date Joined On : "+ this.state.ProjectJoinDate}/>                                   
+                                    
                                 </td>                                  
                                 <td className = "stepperspace">
                                     <ProgressStepper currentStep="1"/>
