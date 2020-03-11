@@ -32,7 +32,7 @@ class InviteFriends extends React.Component {
   onSearchFriends(e){
         if(this.state.friendName)
         {
-            this.props.onClick(["name",this.state.friendName])
+            this.props.searchResultHandler(["name",this.state.friendName])
         }
         else if(this.state.friendEmailid)
         {
@@ -42,7 +42,7 @@ class InviteFriends extends React.Component {
               }
               else
               {
-                  this.props.onClick(["emailid",this.state.friendEmailid])
+                  this.props.searchResultHandler(["emailid",this.state.friendEmailid])
               }
         }
         else
