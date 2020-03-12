@@ -36,7 +36,7 @@ const Children= props => {
                   ))}
                   <div className="menu__item">
                     <img src={Add_child} alt="Add child" />
-                    <a href="/addChild"> Add Child</a>
+                    <a href={"/AddChild"}> Add Child</a>
                   </div>
           </div>
           </div>
