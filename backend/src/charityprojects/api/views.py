@@ -283,6 +283,39 @@ def get_friend_list(request):
         response["friend_list"] = friend_list
     else:
         response["status"] = "User does not exist"
+    return JsonResponse(response)
+
+
+def search_friends(request):
+    response = {'status': "Invalid Request"}
+    friend_list = []
+    result = []
+    json_data = json.loads(request.body)
+    search_text = json_data["text"]
+    offset = json_data["offset_value"]
+    user_list = User.objects.all()
+    children_list = ChildAccount.objects.all()
+    for user in user_list:
+        if user.first_name.startswith(search_text):
+            user_details = {"user_email": user.email, "user_name": user.first_name,
+                            "user_photo": request.build_absolute_uri(user.myaccount.ProfilePic)}
+            friend_list.append(user_details)
+    for child in children_list:
+        if child.Name.startswith(search_text):
+            child_details = {"user_email": "abc@gmail.com", "user_name": child.Name,
+                             "user_photo": request.build_absolute_uri(child.Photo)} # Check with child account what dummy email to use
+            friend_list.append(child_details)
+    if len(friend_list) == 0:
+        response["status"] = "No user exists with the search name"
+    # assuming first offset to be 0, then 11 and so on. Return 0 to 10, then 11to 20...
+    else:
+        for i in range(offset, offset+10):
+            result.append(friend_list[i])
+        response["status"] = 'Success'
+        response["friend_list"] = result
+
+    return JsonResponse(response)
+
 
 
 
