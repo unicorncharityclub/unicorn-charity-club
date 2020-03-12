@@ -11,6 +11,7 @@ import FriendsInvitedGrid from "../../../components/Project/ProjectStepThree/Fri
 import UnregisteredFriendsInvite from "../../../components/Project/ProjectStepThree/UnregisteredFriendsInvite";
 import TextArea from "../../../components/Form/TextArea";
 import TwoButtonLayout from "../../../components/General/TwoButtonLayout";
+import AlertMessage from "../../../components/AlertMessage";
 
 class StartProjectStepThree extends React.Component {
   constructor(props) {
@@ -26,14 +27,14 @@ class StartProjectStepThree extends React.Component {
       SearchValue: "abc",
       SearchMoreAvailable: true,
       SearchOffset: 0,
-      SelectedEmailIdMap: new Map(),
       SelectedFriends : new Map(),
       InviteMessage : "Hello Friends",
       UnregisteredUser : [{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""}],
       UnregisteredUserIssue : "",
+      SendInvitationIssue : "",
       FriendsSearchData: [
         {
-          emailId: "vt@gmail.com",
+          emailId: "test@gmail.com",
           image: "http://127.0.0.1:8000/media/profilePictures/1.jpg",
           name: "name1name1 name1name1"
         },
@@ -114,7 +115,7 @@ class StartProjectStepThree extends React.Component {
   value[0] - is the search type (Name | Emailid)
   value[1] - is the search value string
   PopupSearch is set to true to show the popup screen
-  SearchMoreAvailable is set to tru so the 'More' option on the popup screen is enabled
+  SearchMoreAvailable is set to true so the 'More' option on the popup screen is enabled
   */
   searchResultHandler(value) {
     this.setState({ SearchType: value[0] });
@@ -198,7 +199,6 @@ class StartProjectStepThree extends React.Component {
   unregisteredUserAddMore()
   {
     let errorFlag = false;
-
     for(let i=0;i<this.state.UnregisteredUser.length;i++)
     {
       if(this.state.UnregisteredUser[i]["email_address"].trim().length===0)
@@ -207,7 +207,7 @@ class StartProjectStepThree extends React.Component {
         break;
       }
     }
-    console.log(errorFlag)
+    console.log(errorFlag);
     if(errorFlag)
     {
       this.setState({UnregisteredUserIssue:"Empty Spaces Available"})
@@ -253,7 +253,70 @@ class StartProjectStepThree extends React.Component {
 
   sendInviteButtonClick()
   {
+    this.setState({SendInvitationIssue: ""});
+    if(this.checkUnregisteredUsersErr()===false && this.checkInvitationMessageErr()===false) {
+      this.sendInvitationToRegisteredUsers();
+      //this.sendInvitationToUnregisteredUsers();
+    }
+  }
 
+  checkInvitationMessageErr()
+  {
+    if(this.state.InviteMessage.length===0)
+    {
+      this.setState({SendInvitationIssue: "Enter an Invitation message to be sent to your invitee's."});
+      return true;
+    }
+    return false;
+  }
+
+  checkUnregisteredUsersErr()
+  {
+    let errorFlag = false;
+    for(let i=0;i<this.state.UnregisteredUser.length;i++)
+    {
+      if(this.state.UnregisteredUser[i]["issue"].trim().length!==0)
+      {
+        errorFlag = true;
+        this.setState({UnregisteredUser: this.state.UnregisteredUser});
+        this.setState({SendInvitationIssue: "Invalid Email Id of Unregistered User."});
+
+        break;
+      }
+    }
+    return errorFlag
+  }
+
+
+  sendInvitationToUnregisteredUsers() {
+
+  }
+
+  sendInvitationToRegisteredUsers()
+  {
+    var friendsEmailId = [];
+    for (const friends of this.state.SelectedFriends.values()) {
+      console.log(friends)
+      friendsEmailId.push(friends["emailId"])
+    }
+    console.log(friendsEmailId)
+
+    axiosConfig.defaults.withCredentials = true;
+    axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+    axiosConfig
+      .post(`charityproject/userInvitation`,
+          {
+            "user_email" : this.state.UserEmailId,
+            "project_id" : this.state.ProjectId,
+            "invitation_message" : this.state.InviteMessage,
+            "friend_list" : friendsEmailId
+          })
+      .then(function(response) {
+        // go to next page
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   }
 
 
@@ -305,7 +368,7 @@ class StartProjectStepThree extends React.Component {
         </div>
         <ProjectInfo id={this.state.ProjectId} />
         <InviteFriends
-          onClick={this.searchResultHandler.bind(this)}
+          searchResultHandler={this.searchResultHandler.bind(this)}
           disabled={this.state.PopupSearch}
         />
         <br/>
@@ -330,6 +393,7 @@ class StartProjectStepThree extends React.Component {
         <br/>
           <TwoButtonLayout button1Text="SAVE" button2Text="SEND INVITATIONS"
                            button1Click={this.saveButtonClick.bind(this)} button2Click={this.sendInviteButtonClick.bind(this)}/>
+                           <AlertMessage alertMessage={this.state.SendInvitationIssue} />
       </div>
     );
   }
