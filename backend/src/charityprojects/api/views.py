@@ -2,9 +2,10 @@ import json
 
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
-from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize
+from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation
 from django.http import JsonResponse
 from accounts.models import User
+from childAccount.models import ChildAccount
 from .serializers import ProjectUserSerializer, LearnNewSkillSerializer
 from rest_framework import status
 from rest_framework.response import Response
@@ -210,6 +211,92 @@ def challenge_learn_new_skill(request):
     print(request.data)
 
     return JsonResponse(response)
+
+
+def update_project_challenge_status_ideation(request):
+    response = {'status': "Invalid Request"}
+    if request.method == 'PUT':
+        json_data = json.loads(request.body)
+        user_email_id = json_data["user_email"]
+        user_id = User.objects.get(email=user_email_id).id
+        project_id = json_data["project_id"]
+        project_goal_date = json_data["goal_date"]
+        adventure_id = json_data["adv_id"]
+        project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0] #ideally only one entry should be there
+        if project_user_record:
+            project_user_record.goal_date = project_goal_date
+            project_user_record.challenge_status = "Challenge2Complete"
+            project_user_record.adventure_id = adventure_id
+            project_user_record.save()
+            return Response(status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+def update_user_invitation(request):
+    response = {'status': "Invalid Request"}
+    if request.method == 'POST':
+        json_data = json.loads(request.body)
+        user_email_id = json_data["user_email"]
+        user_id = User.objects.get(email=user_email_id).id
+        project_id = json_data["project_id"]
+        invited_users = json_data["friend_list"]
+        #Remove null, duplicates and own emailId if it exists
+        invited_users = [item for item in invited_users if len(item)>1 and item!=user_email_id]
+        invited_users = set(invited_users)
+        message = json_data["invitation_message"]
+        project_user_id = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0].id
+        prize_given_id = ProjectUserDetails.objects.filter(pu_id_id=project_user_id)[0].prize_given_id_id
+
+        print("prize_given_id", prize_given_id)
+        print("user_id", user_id)
+        print("project_id", project_id)
+        print("invited_users", invited_users)
+        print("message", message)
+        print("project_user_id", project_user_id)
+
+        for email in invited_users:
+            invited_user = User.objects.get(email=email)
+            if invited_user:
+                invited_user_id = invited_user.id
+                user_invitation = UserInvitation.objects.create(pu_id_id=project_user_id,
+                                                        friend_id=invited_user_id, status="Pending",
+                                                        invitation_message= message, prize_given_id_id=prize_given_id)
+                user_invitation.save()
+            else:
+                response = {'status': "Requested user does not exist"}
+
+        return JsonResponse(response)
+
+
+def get_friend_list(request):
+    response = {'status': "Invalid Request"}
+    friend_list = []
+    json_data = json.loads(request.body)
+    friend_email_id = json_data["friend_email"]
+    friend = User.objects.get(email=friend_email_id)
+    friend_id = friend.id
+    if friend_id:
+        user_name = friend.first_name + friend.last_name
+        user_photo = request.build_absolute_uri(friend.myaccount.ProfilePic)
+        user_details = {"user_id": friend_id, "user_email": friend_email_id, "user_name": user_name,
+                        "user_photo": user_photo}
+        friend_list.append(user_details)
+        children = ChildAccount.objects.filter(user_id=friend_id)
+        if children:
+            for child in children:
+                child_email_id = User.objects.get(id=child.id).email
+                child_details = {"user_id": child.id, "user_email": child_email_id, "user_name": child.Name,
+                                 "user_photo": request.build_absolute_uri(child.Photo)}
+                friend_list.append(child_details)
+
+        else:
+            response["Status"] = "User has no child added"
+        response["friend_list"] = friend_list
+    else:
+        response["status"] = "User does not exist"
+
+
 
 
 
