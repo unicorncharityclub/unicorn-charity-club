@@ -18,7 +18,10 @@ class ProjectsHome extends React.Component {
                   "project_category": ""
               }
           ],
-          selectedCategory : ""
+          selectedCategory : "",
+          activeProjectsList : [
+            
+          ]
       }
    }
 
