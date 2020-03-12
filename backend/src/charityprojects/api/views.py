@@ -278,13 +278,6 @@ def update_user_invitation(request):
         project_user_id = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0].id
         prize_given_id = ProjectUserDetails.objects.filter(pu_id_id=project_user_id)[0].prize_given_id_id
 
-        print("prize_given_id", prize_given_id)
-        print("user_id", user_id)
-        print("project_id", project_id)
-        print("invited_users", invited_users)
-        print("message", message)
-        print("project_user_id", project_user_id)
-
         for email in invited_users:
             invited_user = User.objects.get(email=email)
             if invited_user:
