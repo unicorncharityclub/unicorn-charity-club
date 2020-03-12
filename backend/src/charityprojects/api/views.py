@@ -6,6 +6,7 @@ from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, Us
 from django.http import JsonResponse
 from accounts.models import User
 from childAccount.models import ChildAccount
+from myaccount.models import Myaccount
 from .serializers import ProjectUserSerializer, LearnNewSkillSerializer
 from rest_framework import status
 from rest_framework.response import Response
@@ -277,25 +278,31 @@ def get_friend_list(request):
     friend = User.objects.get(email=friend_email_id)
     friend_id = friend.id
     if friend_id:
-        user_name = friend.first_name + friend.last_name
-        user_photo = request.build_absolute_uri(friend.myaccount.ProfilePic)
+        user_name = friend.first_name + " " + friend.last_name
+        if friend.myaccount.ProfilePic:
+            print(Myaccount.objects.get(pk=friend_id).ProfilePic)
+            user_photo = request.build_absolute_uri(Myaccount.objects.get(pk=friend_id).ProfilePic)
+        else:
+            user_photo = ""
         user_details = {"user_id": friend_id, "user_email": friend_email_id, "user_name": user_name,
                         "user_photo": user_photo}
         friend_list.append(user_details)
-        children = ChildAccount.objects.filter(user_id=friend_id)
+        children = ChildAccount.objects.filter(UserId_id=friend_id)
         if children:
             for child in children:
                 child_email_id = User.objects.get(id=child.id).email
                 child_details = {"user_id": child.id, "user_email": child_email_id, "user_name": child.Name,
                                  "user_photo": request.build_absolute_uri(child.Photo)}
                 friend_list.append(child_details)
-
+            response["status"] = "Success"
         else:
-            response["Status"] = "User has no child added"
+            response["status"] = "User has no child added"
         response["friend_list"] = friend_list
     else:
         response["status"] = "User does not exist"
 
+    print(response)
+    return JsonResponse(response)
 
 
 

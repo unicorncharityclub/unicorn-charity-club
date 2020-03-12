@@ -1,9 +1,6 @@
 import React from 'react';
-import {Player} from "video-react";
 import TextBlueHeading from "../../General/TextBlueHeading";
 import TextBlack from "../../General/TextBlack";
-import CameraAltRoundedIcon from '@material-ui/icons/CameraAltRounded';
-import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 class ProjectContent extends React.Component {
 

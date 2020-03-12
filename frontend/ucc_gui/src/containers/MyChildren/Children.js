@@ -4,12 +4,7 @@ import "../Account/Account.css";
 import "./MyChildren.css";
 import Arrow_backward from "../../image/arrow-backward.png";
 import Add_child from "../../site_media/Images/Add_Child.png";
-import {List} from "antd";
-import { Route } from "react-router-dom";
-import MyChildren from "./MyChildren";
 import Upload_photo from "../../image/Default-profile-picture.png";
-import { ListItem } from '@material-ui/core';
-import { NavLink } from "react-router-dom";
 
 const Children= props => {
     // const ListItems =
