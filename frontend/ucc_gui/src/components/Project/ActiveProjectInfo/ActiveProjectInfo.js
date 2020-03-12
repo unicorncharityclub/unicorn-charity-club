@@ -5,6 +5,7 @@ import Image from "react-bootstrap/Image";
 import TextBlackHeading from "../../General/TextBlackHeading";
 import TextBlack from "../../General/TextBlack";
 import ProgressStepper from "../ProgressStepper";
+import EachActiveProject from "./EachActiveProject";
 
 
 class ActiveProjectInfo extends React.Component {
@@ -17,51 +18,13 @@ class ActiveProjectInfo extends React.Component {
     }
  }
 
-    componentDidMount () {
-        // hard coding for now..     
-        axiosConfig.get(`http://127.0.0.1:8000/charityproject/${this.state.Project_id}`)
-      .then(res => {
-              this.setState({                  
-                  ProjectName : res.data.project_name,
-                  ProjectBanner : res.data.project_banner                 
-              });
-      }).catch(error => console.log(error))
-
-    }
     render() {
       return(
         <div>
             <div className="ProjectInfo_MainDiv"  >
-                <div className="ProjectInfo_Container">
-                    <div className="ActiveProjectInfo_Badge" style={{width: "117px", height : "117px"}}>                        
-                        <Image src={this.state.ProjectBanner}  style={{width: "100%", height: "100%"}} roundedCircle/>
-                    </div>
-                    <div className="ActiveProjectInfo_Text" >
-                        <table >
-                          <tbody>
-                            <tr>
-                                <td className="firstCell" colSpan={2}>
-                                    <a className = "projectName" href = "/Projects/1/ActiveProjectChallenge1">
-                                        <TextBlackHeading message={this.state.ProjectName}/>
-                                    </a>
-                                    <br /> <br/>
-                                    <TextBlack message={"Date Joined On : "+ this.state.ProjectJoinDate}/>                                   
-                                    
-                                </td>                                  
-                                <td className = "stepperspace">
-                                    <ProgressStepper currentStep="1"/>
-                                </td>                            
-                            </tr>                                                                                                    
-                          </tbody>
-                          
-                                                     
-                      </table>
-                     
-                    </div>
-                    <div>
-                        
-                    </div>
-                </div>
+              <div className="ProjectInfo_Container">
+                  <EachActiveProject />
+              </div>
             </div>
         </div>
     )

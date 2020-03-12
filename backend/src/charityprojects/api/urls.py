@@ -18,6 +18,6 @@ urlpatterns = [
     path('update/Challenge1', update_project_challenge_status_explore),
     path('update/Challenge2', update_project_challenge_status_ideation),
     path('learn_new_skill', challenge_learn_new_skill),
-    path('activeProjectList',getActiveProjectList)
+    path('activeProjectList/<str:user_emailid>/',getActiveProjectList)
 
 ]

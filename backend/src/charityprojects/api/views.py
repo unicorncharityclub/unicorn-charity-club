@@ -71,10 +71,9 @@ def all_project_info_list(request):
 
 @api_view(['GET'])
 @parser_classes([MultiPartParser, FormParser])
-def getActiveProjectList(request):
+def getActiveProjectList(request, user_emailid):
     response = {'status': "Success"}
     if request.method == 'GET':
-        user_emailid = request.data["Email"]
         user_id = User.objects.get(email=user_emailid).id
         all_projects = ProjectUser.objects.filter(user_id_id=user_id)
         charityProjectList = []
@@ -94,7 +93,7 @@ def getActiveProjectList(request):
                             "project_tags": project.Tags,
                             "project_banner": request.build_absolute_uri(project.Banner.url)}
             charityProjectList.append(each_project)
-    response['project_list'] = charityProjectList
+    response['active_project_list'] = charityProjectList
     return JsonResponse(response)
 
 

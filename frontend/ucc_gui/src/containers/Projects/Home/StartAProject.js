@@ -4,6 +4,7 @@ import FormControl from '@material-ui/core/FormControl';
 import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
 import axiosConfig from '../../../axiosConfig'
 import ActiveProjectInfo from "../../../components/Project/ActiveProjectInfo/ActiveProjectInfo";
+import cookie from "react-cookies";
 
 
 class ProjectsHome extends React.Component {
@@ -19,15 +20,22 @@ class ProjectsHome extends React.Component {
               }
           ],
           selectedCategory : "",
-          activeProjectsList : [
-            
-          ]
+          activeProjectsList : [],
+          UserEmailId: cookie.load('user_emailid')
       }
    }
 
    componentDidMount(){
         this.fetchListOfProjectCategory(this);
         this.fetchProjectDetails(this);
+        this.fetchActiveProjectsList(this);
+   }
+
+   fetchActiveProjectsList(obj) {
+      const user_emailid = this.state.UserEmailId;
+      axiosConfig.get(`charityproject/activeProjectList/${user_emailid}`)
+      .then(function(response) {obj.setActiveProjectsList(response);})
+      .catch(function(error) {console.log(error);});
    }
 
     fetchListOfProjectCategory(obj) {
@@ -49,11 +57,21 @@ class ProjectsHome extends React.Component {
       }));
     }
 
+    setActiveProjectsList (response) {
+        let activeProjectsList = response.data["active_project_list"];
+        this.setState(prevState => ({
+          activeProjectsList: activeProjectsList
+      }));
+
+      console.log(this.state.activeProjectsList);
+      
+    }
+
     setProjectDetails(response) {
         this.setState(prevState => ({
             projectsList: response.data["project_list"]
         }));
-        console.log(response)
+        // console.log(this.state.projectsList)
     }
 
 
@@ -71,8 +89,11 @@ class ProjectsHome extends React.Component {
             Active
         </div>
 
-        <div>
-          <ActiveProjectInfo Project_id={1} / >
+        <div>  
+          {this.state.projectsList
+          .map(elem => ( 
+            <ActiveProjectInfo key={this.state.activeProjectsList.indexOf(elem)} />
+          ))}               
         </div>
 
 
