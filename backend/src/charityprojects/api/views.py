@@ -309,8 +309,7 @@ def get_friend_list(request):
     if friend_id:
         user_name = friend.first_name + " " + friend.last_name
         if friend.myaccount.ProfilePic:
-            print(Myaccount.objects.get(pk=friend_id).ProfilePic)
-            user_photo = request.build_absolute_uri(Myaccount.objects.get(pk=friend_id).ProfilePic)
+            user_photo = request.build_absolute_uri(friend.myaccount.ProfilePic)
         else:
             user_photo = ""
         user_details = {"user_id": friend_id, "user_email": friend_email_id, "user_name": user_name,
