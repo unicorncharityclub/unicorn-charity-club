@@ -3,6 +3,8 @@ import { Select } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
 import axiosConfig from '../../../axiosConfig'
+import ActiveProjectInfo from "../../../components/Project/ActiveProjectInfo/ActiveProjectInfo";
+import cookie from "react-cookies";
 
 
 class ProjectsHome extends React.Component {
@@ -17,13 +19,23 @@ class ProjectsHome extends React.Component {
                   "project_category": ""
               }
           ],
-          selectedCategory : ""
+          selectedCategory : "",
+          activeProjectsList : [],
+          UserEmailId: cookie.load('user_emailid')
       }
    }
 
    componentDidMount(){
         this.fetchListOfProjectCategory(this);
         this.fetchProjectDetails(this);
+        this.fetchActiveProjectsList(this);
+   }
+
+   fetchActiveProjectsList(obj) {
+      const user_emailid = this.state.UserEmailId;
+      axiosConfig.get(`charityproject/activeProjectList/${user_emailid}`)
+      .then(function(response) {obj.setActiveProjectsList(response);})
+      .catch(function(error) {console.log(error);});
    }
 
     fetchListOfProjectCategory(obj) {
@@ -45,11 +57,21 @@ class ProjectsHome extends React.Component {
       }));
     }
 
+    setActiveProjectsList (response) {
+        let activeProjectsList = response.data["active_project_list"];
+        this.setState(prevState => ({
+          activeProjectsList: activeProjectsList
+      }));
+
+      console.log(this.state.activeProjectsList);
+      
+    }
+
     setProjectDetails(response) {
         this.setState(prevState => ({
             projectsList: response.data["project_list"]
         }));
-        console.log(response)
+        // console.log(this.state.projectsList)
     }
 
 
@@ -61,8 +83,23 @@ class ProjectsHome extends React.Component {
   render() {
     return (
       <div>
-        <div className="blackDivider">
+        <div className="blackDivider"></div>
+        
+        <div className="textHeader">
+            Active
         </div>
+
+        <div>  
+          {this.state.projectsList
+          .map(elem => ( 
+            <ActiveProjectInfo key={this.state.activeProjectsList.indexOf(elem)} />
+          ))}               
+        </div>
+
+
+  
+        <div className="blackDivider"></div>
+
         <div className="textHeader">
             Start a Project
         </div>

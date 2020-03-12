@@ -1,5 +1,6 @@
 import json
 
+from pip._vendor.pyparsing import Char
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation
@@ -67,6 +68,34 @@ def all_project_info_list(request):
     print(project_list)
     response['project_list'] = project_list
     return JsonResponse(response)
+
+@api_view(['GET'])
+@parser_classes([MultiPartParser, FormParser])
+def getActiveProjectList(request, user_emailid):
+    response = {'status': "Success"}
+    if request.method == 'GET':
+        user_id = User.objects.get(email=user_emailid).id
+        all_projects = ProjectUser.objects.filter(user_id_id=user_id)
+        charityProjectList = []
+
+        project_id_list = set()
+        for project in all_projects:
+            project_id = project.project_id_id
+            project_id_list.add(project_id)
+
+        for project_id in project_id_list:
+            project = CharityProjects.objects.get(pk=project_id)
+            each_project = {"project_id": project.id, "project_name": project.Name, "project_goal": project.Goal,
+                            "project_mission": project.Mission,
+                            "project_video": request.build_absolute_uri(project.Video_Name),
+                            "project_category": project.Category,
+                            "project_badge": request.build_absolute_uri(project.Badge.url),
+                            "project_tags": project.Tags,
+                            "project_banner": request.build_absolute_uri(project.Banner.url)}
+            charityProjectList.append(each_project)
+    response['active_project_list'] = charityProjectList
+    return JsonResponse(response)
+
 
 
 def project_category(request):
