@@ -1,5 +1,6 @@
 import json
 
+from pip._vendor.pyparsing import Char
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation
@@ -68,6 +69,34 @@ def all_project_info_list(request):
     print(project_list)
     response['project_list'] = project_list
     return JsonResponse(response)
+
+@api_view(['GET'])
+@parser_classes([MultiPartParser, FormParser])
+def getActiveProjectList(request, user_emailid):
+    response = {'status': "Success"}
+    if request.method == 'GET':
+        user_id = User.objects.get(email=user_emailid).id
+        all_projects = ProjectUser.objects.filter(user_id_id=user_id)
+        charityProjectList = []
+
+        project_id_list = set()
+        for project in all_projects:
+            project_id = project.project_id_id
+            project_id_list.add(project_id)
+
+        for project_id in project_id_list:
+            project = CharityProjects.objects.get(pk=project_id)
+            each_project = {"project_id": project.id, "project_name": project.Name, "project_goal": project.Goal,
+                            "project_mission": project.Mission,
+                            "project_video": request.build_absolute_uri(project.Video_Name),
+                            "project_category": project.Category,
+                            "project_badge": request.build_absolute_uri(project.Badge.url),
+                            "project_tags": project.Tags,
+                            "project_banner": request.build_absolute_uri(project.Banner.url)}
+            charityProjectList.append(each_project)
+    response['active_project_list'] = charityProjectList
+    return JsonResponse(response)
+
 
 
 def project_category(request):
@@ -300,6 +329,39 @@ def get_friend_list(request):
         response["friend_list"] = friend_list
     else:
         response["status"] = "User does not exist"
+    return JsonResponse(response)
+
+
+def search_friends(request):
+    response = {'status': "Invalid Request"}
+    friend_list = []
+    result = []
+    json_data = json.loads(request.body)
+    search_text = json_data["text"]
+    offset = json_data["offset_value"]
+    user_list = User.objects.all()
+    children_list = ChildAccount.objects.all()
+    for user in user_list:
+        if user.first_name.startswith(search_text):
+            user_details = {"user_email": user.email, "user_name": user.first_name,
+                            "user_photo": request.build_absolute_uri(user.myaccount.ProfilePic)}
+            friend_list.append(user_details)
+    for child in children_list:
+        if child.Name.startswith(search_text):
+            child_details = {"user_email": "abc@gmail.com", "user_name": child.Name,
+                             "user_photo": request.build_absolute_uri(child.Photo)} # Check with child account what dummy email to use
+            friend_list.append(child_details)
+    if len(friend_list) == 0:
+        response["status"] = "No user exists with the search name"
+    # assuming first offset to be 0, then 11 and so on. Return 0 to 10, then 11to 20...
+    else:
+        for i in range(offset, offset+10):
+            result.append(friend_list[i])
+        response["status"] = 'Success'
+        response["friend_list"] = result
+
+    return JsonResponse(response)
+
 
     print(response)
     return JsonResponse(response)

@@ -27,15 +27,25 @@
     height:100%;
 }
 
-.ProjectInfo_Badge
+.projectName {
+    float : left;
+}
+
+.firstCell {
+    padding-left: 10px;
+    width: 300px;
+    padding-bottom: 40px;
+}
+
+.ActiveProjectInfo_Badge
 {
-    width:20%;
+    /* width:20%; */
     height:100%;
-    margin:5px;
+    /* margin:5px; */
     float:left
 }
 
-.ProjectInfo_Text
+.ActiveProjectInfo_Text
 {
     width:80%;
     height:100%;

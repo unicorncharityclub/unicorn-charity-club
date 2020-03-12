@@ -40,7 +40,7 @@ class Account extends React.Component {
 
     componentDidMount() {
         const user_emailid = cookie.load('user_emailid');
-        console.log(user_emailid);
+        // console.log(user_emailid);
         axiosConfig.get(`myaccount/${user_emailid}`)
             .then(res => {
                     this.setState({
@@ -50,7 +50,7 @@ class Account extends React.Component {
                         Address: res.data.address,
                         ProfilePic: res.data.profilepic,                        
                     });
-                console.log(res.data)
+                // console.log(res.data)
             }).catch(error => console.log(error))
     }
 
