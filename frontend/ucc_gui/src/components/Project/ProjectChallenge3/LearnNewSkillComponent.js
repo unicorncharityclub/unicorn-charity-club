@@ -57,7 +57,7 @@ class LearnNewSkillComponent extends React.Component {
 
         switch( requestType ) {
             case 'post':
-            return axiosConfig.post('http://127.0.0.1:8000/learn_new_skill/', form_data,
+            return axiosConfig.post('charityproject/learn_new_skill/', form_data,
                     {
                         headers: {
                             'content-type': 'multipart/form-data'
