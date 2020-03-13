@@ -63,6 +63,11 @@
     text-align: center;
 }
 
+.OptionList
+    {
+        margin-left: 10px;
+    }
+
 
 @media screen and (max-device-width: 720px){
   .ProjectInfo_Badge
@@ -95,6 +100,14 @@
         position: absolute;
         width:30%;
         text-align: center;
+    }
+
+    .OptionList
+    {
+        display: block;
+min-height: 20px;
+margin-top: 10px;
+margin-bottom: 10px;
     }
 
 }

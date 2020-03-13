@@ -15,13 +15,11 @@ class ProjectContent extends React.Component {
     constructor(props) {
     super(props);
     this.state = {
-      Project_id: this.props.id,
-      ProjectName : '',
-      ProjectBanner : '',
+        Project_id: this.props.id,
+        ProjectName : '',
+        ProjectBanner : '',
         ProjectBadge : '',
         selectedOption: '',
-        rememberme:false,
-        startDate: new Date()
     }
  }
 
@@ -35,21 +33,14 @@ class ProjectContent extends React.Component {
                   ProjectBadge: res.data.project_badge
               });
       }).catch(error => console.log(error))
-
     }
-
-
-
-
-
-
 
     render() {
         return (
             <div>
                 <div className="headerStepBanner">
                     <div className="stepper" >
-                        <ProgressStepper currentStep="0" />
+                        <ProgressStepper currentStep="1" />
                     </div>
                     <div className="banner">
                         <ProjectBanner image={this.state.ProjectBanner}  />
@@ -98,45 +89,34 @@ class ProjectContent extends React.Component {
                         <ul style={{paddingLeft:"60px"}}>
                             <br/>
                             <div className="OptionList">
-                            <Checkbox name="Option1" value="1" checked={this.state.checked} onClick={this.props.handleChecked}/>
+                            <input name="Options" type="radio" value="1" checked={this.state.checked} onClick={this.props.handleChecked}/>
                             <label for="Option1"> <TextBlack message = "Spread the word by inviting 5+ friends to the project"/></label><br/>
                             <br/>
 
-                            <Checkbox name="Option2" value="2" checked={this.state.checked} onClick={this.props.handleChecked}/>
+                            <input name="Options" type="radio" value="2" checked={this.state.checked} onClick={this.props.handleChecked}/>
                             <label for="Option2"> <TextBlack message = "Learn a new skill that supports the mission"/></label><br/>
                             <br/>
 
-                            <Checkbox name="Option3" value="3" checked={this.state.checked} onClick={this.props.handleChecked}/>
+                            <input name="Options" type="radio" value="3" checked={this.state.checked} onClick={this.props.handleChecked}/>
                             <label for="Option3"> <TextBlack message = "Develop a new habit that supports the mission"/></label><br/>
                             <br/>
 
-                            <Checkbox name="Option4" value="4" checked={this.state.checked} onClick={this.props.handleChecked}/>
+                            <input name="Options" type="radio" value="4" checked={this.state.checked} onClick={this.props.handleChecked}/>
                             <label for="Option4"> <TextBlack message = "Volunteer time at a local organization"/></label><br/>
                             <br/>
 
-                            <Checkbox name="Option5" value="5" checked={this.state.checked} onClick={this.props.handleChecked}/>
+                            <input name="Options" type="radio" value="5" checked={this.state.checked} onClick={this.props.handleChecked}/>
                             <label for="Option5"> <TextBlack message = "Give a donation to support the mission"/></label><br/>
                             <br/>
 
-                            <Checkbox name="Option6" value="6" checked={this.state.checked} onClick={this.props.handleChecked}/>
+                            <input name="Options" type="radio" value="6" checked={this.state.checked} onClick={this.props.handleChecked}/>
                             <label for="Option6"> <TextBlack message = "Fundraise money to support the mission"/></label><br/>
                             <br/>
                             </div>
-
                         </ul>
-
-                        <br/>
-
-                        <TextBlack message = "2. Set a target date to complete your goal:"/>
-                        <div className="DatePick">
-                        <DatePicker selected = {this.state.startDate}
-                        onChange={this.props.handleDateChange}/>
-                        </div>
-                        <br/>
                         </div>
                      </form>
                   </div>
-
         );
     }
 }

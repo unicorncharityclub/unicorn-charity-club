@@ -6,6 +6,8 @@ import TextWhite from "../../../components/General/TextWhite";
 import {Container} from "@material-ui/core";
 import cookie from "react-cookies";
 import axiosConfig from "../../../axiosConfig";
+import TextBlack from "../../../components/General/TextBlack";
+import DatePicker from "react-datepicker";
 
 class ActiveProjectChallenge2 extends React.Component {
 
@@ -35,18 +37,17 @@ class ActiveProjectChallenge2 extends React.Component {
 
     }
 
-
-    handleDateChange(date){
+    handleDateChange= date =>{
     this.setState({
-      goalDate: date
+        goalDate: date
     });
-  };
-
+    };
 
     constructor(props) {
         super(props);
         this.state = {
             UserEmailId: cookie.load('user_emailid'),
+            goalDate: new Date(),
 
         }
      }
@@ -55,8 +56,13 @@ class ActiveProjectChallenge2 extends React.Component {
                   <div>
                     <Container>
                         <Challenge2Details id={this.props.match.params.id}
-                        handleChecked={this.handleChecked.bind(this)}
-                        handleDateChange={this.handleDateChange.bind(this)}/>
+                        handleChecked={this.handleChecked.bind(this)}/>
+                        <br/>
+                        <TextBlack message = "2. Set a target date to complete your goal:"/>
+                        <div className="DatePick">
+                        <DatePicker selected = {this.state.goalDate} onChange={this.handleDateChange}/>
+                        </div>
+                        <br/>
                         <div  className="ButtonDetail">
                             <Button onClick={this.onSubmit.bind(this)} style={{ borderRadius : "50px 50px 50px 50px", border:"2px solid black"}} className = "nextButton"
                                     variant="success" size="lg">
