@@ -10,27 +10,31 @@ import ProgressStepper from "../ProgressStepper";
 class EachActiveProject extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      Project_id: 1, 
-      ProjectName : '',
-      ProjectJoinDate : '03/04/2020',     
+    console.log(props);
+    this.state = {      
+        Project_id : this.props.projectId,
+        ProjectName : '',
+        ProjectJoinDate : '03/04/2020',     
     }
  }
 
-    componentDidMount () {
-        // hard coding for now..     
-        axiosConfig.get(`http://127.0.0.1:8000/charityproject/${this.state.Project_id}`)
+    componentDidMount () {         
+        const Project_id = this.state.Project_id;                  
+        axiosConfig.get(`http://127.0.0.1:8000/charityproject/${Project_id}`)
       .then(res => {
               this.setState({                  
-                  ProjectName : res.data.project_name,
-                  ProjectBanner : res.data.project_banner                 
+                  ProjectName : res.data["project_name"],
+                  ProjectBanner : res.data["project_banner"]                 
               });
       }).catch(error => console.log(error))
 
     }
+
+
     render() {
       return(
-        <div>                        
+        <div>      
+            {/* {console.log(this.state.ProjectName)}                   */}
             <div className="ActiveProjectInfo_Badge" style={{width: "117px", height : "117px"}}>                        
                 <Image src={this.state.ProjectBanner}  style={{width: "100%", height: "100%"}} roundedCircle/>
             </div>
@@ -39,7 +43,7 @@ class EachActiveProject extends React.Component {
                     <tbody>
                     <tr>
                         <td className="firstCell" colSpan={2}>
-                            <a className = "projectName" href = "/Projects/1/ActiveProjectChallenge1">
+                            <a className = "projectName" href = {'/Projects/'+ this.props.ProjectId +'/ActiveProjectChallenge1'}>
                                 <TextBlackHeading message={this.state.ProjectName}/>
                             </a>
                             <br /> <br/>
@@ -47,14 +51,13 @@ class EachActiveProject extends React.Component {
                             
                         </td>                                  
                         <td className = "stepperspace">
-                            <ProgressStepper currentStep="1"/>
+                            <div className = "stepperWidth">
+                                <ProgressStepper currentStep="1"/>
+                            </div>
                         </td>                            
                     </tr>                                                                                                    
-                    </tbody>
-                    
-                                                
+                    </tbody>                    
                 </table>
-                
             </div>                        
         </div>
     )

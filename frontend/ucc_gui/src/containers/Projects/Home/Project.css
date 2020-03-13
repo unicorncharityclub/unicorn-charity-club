@@ -18,3 +18,9 @@
 .marginSpaceBottom{
   margin-top: 15px;
 }
+
+.startProjectHeader {
+  color: #2BB9B7;
+  font-size: 20pt;
+  font-weight: bold;
+}
