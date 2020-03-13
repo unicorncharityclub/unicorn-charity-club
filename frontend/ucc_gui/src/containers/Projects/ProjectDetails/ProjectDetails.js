@@ -37,7 +37,7 @@ class ProjectDetails extends React.Component {
 
     componentDidMount () {
       const project_id = this.props.match.params.id;
-      console.log(project_id)
+      // console.log(project_id)
       axiosConfig.get(`charityproject/${project_id}`)
       .then(res => {
               this.setState({                  

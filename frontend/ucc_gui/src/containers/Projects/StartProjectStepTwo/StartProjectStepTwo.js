@@ -94,6 +94,14 @@ class StartProjectStepTwo extends React.Component {
     render() {
       return(
             <div>  
+                <div className="headerStepBanner">
+                    <div className="stepper" >
+                        <ProgressStepper currentStep="0" />
+                    </div>
+                    <div className="banner">
+                        <ProjectBanner image={this.state.ProjectBanner}  />
+                    </div>
+                </div>
                 <br/>                
                 <Container>
 
