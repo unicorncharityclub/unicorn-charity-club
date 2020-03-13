@@ -7,7 +7,7 @@ import cookie from "react-cookies";
 import axiosConfig from "../../../axiosConfig";
 import TextBlack from "../../../components/General/TextBlack";
 import DatePicker from "react-datepicker";
-import {Container} from "@material-ui/core";
+import Button from 'react-bootstrap/Button';
 
 class ActiveProjectChallenge2 extends React.Component {
 
