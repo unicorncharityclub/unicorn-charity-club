@@ -99,7 +99,7 @@ class ChildForm extends React.Component {
 
         switch( requestType ) {
             case 'post':
-            return axiosConfig.post(`http://127.0.0.1:8000/childaccount/addchild/${cookie.load('user_emailid')}/`, form_data,
+            return axiosConfig.post(`childaccount/addchild/${cookie.load('user_emailid')}/`, form_data,
                     {
                         headers: {
                             'content-type': 'multipart/form-data'
@@ -108,7 +108,7 @@ class ChildForm extends React.Component {
                     .then(res => {console.log(res)})
                     .catch(error => console.log(error))
             case 'put':
-                return axiosConfig.put(`http://127.0.0.1:8000/childaccount/child/${id}/`, form_data,
+                return axiosConfig.put(`childaccount/child/${id}/`, form_data,
                     {
                         headers: {
                             'content-type': 'multipart/form-data'
