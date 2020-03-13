@@ -99,6 +99,8 @@ class ChildForm extends React.Component {
 
         switch( requestType ) {
             case 'post':
+                axiosConfig.defaults.withCredentials = true;
+                axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
             return axiosConfig.post(`childaccount/addchild/${cookie.load('user_emailid')}/`, form_data,
                     {
                         headers: {
@@ -108,6 +110,8 @@ class ChildForm extends React.Component {
                     .then(res => {console.log(res)})
                     .catch(error => console.log(error))
             case 'put':
+                axiosConfig.defaults.withCredentials = true;
+                axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
                 return axiosConfig.put(`childaccount/child/${id}/`, form_data,
                     {
                         headers: {
