@@ -20,6 +20,15 @@ class ActiveProjectChallenge2 extends React.Component {
         console.log(this.state.goalDate)
         axiosConfig.defaults.withCredentials = true;
         axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+        axiosConfig.post('charityproject/update/Challenge2',
+            {"user_email": this.state.UserEmailId,
+                    "project_id":project_id,
+                "goal_date":this.state.goalDate,
+                "adv_id":this.state.goalDate
+            },
+                )
+                .then(res => this.props.history.push(`/Projects/${project_id}/`))
+                .catch(error => console.log(error))
 
     }
 
