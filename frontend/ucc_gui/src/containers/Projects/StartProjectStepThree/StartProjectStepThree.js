@@ -232,8 +232,8 @@ class StartProjectStepThree extends React.Component {
   {
     this.setState({SendInvitationIssue: ""});
     if(this.checkUnregisteredUsersErr()===false && this.checkInvitationMessageErr()===false) {
-      this.sendInvitationToRegisteredUsers();
-      //this.sendInvitationToUnregisteredUsers();
+      this.sendInvitationToRegisteredUsers(this);
+
     }
   }
 
@@ -266,10 +266,30 @@ class StartProjectStepThree extends React.Component {
 
 
   sendInvitationToUnregisteredUsers() {
-
+    var unregisterEmailId = [];
+    for(let i=0;i<this.state.UnregisteredUser.length;i++)
+    {
+      unregisterEmailId.push(this.state.UnregisteredUser[i]["email_address"].trim());
+    }
+    axiosConfig.defaults.withCredentials = true;
+    axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+    axiosConfig
+      .post(`charityproject/unregisteredInvitation`,
+          {
+            "user_email" : this.state.UserEmailId,
+            "project_id" : this.state.ProjectId,
+            "invitation_message" : this.state.InviteMessage,
+            "friend_list" : unregisterEmailId
+          })
+      .then(function(response) {
+        // go to next page
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   }
 
-  sendInvitationToRegisteredUsers()
+  sendInvitationToRegisteredUsers(obj)
   {
     var friendsEmailId = [];
     for (const friends of this.state.SelectedFriends.values()) {
@@ -286,15 +306,12 @@ class StartProjectStepThree extends React.Component {
             "friend_list" : friendsEmailId
           })
       .then(function(response) {
-        // go to next page
+        obj.sendInvitationToUnregisteredUsers();
       })
       .catch(function(error) {
         console.log(error);
       });
   }
-
-
-
 
   render() {
     return (
