@@ -331,17 +331,26 @@ def search_friends(request):
     json_data = json.loads(request.body)
     search_text = json_data["text"]
     offset = json_data["offset_value"]
+    offset = offset*10
     user_list = User.objects.all()
     children_list = ChildAccount.objects.all()
     for user in user_list:
         if user.first_name.startswith(search_text):
-            user_details = {"user_email": user.email, "user_name": user.first_name,
-                            "user_photo": request.build_absolute_uri(user.myaccount.ProfilePic)}
+            if user.myaccount.ProfilePic:
+                user_photo = request.build_absolute_uri(user.myaccount.ProfilePic)
+            else:
+                user_photo = ""
+            user_details = {"user_email": user.email, "user_name": user.first_name+user.last_name,
+                            "user_photo": user_photo}
             friend_list.append(user_details)
     for child in children_list:
         if child.Name.startswith(search_text):
-            child_details = {"user_email": "abc@gmail.com", "user_name": child.Name,
-                             "user_photo": request.build_absolute_uri(child.Photo)} # Check with child account what dummy email to use
+            if child.Photo:
+                child_photo = request.build_absolute_uri(child.Photo)
+            else:
+                child_photo = ""
+            child_details = {"user_email": "", "user_name": child.Name,
+                             "user_photo": child_photo} # Check with child account what dummy email to use
             friend_list.append(child_details)
     if len(friend_list) == 0:
         response["status"] = "No user exists with the search name"
