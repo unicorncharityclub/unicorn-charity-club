@@ -20,7 +20,7 @@ class ChildAccountForm(forms.ModelForm):
 
     class Meta:
         model = ChildAccount
-        fields = ['Name', 'Gender', 'School', 'SchoolGrade', 'Aboutme', 'FavoriteThing', 'Dream',
+        fields = ['Name','DOB', 'Gender', 'School', 'SchoolGrade', 'Aboutme', 'FavoriteThing', 'Dream',
                   'SuperPowers', 'Support', 'Photo', 'UserId']
 
 
