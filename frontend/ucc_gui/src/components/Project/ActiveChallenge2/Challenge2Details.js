@@ -19,6 +19,8 @@ class ProjectContent extends React.Component {
       ProjectName : '',
       ProjectBanner : '',
         ProjectBadge : '',
+        selectedOption: '',
+        rememberme:false,
         startDate: new Date()
     }
  }
@@ -43,6 +45,10 @@ class ProjectContent extends React.Component {
   };
 
 
+
+
+
+
     render() {
         return (
             <div>
@@ -53,7 +59,6 @@ class ProjectContent extends React.Component {
                     <div className="banner">
                         <ProjectBanner image={this.state.ProjectBanner}  />
                     </div>
-
                 </div>
 
                 <div className="ProjectInfo_MainDiv"  >
@@ -88,6 +93,7 @@ class ProjectContent extends React.Component {
                 </div>
                 </div>
 
+                <form onSubmit={this.handleFormSubmit}>
                 <div>
                 <TextBlueHeading message="Challenge 2: Ideation"/>
                       <br/>
@@ -96,31 +102,34 @@ class ProjectContent extends React.Component {
                         <TextBlack message = "1. How can I make a difference? Explore the following impact adventures and set your project goal."/>
                         <ul style={{paddingLeft:"60px"}}>
                             <br/>
-                            <Checkbox name="Option1" value="SpreadWord"/>
+                            <div className="OptionList">
+                            <Checkbox name="Option1" value="1" checked={this.state.checked} onClick={this.props.handleChecked}/>
                             <label for="Option1"> <TextBlack message = "Spread the word by inviting 5+ friends to the project"/></label><br/>
                             <br/>
 
-                            <Checkbox name="Option2" value="NewSkill"/>
+                            <Checkbox name="Option2" value="2" checked={this.state.checked} onClick={this.props.handleChecked}/>
                             <label for="Option2"> <TextBlack message = "Learn a new skill that supports the mission"/></label><br/>
                             <br/>
 
-                            <Checkbox name="Option3" value="NewHabit"/>
+                            <Checkbox name="Option3" value="3" checked={this.state.checked} onClick={this.props.handleChecked}/>
                             <label for="Option3"> <TextBlack message = "Develop a new habit that supports the mission"/></label><br/>
                             <br/>
 
-                            <Checkbox name="Option4" value="Volunteer"/>
+                            <Checkbox name="Option4" value="4" checked={this.state.checked} onClick={this.props.handleChecked}/>
                             <label for="Option4"> <TextBlack message = "Volunteer time at a local organization"/></label><br/>
                             <br/>
 
-                            <Checkbox name="Option5" value="Donation"/>
+                            <Checkbox name="Option5" value="5" checked={this.state.checked} onClick={this.props.handleChecked}/>
                             <label for="Option5"> <TextBlack message = "Give a donation to support the mission"/></label><br/>
                             <br/>
 
-                            <Checkbox name="Option6" value="Fundraise"/>
+                            <Checkbox name="Option6" value="6" checked={this.state.checked} onClick={this.props.handleChecked}/>
                             <label for="Option6"> <TextBlack message = "Fundraise money to support the mission"/></label><br/>
                             <br/>
+                            </div>
 
                         </ul>
+
                         <br/>
 
                         <TextBlack message = "2. Set a target date to complete your goal:"/>
@@ -130,8 +139,9 @@ class ProjectContent extends React.Component {
                         </div>
                         <br/>
                         </div>
-
+                     </form>
                   </div>
+
         );
     }
 }
