@@ -3,7 +3,7 @@ import json
 from pip._vendor.pyparsing import Char
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
-from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation
+from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation
 from django.http import JsonResponse
 from accounts.models import User
 from childAccount.models import ChildAccount
@@ -364,5 +364,36 @@ def search_friends(request):
     return JsonResponse(response)
 
 
+def unregistered_invitation(request):
+    response = {'status': "Invalid Request"}
+    if request.method == 'POST':
+        json_data = json.loads(request.body)
+        user_email_id = json_data["user_email"]
+        user_id = User.objects.get(email=user_email_id).id
+        project_id = json_data["project_id"]
+        project_user_id = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0].id
+        message = json_data["invitation_message"]
+        invited_users = json_data["friend_list"]
+        # Remove null, duplicates and own emailId if it exists
+        invited_users = [item for item in invited_users if len(item) > 1 and item != user_email_id]
+        invited_users = set(invited_users)
+        prize_given_id = ProjectUserDetails.objects.filter(pu_id_id=project_user_id)[0].prize_given_id_id
 
+        for email in invited_users:
+            invited_user = User.objects.get(email=email)
+            if invited_user:
+                invited_user_id = invited_user.id
+                user_invitation = UserInvitation.objects.create(pu_id_id=project_user_id,
+                                                                friend_id=invited_user_id, status="Pending",
+                                                                invitation_message=message,
+                                                                prize_given_id_id=prize_given_id)
+                user_invitation.save()
+            else:
+                unregister_invitation = UnregisterInvitation.objects.create(pu_id_id=project_user_id,
+                                                                            unregister_user_emailId=email,
+                                                                            prize_given_id_id=prize_given_id,
+                                                                            invitation_message=message)
+                unregister_invitation.save()
+
+    return JsonResponse(response)
 

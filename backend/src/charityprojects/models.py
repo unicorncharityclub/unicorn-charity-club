@@ -81,3 +81,15 @@ class UserInvitation(models.Model):
 
     def __str__(self):
         return '{} {} {} {} {}'.format(self.pu_id, self.friend_id, self.status, self.prize_given_id, self.invitation_message)
+
+
+class UnregisterInvitation(models.Model):
+    objects = None
+    pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
+    unregister_user_emailId = models.CharField(max_length=100, null=True)
+    prize_given_id = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
+    invitation_message = models.TextField(blank=True)
+
+    def __str__(self):
+        return '{} {} {} {}'.format(self.pu_id, self.unregister_user_emailId, self.prize_given_id, self.invitation_message)
+
