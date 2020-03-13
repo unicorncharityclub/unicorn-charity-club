@@ -1,16 +1,13 @@
 import React from "react";
 import "./ActiveProjectChallenge2.css";
 import Challenge2Details from "../../../components/Project/ActiveChallenge2/Challenge2Details";
-<<<<<<< HEAD
 import TextWhite from "../../../components/General/TextWhite";
 import {Container} from "@material-ui/core";
 import cookie from "react-cookies";
 import axiosConfig from "../../../axiosConfig";
 import TextBlack from "../../../components/General/TextBlack";
 import DatePicker from "react-datepicker";
-=======
 import {Container} from "@material-ui/core";
->>>>>>> sprint3
 
 class ActiveProjectChallenge2 extends React.Component {
 
