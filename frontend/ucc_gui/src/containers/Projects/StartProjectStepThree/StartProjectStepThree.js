@@ -113,12 +113,27 @@ class StartProjectStepThree extends React.Component {
           console.log(error);
         });
     }
-
+    else {
+      axiosConfig.defaults.withCredentials = true;
+      axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+      axiosConfig
+        .post(`charityproject/search`,
+            {
+              "text" : searchValue,
+              "offset_value" : offset
+            })
+        .then(function(response) {
+          console.log(response.data)
+          obj.setState({ PopupSearch: true });
+          obj.setState({FriendsSearchData: response.data["friend_list"]})
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
 
     //Set this accordingly
     this.setState({ SearchMoreAvailable: true });
-
-
   }
 
   /*
