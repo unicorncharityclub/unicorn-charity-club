@@ -21,16 +21,8 @@ class ChildrenList extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.state.children ? (
-          <Children data={this.state.children} />
-        ) : (
-          <div />
-        )}
-              <div className="menu__item">
-                    <img src={Add_child} alt="Add child" />
-                    <a href={"/AddChild"}> Add Child</a>
-                  </div>
+       <div>
+        <Children data={this.state.children} />
       </div>
     );
   }

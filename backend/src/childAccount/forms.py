@@ -18,9 +18,9 @@ class ChildAccountForm(forms.ModelForm):
                                         choices=SUPPORT_CHOICES,
                                         required=False)
 
-    class meta:
+    class Meta:
         model = ChildAccount
         fields = ['Name', 'Gender', 'School', 'SchoolGrade', 'Aboutme', 'FavoriteThing', 'Dream',
-                  'SuperPowers', 'Support', 'Photo']
+                  'SuperPowers', 'Support', 'Photo', 'UserId']
 
 

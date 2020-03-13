@@ -21,8 +21,8 @@ class ChildAccount(models.Model):
     )
 
     gender_choices = (
-        ('Boy', 'Boy'),
-        ('Girl', 'Girl')
+        ('Male', 'Boy'),
+        ('Female', 'Girl')
     )
 
     Name = models.CharField(max_length=100)
