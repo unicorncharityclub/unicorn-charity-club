@@ -23,8 +23,8 @@ class StartProjectStepThree extends React.Component {
       ProjectDateStarted: "Date Started",
       UserEmailId: cookie.load("user_emailid"),
       PopupSearch: false,
-      SearchType: "Name",
-      SearchValue: "abc",
+      SearchType: "",
+      SearchValue: "",
       SearchMoreAvailable: true,
       SearchOffset: 0,
       SelectedFriends : new Map(),
@@ -33,68 +33,10 @@ class StartProjectStepThree extends React.Component {
       UnregisteredUserIssue : "",
       SendInvitationIssue : "",
       FriendsSearchData: [
-        {
-          emailId: "test@gmail.com",
-          image: "http://127.0.0.1:8000/media/profilePictures/1.jpg",
-          name: "name1name1 name1name1"
-        },
-        {
-          emailId: "abc@gmail.com",
-          image: "http://127.0.0.1:8000/media/profilePictures/green.jpg",
-          name: "name2name2 name2name2"
-        },
-        {
-          emailId: "vt1@gmail.com",
-          image: "http://127.0.0.1:8000/media/profilePictures/1.jpg",
-          name: "name3name3 name3name3"
-        },
-        {
-          emailId: "abc1@gmail.com",
-          image: "http://127.0.0.1:8000/media/profilePictures/green.jpg",
-          name: "name4name4 name4name4"
-        },
-        {
-          emailId: "vt2@gmail.com",
-          image: "http://127.0.0.1:8000/media/profilePictures/1.jpg",
-          name: "name5name5 name5name5"
-        },
-        {
-          emailId: "abc2@gmail.com",
-          image: "http://127.0.0.1:8000/media/profilePictures/green.jpg",
-          name: "name6name6 name6name6"
-        },
-        {
-          emailId: "vt3@gmail.com",
-          image: "http://127.0.0.1:8000/media/profilePictures/1.jpg",
-          name: "name1name1 name1name1"
-        },
-        {
-          emailId: "abc3@gmail.com",
-          image: "http://127.0.0.1:8000/media/profilePictures/green.jpg",
-          name: "name2name2 name2name2"
-        },
-        {
-          emailId: "vt4@gmail.com",
-          image: "http://127.0.0.1:8000/media/profilePictures/1.jpg",
-          name: "name3name3 name3name3"
-        },
-        {
-          emailId: "abc4@gmail.com",
-          image: "http://127.0.0.1:8000/media/profilePictures/green.jpg",
-          name: "name4name4 name4name4"
-        },
-        {
-          emailId: "vt5@gmail.com",
-          image: "http://127.0.0.1:8000/media/profilePictures/1.jpg",
-          name: "name5name5 name5name5"
-        },
-        {
-          emailId: "abc5@gmail.com",
-          image: "http://127.0.0.1:8000/media/profilePictures/green.jpg",
-          name: "name6name6 name6name6"
-        }
+
       ]
     };
+
   }
 
   componentDidMount() {
@@ -118,12 +60,12 @@ class StartProjectStepThree extends React.Component {
   SearchMoreAvailable is set to true so the 'More' option on the popup screen is enabled
   */
   searchResultHandler(value) {
+    console.log(value)
     this.setState({ SearchType: value[0] });
     this.setState({ SearchValue: value[1] });
-    this.setState({ PopupSearch: true });
     this.setState({ SearchOffset: 0 });
     this.setState({ SearchMoreAvailable: true });
-    this.fetchFriendsData();
+    this.fetchFriendsData(this, value[0], value[1], 0, true);
   }
 
   /*
@@ -138,24 +80,45 @@ class StartProjectStepThree extends React.Component {
   }
 
   /*
-  This method os called when from the popup friends screen the more button is pressed
+  This method is called when from the popup friends screen the more button is pressed
   SearchOffset - is increased by 1 to fetch the next batch of result from the API
    */
   searchResultMoreClick()
   {
     this.setState({ SearchOffset: this.state.SearchOffset + 1 });
-    this.setState({ SearchMoreAvailable: false });
-    this.fetchFriendsData();
+    this.fetchFriendsData(this, this.state.SearchType, this.state.SearchValue, this.state.SearchOffset + 1 , true );
   }
+
 
   /*
   This method will actually call the backend API and fetch the friends result based on the search query
    */
-  fetchFriendsData() {
-    const searchType = this.state.SearchType;
-    const searchValue = this.state.SearchValue;
-    const offset = this.state.SearchOffset;
-    const searchMoreAvailable = this.state.SearchMoreAvailable;
+
+  fetchFriendsData(obj, searchType, searchValue, offset, searchMoreFlag) {
+    if(searchType==='emailid')
+    {
+      axiosConfig.defaults.withCredentials = true;
+      axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+      axiosConfig
+        .post(`charityproject/friendByEmail`,
+            {
+              "friend_email" : searchValue
+            })
+        .then(function(response) {
+          console.log(response.data)
+          obj.setState({ PopupSearch: true });
+          obj.setState({FriendsSearchData: response.data["friend_list"]})
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+
+
+    //Set this accordingly
+    this.setState({ SearchMoreAvailable: true });
+
+
   }
 
   /*
@@ -167,13 +130,13 @@ class StartProjectStepThree extends React.Component {
   searchResultImageClick(value)
   {
       const newFriend = {};
-      newFriend["image"] = value[0];
-      newFriend["emailId"] = value[1];
-      newFriend["name"] = value[2];
+      newFriend["user_photo"] = value[0];
+      newFriend["user_email"] = value[1];
+      newFriend["user_name"] = value[2];
 
-      if(!this.state.SelectedFriends.has(newFriend["emailId"]))
+      if(!this.state.SelectedFriends.has(newFriend["user_email"]))
       {
-        this.state.SelectedFriends.set(newFriend["emailId"], newFriend);
+        this.state.SelectedFriends.set(newFriend["user_email"], newFriend);
       }
       this.setState({ PopupSearch: false });
   }
@@ -223,7 +186,6 @@ class StartProjectStepThree extends React.Component {
   //When the email id on the unregistered user is updated
   unregisteredUserEmailChange(e, index)
   {
-
     this.state.UnregisteredUser[index] = {email_address:e.target.value, issue:""};
     this.setState({UnregisteredUser: this.state.UnregisteredUser});
     this.setState({UnregisteredUserIssue:""});
@@ -296,11 +258,8 @@ class StartProjectStepThree extends React.Component {
   {
     var friendsEmailId = [];
     for (const friends of this.state.SelectedFriends.values()) {
-      console.log(friends)
-      friendsEmailId.push(friends["emailId"])
+      friendsEmailId.push(friends["user_email"])
     }
-    console.log(friendsEmailId)
-
     axiosConfig.defaults.withCredentials = true;
     axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
     axiosConfig

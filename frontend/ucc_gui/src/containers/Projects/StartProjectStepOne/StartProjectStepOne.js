@@ -9,6 +9,7 @@ import Button from "react-bootstrap/Button";
 import ProgressStepper from "../../../components/Project/ProgressStepper";
 import TextBlue from "../../../components/General/TextBlue";
 import TextWhite from "../../../components/General/TextWhite";
+import AlertMessage from "../../../components/AlertMessage";
 
 
 
@@ -27,11 +28,13 @@ class StartProjectStepOne extends React.Component {
             ProjectVideoName: '',
             ProjectDateStarted: 'Date Started',
             UserProjectVideo: '',
-            UserEmailId: cookie.load('user_emailid')
+            UserEmailId: cookie.load('user_emailid'),
+            ErrorMessage : ''
         }
      }  
 
      videoHandler(event){
+        this.setState({ErrorMessage : ""});
       this.setState({
             UserProjectVideo : event.target.files[0]
         });
@@ -39,7 +42,8 @@ class StartProjectStepOne extends React.Component {
 
      moveToStepTwoHandler(event)
      {
-        let form_data = new FormData();
+         if(this.state.UserProjectVideo){
+             let form_data = new FormData();
             form_data.append('ProjectId', this.state.ProjectId);
             form_data.append('Email', this.state.UserEmailId);
             form_data.append('ProjectVideo', this.state.UserProjectVideo, this.state.UserProjectVideo.name);
@@ -54,6 +58,11 @@ class StartProjectStepOne extends React.Component {
         })
         .then(this.props.history.push(`/Projects/${this.state.ProjectId}/StartProjectStepTwo`))
         .catch(error => console.log(error))
+         }
+         else
+         {
+             this.setState({ErrorMessage : "Please Upload a Video to continue"});
+         }
      }
 
     componentDidMount () {
@@ -95,6 +104,9 @@ class StartProjectStepOne extends React.Component {
                     <Button style={{ borderRadius : "0px 50px 50px 0px", border:"2px solid black"}} className = "nextButton" variant="success" size="lg" onClick={this.moveToStepTwoHandler.bind(this)}>
                         <TextWhite message="NEXT "/>
                     </Button>
+                    <div style={{width:"100%"}}>
+                        <AlertMessage alertMessage={this.state.ErrorMessage} />
+                    </div>
                 </div>
             </div>
         )

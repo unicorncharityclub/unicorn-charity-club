@@ -7,6 +7,7 @@ from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, Us
 from django.http import JsonResponse
 from accounts.models import User
 from childAccount.models import ChildAccount
+from myaccount.models import Myaccount
 from .serializers import ProjectUserSerializer, LearnNewSkillSerializer
 from rest_framework import status
 from rest_framework.response import Response
@@ -277,13 +278,6 @@ def update_user_invitation(request):
         project_user_id = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0].id
         prize_given_id = ProjectUserDetails.objects.filter(pu_id_id=project_user_id)[0].prize_given_id_id
 
-        print("prize_given_id", prize_given_id)
-        print("user_id", user_id)
-        print("project_id", project_id)
-        print("invited_users", invited_users)
-        print("message", message)
-        print("project_user_id", project_user_id)
-
         for email in invited_users:
             invited_user = User.objects.get(email=email)
             if invited_user:
@@ -306,25 +300,63 @@ def get_friend_list(request):
     friend = User.objects.get(email=friend_email_id)
     friend_id = friend.id
     if friend_id:
-        user_name = friend.first_name + friend.last_name
-        user_photo = request.build_absolute_uri(friend.myaccount.ProfilePic)
+        user_name = friend.first_name + " " + friend.last_name
+        if friend.myaccount.ProfilePic:
+            user_photo = request.build_absolute_uri(friend.myaccount.ProfilePic)
+        else:
+            user_photo = ""
         user_details = {"user_id": friend_id, "user_email": friend_email_id, "user_name": user_name,
                         "user_photo": user_photo}
         friend_list.append(user_details)
-        children = ChildAccount.objects.filter(user_id=friend_id)
+        children = ChildAccount.objects.filter(UserId_id=friend_id)
         if children:
             for child in children:
                 child_email_id = User.objects.get(id=child.id).email
                 child_details = {"user_id": child.id, "user_email": child_email_id, "user_name": child.Name,
                                  "user_photo": request.build_absolute_uri(child.Photo)}
                 friend_list.append(child_details)
-
+            response["status"] = "Success"
         else:
-            response["Status"] = "User has no child added"
+            response["status"] = "User has no child added"
         response["friend_list"] = friend_list
     else:
         response["status"] = "User does not exist"
+    return JsonResponse(response)
 
+
+def search_friends(request):
+    response = {'status': "Invalid Request"}
+    friend_list = []
+    result = []
+    json_data = json.loads(request.body)
+    search_text = json_data["text"]
+    offset = json_data["offset_value"]
+    user_list = User.objects.all()
+    children_list = ChildAccount.objects.all()
+    for user in user_list:
+        if user.first_name.startswith(search_text):
+            user_details = {"user_email": user.email, "user_name": user.first_name,
+                            "user_photo": request.build_absolute_uri(user.myaccount.ProfilePic)}
+            friend_list.append(user_details)
+    for child in children_list:
+        if child.Name.startswith(search_text):
+            child_details = {"user_email": "abc@gmail.com", "user_name": child.Name,
+                             "user_photo": request.build_absolute_uri(child.Photo)} # Check with child account what dummy email to use
+            friend_list.append(child_details)
+    if len(friend_list) == 0:
+        response["status"] = "No user exists with the search name"
+    # assuming first offset to be 0, then 11 and so on. Return 0 to 10, then 11to 20...
+    else:
+        for i in range(offset, offset+10):
+            result.append(friend_list[i])
+        response["status"] = 'Success'
+        response["friend_list"] = result
+
+    return JsonResponse(response)
+
+
+    print(response)
+    return JsonResponse(response)
 
 
 

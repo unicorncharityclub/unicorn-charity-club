@@ -20,7 +20,7 @@ class FriendsSearchGrid extends React.Component {
           {this.props.friendsSearchData
           .map(elem => (
                    <Grid item xs={4} sm={3} md={3} key={this.props.friendsSearchData.indexOf(elem)} >
-                   <FriendsMediaCard imageSrc={elem.image} imageId={elem.emailId} imageName={elem.name} searchResultImageClick={this.searchResultImageClick.bind(this)} />
+                   <FriendsMediaCard imageSrc={elem.user_photo} imageId={elem.user_email} imageName={elem.user_name} searchResultImageClick={this.searchResultImageClick.bind(this)} />
             </Grid>
           ))}
         </Grid>
