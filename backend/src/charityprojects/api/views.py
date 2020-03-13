@@ -267,15 +267,22 @@ def get_friend_list(request):
     user_id = user.id
     if user_id:
         user_name = user.first_name + user.last_name
-        user_photo = request.build_absolute_uri(user.myaccount.ProfilePic)
+        if user.myaccount.ProfilePic:
+            user_photo = request.build_absolute_uri(user.myaccount.ProfilePic)
+        else:
+            user_photo =""
         user_details = {"user_id": user_id, "user_email": user_email_id, "user_name": user_name,
                         "user_photo": user_photo}
         friend_list.append(user_details)
         children = ChildAccount.objects.filter(user_id=user_id)
         if children:
             for child in children:
+                if child.Photo:
+                    child_photo = request.build_absolute_uri(child.Photo)
+                else:
+                    child_photo = ""
                 child_details = {"user_id": child.id, "user_email": user_email_id, "user_name": child.Name,
-                                 "user_photo": request.build_absolute_uri(child.Photo)}#Made parents email as child emails
+                                 "user_photo": child_photo }#Made parents email as child emails
                 friend_list.append(child_details)
 
         else:
@@ -293,21 +300,29 @@ def search_friends(request):
     json_data = json.loads(request.body)
     search_text = json_data["text"]
     offset = json_data["offset_value"]
+    offset = offset * 10
     user_list = User.objects.all()
     children_list = ChildAccount.objects.all()
     for user in user_list:
         if user.first_name.startswith(search_text):
-            user_details = {"user_email": user.email, "user_name": user.first_name,
-                            "user_photo": request.build_absolute_uri(user.myaccount.ProfilePic)}
+            if user.myaccount.ProfilePic:
+                user_photo = request.build_absolute_uri(user.myaccount.ProfilePic)
+            else:
+                user_photo = ""
+            user_details = {"user_email": user.email, "user_name": user.first_name+user.last_name,
+                            "user_photo": user_photo}
             friend_list.append(user_details)
     for child in children_list:
         if child.Name.startswith(search_text):
-            child_details = {"user_email": "abc@gmail.com", "user_name": child.Name,
-                             "user_photo": request.build_absolute_uri(child.Photo)} # Check with child account what dummy email to use
+            if child.Photo:
+                child_Photo = request.build_absolute_uri(child.Photo)
+            else:
+                child_Photo = ""
+            child_details = {"user_email": "", "user_name": child.Name,
+                             "user_photo": child_Photo} # Keeping child email as empty
             friend_list.append(child_details)
     if len(friend_list) == 0:
         response["status"] = "No user exists with the search name"
-    # assuming first offset to be 0, then 11 and so on. Return 0 to 10, then 11to 20...
     else:
         for i in range(offset, offset+10):
             result.append(friend_list[i])

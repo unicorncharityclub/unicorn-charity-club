@@ -44,6 +44,8 @@ def get_account_details(request, user_emailid):
 @parser_classes([MultiPartParser, FormParser])
 def update_account_details(request, user_emailid):
     user = User.objects.get(email=user_emailid)  # get details of user by emailid
+    print("here")
+    print(user)
     accountObject = Myaccount.objects.get(User=user.id)  # get account details object using 'user.id'
     #request.data["User"] = user.id  # add the 'User' (FK id) by manually setting the "User" key with the user.id value
 
