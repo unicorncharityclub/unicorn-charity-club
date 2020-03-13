@@ -3,7 +3,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 import "../Account/Account.css";
 import "./MyChildren.css";
 import Arrow_backward from "../../image/arrow-backward.png";
-import Add_child from "../../site_media/Images/Add_Child.png";
 import Upload_photo from "../../image/Default-profile-picture.png";
 
 const Children= props => {
@@ -29,10 +28,7 @@ const Children= props => {
                             <a href={`/MyChildren/${item.id}`}> {item.Name} </a>
                         </div>
                   ))}
-                  <div className="menu__item">
-                    <img src={Add_child} alt="Add child" />
-                    <a href={"/AddChild"}> Add Child</a>
-                  </div>
+
           </div>
           </div>
         </div>

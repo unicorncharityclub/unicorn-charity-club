@@ -11,10 +11,10 @@ class CharityProjects(models.Model):
     Mission = models.TextField(default="")
     Category = models.CharField(max_length=50)
     Video_Name = models.CharField(max_length=30, null=True)
-    Video = models.FileField(upload_to='upload/projectVideo/', null=True)
-    Badge = models.ImageField(upload_to='upload/projectBadge/', null=True)
+    Video = models.FileField(upload_to='upload/video/project_video/', null=True)
+    Badge = models.ImageField(upload_to='upload/image/project_badge/', null=True)
     Tags = models.TextField(default="")
-    Banner = models.ImageField(upload_to='upload/projectBanner/', null=True)
+    Banner = models.ImageField(upload_to='upload/image/project_banner/', null=True)
 
     def __str__(self):
         return self.Name
@@ -58,7 +58,7 @@ class ProjectUserDetails(models.Model):
     objects = None
     pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
     prize_given_id = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
-    video = models.FileField(upload_to='InvitationVideo', null=True)
+    video = models.FileField(upload_to='upload/video/invitation_video', null=True)
 
     def __str__(self):
         return '{} {} {} '.format(self.pu_id,  self.prize_given_id, self.video)
@@ -67,7 +67,7 @@ class ProjectUserDetails(models.Model):
 class LearnNewSkill(models.Model):
     newSkill = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    video = models.FileField(upload_to='upload/challengeVideo', null=True)
+    video = models.FileField(upload_to='upload/video/challenge_video', null=True)
     pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
 
 

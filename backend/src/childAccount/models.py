@@ -40,7 +40,7 @@ class ChildAccount(models.Model):
     Dream = models.TextField(blank=True)
     SuperPowers = models.TextField(blank=True)
     Support = models.CharField(max_length=255, blank=True)
-    Photo = models.ImageField(blank=True, upload_to='upload/')
+    Photo = models.ImageField(blank=True, upload_to='upload/image/profile_picture_child')
     UserId = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     class Meta:

@@ -340,7 +340,7 @@ def search_friends(request):
                 user_photo = request.build_absolute_uri(user.myaccount.ProfilePic)
             else:
                 user_photo = ""
-            user_details = {"user_email": user.email, "user_name": user.first_name+user.last_name,
+            user_details = {"user_email": user.email, "user_name": user.first_name+" "+user.last_name,
                             "user_photo": user_photo}
             friend_list.append(user_details)
     for child in children_list:
@@ -356,7 +356,7 @@ def search_friends(request):
         response["status"] = "No user exists with the search name"
     # assuming first offset to be 0, then 11 and so on. Return 0 to 10, then 11to 20...
     else:
-        for i in range(offset, offset+10):
+        for i in range(len(friend_list)):
             result.append(friend_list[i])
         response["status"] = 'Success'
         response["friend_list"] = result

@@ -2,6 +2,7 @@ import React from "react";
 import axiosConfig from '../../axiosConfig'
 import Children from "./Children";
 import * as cookie from "react-cookies";
+import Add_child from "../../site_media/Images/Add_Child.png";
 
 
 class ChildrenList extends React.Component {
@@ -21,7 +22,15 @@ class ChildrenList extends React.Component {
   render() {
     return (
       <div>
-        <Children data={this.state.children} />
+        {this.state.children ? (
+          <Children data={this.state.children} />
+        ) : (
+          <div />
+        )}
+              <div className="menu__item">
+                    <img src={Add_child} alt="Add child" />
+                    <a href={"/AddChild"}> Add Child</a>
+                  </div>
       </div>
     );
   }
