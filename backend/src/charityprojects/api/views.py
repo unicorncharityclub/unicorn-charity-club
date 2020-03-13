@@ -355,9 +355,5 @@ def search_friends(request):
     return JsonResponse(response)
 
 
-    print(response)
-    return JsonResponse(response)
-
-
 
 
