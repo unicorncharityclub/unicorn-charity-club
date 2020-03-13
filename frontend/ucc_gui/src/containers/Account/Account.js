@@ -87,7 +87,6 @@ class Account extends React.Component {
         }
 
         const account_emailid =  cookie.load('user_emailid');
-        const token = cookie.load('XSRF-TOKEN');
         axiosConfig.defaults.withCredentials = true;
         axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
         return axiosConfig.put(`myaccount/${account_emailid}/`, form_data,

@@ -5,6 +5,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
+import Upload_photo from "../../../image/Default-profile-picture.png";
 
 
 class ImgMediaCard extends React.Component {
@@ -25,7 +26,7 @@ class ImgMediaCard extends React.Component {
                     <CardMedia style={{objectFit: "contain"}}
                         component="img"
                         height="100"
-                        image={this.props.imageSrc}
+                        image={this.props.imageSrc?this.props.imageSrc:Upload_photo}
                         alt="Charity Project"
 
                     />
