@@ -20,6 +20,10 @@
 
 }
 
+.stepperWidth {
+    width: 300px;
+}
+
 .ProjectInfo_Container
 {
     display:flex;
@@ -63,12 +67,14 @@
     }
 }
 @media screen and (max-device-width: 480px){
-  .ProjectInfo_Badge
+    .ProjectInfo_Badge
     {
         width:40%;
     }
+
     .ProjectInfo_Text
     {
         width:60%;
     }
+    
 }

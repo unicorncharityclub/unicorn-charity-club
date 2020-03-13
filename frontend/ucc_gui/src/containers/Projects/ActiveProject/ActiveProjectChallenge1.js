@@ -34,6 +34,11 @@ class ActiveProjectChallenge1 extends React.Component {
       }).catch(error => console.log(error))
     }
 
+    buttonHandler() {
+        // on button click action
+        window.open('/Projects/' +this.props.match.params.id + '/ActiveProjectChallenge2/',"_self");
+    }
+
     render() {
       return(
             <div style={{margin:"15px", marginBottom: "150px"}}> 
@@ -68,10 +73,11 @@ class ActiveProjectChallenge1 extends React.Component {
                 <div className="insideContent">                    
                     {this.state.ProjectMission}
                 </div>
-                <div className="buttonDiv">
-                    <Button className = "doneButton" variant="light" size="lg">Done</Button>                    
+                                
+                <div className="buttonDiv">                    
+                    <Button className = "doneButton" variant="light" size="lg" onClick = {this.buttonHandler.bind(this)}>Done</Button>                    
                 </div>
-
+            
                 <br/>
                 <br/>
                 
@@ -84,9 +90,6 @@ class ActiveProjectChallenge1 extends React.Component {
                     </h5>     
                     </a>
                 </div>               
-                
-                
-
             </div>
         )
     }

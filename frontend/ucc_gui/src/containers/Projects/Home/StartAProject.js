@@ -63,7 +63,7 @@ class ProjectsHome extends React.Component {
           activeProjectsList: activeProjectsList
       }));
 
-      console.log(this.state.activeProjectsList);
+      // console.log(this.state.activeProjectsList);
       
     }
 
@@ -91,9 +91,11 @@ class ProjectsHome extends React.Component {
 
         <div>  
           {this.state.projectsList
-          .map(elem => ( 
-            <ActiveProjectInfo key={this.state.activeProjectsList.indexOf(elem)} />
-          ))}               
+          .map(elem => (             
+            <ActiveProjectInfo key={this.state.activeProjectsList.indexOf(elem)} projectId={elem.project_id}/>            
+          ))} 
+
+          {this.state.projectsList.map(elem => console.log(elem))}                                   
         </div>
 
 
