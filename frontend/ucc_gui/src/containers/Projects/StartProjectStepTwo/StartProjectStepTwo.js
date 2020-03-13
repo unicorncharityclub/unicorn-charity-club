@@ -78,7 +78,7 @@ class StartProjectStepTwo extends React.Component {
                 "prize_id" : this.state.PhotoSelectedId
 
             })
-            .then(this.props.history.push(`/Projects/${this.state.ProjectId}/StartProjectStepThree`))            
+            .then(this.props.history.push(`/Projects/${this.props.match.params.id}/InviteFriends`))
             .catch(error => console.log(error))
         }else{
             // show message that need to select one prize to proceed.
@@ -93,8 +93,8 @@ class StartProjectStepTwo extends React.Component {
 
     render() {
       return(
-            <div>  
-                <br/>                
+            <div>
+            <br/>
                 <Container>
 
                     { console.log(this.props)}

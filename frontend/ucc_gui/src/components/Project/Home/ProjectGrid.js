@@ -4,7 +4,6 @@ import ImgMediaCard from "../ImageCard";
 
 class ProjectGrid extends React.Component {
 
-
     projectSelectedHandler(value) {
         window.open('Projects/'+value,"_self");
     }

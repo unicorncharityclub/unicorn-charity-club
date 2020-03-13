@@ -1,10 +1,15 @@
 import React from 'react';
+<<<<<<< HEAD
 import "./Challenge2Details.css"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import TextBlueHeading from "../../General/TextBlueHeading";
 import TextBlack from "../../General/TextBlack";
 import Image from "react-bootstrap/Image";
+=======
+import TextBlueHeading from "../../General/TextBlueHeading";
+import TextBlack from "../../General/TextBlack";
+>>>>>>> sprint3
 import Checkbox from '@material-ui/core/Checkbox';
 import axiosConfig from "../../../axiosConfig";
 import TextBlackHeading from "../../General/TextBlackHeading";
