@@ -14,7 +14,8 @@ class ActiveProjectChallenge2 extends React.Component {
         const project_id = this.props.match.params.id;
         console.log(project_id);
         console.log(this.state.UserEmailId)
-        console.log(this.state.selectedOption)
+        console.log(this.state.optionValue)
+        console.log(this.state.goalDate)
         axiosConfig.defaults.withCredentials = true;
         axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
 
@@ -28,10 +29,19 @@ class ActiveProjectChallenge2 extends React.Component {
 
     handleChecked(e){
         this.setState({
-            checked: e.target.checked
+            checked: e.target.checked,
+            optionValue: e.target.value
         })
-        this.handleClick(e)
+
     }
+
+
+    handleDateChange(date){
+    this.setState({
+      goalDate: date
+    });
+  };
+
 
     constructor(props) {
         super(props);
@@ -45,7 +55,8 @@ class ActiveProjectChallenge2 extends React.Component {
                   <div>
                     <Container>
                         <Challenge2Details id={this.props.match.params.id}
-                        handleChecked={this.handleChecked.bind(this)}/>
+                        handleChecked={this.handleChecked.bind(this)}
+                        handleDateChange={this.handleDateChange.bind(this)}/>
                         <div  className="ButtonDetail">
                             <Button onClick={this.onSubmit.bind(this)} style={{ borderRadius : "50px 50px 50px 50px", border:"2px solid black"}} className = "nextButton"
                                     variant="success" size="lg">

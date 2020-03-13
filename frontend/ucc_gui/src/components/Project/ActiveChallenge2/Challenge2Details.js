@@ -38,11 +38,6 @@ class ProjectContent extends React.Component {
 
     }
 
-    handleChange = date => {
-    this.setState({
-      startDate: date
-    });
-  };
 
 
 
@@ -135,7 +130,7 @@ class ProjectContent extends React.Component {
                         <TextBlack message = "2. Set a target date to complete your goal:"/>
                         <div className="DatePick">
                         <DatePicker selected = {this.state.startDate}
-                        onChange={this.handleChange}/>
+                        onChange={this.props.handleDateChange}/>
                         </div>
                         <br/>
                         </div>
