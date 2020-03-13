@@ -1,5 +1,5 @@
 from childAccount.models import ChildAccount
-from .serializers import ChildAccountSerializer
+from .serializers import ChildAccountSerializer, ChildUserAccountSerializer
 from accounts.models import User
 from django.http import JsonResponse
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -20,6 +20,7 @@ def get_account_details(request, user_emailid):
         lst = {}
         lst['Name'] = child.Name
         lst['DOB'] = child.DOB
+        lst['Gender'] = child.Gender
         lst['School'] = child.School
         lst['SchoolGrade'] = child.SchoolGrade
         lst['Aboutme'] = child.Aboutme
@@ -45,6 +46,7 @@ def get_child_details(request, pk):
         child = ChildAccount.objects.get(id=pk)
         response['Name'] = child.Name
         response['DOB'] = child.DOB
+        response['Gender'] = child.Gender
         response['School'] = child.School
         response['SchoolGrade'] = child.SchoolGrade
         response['Aboutme'] = child.Aboutme
@@ -76,9 +78,11 @@ def get_child_details(request, pk):
 def add_child_details(request, user_emailid):
     response = {'status': "Success"}
     user = User.objects.get(email=user_emailid)
+    childUser ={}
     lst = {}
     lst['Name'] = request.data['Name']
     lst['DOB'] = request.data['DOB']
+    lst['Gender'] = request.data['Gender']
     lst['School'] = request.data['School']
     lst['SchoolGrade'] = request.data['SchoolGrade']
     lst['Aboutme'] = request.data['Aboutme']
@@ -88,9 +92,17 @@ def add_child_details(request, user_emailid):
     lst['Support'] = request.data['Support']
     lst['Photo'] = request.data['Photo']
     lst['UserId'] = user.id
-    data_serializer = ChildAccountSerializer( data=lst)
+    childUser['first_name'] = request.data['Name']
+    childUser['first_name'] = ''
+    childUser['dob'] = request.data['DOB']
+    #childUser['gender'] = request['Gender']
+    childUser['email'] = user_emailid
+    child_serializer = ChildUserAccountSerializer(data=childUser)
+    data_serializer = ChildAccountSerializer(data=lst)
     if data_serializer.is_valid():
         data_serializer.save()
+        if child_serializer.is_valid():
+            child_serializer.save()
         return Response(data_serializer.data, status=status.HTTP_201_CREATED)
     else:
         print('error', data_serializer.errors)
