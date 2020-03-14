@@ -9,6 +9,7 @@ def today_utc():
 
 
 class ChildAccount(models.Model):
+    objects = None
     school_grade_choices = (
         ('Kindergarten', 'Kindergarten'),
         ('Grade 1', 'Grade 1'),
@@ -20,14 +21,14 @@ class ChildAccount(models.Model):
     )
 
     gender_choices = (
-        ('Boy', 'Boy'),
-        ('Girl', 'Girl')
+        ('Male', 'Boy'),
+        ('Female', 'Girl')
     )
 
     Name = models.CharField(max_length=100)
     DOB = models.DateField(default=today_utc)
     Gender = models.CharField(max_length=5,
-                              choices=gender_choices,
+                              choices=gender_choices, blank=True,
                               null=True)
     School = models.CharField(max_length=255,
                               blank=True)
@@ -39,7 +40,7 @@ class ChildAccount(models.Model):
     Dream = models.TextField(blank=True)
     SuperPowers = models.TextField(blank=True)
     Support = models.CharField(max_length=255, blank=True)
-    Photo = models.ImageField(blank=True, upload_to='upload/')
+    Photo = models.ImageField(blank=True, upload_to='upload/image/profile_picture_child')
     UserId = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     class Meta:

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import axios from 'axios';
+import React from "react";
+import axiosConfig from '../../axiosConfig'
 import "../Account/Account.css";
 import "./MyChildren.css";
 import ChildForm from "../../components/ChildForm"
@@ -39,7 +39,7 @@ class MyChildren extends React.Component {
 
     componentDidMount() {
         const id = this.props.match.params.id;
-        axios.get(`http://127.0.0.1:8000/childaccount/child/${id}`)
+        axiosConfig.get(`childaccount/child/${id}`)
             .then(res => {
                     this.setState({
                         Name: res.data.Name,
@@ -54,7 +54,7 @@ class MyChildren extends React.Component {
                         Support: res.data.Support,
                         Photo: res.data.Photo
                     });
-                console.log(res.data)
+                // console.log(res.data)
             })
     }
 

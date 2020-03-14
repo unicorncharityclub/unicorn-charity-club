@@ -1,7 +1,8 @@
 import React from "react";
-import axios from "axios";
+import axiosConfig from '../../axiosConfig'
 import Children from "./Children";
 import * as cookie from "react-cookies";
+import Add_child from "../../site_media/Images/Add_Child.png";
 
 
 class ChildrenList extends React.Component {
@@ -10,7 +11,7 @@ class ChildrenList extends React.Component {
   };
 
   componentDidMount() {
-    axios.get(`http://127.0.0.1:8000/childaccount/${cookie.load('user_emailid')}`).then(res => {
+    axiosConfig.get(`childaccount/${cookie.load('user_emailid')}`).then(res => {
       this.setState({
         children: res.data['lst']
       });
@@ -20,7 +21,7 @@ class ChildrenList extends React.Component {
 
   render() {
     return (
-      <div>
+       <div>
         <Children data={this.state.children} />
       </div>
     );

@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axiosConfig from '../../../axiosConfig'
 import "./ProjectInfo.css";
 import Image from "react-bootstrap/Image";
 import TextBlackHeading from "../../General/TextBlackHeading";
@@ -18,7 +18,7 @@ class ProjectInfo extends React.Component {
  }
 
     componentDidMount () {
-        axios.get(`http://127.0.0.1:8000/charityproject/${this.state.Project_id}`)
+        axiosConfig.get(`http://127.0.0.1:8000/charityproject/${this.state.Project_id}`)
       .then(res => {
               this.setState({                  
                   ProjectName : res.data.project_name,

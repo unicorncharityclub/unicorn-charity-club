@@ -1,7 +1,7 @@
 import React from "react";
 import ProjectInfo from "../../../components/Project/ProjectDetails/ProjectInfo";
 import { Container } from "@material-ui/core";
-import axios from "axios";
+import axiosConfig from '../../../axiosConfig'
 import "./ProjectDetails.css";
 import Button from 'react-bootstrap/Button';
 import "../../../../node_modules/video-react/dist/video-react.css"
@@ -12,10 +12,10 @@ class ProjectDetails extends React.Component {
     onSubmit()
     {
         const project_id = this.props.match.params.id;
-        axios.defaults.withCredentials = true;
-        axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
-        axios.post('http://127.0.0.1:8000/charityproject/start',
+        axiosConfig.defaults.withCredentials = true;
+        axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+        axiosConfig.post('charityproject/start',
             {"project_id":project_id,
                     "user_emailid": this.state.UserEmailId},
                 )
@@ -36,8 +36,9 @@ class ProjectDetails extends React.Component {
      }  
 
     componentDidMount () {
-      const project_id = this.props.match.params.id;      
-      axios.get(`http://127.0.0.1:8000/charityproject/${project_id}`)
+      const project_id = this.props.match.params.id;
+      // console.log(project_id)
+      axiosConfig.get(`charityproject/${project_id}`)
       .then(res => {
               this.setState({                  
                   ProjectMission : res.data.project_mission,
@@ -54,7 +55,7 @@ class ProjectDetails extends React.Component {
               <Container>                                        
                   {/* {console.log(this.props)} */}
                   <ProjectInfo id={this.props.match.params.id} />
-                  
+
                   <br/>
                   <br/>
 

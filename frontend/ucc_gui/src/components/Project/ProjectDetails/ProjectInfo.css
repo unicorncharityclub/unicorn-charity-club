@@ -4,7 +4,7 @@
 
 .projectTitle {
     padding-left: 20px;
-    
+
 }
 
 .ProjectInfo_MainDiv{
@@ -13,6 +13,11 @@
     margin: 10px;
     margin-left: 10px;
     height:100%
+}
+
+.stepperspace{
+    padding-left: 300px;
+
 }
 
 .ProjectInfo_Container

@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axiosConfig from '../../axiosConfig'
 import {Container} from "@material-ui/core";
 import ProjectInfo from "../../components/Project/ProjectDetails/ProjectInfo";
 import Button from "react-bootstrap/Button";
@@ -29,7 +29,7 @@ class StartNewProject extends React.Component {
 
      componentDidMount () {
       const project_id = this.props.match.params.id;
-      axios.get(`http://127.0.0.1:8000/charityproject/${project_id}/StartNewProject`)
+      axiosConfig.get(`charityproject/${project_id}/StartNewProject`)
       .then(res => {
               this.setState({
                   ProjectVideoName : res.data.project_video_name,

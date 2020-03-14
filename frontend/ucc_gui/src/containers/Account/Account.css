@@ -71,12 +71,12 @@
 }
 
 .menu__item {
-  margin-top: 20px;
+  margin-top: 10px;
   text-align: left;
   border-bottom-width: 100%;
   border-bottom: 1px solid rgb(126, 123, 123);
   border-bottom-width: 100%;
-  padding: 10px 10px 30px 10px;
+  padding: 10px 10px 10px 10px;
   text-decoration: none;
 }
 
@@ -139,7 +139,8 @@
   font-family: "TeX";
   font-size: 17px;
   padding: 5px 5px 15px 5px;
-  align-items: center;
+  align-items: flex-start;
+    justify-content: flex-start;
 }
 
 .menu__item textarea {

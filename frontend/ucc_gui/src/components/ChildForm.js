@@ -1,5 +1,6 @@
-import React, { Component } from "react";
-import axios from 'axios';
+import React from "react";
+import axiosConfig from '../axiosConfig'
+
 import { NavLink } from "react-router-dom";
 import "../containers/Account/Account.css";
 import "../containers/MyChildren/MyChildren.css";
@@ -98,7 +99,9 @@ class ChildForm extends React.Component {
 
         switch( requestType ) {
             case 'post':
-            return axios.post(`http://127.0.0.1:8000/childaccount/addchild/${cookie.load('user_emailid')}/`, form_data,
+                axiosConfig.defaults.withCredentials = true;
+                axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+            return axiosConfig.post(`childaccount/addchild/${cookie.load('user_emailid')}/`, form_data,
                     {
                         headers: {
                             'content-type': 'multipart/form-data'
@@ -107,7 +110,9 @@ class ChildForm extends React.Component {
                     .then(res => {console.log(res)})
                     .catch(error => console.log(error))
             case 'put':
-                return axios.put(`http://127.0.0.1:8000/childaccount/child/${id}/`, form_data,
+                axiosConfig.defaults.withCredentials = true;
+                axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+                return axiosConfig.put(`childaccount/child/${id}/`, form_data,
                     {
                         headers: {
                             'content-type': 'multipart/form-data'

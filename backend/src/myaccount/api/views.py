@@ -18,7 +18,7 @@ def get_account_details(request, user_emailid):
     if request.method == 'GET':
         try:
             if user:
-                name = user.first_name + user.last_name
+                name = user.first_name + " " + user.last_name
                 email = user.email
                 address = user.myaccount.Address
                 mobile = user.myaccount.Mobile
@@ -44,8 +44,8 @@ def get_account_details(request, user_emailid):
 @parser_classes([MultiPartParser, FormParser])
 def update_account_details(request, user_emailid):
     user = User.objects.get(email=user_emailid)  # get details of user by emailid
-    accountObject = Myaccount.objects.get(User=user.id)  # get account details object using 'user.id'
-    request.data["User"] = user.id  # add the 'User' (FK id) by manually setting the "User" key with the user.id value
+    accountObject = Myaccount.objects.get(user=user.id)  # get account details object using 'user.id'
+    #request.data["User"] = user.id  # add the 'User' (FK id) by manually setting the "User" key with the user.id value
 
     # initialise the serializer with the account object
     data_serializer = MyaccountSerializer(accountObject, data=request.data)
