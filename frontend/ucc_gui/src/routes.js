@@ -1,24 +1,24 @@
 import React from "react";
 import { Route } from "react-router-dom";
 
-import Account from "./containers/Account/Account.js";
-import Login from "./containers/Login/Login";
-import Register from "./containers/Register/Register";
-import MyChildren from "./containers/MyChildren/MyChildren";
-import Payment from "./containers/Menu/Payment/Payment";
-import Terms_and_Conditions from "./containers/Menu/Terms_and_Conditions/Terms_and_Conditions";
-import Security_and_Privacy from "./containers/Menu/Security_and_Privacy/Security_and_Privacy";
+import Account from "./containers/Account/Info/Account.js";
+import Login from "./containers/Account/Login/Login";
+import Register from "./containers/Account/Register/Register";
+import MyChildren from "./containers/Account/MyChildren/MyChildren";
+import Payment from "./containers/Template/Menu/Payment/Payment";
+import Terms_and_Conditions from "./containers/Template/Menu/Terms_and_Conditions/Terms_and_Conditions";
+import Security_and_Privacy from "./containers/Template/Menu/Security_and_Privacy/Security_and_Privacy";
 import Feeds from "./containers/Feeds/Feeds";
-import ChildrenList from "./containers/MyChildren/ChildrenList";
-import AddChild from "./containers/MyChildren/AddChild";
+import ChildrenList from "./containers/Account/MyChildren/ChildrenList";
+import AddChild from "./containers/Account/MyChildren/AddChild";
 import ProjectsHome from "./containers/Projects/Home/ProjectsHome"
-import ProjectDetails from "./containers/Projects/ProjectDetails/ProjectDetails"
-import StartProjectStepOne from "./containers/Projects/StartProjectStepOne/StartProjectStepOne";
-import StartProjectStepTwo from "./containers/Projects/StartProjectStepTwo/StartProjectStepTwo";
-import StartProjectStepThree from "./containers/Projects/StartProjectStepThree/StartProjectStepThree";
-import ActiveProjectChallenge1 from "./containers/Projects/ActiveProject/ActiveProjectChallenge1";
-import ActiveProjectChallenge2 from "./containers/Projects/ActiveProjectChallenge2/ActiveProjectChallenge2"
-import LearnNewSkill from "./containers/Projects/LearnNewSkill/LearnNewSkill";
+import ProjectDetails from "./containers/Projects/Details/ProjectDetails"
+import StartProjectStepOne from "./containers/Projects/StartProject/Step_1/StartProjectStepOne";
+import StartProjectStepTwo from "./containers/Projects/StartProject/Step_2/StartProjectStepTwo";
+import StartProjectStepThree from "./containers/Projects/StartProject/Step_3/StartProjectStepThree";
+import ActiveProjectChallenge1 from "./containers/Projects/ActiveProject/Step_1/ActiveProjectChallenge1";
+import ActiveProjectChallenge2 from "./containers/Projects/ActiveProject/Step_2/ActiveProjectChallenge2"
+import LearnNewSkill from "./containers/Projects/ActiveProject/Step_3/LearnNewSkill/LearnNewSkill";
 
 class BaseRouter extends React.Component {
     render() {

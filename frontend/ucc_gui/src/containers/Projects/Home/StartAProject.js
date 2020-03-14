@@ -3,7 +3,7 @@ import { Select } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
 import axiosConfig from '../../../axiosConfig'
-import ActiveProjectInfo from "../../../components/Project/ActiveProjectInfo/ActiveProjectInfo";
+import ActiveProjectInfo from "../../../components/Project/Home/ActiveProjectHomeInfo/ActiveProjectInfo";
 import cookie from "react-cookies";
 
 

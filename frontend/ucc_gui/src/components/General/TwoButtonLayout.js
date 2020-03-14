@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import TextBlue from "./TextBlue";
-import TextWhite from "./TextWhite";
+import TextBlue from "./Text/TextBlue";
+import TextWhite from "./Text/TextWhite";
 
 class TwoButtonLayout extends React.Component {
     render() {
