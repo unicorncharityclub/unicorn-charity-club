@@ -27,7 +27,7 @@ class ChildAccount(models.Model):
 
     Name = models.CharField(max_length=100)
     DOB = models.DateField(default=today_utc)
-    Gender = models.CharField(max_length=5,
+    Gender = models.CharField(max_length=6,
                               choices=gender_choices, blank=True,
                               null=True)
     School = models.CharField(max_length=255,

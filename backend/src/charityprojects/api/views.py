@@ -98,7 +98,6 @@ def getActiveProjectList(request, user_emailid):
     return JsonResponse(response)
 
 
-
 def project_category(request):
     response = {'status': "Success"}
     category_list = []
@@ -396,4 +395,31 @@ def unregistered_invitation(request):
                 unregister_invitation.save()
 
     return JsonResponse(response)
+
+
+def fetch_project_planning_status(request):
+    response = {'status': "Invalid Request"}
+    json_data = json.loads(request.body)
+    user_email_id = json_data["user_email"]
+    user_id = User.objects.get(email=user_email_id).id
+    project_user_list = ProjectUser.objects.filter(user_id=user_id)
+    planning_project_list = []
+    if len(project_user_list) > 0:
+        for project_user in project_user_list:
+            project_id = project_user.project_id
+            project = CharityProjects.objects.get(pk=project_id)
+            project_name = project.Name
+            project_badge = request.build_absolute_uri(project.Badge.url)
+            start_date = project_user.date_started
+            planning_status = project_user.project_status
+            project_info = {"project_id": project_id, "project_name": project_name, "project_badge": project_badge,
+                            "project_start_date": start_date, "planning_status": planning_status}
+            planning_project_list.append(project_info)
+        response["project_list"] = planning_project_list
+        response["status"] = "Success"
+    else:
+        response["status"] = "User has not started planning any projects"
+
+    return JsonResponse(response)
+
 
