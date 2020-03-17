@@ -312,8 +312,12 @@ def get_friend_list(request):
         if children:
             for child in children:
                 child_email_id = User.objects.get(id=child.id).email
+                if child.Photo:
+                    child_photo = ""
+                else:
+                    child_photo = ""
                 child_details = {"user_id": child.id, "user_email": child_email_id, "user_name": child.Name,
-                                 "user_photo": request.build_absolute_uri(child.Photo)}
+                                 "user_photo": child_photo}
                 friend_list.append(child_details)
             response["status"] = "Success"
         else:

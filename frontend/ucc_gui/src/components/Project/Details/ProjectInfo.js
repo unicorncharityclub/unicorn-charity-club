@@ -18,7 +18,7 @@ class ProjectInfo extends React.Component {
  }
 
     componentDidMount () {
-        axiosConfig.get(`http://127.0.0.1:8000/charityproject/${this.state.Project_id}`)
+        axiosConfig.get(`charityproject/${this.state.Project_id}`)
       .then(res => {
               this.setState({                  
                   ProjectName : res.data.project_name,
