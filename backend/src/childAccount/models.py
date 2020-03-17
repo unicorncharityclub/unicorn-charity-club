@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from multiselectfield import MultiSelectField
 
 from accounts.models import User
 
@@ -21,9 +22,21 @@ class ChildAccount(models.Model):
     )
 
     gender_choices = (
-        ('Male', 'Boy'),
-        ('Female', 'Girl')
+        ('Boy', 'M'),
+        ('Girl', 'F')
     )
+
+    SUPPORT_CHOICES = [
+        ('Animals', 'Animals'),
+        ('Arts, Culture, Humanities', 'Arts, Culture, Humanities'),
+        ('Health and Wellness', 'Health and Wellness'),
+        ('Community Development', 'Community Development'),
+        ('Education', 'Education'),
+        ('Environment', 'Environment'),
+        ('Human and Civil Rights', 'Human and Civil Rights'),
+        ('International Causes', 'International Causes'),
+        ('Research and Public Policy', 'Research and Public Policy')
+    ]
 
     Name = models.CharField(max_length=100)
     DOB = models.DateField(default=today_utc)
@@ -39,7 +52,7 @@ class ChildAccount(models.Model):
     FavoriteThing = models.TextField(blank=True)
     Dream = models.TextField(blank=True)
     SuperPowers = models.TextField(blank=True)
-    Support = models.CharField(max_length=255, blank=True)
+    Support = MultiSelectField(choices=SUPPORT_CHOICES, blank=True)
     Photo = models.ImageField(blank=True, upload_to='upload/image/profile_picture_child')
     UserId = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 

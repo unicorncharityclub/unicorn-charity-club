@@ -8,7 +8,7 @@ class ChildAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChildAccount
         fields = ('id', 'Name', 'DOB', 'Gender', 'School', 'SchoolGrade', 'Aboutme',
-                  'FavoriteThing', 'Dream', 'SuperPowers', 'Photo', 'UserId')
+                  'FavoriteThing', 'Dream', 'SuperPowers', 'Support', 'Photo', 'UserId')
 
 
 class ChildUserAccountSerializer(serializers.ModelSerializer):

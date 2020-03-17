@@ -64,6 +64,35 @@ class ChildForm extends React.Component {
             }));
     };
 
+    handleChecked(event){
+        let nCheckbox = [];
+        if (this.state.Support){
+            nCheckbox = this.state.Support.slice();
+        }
+        if(this.isValueExist(nCheckbox, event)){
+            const index = nCheckbox.indexOf(event.target.value);
+            nCheckbox.splice(index, 1);
+        } else {
+            nCheckbox.push(event.target.value);
+        }
+        this.setState({
+            Support: nCheckbox
+        });
+        console.log(this.state.Support)
+    }
+
+    isValueExist(data, event){
+      if(data.length == 0){
+        return false;
+      }
+
+      for(let i = 0; i<= data.length; i++){
+        if(event.target.value == data[i]){
+          return true;
+        }
+      }
+    return false;
+  }
 
     defaultIfEmpty(value){
         return value === "" ? "":value;
@@ -73,7 +102,7 @@ class ChildForm extends React.Component {
         this.setState({
             Photo: URL.createObjectURL(event.target.files[0]),
             finalImage: event.target.files[0]
-        })
+        });
         console.log(event.target.files[0])
     }
 
@@ -81,6 +110,7 @@ class ChildForm extends React.Component {
         event.preventDefault();
         let form_data = new FormData();
         try {
+            form_data.append('id', this.state.id);
             form_data.append('Name', this.state.Name);
             form_data.append('DOB', this.state.DOB);
             form_data.append('Gender', this.state.Gender);
@@ -90,9 +120,11 @@ class ChildForm extends React.Component {
             form_data.append('FavoriteThing', this.state.FavoriteThing);
             form_data.append('Dream', this.state.Dream);
             form_data.append('SuperPowers', this.state.SuperPowers);
-            form_data.append('Support', this.state.Support);
-            form_data.append('Photo', this.state.finalImage, this.state.finalImage.name);
-            form_data.append('id', this.state.id)
+            if(this.state.finalImage)
+                form_data.append('Photo', this.state.finalImage, this.state.finalImage.name);
+            for (let i = 0; i < this.state.Support.length; i++) {
+                form_data.append('Support', this.state.Support[i])
+            }
         } catch(err) {
             console.log(err)
         }
@@ -108,7 +140,7 @@ class ChildForm extends React.Component {
                         }
                     })
                     .then(res => {console.log(res)})
-                    .catch(error => console.log(error))
+                    .catch(error => console.log(error));
             case 'put':
                 axiosConfig.defaults.withCredentials = true;
                 axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -125,7 +157,7 @@ class ChildForm extends React.Component {
 
   render() {
         const checkboxes = ["Animals",
-                    "Art, Culture, Humanities",
+                    "Arts, Culture, Humanities",
                     "Health and Wellness",
                     "Community Development",
                     "Education",
@@ -189,13 +221,18 @@ class ChildForm extends React.Component {
                       <label>Gender: </label>
                       <div className="radio__container">
                       <div className="radio-inline">
-                          <input className="radio" id="boy" name="Gender" type="radio" value="Boy"
-                                 checked/>
-                              <label className="radio__label" htmlFor="boy">Boy</label>
+                          <input className="radio" id="Boy" name="Gender" type="radio" value="Boy"
+                                 checked={this.defaultIfEmpty(this.state.Gender) === "Boy"}
+                                 onChange={this.changeHandler.bind(this)}
+                          />
+                              <label className="radio__label" htmlFor="Boy">Boy</label>
                       </div>
                       <div className="radio-inline">
-                          <input className="radio" id="girl" name="Gender" type="radio" value="Girl"/>
-                              <label className="radio__label" htmlFor="girl">Girl</label>
+                          <input className="radio" id="Girl" name="Gender" type="radio" value="Girl"
+                                 checked={this.defaultIfEmpty(this.state.Gender) === "Girl"}
+                                 onChange={this.changeHandler.bind(this)}
+                          />
+                              <label className="radio__label" htmlFor="Girl">Girl</label>
                       </div>
                       </div>
                   </div>
@@ -265,12 +302,12 @@ class ChildForm extends React.Component {
                </div>
                <div className="blessing-info">
                       {/*<label>I want to make the world a better place by supporting(check all that apply):</label>*/}
-                    <CheckBox
+                    <CheckBox className="blessing-info-checkbox"
                             name="Support"
                             title="I want to make the world a better place by supporting(check all that apply):"
                             //checked={this.state.checkedItems.get(name)}
-                            //selectedOptions
-                            onChange={this.handleChange}
+                            selectedOptions={this.state.Support}
+                            handleChange={event => this.handleChecked(event)}
                             type="checkbox"
                             options={checkboxes}
                         />
