@@ -14,9 +14,14 @@ class Myaccount(models.Model):
     )
     Address = models.TextField()
     phone_regex = RegexValidator(regex=r'^\+?1?\d{11}$',
-                                 message="Phone number must be entered in the format: '+1xxxxxxxxxx'. Phone number should be 10 digits.")
+                message="Phone number must be entered in the format: 'xxxxxxxxxx'. Phone number should be 10 digits.")
     Mobile = models.CharField(validators=[phone_regex], max_length=17, blank=True)
     ProfilePic = models.ImageField(upload_to='upload/image/profile_picture', blank=True)
+    Aboutme = models.TextField(blank=True)
+    FavoriteThing = models.TextField(blank=True)
+    Dream = models.TextField(blank=True)
+    SuperPowers = models.TextField(blank=True)
+    Support = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return '{} {} {}'.format(self.Address,  self.Mobile, self.ProfilePic)
