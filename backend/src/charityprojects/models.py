@@ -41,6 +41,7 @@ class ProjectUser(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     invited_by = models.EmailField(null=True, blank=True)
     date_joined = models.DateField(null=True, blank=True)
+    date_started = models.DateField(null=True, blank=True) # should not be null will update when start project method is fixed
     goal_date = models.DateField(null=True, blank=True)
     challenge_status = models.CharField(max_length=100, blank=True)
     project_status = models.CharField(max_length=100, blank=True)
