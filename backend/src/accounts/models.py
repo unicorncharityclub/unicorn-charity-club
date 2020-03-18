@@ -49,7 +49,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     def get_full_name(self):
-        return self.email
+        return self.first_name + " " + self.last_name
 
     def get_short_name(self):
         return self.email
@@ -64,6 +64,8 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         # Simplest possible answer: Yes, always
         return True
+
+
 
     @property
     def is_admin(self):

@@ -14,7 +14,7 @@ class Myaccount(models.Model):
     )
     Address = models.TextField()
     phone_regex = RegexValidator(regex=r'^\+?1?\d{11}$',
-                message="Phone number must be entered in the format: 'xxxxxxxxxx'. Phone number should be 10 digits.")
+                message="Phone number must be entered in the format: '+1xxxxxxxxxx'. Phone number should be 10 digits.")
     Mobile = models.CharField(validators=[phone_regex], max_length=17, blank=True)
     ProfilePic = models.ImageField(upload_to='upload/image/profile_picture', blank=True)
     Aboutme = models.TextField(blank=True)
@@ -35,3 +35,32 @@ class Myaccount(models.Model):
     def save_user_profile(sender, instance, **kwargs):
         instance.myaccount.save()
 
+
+class ChildAccount(models.Model):
+    objects = None
+    school_grade_choices = (
+        ('Kindergarten', 'Kindergarten'),
+        ('Grade 1', 'Grade 1'),
+        ('Grade 2', 'Grade 2'),
+        ('Grade 3', 'Grade 3'),
+        ('Grade 4', 'Grade 4'),
+        ('Grade 5', 'Grade 5'),
+        ('Grade 6', 'Grade 6')
+    )
+
+    School = models.CharField(max_length=255,
+                              blank=True)
+    SchoolGrade = models.CharField(max_length=15,
+                                   choices=school_grade_choices,
+                                   default='Kindergarten')
+    ParentId = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='parent_id')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, related_name='user_id')
+
+    def __str__(self):
+        return self.user
+
+    def get_school(self):
+        return self.School
+
+    def get_school_grade(self):
+        return self.SchoolGrade

@@ -3,8 +3,9 @@ from django.views.decorators.csrf import csrf_exempt
 from ..models import User
 import json
 from django.http import JsonResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 import django.middleware.csrf
+
 
 @csrf_exempt
 def register_user_view(request):
@@ -27,6 +28,7 @@ def register_user_view(request):
             response['status'] = "User Already Exists"
     return JsonResponse(response)
 
+
 @csrf_exempt
 def login_user(request):
     response = {'status': "Invalid Request"}
@@ -37,7 +39,7 @@ def login_user(request):
             password = json_data["password"]
             user = User.objects.get(email = email)
             #user_authenticated = authenticate(request, email = email, password = password)
-            #print(user_authenticated)
+
             if user.password == password and user.is_active == True:
                 login(request, user)
                 response['status'] = "Success"

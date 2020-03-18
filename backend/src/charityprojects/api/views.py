@@ -6,8 +6,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation
 from django.http import JsonResponse
 from accounts.models import User
-from childAccount.models import ChildAccount
-from myaccount.models import Myaccount
+from myaccount.models import Myaccount, ChildAccount
 from .serializers import ProjectUserSerializer, LearnNewSkillSerializer
 from rest_framework import status
 from rest_framework.response import Response
