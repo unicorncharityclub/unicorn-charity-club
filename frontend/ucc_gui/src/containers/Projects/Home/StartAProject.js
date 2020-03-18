@@ -91,16 +91,11 @@ class ProjectsHome extends React.Component {
         </div>
 
         <div> 
-        {this.state.projectsList[0].project_id?
-                (  <ActiveProjectInfo projectList={this.state.activeProjectsList}/>):(<div/>)}
-         
-        {/* 
-          {this.state.projectsList
-          .map((elem, index) => {console.log("pid: " +elem.project_id)})}                                           */}
+          {this.state.projectsList[0].project_id?
+                  (  <ActiveProjectInfo projectList={this.state.activeProjectsList}/>):(<div/>)}                 
         </div>
 
 
-  
         <div className="blackDivider"></div>
 
         <div className="textHeader">

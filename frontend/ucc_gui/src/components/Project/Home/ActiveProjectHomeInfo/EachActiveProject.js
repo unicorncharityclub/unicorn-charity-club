@@ -42,7 +42,7 @@ class EachActiveProject extends React.Component {
                     <tbody>
                     <tr>
                     <td className="firstCell" colSpan={2}>
-                        <a className = "projectName" href = {'/Projects/'+ this.props.ProjectId +'/ActiveProjectChallenge1'}>
+                        <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/ActiveProjectChallenge1'}>
                             <TextBlackHeading message={this.state.ProjectName}/>
                         </a>
                         <br /> <br/>
