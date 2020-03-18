@@ -108,7 +108,7 @@ def get_user_type(user_email_id):
 
 def put_user_details(request, response, user_email_id):
     try:
-
+        print(request.data)
         user = User.objects.get(email=user_email_id)  # get details of user by emailid
         user_id = user.id
         if (update_user_account_details(request, user_id) and
@@ -131,7 +131,8 @@ def get_user_details(request, response, user_email_id):
             account_details_object = Myaccount.objects.get(user_id=user_id)  # get child account info
 
             response['email'] = user_details.email
-            response['name'] = user_details.get_full_name()
+            response['first_name'] = user_details.first_name
+            response['last_name'] = user_details.last_name
             response['dob'] = user_details.dob
             response['gender'] = user_details.gender
             response['address'] = account_details_object.Address
@@ -168,7 +169,7 @@ def update_user_profile_details(request, user_id):
     add_if_exist_in_request(request, profile_details, 'Dream')
     add_if_exist_in_request(request, profile_details, 'SuperPowers')
     add_if_exist_in_request(request, profile_details, 'Support')
-    add_if_exist_in_request(request, profile_details, 'Photo')
+    add_if_exist_in_request(request, profile_details, 'ProfilePic')
 
     child_account_object = Myaccount.objects.get(user=user_id)
     child_account_serializer = MyaccountSerializer(child_account_object, data=profile_details)

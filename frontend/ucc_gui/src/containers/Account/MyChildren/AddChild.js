@@ -1,7 +1,7 @@
 import React from "react";
 import "../Info/Account.css";
 import "./MyChildren.css";
-import ChildForm from "../../../components/Account/ChildForm"
+import ProfileForm from "../../../components/Account/ProfileForm"
 
 
 /**
@@ -39,18 +39,18 @@ class AddChild extends React.Component {
   render() {
       return (
           <div>
-            <ChildForm Name={this.state.Name}
-                       DOB={this.state.DOB}
-                       Gender={this.state.Gender}
-                       School={this.state.School}
-                       SchoolGrade={this.state.SchoolGrade}
-                       Aboutme={this.state.Aboutme}
-                       FavoriteThing={this.state.FavoriteThing}
-                       Dream={this.state.Dream}
-                       SuperPowers={this.state.SuperPowers}
-                       Support={this.state.Support}
-                       Photo={this.state.Photo}
-                requestType="post" id={null}/>
+            <ProfileForm Name={this.state.Name}
+                         DOB={this.state.DOB}
+                         Gender={this.state.Gender}
+                         School={this.state.School}
+                         SchoolGrade={this.state.SchoolGrade}
+                         Aboutme={this.state.Aboutme}
+                         FavoriteThing={this.state.FavoriteThing}
+                         Dream={this.state.Dream}
+                         SuperPowers={this.state.SuperPowers}
+                         Support={this.state.Support}
+                         Photo={this.state.Photo}
+                         requestType="post" id={null}/>
           </div>
       )
   }
