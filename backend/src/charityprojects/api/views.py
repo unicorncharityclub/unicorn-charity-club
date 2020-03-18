@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from accounts.models import User
 from childAccount.models import ChildAccount
 from myaccount.models import Myaccount
-from .serializers import ProjectUserSerializer, LearnNewSkillSerializer
+from .serializers import ProjectUserSerializer, LearnNewSkillSerializer, VolunteerTimeSerializer
 from rest_framework import status
 from rest_framework.response import Response
 
@@ -96,7 +96,6 @@ def getActiveProjectList(request, user_emailid):
             charityProjectList.append(each_project)
     response['active_project_list'] = charityProjectList
     return JsonResponse(response)
-
 
 
 def project_category(request):
@@ -396,4 +395,16 @@ def unregistered_invitation(request):
                 unregister_invitation.save()
 
     return JsonResponse(response)
+
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def create_volunteer_adventure(request):
+    volunteer_serializer = VolunteerTimeSerializer(request.data)
+    if volunteer_serializer.is_valid():
+        volunteer_serializer.save()
+        return Response(volunteer_serializer.data, status=status.HTTP_201_CREATED)
+    return Response(volunteer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
