@@ -93,6 +93,12 @@ def random_string(string_length=10):
     return ''.join(random.choice(letters) for i in range(string_length))
 
 
+def add_if_exist_in_request(request, data_dict, key):
+    if key in request.data:
+        data_dict[key] = request.data[key]
+    pass
+
+
 def get_user_type(user_email_id):
     if user_email_id.endswith(child_email_id_extension):
         return "Child"
@@ -155,15 +161,14 @@ def get_user_details(request, response, user_email_id):
 
 def update_user_profile_details(request, user_id):
     profile_details = {}
-    profile_details['Address'] = request.data['Address']
-    profile_details['Mobile'] = request.data['Mobile']
-    profile_details['Aboutme'] = request.data['Aboutme']
-    profile_details['FavoriteThing'] = request.data['FavoriteThing']
-    profile_details['Dream'] = request.data['Dream']
-    profile_details['SuperPowers'] = request.data['SuperPowers']
-    profile_details['Support'] = request.data['Support']
-    if "Photo" in request.data:
-        profile_details['Photo'] = request.data['Photo']
+    add_if_exist_in_request(request, profile_details, 'Address')
+    add_if_exist_in_request(request, profile_details, 'Mobile')
+    add_if_exist_in_request(request, profile_details, 'Aboutme')
+    add_if_exist_in_request(request, profile_details, 'FavoriteThing')
+    add_if_exist_in_request(request, profile_details, 'Dream')
+    add_if_exist_in_request(request, profile_details, 'SuperPowers')
+    add_if_exist_in_request(request, profile_details, 'Support')
+    add_if_exist_in_request(request, profile_details, 'Photo')
 
     child_account_object = Myaccount.objects.get(user=user_id)
     child_account_serializer = MyaccountSerializer(child_account_object, data=profile_details)
@@ -193,8 +198,8 @@ def update_only_child_details(request, child_user_id):
     child_details_object = ChildAccount.objects.get(user_id=child_user_id)
     if child_details_object:
         child_details = {}
-        child_details['School'] = request.data['School']
-        child_details['SchoolGrade'] = request.data['SchoolGrade']
+        add_if_exist_in_request(request, child_details, 'School')
+        add_if_exist_in_request(request, child_details, 'SchoolGrade')
 
         child_details_serializer = ChildAccountSerializer(child_details_object, data=child_details)
         if child_details_serializer.is_valid():
@@ -205,15 +210,14 @@ def update_only_child_details(request, child_user_id):
     else:
         return True
 
+
 def update_user_account_details(request, user_id):
     user_details = {}
-    user_details['first_name'] = request.data['first_name']
-    user_details['last_name'] = request.data['last_name']
-    user_details['dob'] = request.data['DOB']
-    user_details['gender'] = request.data['Gender']
+    add_if_exist_in_request(request, user_details, 'first_name')
+    add_if_exist_in_request(request, user_details, 'last_name')
+    add_if_exist_in_request(request, user_details, 'dob')
+    add_if_exist_in_request(request, user_details, 'gender')
     child_user_object = User.objects.get(pk=user_id)
-    print(child_user_object)
-
     child_user_serializer = AccountUpdateSerializer(child_user_object, data=user_details)
     if child_user_serializer.is_valid():
         child_user_serializer.save()
