@@ -20,7 +20,7 @@ class ActiveProjectChallengeInfo extends React.Component {
 
     componentDidMount () {
     // get axios function here 
-        axiosConfig.get(`http://127.0.0.1:8000/charityproject/${this.state.ProjectID}`)
+        axiosConfig.get(`charityproject/${this.state.ProjectID}`)
         .then(res => {
                 this.setState({                  
                   ProjectName : res.data["project_name"],

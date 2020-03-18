@@ -1,7 +1,8 @@
 from .views import charity_project_details, all_project_list, project_category, all_project_info_list, start_project, \
     update_project_invitation_video_details, update_project_prize, update_project_challenge_status_explore, \
     challenge_learn_new_skill, update_project_challenge_status_ideation, update_user_invitation,\
-    get_friend_list, search_friends, getActiveProjectList, unregistered_invitation, create_volunteer_adventure
+    get_friend_list, search_friends, getActiveProjectList, unregistered_invitation,\
+    fetch_project_planning_status, create_volunteer_adventure
 from rest_framework.routers import DefaultRouter
 from django.urls import path
 
@@ -11,6 +12,7 @@ urlpatterns = [
     path('all_project_info_list', all_project_info_list),
     path('category', project_category),
     path('start', start_project),
+    path('plannedProjects', fetch_project_planning_status),
     path('invitationVideo', update_project_invitation_video_details),
     path('projectPrize', update_project_prize),
     path('userInvitation', update_user_invitation),

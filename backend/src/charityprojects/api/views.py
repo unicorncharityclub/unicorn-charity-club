@@ -311,8 +311,12 @@ def get_friend_list(request):
         if children:
             for child in children:
                 child_email_id = User.objects.get(id=child.id).email
+                if child.Photo:
+                    child_photo = ""
+                else:
+                    child_photo = ""
                 child_details = {"user_id": child.id, "user_email": child_email_id, "user_name": child.Name,
-                                 "user_photo": request.build_absolute_uri(child.Photo)}
+                                 "user_photo": child_photo}
                 friend_list.append(child_details)
             response["status"] = "Success"
         else:
@@ -406,5 +410,30 @@ def create_volunteer_adventure(request):
         return Response(volunteer_serializer.data, status=status.HTTP_201_CREATED)
     return Response(volunteer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+def fetch_project_planning_status(request):
+    response = {'status': "Invalid Request"}
+    json_data = json.loads(request.body)
+    user_email_id = json_data["user_email"]
+    user_id = User.objects.get(email=user_email_id).id
+    project_user_list = ProjectUser.objects.filter(user_id=user_id)
+    planning_project_list = []
+    if len(project_user_list) > 0:
+        for project_user in project_user_list:
+            project_id = project_user.project_id
+            project = CharityProjects.objects.get(pk=project_id)
+            project_name = project.Name
+            project_badge = request.build_absolute_uri(project.Badge.url)
+            start_date = project_user.date_started
+            planning_status = project_user.project_status
+            project_info = {"project_id": project_id, "project_name": project_name, "project_badge": project_badge,
+                            "project_start_date": start_date, "planning_status": planning_status}
+            planning_project_list.append(project_info)
+        response["project_list"] = planning_project_list
+        response["status"] = "Success"
+    else:
+        response["status"] = "User has not started planning any projects"
+
+    return JsonResponse(response)
 
 
