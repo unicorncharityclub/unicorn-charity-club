@@ -31,16 +31,6 @@ class Navbar extends React.Component {
           </NavLink>
 
           <NavLink
-            activeClassName="nav__item--active"
-            className="nav__link nav__item"
-            to={"/Spotlight"}
-          >
-            {" "}
-            <div className="nav__icon--spotlight"></div>
-            <div className="nav__label">Spotlight</div>
-          </NavLink>
-
-          <NavLink
             exact
             activeClassName="nav__item--active"
             className="nav__link nav__item"
@@ -51,25 +41,17 @@ class Navbar extends React.Component {
             <div className="nav__label"> </div>
           </NavLink>
 
-          <NavLink
-            activeClassName="nav__item--active"
-            className="nav__link nav__item"
-            to={"/Friends"}
-          >
-            {" "}
-            <div className="nav__icon--friends"></div>
-            <div className="nav__label">Friends</div>
-          </NavLink>
 
           <NavLink
             activeClassName="nav__item--active"
             className="nav__link nav__item"
-            to={"/Yearbook"}
+            to={"/Spotlight"}
           >
             {" "}
-            <div className="nav__icon--yearbook"></div>
-            <div className="nav__label">Yearbook</div>
+            <div className="nav__icon--spotlight"></div>
+            <div className="nav__label">Spotlight</div>
           </NavLink>
+
         </ul>
       </nav>
     );
