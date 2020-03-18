@@ -71,6 +71,9 @@ class LearnNewSkill(models.Model):
     video = models.FileField(upload_to='upload/video/challenge_video', null=True)
     pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
 
+    def __str__(self):
+        return '{} {} {} {}'.format(self.newSkill, self.description, self.video, self.pu_id)
+
 
 class UserInvitation(models.Model):
     objects = None
@@ -109,3 +112,13 @@ class VolunteerTime(models.Model):
         return '{} {} {} {} {} {} {}'.format(self.organisation_name, self.organisation_address, self.organisation_city,
                                              self.organisation_state, self.volunteer_hours,
                                              self.volunteer_work_description, self.volunteer_exp)
+
+
+class DevelopNewHabit(models.Model):
+    newHabit = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    video = models.FileField(upload_to='upload/video/challenge_video', null=True)
+    pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return '{} {} {} {}'.format(self.newHabit, self.description, self.video, self.pu_id)
