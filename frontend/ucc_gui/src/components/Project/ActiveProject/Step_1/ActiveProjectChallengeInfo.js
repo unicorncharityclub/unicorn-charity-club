@@ -37,7 +37,7 @@ class ActiveProjectChallengeInfo extends React.Component {
             <div className="ProjectInfo_MainDiv"  >
                 <div className="ProjectInfo_Container">
                     <div className="ProjectInfo_Badge" >
-                        <Image src={this.state.ProjectBanner} style={{width: "100%", maxHeight: "100%"}} roundedCircle/>
+                        <Image src={this.state.ProjectBanner} style={{width: "105px", maxHeight: "100%", height: "105px"}} roundedCircle/>
                     </div>
                     <div className="ProjectInfo_Text" >
                         <table>

@@ -64,7 +64,7 @@ class ProjectsHome extends React.Component {
           activeProjectsList: activeProjectsList
       }));
 
-      console.log(this.state.activeProjectsList);
+      // console.log(this.state.activeProjectsList);
       
     }
 
