@@ -19,6 +19,7 @@ import StartProjectStepThree from "./containers/Projects/StartProject/Step_3/Sta
 import ActiveProjectChallenge1 from "./containers/Projects/ActiveProject/Step_1/ActiveProjectChallenge1";
 import ActiveProjectChallenge2 from "./containers/Projects/ActiveProject/Step_2/ActiveProjectChallenge2"
 import LearnNewSkill from "./containers/Projects/ActiveProject/Step_3/LearnNewSkill/LearnNewSkill";
+import DevelopNewHabit from "./containers/Projects/ActiveProject/Step_3/DevelopNewHabit/DevelopNewHabit";
 
 class BaseRouter extends React.Component {
     render() {
@@ -41,6 +42,7 @@ class BaseRouter extends React.Component {
               <Route exact path='/Projects/:id/InviteFriends' component={StartProjectStepThree} />
               <Route exact path='/Projects/:id/ActiveProjectChallenge1' component={ActiveProjectChallenge1} />
               <Route exact path='/Projects/:id/LearnNewSkill' component={LearnNewSkill} />
+                <Route exact path='/Projects/:id/DevelopNewHabit' component={DevelopNewHabit} />
               <Route exact path='/AddChild' component={() => <AddChild blessing_group={"Helpful Hearts"} color_horn_rank={"Red"}/>}/>
             </div>
           );
