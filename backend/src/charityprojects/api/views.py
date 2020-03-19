@@ -354,7 +354,6 @@ def search_friends(request):
         child_account_object = User.objects.get(pk=child_user_id)
         child_email_id = child_account_object.email
         child_name = child_account_object.first_name + child_account_object.last_name
-
         if child_name.startswith(search_text):
             if child_profile_object.ProfilePic:
                 child_photo = request.build_absolute_uri(child_profile_object.ProfilePic.url)
