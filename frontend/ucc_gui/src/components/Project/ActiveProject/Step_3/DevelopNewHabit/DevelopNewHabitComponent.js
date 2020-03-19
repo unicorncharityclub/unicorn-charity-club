@@ -17,8 +17,7 @@ class DevelopNewHabitComponent extends React.Component {
             description: '',
             video: '',
             finalVideo: '',
-            projectId: this.props.id,
-            email: cookie.load('user_emailid')
+            projectId: this.props.id
         }
     };
 
@@ -51,14 +50,15 @@ class DevelopNewHabitComponent extends React.Component {
                 form_data.append('video', this.state.finalVideo, this.state.finalVideo.name);
             }
             form_data.append('projectId', this.state.projectId);
-            form_data.append('email', this.state.email);
+            //form_data.append('email', 'bhawanaprasadmail@gmail.com');
+            form_data.append('email', cookie.load('user_emailid'));
         } catch(err) {
             console.log(err)
         }
 
         switch( requestType ) {
             case 'post':
-            return axiosConfig.post('charityproject/DevelopNewHabit/', form_data,
+            return axiosConfig.post('charityproject/DevelopNewHabit', form_data,
                     {
                         headers: {
                             'content-type': 'multipart/form-data'
@@ -133,7 +133,7 @@ class DevelopNewHabitComponent extends React.Component {
                 <div className="navigate-save">
                     {/*<label htmlFor="save">Save</label>*/}
                     <Button className="save-button" id="save" variant="contained" type="submit"
-                            onClick={this.saveHandler.bind(this)}>SAVE</Button>
+                            onClick={(event) => this.saveHandler(event, 'post')}>SAVE</Button>
                     <Button className="done-button" id="done" variant="contained" type="submit">DONE</Button>
                 </div>
             </div>
