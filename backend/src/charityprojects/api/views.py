@@ -301,7 +301,7 @@ def get_friend_list(request):
     if friend_id:
         user_name = friend.first_name + " " + friend.last_name
         if friend.myaccount.ProfilePic:
-            user_photo = request.build_absolute_uri(friend.myaccount.ProfilePic)
+            user_photo = request.build_absolute_uri(friend.myaccount.ProfilePic.url)
         else:
             user_photo = ""
         user_details = {"user_id": friend_id, "user_email": friend_email_id, "user_name": user_name,
@@ -312,7 +312,7 @@ def get_friend_list(request):
             for child in children:
                 child_email_id = User.objects.get(id=child.id).email
                 if child.Photo:
-                    child_photo = ""
+                    child_photo = request.build_absolute_uri(child.Photo.url)
                 else:
                     child_photo = ""
                 child_details = {"user_id": child.id, "user_email": child_email_id, "user_name": child.Name,
@@ -340,7 +340,7 @@ def search_friends(request):
     for user in user_list:
         if user.first_name.startswith(search_text):
             if user.myaccount.ProfilePic:
-                user_photo = request.build_absolute_uri(user.myaccount.ProfilePic)
+                user_photo = request.build_absolute_uri(user.myaccount.ProfilePic.url)
             else:
                 user_photo = ""
             user_details = {"user_email": user.email, "user_name": user.first_name+" "+user.last_name,
@@ -349,7 +349,7 @@ def search_friends(request):
     for child in children_list:
         if child.Name.startswith(search_text):
             if child.Photo:
-                child_photo = request.build_absolute_uri(child.Photo)
+                child_photo = request.build_absolute_uri(child.Photo.url)
             else:
                 child_photo = ""
             child_details = {"user_email": "", "user_name": child.Name,
