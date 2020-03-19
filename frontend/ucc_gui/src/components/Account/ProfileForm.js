@@ -235,16 +235,19 @@ class ProfileForm extends React.Component {
                 onChange={this.props.onDataChange.bind(this)}
               />
             </div>
+            {/*
             <div className="blessing-info">
-              {/*<label>I want to make the world a better place by supporting(check all that apply):</label>*/}
+              <label>I want to make the world a better place by supporting(check all that apply):</label>
               <CheckBox
                 name="support"
                 title="I want to make the world a better place by supporting(check all that apply):"
                 type="checkbox"
                 options={checkboxes}
+                //selectedOptions
                 onChange={this.props.onCheckboxDataChange.bind(this)}
               />
             </div>
+          */}
           </div>
         </form>
       </div>

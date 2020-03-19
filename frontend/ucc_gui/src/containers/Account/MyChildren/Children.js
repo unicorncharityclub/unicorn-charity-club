@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
 import "../Info/Account.css";
 import "./MyChildren.css";
 import Arrow_backward from "../../../image/arrow-backward.png";
@@ -10,7 +9,6 @@ class Children extends React.Component{
 
     render(){
         return (
-            <Router>
                 <div style={{ display: "block" }}>
                     <div className="header__wrapper">
                         <div className="header__logo">
@@ -38,7 +36,6 @@ class Children extends React.Component{
                         </div>
                     </div>
                 </div>
-            </Router>
         );
     }
 }

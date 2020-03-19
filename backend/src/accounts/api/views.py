@@ -67,10 +67,9 @@ def login_user(request):
                             child_photo = ""
                         child_name = child_account_object.first_name + child_account_object.last_name
                         child_details = {"name": child_name, "email": child_email_id, "photo": child_photo}
-                        child_details_list.append(child_details)
-                user_list = {"user_details": user_details_list, "child_details": child_details_list}
+                        user_details_list.append(child_details)
                 response['status'] = "Success"
-                response['user_list'] = user_list
+                response['user_list'] = user_details_list
                 response['token'] = django.middleware.csrf.get_token(request)
             else:
                 response['status'] = "Wrong Username or Password"

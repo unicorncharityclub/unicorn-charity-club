@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router} from "react-router-dom";
 import Arrow_backward from "../../../../image/arrow-backward.png";
 import Navbar from "../../Navbar/Navbar";
 import "./Mobile_toolbar.css";
@@ -28,16 +27,15 @@ class Mobile_toolbar extends Component {
   }
 
   logout() {
-      let user_id = "";
-      let token = "";
-      cookie.save('user_id', user_id);
-      cookie.save('XSRF-TOKEN', token);
-      this.props.dispatch({ type: "LOGOUT_SUCCESS", user_id:user_id, token:token});
+      let empty = "";
+      cookie.save('user_emailid', empty);
+      cookie.save('XSRF-TOKEN', empty);
+      cookie.save('user_list', empty);
+      this.props.dispatch({ type: "LOGOUT_SUCCESS", user_list:empty, token:empty});
   }
 
   render() {
     return (
-      <Router>
         <div className="wrapper">
           <div className="mobile-toolbar-menu" style={{ display: "block" }}>
                 <div className="header__logo-wrapper">
@@ -90,7 +88,6 @@ class Mobile_toolbar extends Component {
             <Navbar />
           </div>
         </div>
-      </Router>
     );
   }
 }

@@ -20,6 +20,7 @@ import ActiveProjectChallenge1 from "./containers/Projects/ActiveProject/Step_1/
 import ActiveProjectChallenge2 from "./containers/Projects/ActiveProject/Step_2/ActiveProjectChallenge2"
 import LearnNewSkill from "./containers/Projects/ActiveProject/Step_3/LearnNewSkill/LearnNewSkill";
 import DevelopNewHabit from "./containers/Projects/ActiveProject/Step_3/DevelopNewHabit/DevelopNewHabit";
+import Mobile_toolbar from "./containers/Template/Header/Mobile/Mobile_toolbar";
 
 class BaseRouter extends React.Component {
     render() {
@@ -46,6 +47,7 @@ class BaseRouter extends React.Component {
               <Route exact path='/Projects/:id/ActiveProjectChallenge1' component={ActiveProjectChallenge1} />
               <Route exact path='/Projects/:id/LearnNewSkill' component={LearnNewSkill} />
               <Route exact path='/AddChild' component={AddChild}/>
+              <Route exact path="/Mobile_toolbar" component={Mobile_toolbar}/>
             </div>
           );
         default:

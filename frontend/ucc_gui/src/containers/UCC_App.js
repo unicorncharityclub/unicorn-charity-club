@@ -17,11 +17,10 @@ class UCC_App extends Component {
   componentDidMount() {
     if(cookie.load('user_emailid')!==undefined)
     {
-        this.props.dispatch({ type: "LOGIN_SUCCESS", user_emailid:cookie.load('user_emailid'), token:cookie.load('XSRF-TOKEN')});
+        this.props.dispatch({ type: "LOGIN_SUCCESS", user_list:cookie.load('user_list'), token:cookie.load('XSRF-TOKEN')});
     }
   }
 
-  
 
     render() {
 
