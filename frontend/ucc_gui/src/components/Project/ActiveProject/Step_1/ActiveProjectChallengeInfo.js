@@ -23,7 +23,7 @@ class ActiveProjectChallengeInfo extends React.Component {
         axiosConfig.get(`charityproject/${this.state.ProjectID}`)
         .then(res => {
                 this.setState({                  
-                  ProjectName : res.data.project_name,
+                  ProjectName : res.data["project_name"],
                   ProjectBanner : res.data["project_banner"],                     
                 });
         }).catch(error => console.log(error))
