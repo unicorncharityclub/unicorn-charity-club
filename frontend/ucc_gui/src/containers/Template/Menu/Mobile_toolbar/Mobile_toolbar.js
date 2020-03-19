@@ -60,7 +60,7 @@ class Mobile_toolbar extends Component {
 
                       <div className="mobile-toolbar-menu__item">
 
-                        <a href="/MyChildren">My Children</a>
+                        <a href="/MyChildrenList">My Children</a>
                       </div>
 
                       <div className="mobile-toolbar-menu__item">

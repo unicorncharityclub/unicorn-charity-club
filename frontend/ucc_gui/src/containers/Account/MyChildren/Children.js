@@ -26,9 +26,9 @@ class Children extends React.Component{
                         <div className="menu__content">
                             {this.props.data ?
                                 (this.props.data.map(item => (
-                                <div className="menu__item" key={item.Name}>
+                                <div className="menu__item" key={item.EmailId}>
                                     <img className="profile-picture-list" src={item.Photo || Upload_photo} alt="Child name"/>
-                                    <a href={`/MyChildren/${item.id}`}> {item.Name} </a>
+                                    <a href={`/MyChildren/${item.EmailId}`}> {item.Name} </a>
                                 </div>
                             ))):''}
                             <div className="menu__item">

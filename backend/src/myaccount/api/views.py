@@ -39,9 +39,13 @@ def add_child_details(request, user_emailid):
     # Step 1 - create the user in the 'Users' table
     child_user_email = parent_user.email.split("@")[0] + "_" + request.data[
         'first_name'] + "_" + random_string() + child_email_id_extension
-    child_user = User.objects.create(first_name=request.data['first_name'], last_name=request.data['last_name'],
-                                     email=child_user_email, password=random_string(20),
-                                     dob=request.data['DOB'], gender=request.data['Gender'])
+
+    child_user = User.objects.create(first_name=request.data['first_name'],
+                                     last_name=request.data['last_name'] if 'last_name' in request.data else "",
+                                     email=child_user_email,
+                                     password=random_string(20),
+                                     dob=request.data['dob'] if 'dob' in request.data else "",
+                                     gender=request.data['gender'] if 'gender' in request.data else "")
     child_user.save()
     child_user_id = child_user.id
 
@@ -172,6 +176,7 @@ def update_user_profile_details(request, user_id):
     add_if_exist_in_request(request, profile_details, 'ProfilePic')
 
     child_account_object = Myaccount.objects.get(user=user_id)
+    print(user_id)
     child_account_serializer = MyaccountSerializer(child_account_object, data=profile_details)
     if child_account_serializer.is_valid():
         child_account_serializer.save()
@@ -186,7 +191,6 @@ def set_only_child_details(request, child_user_id, parent_user_id):
     child_details['ParentId'] = parent_user_id
     child_details['School'] = request.data['School']
     child_details['SchoolGrade'] = request.data['SchoolGrade']
-
     child_details_serializer = ChildAccountSerializer(data=child_details)
     if child_details_serializer.is_valid():
         child_details_serializer.save()

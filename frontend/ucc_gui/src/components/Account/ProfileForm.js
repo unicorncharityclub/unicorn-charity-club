@@ -68,19 +68,7 @@ class ProfileForm extends React.Component {
                 <label>Email:</label>
                 <label>{this.props.email}</label>
               </div>
-            ) : (
-              <div className="child-form">
-                <label>Email:</label>
-                <input
-                  disabled={true}
-                  type="text"
-                  name="email"
-                  placeholder="Email"
-                  value={this.props.email}
-                  onChange={this.props.onDataChange.bind(this)}
-                />
-              </div>
-            )}
+            ) : ''}
 
             <div className="child-form">
               <label>First Name:</label>

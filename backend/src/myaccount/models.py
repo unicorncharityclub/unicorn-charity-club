@@ -12,7 +12,7 @@ class Myaccount(models.Model):
     user = models.OneToOneField(
        settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
     )
-    Address = models.TextField()
+    Address = models.TextField(blank=True)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{11}$',
                 message="Phone number must be entered in the format: '+1xxxxxxxxxx'. Phone number should be 10 digits.")
     Mobile = models.CharField(validators=[phone_regex], max_length=17, blank=True)
@@ -52,7 +52,8 @@ class ChildAccount(models.Model):
                               blank=True)
     SchoolGrade = models.CharField(max_length=15,
                                    choices=school_grade_choices,
-                                   default='Kindergarten')
+                                   default='Kindergarten',
+                                    blank=True)
     ParentId = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='parent_id')
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, related_name='user_id')
 
