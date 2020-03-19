@@ -32,7 +32,7 @@ class ProjectsHome extends React.Component {
    }
 
    fetchActiveProjectsList(obj) {
-      const user_emailid = this.state.UserEmailId;
+      const user_emailid = this.state.UserEmailId;      
       axiosConfig.get(`charityproject/activeProjectList/${user_emailid}`)
       .then(function(response) {obj.setActiveProjectsList(response);})
       .catch(function(error) {console.log(error);});
@@ -55,6 +55,7 @@ class ProjectsHome extends React.Component {
         this.setState(prevState => ({
         categoryList: categoryList
       }));
+      
     }
 
     setActiveProjectsList (response) {
@@ -63,7 +64,7 @@ class ProjectsHome extends React.Component {
           activeProjectsList: activeProjectsList
       }));
 
-      // console.log(this.state.activeProjectsList);
+      console.log(this.state.activeProjectsList);
       
     }
 
@@ -89,17 +90,12 @@ class ProjectsHome extends React.Component {
             Active
         </div>
 
-        <div>  
-          {this.state.projectsList
-          .map(elem => (             
-            <ActiveProjectInfo key={this.state.activeProjectsList.indexOf(elem)} projectId={elem.project_id}/>            
-          ))} 
-
-          {this.state.projectsList.map(elem => console.log(elem))}                                   
+        <div> 
+          {this.state.projectsList[0].project_id?
+                  (  <ActiveProjectInfo projectList={this.state.activeProjectsList}/>):(<div/>)}                 
         </div>
 
 
-  
         <div className="blackDivider"></div>
 
         <div className="textHeader">

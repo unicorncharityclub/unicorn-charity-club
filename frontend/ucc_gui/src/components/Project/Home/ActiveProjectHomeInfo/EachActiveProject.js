@@ -19,7 +19,7 @@ class EachActiveProject extends React.Component {
  }
 
     componentDidMount () {         
-        const Project_id = this.state.Project_id;                  
+        const Project_id = this.state.Project_id;                    
         axiosConfig.get(`charityproject/${Project_id}`)
       .then(res => {
               this.setState({                  
@@ -33,8 +33,7 @@ class EachActiveProject extends React.Component {
 
     render() {
       return(
-        <div>      
-            {/* {console.log(this.state.ProjectName)}                   */}
+        <div>               
             <div className="ActiveProjectInfo_Badge" style={{width: "117px", height : "117px"}}>                        
                 <Image src={this.state.ProjectBanner}  style={{width: "100%", height: "100%"}} roundedCircle/>
             </div>
@@ -42,24 +41,25 @@ class EachActiveProject extends React.Component {
                 <table >
                     <tbody>
                     <tr>
-                        <td className="firstCell" colSpan={2}>
-                            <a className = "projectName" href = {'/Projects/'+ this.props.ProjectId +'/ActiveProjectChallenge1'}>
-                                <TextBlackHeading message={this.state.ProjectName}/>
-                            </a>
-                            <br /> <br/>
-                            <TextBlack message={"Date Joined On : "+ this.state.ProjectJoinDate}/>                                   
-                            
-                        </td>                                  
-                        <td className = "stepperspace">
-                            <div className = "stepperWidth">
-                                <ProgressStepper currentStep="1"/>
-                            </div>
-                        </td>                            
-                    </tr>                                                                                                    
-                    </tbody>                    
-                </table>
-            </div>                        
-        </div>
+                    <td className="firstCell" colSpan={2}>
+                        <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/ActiveProjectChallenge1'}>
+                            <TextBlackHeading message={this.state.ProjectName}/>
+                        </a>
+                        <br /> <br/>
+                        <TextBlack message={"Date Joined On : "+ this.state.ProjectJoinDate}/>                                   
+                        
+                    </td>                                  
+                    <td className = "stepperspace">
+                        <div className = "stepperWidth">
+                            <ProgressStepper currentStep="1"/>
+                        </div>
+                    </td>                            
+                </tr>                                                                                                    
+                </tbody>                    
+            </table>
+            </div>      
+        </div>                  
+    
     )
     }
 }

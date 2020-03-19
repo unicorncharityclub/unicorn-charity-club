@@ -6,7 +6,8 @@ import EachActiveProject from "./EachActiveProject";
 class ActiveProjectInfo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {      
+    this.state = { 
+      ProjectId : this.props.projectId,     
       ProjectName : '',
       ProjectJoinDate : '03/04/2020',     
     }
@@ -14,13 +15,16 @@ class ActiveProjectInfo extends React.Component {
 
     render() {
       return(
-        <div>
-            <div className="ProjectInfo_MainDiv"  >
-              <div className="ProjectInfo_Container">
-                {console.log(this.props.projectId)}
-                  <EachActiveProject projectId={this.props.projectId}/>
-              </div>
-            </div>
+        <div>                    
+                  {this.props.projectList              
+                    .map((elem, index) => (
+                      <div className="ProjectInfo_MainDiv"  >
+                        <div className="ProjectInfo_Container">
+                          <EachActiveProject key={index} projectId={elem.project_id}/> 
+                        </div>
+                      </div>
+                  ))}                
+              
         </div>
     )
     }

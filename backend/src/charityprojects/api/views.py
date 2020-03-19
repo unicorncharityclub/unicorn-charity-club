@@ -1,13 +1,11 @@
 import json
-
-from pip._vendor.pyparsing import Char
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation
 from django.http import JsonResponse
 from accounts.models import User
-from myaccount.models import Myaccount, ChildAccount
-from .serializers import ProjectUserSerializer, LearnNewSkillSerializer
+from myaccount.models import ChildAccount
+from .serializers import ProjectUserSerializer, LearnNewSkillSerializer, VolunteerTimeSerializer
 from rest_framework import status
 from rest_framework.response import Response
 
@@ -95,7 +93,6 @@ def getActiveProjectList(request, user_emailid):
             charityProjectList.append(each_project)
     response['active_project_list'] = charityProjectList
     return JsonResponse(response)
-
 
 
 def project_category(request):
@@ -301,7 +298,7 @@ def get_friend_list(request):
     if friend_id:
         user_name = friend.first_name + " " + friend.last_name
         if friend.myaccount.ProfilePic:
-            user_photo = request.build_absolute_uri(friend.myaccount.ProfilePic)
+            user_photo = request.build_absolute_uri(friend.myaccount.ProfilePic.url)
         else:
             user_photo = ""
         user_details = {"user_id": friend_id, "user_email": friend_email_id, "user_name": user_name,
@@ -312,7 +309,7 @@ def get_friend_list(request):
             for child in children:
                 child_email_id = User.objects.get(id=child.id).email
                 if child.Photo:
-                    child_photo = ""
+                    child_photo = request.build_absolute_uri(child.Photo.url)
                 else:
                     child_photo = ""
                 child_details = {"user_id": child.id, "user_email": child_email_id, "user_name": child.Name,
@@ -340,7 +337,7 @@ def search_friends(request):
     for user in user_list:
         if user.first_name.startswith(search_text):
             if user.myaccount.ProfilePic:
-                user_photo = request.build_absolute_uri(user.myaccount.ProfilePic)
+                user_photo = request.build_absolute_uri(user.myaccount.ProfilePic.url)
             else:
                 user_photo = ""
             user_details = {"user_email": user.email, "user_name": user.first_name+" "+user.last_name,
@@ -349,7 +346,7 @@ def search_friends(request):
     for child in children_list:
         if child.Name.startswith(search_text):
             if child.Photo:
-                child_photo = request.build_absolute_uri(child.Photo)
+                child_photo = request.build_absolute_uri(child.Photo.url)
             else:
                 child_photo = ""
             child_details = {"user_email": "", "user_name": child.Name,
@@ -399,4 +396,41 @@ def unregistered_invitation(request):
                 unregister_invitation.save()
 
     return JsonResponse(response)
+
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def create_volunteer_adventure(request):
+    volunteer_serializer = VolunteerTimeSerializer(request.data)
+    if volunteer_serializer.is_valid():
+        volunteer_serializer.save()
+        return Response(volunteer_serializer.data, status=status.HTTP_201_CREATED)
+    return Response(volunteer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def fetch_project_planning_status(request):
+    response = {'status': "Invalid Request"}
+    json_data = json.loads(request.body)
+    user_email_id = json_data["user_email"]
+    user_id = User.objects.get(email=user_email_id).id
+    project_user_list = ProjectUser.objects.filter(user_id=user_id)
+    planning_project_list = []
+    if len(project_user_list) > 0:
+        for project_user in project_user_list:
+            project_id = project_user.project_id
+            project = CharityProjects.objects.get(pk=project_id)
+            project_name = project.Name
+            project_badge = request.build_absolute_uri(project.Badge.url)
+            start_date = project_user.date_started
+            planning_status = project_user.project_status
+            project_info = {"project_id": project_id, "project_name": project_name, "project_badge": project_badge,
+                            "project_start_date": start_date, "planning_status": planning_status}
+            planning_project_list.append(project_info)
+        response["project_list"] = planning_project_list
+        response["status"] = "Success"
+    else:
+        response["status"] = "User has not started planning any projects"
+
+    return JsonResponse(response)
+
 
