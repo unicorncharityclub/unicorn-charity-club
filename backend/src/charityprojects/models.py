@@ -103,6 +103,7 @@ class UnregisterInvitation(models.Model):
 
 class VolunteerTime(models.Model):
     objects = None
+    pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
     organisation_name = models.CharField(max_length=100, blank=True)
     organisation_address = models.CharField(max_length=100, blank=True)
     organisation_city = models.CharField(max_length=50, blank=True)
@@ -112,9 +113,9 @@ class VolunteerTime(models.Model):
     volunteer_exp = models.FileField(upload_to='upload/video/volunteer_exp', null=True)
 
     def __str__(self):
-        return '{} {} {} {} {} {} {}'.format(self.organisation_name, self.organisation_address, self.organisation_city,
-                                             self.organisation_state, self.volunteer_hours,
-                                             self.volunteer_work_description, self.volunteer_exp)
+        return '{} {} {} {} {} {} {} {}'.format(self.pu_id, self.organisation_name, self.organisation_address,
+                                                self.organisation_city, self.organisation_state, self.volunteer_hours,
+                                                self.volunteer_work_description, self.volunteer_exp)
 
 
 class DevelopNewHabit(models.Model):
