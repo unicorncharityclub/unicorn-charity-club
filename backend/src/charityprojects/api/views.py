@@ -1,6 +1,5 @@
 import json
 
-from pip._vendor.pyparsing import Char
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation
@@ -70,31 +69,28 @@ def all_project_info_list(request):
     response['project_list'] = project_list
     return JsonResponse(response)
 
-@api_view(['GET'])
-@parser_classes([MultiPartParser, FormParser])
-def getActiveProjectList(request, user_emailid):
+
+def get_active_project_details(request, user_emailid):
     response = {'status': "Success"}
     if request.method == 'GET':
         user_id = User.objects.get(email=user_emailid).id
-        all_projects = ProjectUser.objects.filter(user_id_id=user_id)
-        charityProjectList = []
-
-        project_id_list = set()
-        for project in all_projects:
-            project_id = project.project_id_id
-            project_id_list.add(project_id)
-
-        for project_id in project_id_list:
-            project = CharityProjects.objects.get(pk=project_id)
-            each_project = {"project_id": project.id, "project_name": project.Name, "project_goal": project.Goal,
-                            "project_mission": project.Mission,
-                            "project_video": request.build_absolute_uri(project.Video_Name),
-                            "project_category": project.Category,
-                            "project_badge": request.build_absolute_uri(project.Badge.url),
-                            "project_tags": project.Tags,
-                            "project_banner": request.build_absolute_uri(project.Banner.url)}
-            charityProjectList.append(each_project)
-    response['active_project_list'] = charityProjectList
+        project_user_list = ProjectUser.objects.filter(user_id=user_id)
+        active_charity_project_list = []
+        if len(project_user_list) > 0:
+            for project_user in project_user_list:
+                project_id = project_user.project_id
+                project = CharityProjects.objects.get(pk=project_id)
+                project_name = project.Name
+                project_badge = request.build_absolute_uri(project.Badge.url)
+                joined_date = project_user.date_joined
+                challenge_status = project_user.challenge_status
+                project_info = {"project_id": project_id, "project_name": project_name, "project_badge": project_badge,
+                                "project_join_date": joined_date, "challenge_status": challenge_status}
+                active_charity_project_list.append(project_info)
+            response['active_project_list'] = active_charity_project_list
+            response['status'] = "Success"
+        else:
+            response["status"] = "User has no active projects"
     return JsonResponse(response)
 
 
@@ -301,7 +297,7 @@ def get_friend_list(request):
     if friend_id:
         user_name = friend.first_name + " " + friend.last_name
         if friend.myaccount.ProfilePic:
-            user_photo = request.build_absolute_uri(friend.myaccount.ProfilePic)
+            user_photo = request.build_absolute_uri(friend.myaccount.ProfilePic.url)
         else:
             user_photo = ""
         user_details = {"user_id": friend_id, "user_email": friend_email_id, "user_name": user_name,
@@ -312,7 +308,7 @@ def get_friend_list(request):
             for child in children:
                 child_email_id = User.objects.get(id=child.id).email
                 if child.Photo:
-                    child_photo = ""
+                    child_photo = request.build_absolute_uri(child.Photo.url)
                 else:
                     child_photo = ""
                 child_details = {"user_id": child.id, "user_email": child_email_id, "user_name": child.Name,
@@ -340,7 +336,7 @@ def search_friends(request):
     for user in user_list:
         if user.first_name.startswith(search_text):
             if user.myaccount.ProfilePic:
-                user_photo = request.build_absolute_uri(user.myaccount.ProfilePic)
+                user_photo = request.build_absolute_uri(user.myaccount.ProfilePic.url)
             else:
                 user_photo = ""
             user_details = {"user_email": user.email, "user_name": user.first_name+" "+user.last_name,
@@ -349,7 +345,7 @@ def search_friends(request):
     for child in children_list:
         if child.Name.startswith(search_text):
             if child.Photo:
-                child_photo = request.build_absolute_uri(child.Photo)
+                child_photo = request.build_absolute_uri(child.Photo.url)
             else:
                 child_photo = ""
             child_details = {"user_email": "", "user_name": child.Name,
@@ -404,7 +400,23 @@ def unregistered_invitation(request):
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
 def create_volunteer_adventure(request):
-    volunteer_serializer = VolunteerTimeSerializer(request.data)
+    json_data = json.loads(request.body)
+    user_email_id = json_data["user_email"]
+    user_id = User.objects.get(email=user_email_id).id
+    project_id = json_data["project_id"]
+    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0]  # ideally only one entry should be there
+    pu_id = project_user_record.id
+    if project_user_record:
+        project_user_record.challenge_status = "Challenge3Complete"
+        project_user_record.save()
+    volunteer_time_update_data = {"pu_id": pu_id, "organisation_name": request.data[" organisation_name"],
+                                  "organisation_address": request.data[" organisation_address"],
+                                  " organisation_city": request.data[" organisation_city"],
+                                  "organisation_state": request.data[" organisation_state"],
+                                  "volunteer_hours": request.data["hours"],
+                                  "volunteer_work_description": request.data["description"],
+                                  "volunteer_exp": request.data["exp_video"]}
+    volunteer_serializer = VolunteerTimeSerializer(data=volunteer_time_update_data)
     if volunteer_serializer.is_valid():
         volunteer_serializer.save()
         return Response(volunteer_serializer.data, status=status.HTTP_201_CREATED)

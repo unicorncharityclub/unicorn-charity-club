@@ -24,7 +24,7 @@ class ActiveProjectChallenge2 extends React.Component {
             {"user_email": this.state.UserEmailId,
                     "project_id":project_id,
                 "goal_date":this.state.goalDate,
-                "adv_id":this.state.goalDate
+                "adv_id":this.state.optionValue
             },
                 )
                 .then(res => this.props.history.push(`/Projects/${project_id}/`))

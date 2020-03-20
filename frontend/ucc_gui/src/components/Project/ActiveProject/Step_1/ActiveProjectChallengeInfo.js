@@ -11,6 +11,7 @@ class ActiveProjectChallengeInfo extends React.Component {
     this.state = {
       ProjectID : this.props.id,
       ProjectName : '',
+        ProjectBadge : '',
       ProjectStatus : '',
       ProjectDateJoined : '',
       ProjectBanner : ''
@@ -23,8 +24,8 @@ class ActiveProjectChallengeInfo extends React.Component {
         axiosConfig.get(`charityproject/${this.state.ProjectID}`)
         .then(res => {
                 this.setState({                  
-                  ProjectName : res.data["project_name"],
-                  ProjectBanner : res.data["project_banner"],                     
+                  ProjectName : res.data.project_name,
+                  ProjectBadge : res.data.project_badge,
                 });
         }).catch(error => console.log(error))
 
@@ -37,7 +38,7 @@ class ActiveProjectChallengeInfo extends React.Component {
             <div className="ProjectInfo_MainDiv"  >
                 <div className="ProjectInfo_Container">
                     <div className="ProjectInfo_Badge" >
-                        <Image src={this.state.ProjectBanner} style={{width: "105px", maxHeight: "100%", height: "105px"}} roundedCircle/>
+                        <Image src={this.state.ProjectBadge} style={{width: "100%", maxHeight: "100%"}} roundedCircle/>
                     </div>
                     <div className="ProjectInfo_Text" >
                         <table>
