@@ -45,7 +45,10 @@ class Toolbar extends Component {
   render() {
     return (
         <div className="child-select__dropdown-menu-wrapper">
-        {this.state.other_users
+
+        {
+            this.state.other_users !== '' ? (
+                this.state.other_users
           .map(elem => (
 
           <a
@@ -72,7 +75,10 @@ class Toolbar extends Component {
               </div>
             </div>
           </a>
-          ))}
+          ))
+            ):('')
+
+            }
 
 
           <a
