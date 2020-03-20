@@ -4,7 +4,6 @@ import { Route } from "react-router-dom";
 import Account from "./containers/Account/Info/Account.js";
 import Login from "./containers/Account/Login/Login";
 import Register from "./containers/Account/Register/Register";
-import MyChildren from "./containers/Account/MyChildren/MyChildren";
 import Payment from "./containers/Template/Menu/Payment/Payment";
 import Terms_and_Conditions from "./containers/Template/Menu/Terms_and_Conditions/Terms_and_Conditions";
 import Security_and_Privacy from "./containers/Template/Menu/Security_and_Privacy/Security_and_Privacy";
@@ -34,7 +33,6 @@ class BaseRouter extends React.Component {
               <Route exact path='/Menu/Terms_and_Conditions' component={Terms_and_Conditions} />
               <Route exact path='/Menu/Security_and_Privacy' component={Security_and_Privacy} />
               <Route exact path='/MyChildrenList' component={ChildrenList} />
-              <Route exact path='/MyChildren/:email_id' component={MyChildren} />
               <Route exact path='/Projects/' component={ProjectsHome} />
               <Route exact path='/Projects/:id' component={ProjectDetails} />
               <Route exact path='/Projects/:id/ActiveProjectChallenge1' component={ActiveProjectChallenge1} />

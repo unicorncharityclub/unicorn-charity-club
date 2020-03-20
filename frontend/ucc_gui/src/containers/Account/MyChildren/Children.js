@@ -4,8 +4,15 @@ import "./MyChildren.css";
 import Arrow_backward from "../../../image/arrow-backward.png";
 import Add_child from "../../../site_media/Images/Add_Child.png";
 import Upload_photo from "../../../image/Default-profile-picture.png";
+import cookie from "react-cookies";
 
 class Children extends React.Component{
+
+  onUpdateUser(emailid)
+ {
+     cookie.save('user_emailid', emailid);
+     window.location.reload(false);
+ }
 
     render(){
         return (
@@ -26,7 +33,7 @@ class Children extends React.Component{
                                 (this.props.data.map(item => (
                                 <div className="menu__item" key={item.EmailId}>
                                     <img className="profile-picture-list" src={item.Photo || Upload_photo} alt="Child name"/>
-                                    <a href={`/MyChildren/${item.EmailId}`}> {item.Name} </a>
+                                    <a onClick={this.onUpdateUser.bind(this, item.EmailId)}> {item.Name} </a>
                                 </div>
                             ))):''}
                             <div className="menu__item">

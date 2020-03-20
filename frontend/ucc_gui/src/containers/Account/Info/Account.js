@@ -35,6 +35,8 @@ class Account extends React.Component {
         dream: '',
         super_powers: '',
         support: '',
+        school: '',
+        school_grade: '',
     };
 
     componentDidMount() {
@@ -55,7 +57,16 @@ class Account extends React.Component {
                         dream: res.data.dream,
                         super_powers: res.data.super_powers,
                         support: res.data.support,
-                    });
+                    }
+                    );
+
+                    if ('school' in res.data)
+                    {
+                        this.setState({
+                            school: res.data.school,
+                            school_grade: res.data.school_grade,
+                        });
+                    }
             }).catch(error => console.log(error))
     }
 
@@ -89,6 +100,8 @@ class Account extends React.Component {
           form_data.append("Dream", this.state.dream);
           form_data.append("SuperPowers", this.state.super_powers);
           form_data.append("Support", this.state.support);
+          form_data.append("School", this.state.school);
+          form_data.append("SchoolGrade", this.state.school_grade);
           if (this.state.finalImage)
             form_data.append(
               "ProfilePic",
@@ -130,6 +143,8 @@ class Account extends React.Component {
                      super_powers={this.state.super_powers}
                      support={this.state.support}
                      profile_pic={this.state.profile_pic}
+                     school={this.state.school}
+                     school_grade={this.state.school_grade}
                      onDataChange={this.onDataChange.bind(this)}
                      onImageChange={this.onImageChange.bind(this)}
                      onSaveClicked={this.onSaveClicked.bind(this)}
