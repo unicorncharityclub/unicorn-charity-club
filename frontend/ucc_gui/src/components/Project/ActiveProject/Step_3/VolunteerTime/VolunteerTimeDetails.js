@@ -10,6 +10,7 @@ import Upload_video from "../../../../../image/Settings_Camera.png";
 import Button from "react-bootstrap/Button";
 import cookie from "react-cookies";
 import {Player} from "video-react";
+
 class VolunteerTimeDetails extends React.Component {
 
     constructor(props) {
@@ -123,7 +124,7 @@ class VolunteerTimeDetails extends React.Component {
                 </div>
 
                 <form onSubmit={this.handleFormSubmit}>
-                <div>
+                <div className="project-form">
                 <TextBlueHeading message="Challenge 3: Adventure"/>
                       <br/>
                         <TextBlack message = "VOLUNTEER TIME"/>
@@ -201,8 +202,8 @@ class VolunteerTimeDetails extends React.Component {
                     <br/>
 
                     <div className="buttons">
-                        <Button className = "backButton" variant="light" size="lg"> BACK </Button>
-                        <Button className = "nextButton" variant="success" size="lg" onClick={this.onSubmit.bind(this)}> NEXT </Button>
+                        <Button style={{ borderRadius : "50px 0px 0px 50px", backgroundColor:"white", border:"2px solid"}} className = "backButton"  variant="light" size="lg"> BACK </Button>
+                        <Button style={{ borderRadius : "0px 50px 50px 0px", border:"2px solid black"}} className = "nextButton" variant="success" size="lg" onClick={this.onSubmit.bind(this)}> NEXT </Button>
                     </div>
 
                   </div>
