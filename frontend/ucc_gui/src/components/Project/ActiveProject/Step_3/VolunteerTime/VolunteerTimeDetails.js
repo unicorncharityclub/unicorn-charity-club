@@ -145,30 +145,33 @@ class VolunteerTimeDetails extends React.Component {
                                     onChange={this.changeHandler.bind(this)}/> <br/><br/>
 
                                     <input type="text"
+                                           style={{float:"left", width:"60%"}}
                                     name="City"
                                            placeholder="City"
                                     value={this.state.City}
                                     onChange={this.changeHandler.bind(this)}/>
 
                                     <input type="text"
+                                           style={{float:"left", width:"18%"}}
                                     name="State_name"
                                     value={this.state.State_name}
                                            placeholder="State"
                                     onChange={this.changeHandler.bind(this)}/> <br/><br/>
+                                    <br/>
 
                                     <input type="text"
                                     name="Website"
                                            placeholder="Website"
                                     value={this.state.Website}
                                            onChange={this.changeHandler.bind(this)}/> <br/>
-
-
-                                    <label>2. How much time did you volunteer? </label> <br/>
-                              <input type="text"
+                                           <label>2. How much time did you volunteer? </label> <br/>
+                                   <input type="number" style={{width:"20%", marginLeft:"40%"}}
                                     name="Hours"
                                     value={this.state.Hours}
                                     onChange={this.changeHandler.bind(this)}/>
-                            <label>Hours</label> <br/>
+                                       <label htmlFor="Hours">Hours</label>
+
+
 
                             <label>3. Describe what you did to volunteer your time.</label><br/>
                               <textarea name="Description"
