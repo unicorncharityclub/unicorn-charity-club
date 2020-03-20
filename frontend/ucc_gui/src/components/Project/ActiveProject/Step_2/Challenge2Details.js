@@ -8,6 +8,7 @@ import axiosConfig from "../../../../axiosConfig";
 import TextBlackHeading from "../../../General/Text/TextBlackHeading";
 import ProgressStepper from "../../ProgressStepper";
 import ProjectBanner from "../../ProjectBanner";
+import Checkbox from "../../../General/Form/Checkbox"
 class ProjectContent extends React.Component {
 
     constructor(props) {
@@ -80,14 +81,14 @@ class ProjectContent extends React.Component {
                 <form onSubmit={this.handleFormSubmit}>
                 <div>
                 <TextBlueHeading message="Challenge 2: Ideation"/>
-                      <br/>
+                      <br/>a
                         <TextBlack message = "SET YOUR GOAL"/>
                         <br/>
                         <TextBlack message = "1. How can I make a difference? Explore the following impact adventures and set your project goal."/>
                         <ul style={{paddingLeft:"60px"}}>
                             <br/>
                             <div className="OptionList">
-                            <input name="Options" type="radio" value="1" checked={this.state.checked} onClick={this.props.handleChecked}/>
+                            <input name="Options" type = "radio" value="1" checked={this.state.checked} onClick={this.props.handleChecked}/>
                             <label for="Option1"> <TextBlack message = "Spread the word by inviting 5+ friends to the project"/></label><br/>
                             <br/>
 
