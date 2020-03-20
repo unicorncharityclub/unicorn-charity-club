@@ -16,6 +16,7 @@ import ProjectDetails from "./containers/Projects/Details/ProjectDetails"
 import StartProjectStepOne from "./containers/Projects/StartProject/Step_1/StartProjectStepOne";
 import StartProjectStepTwo from "./containers/Projects/StartProject/Step_2/StartProjectStepTwo";
 import StartProjectStepThree from "./containers/Projects/StartProject/Step_3/StartProjectStepThree";
+import ProjectInvitation from "./containers/Projects/ActiveProject/Step_0/ProjectInvitation";
 import ActiveProjectChallenge1 from "./containers/Projects/ActiveProject/Step_1/ActiveProjectChallenge1";
 import ActiveProjectChallenge2 from "./containers/Projects/ActiveProject/Step_2/ActiveProjectChallenge2"
 import LearnNewSkill from "./containers/Projects/ActiveProject/Step_3/LearnNewSkill/LearnNewSkill";
@@ -37,6 +38,7 @@ class BaseRouter extends React.Component {
               <Route exact path='/MyChildren/:id' component={MyChildren} />
               <Route exact path='/Projects/' component={ProjectsHome} />
               <Route exact path='/Projects/:id' component={ProjectDetails} />
+              <Route exact path='/Projects/:id/ProjectInvitation' component={ProjectInvitation} />
               <Route exact path='/Projects/:id/ActiveProjectChallenge1' component={ActiveProjectChallenge1} />
               <Route exact path='/Projects/:id/ActiveProjectChallenge2' component={ActiveProjectChallenge2} />
               <Route exact path='/Projects/:id/LearnNewSkill' component={LearnNewSkill} />

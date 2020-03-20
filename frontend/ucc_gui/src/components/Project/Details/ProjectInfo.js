@@ -36,7 +36,7 @@ class ProjectInfo extends React.Component {
             <div className="ProjectInfo_MainDiv"  >
                 <div className="ProjectInfo_Container">
                     <div className="ProjectInfo_Badge" >
-                        <Image src={this.state.ProjectBanner} style={{width: "100%", maxHeight: "100%"}} roundedCircle/>
+                        <Image src={this.state.ProjectBanner} style={{width: "120px", height : "120px", maxHeight: "100%"}} roundedCircle/>
                     </div>
                     <div className="ProjectInfo_Text" >
                         <table>
