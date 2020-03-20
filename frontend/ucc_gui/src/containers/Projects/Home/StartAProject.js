@@ -64,7 +64,7 @@ class ProjectsHome extends React.Component {
           activeProjectsList: activeProjectsList
       }));
 
-      console.log(this.state.activeProjectsList);
+      // console.log(this.state.activeProjectsList);
       
     }
 
@@ -87,6 +87,18 @@ class ProjectsHome extends React.Component {
         <div className="blackDivider"></div>
         
         <div className="textHeader">
+            Planning
+        </div>
+
+        <div>           
+            <ActiveProjectInfo projectList={this.state.activeProjectsList}/>                 
+        </div>
+        
+        <br/>
+        <div className="blackDivider"></div>
+        
+        
+        <div className="textHeader">
             Active
         </div>
 
@@ -95,7 +107,7 @@ class ProjectsHome extends React.Component {
                   (  <ActiveProjectInfo projectList={this.state.activeProjectsList}/>):(<div/>)}                 
         </div>
 
-
+        <br/>
         <div className="blackDivider"></div>
 
         <div className="textHeader">

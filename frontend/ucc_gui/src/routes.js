@@ -15,11 +15,14 @@ import ProjectDetails from "./containers/Projects/Details/ProjectDetails"
 import StartProjectStepOne from "./containers/Projects/StartProject/Step_1/StartProjectStepOne";
 import StartProjectStepTwo from "./containers/Projects/StartProject/Step_2/StartProjectStepTwo";
 import StartProjectStepThree from "./containers/Projects/StartProject/Step_3/StartProjectStepThree";
+import ProjectInvitation from "./containers/Projects/ActiveProject/Step_0/ProjectInvitation";
 import ActiveProjectChallenge1 from "./containers/Projects/ActiveProject/Step_1/ActiveProjectChallenge1";
 import ActiveProjectChallenge2 from "./containers/Projects/ActiveProject/Step_2/ActiveProjectChallenge2"
 import LearnNewSkill from "./containers/Projects/ActiveProject/Step_3/LearnNewSkill/LearnNewSkill";
 import DevelopNewHabit from "./containers/Projects/ActiveProject/Step_3/DevelopNewHabit/DevelopNewHabit";
 import Mobile_toolbar from "./containers/Template/Header/Mobile/Mobile_toolbar";
+import VolunteerTime from "./containers/Projects/ActiveProject/Step_3/VolunteerTime/VolunteerTime";
+
 
 class BaseRouter extends React.Component {
     render() {
@@ -35,10 +38,12 @@ class BaseRouter extends React.Component {
               <Route exact path='/MyChildrenList' component={ChildrenList} />
               <Route exact path='/Projects/' component={ProjectsHome} />
               <Route exact path='/Projects/:id' component={ProjectDetails} />
+              <Route exact path='/Projects/:id/ProjectInvitation' component={ProjectInvitation} />
               <Route exact path='/Projects/:id/ActiveProjectChallenge1' component={ActiveProjectChallenge1} />
               <Route exact path='/Projects/:id/ActiveProjectChallenge2' component={ActiveProjectChallenge2} />
               <Route exact path='/Projects/:id/LearnNewSkill' component={LearnNewSkill} />
               <Route exact path='/Projects/:id/DevelopNewHabit' component={DevelopNewHabit} />
+              <Route exact path='/Projects/:id/VolunteerTime' component={VolunteerTime} />
               <Route exact path='/Projects/:id/StartNewProject' component={StartProjectStepOne} />
               <Route exact path='/Projects/:id/StartProjectStepTwo' component={StartProjectStepTwo} />
               <Route exact path='/Projects/:id/InviteFriends' component={StartProjectStepThree} />
