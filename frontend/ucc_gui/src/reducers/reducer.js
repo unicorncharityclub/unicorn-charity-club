@@ -8,13 +8,15 @@ const baseReducer = (state = initialState, action) => {
   switch(action.type) {
     case 'LOGIN_SUCCESS':
       return {
-        user_id: action.user_id,
-        token: action.token
+        user_list: action.user_list,
+        token: action.token,
+        type: 'LOGIN_SUCCESS'
       };
-      case 'LOGOUT_SUCCESS':
+    case 'LOGOUT_SUCCESS':
       return {
-        user_id: action.user_id,
-        token: action.token
+        user_list: action.user_list,
+        token: action.token,
+        type: 'LOGOUT_SUCCESS'
       };
     default:
       return state;

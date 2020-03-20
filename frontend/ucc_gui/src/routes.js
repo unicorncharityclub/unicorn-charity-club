@@ -4,7 +4,6 @@ import { Route } from "react-router-dom";
 import Account from "./containers/Account/Info/Account.js";
 import Login from "./containers/Account/Login/Login";
 import Register from "./containers/Account/Register/Register";
-import MyChildren from "./containers/Account/MyChildren/MyChildren";
 import Payment from "./containers/Template/Menu/Payment/Payment";
 import Terms_and_Conditions from "./containers/Template/Menu/Terms_and_Conditions/Terms_and_Conditions";
 import Security_and_Privacy from "./containers/Template/Menu/Security_and_Privacy/Security_and_Privacy";
@@ -21,7 +20,9 @@ import ActiveProjectChallenge1 from "./containers/Projects/ActiveProject/Step_1/
 import ActiveProjectChallenge2 from "./containers/Projects/ActiveProject/Step_2/ActiveProjectChallenge2"
 import LearnNewSkill from "./containers/Projects/ActiveProject/Step_3/LearnNewSkill/LearnNewSkill";
 import DevelopNewHabit from "./containers/Projects/ActiveProject/Step_3/DevelopNewHabit/DevelopNewHabit";
+import Mobile_toolbar from "./containers/Template/Header/Mobile/Mobile_toolbar";
 import VolunteerTime from "./containers/Projects/ActiveProject/Step_3/VolunteerTime/VolunteerTime";
+
 
 class BaseRouter extends React.Component {
     render() {
@@ -34,8 +35,7 @@ class BaseRouter extends React.Component {
               <Route exact path='/Menu/Payment' component={Payment} />
               <Route exact path='/Menu/Terms_and_Conditions' component={Terms_and_Conditions} />
               <Route exact path='/Menu/Security_and_Privacy' component={Security_and_Privacy} />
-              <Route exact path='/MyChildren' component={ChildrenList} />
-              <Route exact path='/MyChildren/:id' component={MyChildren} />
+              <Route exact path='/MyChildrenList' component={ChildrenList} />
               <Route exact path='/Projects/' component={ProjectsHome} />
               <Route exact path='/Projects/:id' component={ProjectDetails} />
               <Route exact path='/Projects/:id/ProjectInvitation' component={ProjectInvitation} />
@@ -46,10 +46,11 @@ class BaseRouter extends React.Component {
               <Route exact path='/Projects/:id/VolunteerTime' component={VolunteerTime} />
               <Route exact path='/Projects/:id/StartNewProject' component={StartProjectStepOne} />
               <Route exact path='/Projects/:id/StartProjectStepTwo' component={StartProjectStepTwo} />
-              <Route exact path='/Projects/:id/InviteFriends' component={StartProjectStepThree} />              
-              
-                
-              <Route exact path='/AddChild' component={() => <AddChild blessing_group={"Helpful Hearts"} color_horn_rank={"Red"}/>}/>
+              <Route exact path='/Projects/:id/InviteFriends' component={StartProjectStepThree} />
+              <Route exact path='/Projects/:id/ActiveProjectChallenge1' component={ActiveProjectChallenge1} />
+              <Route exact path='/Projects/:id/LearnNewSkill' component={LearnNewSkill} />
+              <Route exact path='/AddChild' component={AddChild}/>
+              <Route exact path="/Mobile_toolbar" component={Mobile_toolbar}/>
             </div>
           );
         default:

@@ -54,11 +54,13 @@ class Login_Form extends React.Component {
   updateResponseStatus(response) {
     let response_status = response.data["status"];
     if (response_status === "Success") {
-      let user_emailid = response.data["user_emailid"];
+      let user_list = response.data["user_list"];
       let token = response.data["token"];
-      cookie.save('user_emailid', user_emailid);
+
+      cookie.save('user_emailid', user_list[0]["email"]);
+      cookie.save('user_list', user_list);
       cookie.save('XSRF-TOKEN', token);
-      this.props.dispatch({ type: "LOGIN_SUCCESS", user_emailid:user_emailid, token:token});
+      this.props.dispatch({ type: "LOGIN_SUCCESS", user_list:user_list, token:token});
     }
     else {
       this.setState(prevState => ({

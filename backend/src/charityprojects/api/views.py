@@ -5,7 +5,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation
 from django.http import JsonResponse
 from accounts.models import User
-from childAccount.models import ChildAccount
+from myaccount.models import ChildAccount
 from myaccount.models import Myaccount
 from .serializers import ProjectUserSerializer, LearnNewSkillSerializer, VolunteerTimeSerializer, DevelopNewHabitSerializer
 from rest_framework import status
@@ -312,15 +312,19 @@ def get_friend_list(request):
         user_details = {"user_id": friend_id, "user_email": friend_email_id, "user_name": user_name,
                         "user_photo": user_photo}
         friend_list.append(user_details)
-        children = ChildAccount.objects.filter(UserId_id=friend_id)
+        children = ChildAccount.objects.filter(ParentId_id=friend_id)
         if children:
             for child in children:
-                child_email_id = User.objects.get(id=child.id).email
-                if child.Photo:
-                    child_photo = request.build_absolute_uri(child.Photo.url)
+                child_user_id = child.user_id
+                child_profile_object = Myaccount.objects.get(user_id=child_user_id)
+                child_account_object = User.objects.get(pk=child_user_id)
+                child_email_id = child_account_object.email
+                if child_profile_object.ProfilePic:
+                    child_photo = request.build_absolute_uri(child_profile_object.ProfilePic.url)
                 else:
                     child_photo = ""
-                child_details = {"user_id": child.id, "user_email": child_email_id, "user_name": child.Name,
+                child_name = child_account_object.first_name + child_account_object.last_name
+                child_details = {"user_id": child.id, "user_email": child_email_id, "user_name": child_name,
                                  "user_photo": child_photo}
                 friend_list.append(child_details)
             response["status"] = "Success"
@@ -352,12 +356,18 @@ def search_friends(request):
                             "user_photo": user_photo}
             friend_list.append(user_details)
     for child in children_list:
-        if child.Name.startswith(search_text):
-            if child.Photo:
-                child_photo = request.build_absolute_uri(child.Photo.url)
+
+        child_user_id = child.user_id
+        child_profile_object = Myaccount.objects.get(user_id=child_user_id)
+        child_account_object = User.objects.get(pk=child_user_id)
+        child_email_id = child_account_object.email
+        child_name = child_account_object.first_name + child_account_object.last_name
+        if child_name.startswith(search_text):
+            if child_profile_object.ProfilePic:
+                child_photo = request.build_absolute_uri(child_profile_object.ProfilePic.url)
             else:
                 child_photo = ""
-            child_details = {"user_email": "", "user_name": child.Name,
+            child_details = {"user_email": child_email_id, "user_name": child_name,
                              "user_photo": child_photo} # Check with child account what dummy email to use
             friend_list.append(child_details)
     if len(friend_list) == 0:

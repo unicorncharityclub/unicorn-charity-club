@@ -10,11 +10,11 @@ class Settings extends Component {
     this.logout = this.logout.bind(this);
   }
   logout() {
-      let user_id = "";
-      let token = "";
-      cookie.save('user_id', user_id);
-      cookie.save('XSRF-TOKEN', token);
-      this.props.dispatch({ type: "LOGOUT_SUCCESS", user_id:user_id, token:token});
+      let empty = "";
+      cookie.save('user_emailid', empty);
+      cookie.save('XSRF-TOKEN', empty);
+      cookie.save('user_list', empty);
+      this.props.dispatch({ type: "LOGOUT_SUCCESS", user_list:empty, token:empty});
   }
   render() {
     return (
@@ -25,9 +25,6 @@ class Settings extends Component {
               <div className="settings-dropdown">
                   <a href="/Account" >
                         <div className="settings-dropdown__item">My&nbsp;Account</div>
-                  </a>
-                  <a href="/MyChildren" >
-                        <div className="settings-dropdown__item">My&nbsp;Children</div>
                   </a>
                   <a href="/Payment" >
                         <div className="settings-dropdown__item">&nbsp;Payment</div>

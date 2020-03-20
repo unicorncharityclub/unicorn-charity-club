@@ -1,16 +1,21 @@
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
 import "../Info/Account.css";
 import "./MyChildren.css";
 import Arrow_backward from "../../../image/arrow-backward.png";
 import Add_child from "../../../site_media/Images/Add_Child.png";
 import Upload_photo from "../../../image/Default-profile-picture.png";
+import cookie from "react-cookies";
 
 class Children extends React.Component{
 
+  onUpdateUser(emailid)
+ {
+     cookie.save('user_emailid', emailid);
+     window.location.reload(false);
+ }
+
     render(){
         return (
-            <Router>
                 <div style={{ display: "block" }}>
                     <div className="header__wrapper">
                         <div className="header__logo">
@@ -26,9 +31,9 @@ class Children extends React.Component{
                         <div className="menu__content">
                             {this.props.data ?
                                 (this.props.data.map(item => (
-                                <div className="menu__item" key={item.Name}>
+                                <div className="menu__item" key={item.EmailId}>
                                     <img className="profile-picture-list" src={item.Photo || Upload_photo} alt="Child name"/>
-                                    <a href={`/MyChildren/${item.id}`}> {item.Name} </a>
+                                    <a onClick={this.onUpdateUser.bind(this, item.EmailId)}> {item.Name} </a>
                                 </div>
                             ))):''}
                             <div className="menu__item">
@@ -38,7 +43,6 @@ class Children extends React.Component{
                         </div>
                     </div>
                 </div>
-            </Router>
         );
     }
 }
