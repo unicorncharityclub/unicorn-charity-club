@@ -8,6 +8,8 @@ import ProgressStepper from "../../../ProgressStepper";
 import ProjectBanner from "../../../ProjectBanner";
 import Upload_video from "../../../../../image/Settings_Camera.png";
 import Button from "react-bootstrap/Button";
+import cookie from "react-cookies";
+import {Player} from "video-react";
 class VolunteerTimeDetails extends React.Component {
 
     constructor(props) {
@@ -24,11 +26,24 @@ class VolunteerTimeDetails extends React.Component {
         Website :'',
         Hours : '',
         Description :'',
-        Video :''
+        video :'',
+        finalVideo:'',
+        UserEmailId: cookie.load('user_emailid')
     }
  }
 
  onSubmit(){
+
+        console.log(this.state.Project_id)
+        console.log(this.state.UserEmailId)
+        console.log(this.state.Name)
+        console.log(this.state.Address)
+        console.log(this.state.City)
+        console.log(this.state.State_name)
+        console.log(this.state.Website)
+        console.log(this.state.Hours)
+        console.log(this.state.Description)
+
 
  }
 
@@ -162,6 +177,18 @@ class VolunteerTimeDetails extends React.Component {
                               <label>3. Share a video or photo that celebrates your volunteer experience.</label>
 
                           </div>
+
+                    <div className="project-video-preview">
+                        {
+                              this.state.video ?
+                                  <div className="video-upload-preview">
+                                      <Player playsInline
+                                          src={this.state.video}
+                                      />
+                                  </div>:''
+                        }
+                    </div>
+
                     <div className="project-video">
                           <img className="project-video-upload" src={Upload_video} alt=""/>
                           <input id="file" style={{display: 'none'}}
