@@ -71,6 +71,9 @@ class LearnNewSkill(models.Model):
     video = models.FileField(upload_to='upload/video/challenge_video', null=True)
     pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
 
+    class Meta:
+        unique_together = ('newSkill', 'pu_id')
+
     def __str__(self):
         return '{} {} {} {}'.format(self.newSkill, self.description, self.video, self.pu_id)
 
@@ -120,6 +123,9 @@ class DevelopNewHabit(models.Model):
     description = models.TextField(blank=True, null=True)
     video = models.FileField(upload_to='upload/video/challenge_video', null=True)
     pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        unique_together = ('newHabit', 'pu_id')
 
     def __str__(self):
         return '{} {} {} {}'.format(self.newHabit, self.description, self.video, self.pu_id)

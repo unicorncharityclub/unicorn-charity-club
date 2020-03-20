@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from accounts.models import User
 from childAccount.models import ChildAccount
 from myaccount.models import Myaccount
-from .serializers import ProjectUserSerializer, LearnNewSkillSerializer, VolunteerTimeSerializer
+from .serializers import ProjectUserSerializer, LearnNewSkillSerializer, VolunteerTimeSerializer, DevelopNewHabitSerializer
 from rest_framework import status
 from rest_framework.response import Response
 
@@ -221,12 +221,21 @@ def update_project_challenge_status_explore(request):
 @parser_classes([MultiPartParser, FormParser])
 def challenge_learn_new_skill(request):
     response = {'status': "Success"}
-    lst = {}
-    lst['newSkill'] = request.data['newSkill']
-    lst['description'] = request.data['description']
-    lst['video'] = request.data['video']
-    lst['pu_id'] = request.data["ProjectId"]
-    data_serializer = LearnNewSkillSerializer(data=lst)
+    new_skill_list = {}
+    user_email_id = request.data["email"]
+    user_id = User.objects.get(email=user_email_id).id
+    new_skill_list['newSkill'] = request.data['newSkill']
+    new_skill_list['description'] = request.data['description']
+    if 'video' in request.data:
+        new_skill_list['video'] = request.data['video']
+    project_id = request.data["projectId"]
+    project_user_record = ProjectUser.objects.filter(user_id_id=user_id, project_id_id=project_id)[0]  # from project user table get id
+    if project_user_record:
+        pu_id = project_user_record.id
+        new_skill_list['pu_id'] = pu_id
+        project_user_record.challenge_status = "Challenge3Complete"
+        project_user_record.save()
+    data_serializer = LearnNewSkillSerializer(data=new_skill_list)
     if data_serializer.is_valid():
         data_serializer.save()
         return Response(data_serializer.data, status=status.HTTP_201_CREATED)
@@ -449,3 +458,32 @@ def fetch_project_planning_status(request):
     return JsonResponse(response)
 
 
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def challenge_develop_new_habit(request):
+    response = {'status': "Success"}
+    new_habit_list = {}
+    user_email_id = request.data["email"]
+    user_id = User.objects.get(email=user_email_id).id
+    new_habit_list['newHabit'] = request.data['newHabit']
+    new_habit_list['description'] = request.data['description']
+    if 'video' in request.data:
+        new_habit_list['video'] = request.data['video']
+    project_id = request.data["projectId"]
+    new_habit_list['projectId'] = project_id
+    project_user_record = ProjectUser.objects.filter(user_id_id=user_id, project_id_id=project_id)[0]  # from project user table get id
+    if project_user_record:
+        pu_id = project_user_record.id
+        new_habit_list['pu_id'] = pu_id
+        project_user_record.challenge_status = "Challenge3Complete"
+        project_user_record.save()
+    data_serializer = DevelopNewHabitSerializer(data=new_habit_list)
+    if data_serializer.is_valid():
+        data_serializer.save()
+        return Response(data_serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        print('error', data_serializer.errors)
+        return Response(data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    print(request.data)
+
+    return JsonResponse(response)
