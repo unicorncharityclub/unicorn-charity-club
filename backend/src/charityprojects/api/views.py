@@ -78,7 +78,7 @@ def get_active_project_details(request, user_emailid):
         active_charity_project_list = []
         if len(project_user_list) > 0:
             for project_user in project_user_list:
-                project_id = project_user.project_id
+                project_id = project_user.project_id_id
                 project = CharityProjects.objects.get(pk=project_id)
                 project_name = project.Name
                 project_badge = request.build_absolute_uri(project.Badge.url)

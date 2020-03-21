@@ -9,8 +9,7 @@ import ProgressStepper from "../../ProgressStepper";
 
 class EachActiveProject extends React.Component {
   constructor(props) {
-    super(props);
-    console.log(props);
+    super(props);    
     this.state = {      
         Project_id : this.props.projectId,
         ProjectName : '',
@@ -18,8 +17,9 @@ class EachActiveProject extends React.Component {
     }
  }
 
-    componentDidMount () {         
-        const Project_id = this.state.Project_id;                    
+    componentDidMount () {  
+        console.log(this.props);       
+        const Project_id = this.props.projectId;                    
         axiosConfig.get(`charityproject/${Project_id}`)
       .then(res => {
               this.setState({                  

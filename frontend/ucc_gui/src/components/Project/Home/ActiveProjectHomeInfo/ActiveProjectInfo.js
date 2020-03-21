@@ -18,8 +18,8 @@ class ActiveProjectInfo extends React.Component {
         <div>                    
                   {this.props.projectList              
                     .map((elem, index) => (
-                      <div className="ProjectInfo_MainDiv"  >
-                        <div className="ProjectInfo_Container">
+                      <div className="ProjectInfo_MainDiv" key={index} >
+                        <div className="ProjectInfo_Container">    
                           <EachActiveProject key={index} projectId={elem.project_id}/> 
                         </div>
                       </div>

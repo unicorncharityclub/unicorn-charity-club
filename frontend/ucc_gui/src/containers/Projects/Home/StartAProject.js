@@ -58,14 +58,11 @@ class ProjectsHome extends React.Component {
       
     }
 
-    setActiveProjectsList (response) {
-        let activeProjectsList = response.data["active_project_list"];
-        this.setState(prevState => ({
-          activeProjectsList: activeProjectsList
-      }));
-
-      // console.log(this.state.activeProjectsList);
-      
+    setActiveProjectsList (response) {            
+            let activeProjectsList = response.data["active_project_list"];
+            this.setState(prevState => ({
+              activeProjectsList: activeProjectsList
+          }));      
     }
 
     setProjectDetails(response) {
@@ -90,8 +87,10 @@ class ProjectsHome extends React.Component {
             Planning
         </div>
 
-        <div>           
-            <ActiveProjectInfo projectList={this.state.activeProjectsList}/>                 
+        <div> 
+                    {console.log(this.state.activeProjectsList)}
+        {this.state.activeProjectsList && this.state.activeProjectsList.length > 0?
+                  (  <ActiveProjectInfo projectList={this.state.activeProjectsList}/>):(<div/>)}            
         </div>
         
         <br/>
@@ -103,7 +102,7 @@ class ProjectsHome extends React.Component {
         </div>
 
         <div> 
-          {this.state.projectsList[0].project_id?
+          {this.state.activeProjectsList && this.state.activeProjectsList.length > 0?
                   (  <ActiveProjectInfo projectList={this.state.activeProjectsList}/>):(<div/>)}                 
         </div>
 
