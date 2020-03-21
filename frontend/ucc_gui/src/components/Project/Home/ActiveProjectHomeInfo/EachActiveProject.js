@@ -11,14 +11,14 @@ class EachActiveProject extends React.Component {
   constructor(props) {
     super(props);    
     this.state = {      
-        Project_id : this.props.projectId,
+        Project_id : this.props.projectId,        
         ProjectName : '',
-        ProjectJoinDate : '03/04/2020',     
+        ProjectJoinDate : '03/04/2020',   
+        project_status : ''
     }
  }
 
-    componentDidMount () {  
-        console.log(this.props);       
+    componentDidMount () {               
         const Project_id = this.props.projectId;                    
         axiosConfig.get(`charityproject/${Project_id}`)
       .then(res => {
@@ -30,10 +30,71 @@ class EachActiveProject extends React.Component {
 
     }
 
+    renderdate (date, type) {
+        let msg;
+        if(date !== null && type === "Planning") {
+            // if date is for Planning
+            msg = "Started On: ";
+            return (
+                <TextBlack message={msg + date}/> 
+            );
+        }else if (date !== null && type === "Active") {
+            // if date is for Active
+            msg = "Joined On: ";
+            return (
+                <TextBlack message={msg + date}/> 
+            );
+        }else{
+            // if date is null 
+            msg = "Date not available";
+            return (
+                <TextBlack message={msg}/> 
+            );
+        }
+    }
+
+    renderProgressStepper (status, type) {
+        if(type === "Planning") {
+            if("PlanningPhase1" === status) {
+                return (
+                    <div className = "stepperWidth">
+                        <ProgressStepper currentStep={0}/>
+                    </div>
+                );
+              } else if ("PlanningPhase2" === status){
+                return (
+                    <div className = "stepperWidth">
+                        <ProgressStepper currentStep={1}/>
+                    </div>
+                );
+              }else if ("PlanningPhase3" === status){
+                return (
+                    <div className = "stepperWidth">
+                        <ProgressStepper currentStep={2}/>
+                    </div>
+                );
+              }else{
+                  // if the status is ""
+                  return (
+                    <div className = "stepperWidth">
+                        <ProgressStepper currentStep={0}/>
+                    </div>
+                );
+              }          
+          }else {
+              // type === "Active"
+              
+          }
+
+
+        
+    }
+
 
     render() {
       return(
-        <div>               
+        <div>     
+            {console.log(this.props.project_status)}          
             <div className="ActiveProjectInfo_Badge" style={{width: "117px", height : "117px"}}>                        
                 <Image src={this.state.ProjectBanner}  style={{width: "100%", height: "100%"}} roundedCircle/>
             </div>
@@ -46,13 +107,12 @@ class EachActiveProject extends React.Component {
                             <TextBlackHeading message={this.state.ProjectName}/>
                         </a>
                         <br /> <br/>
-                        <TextBlack message={"Date Joined On : "+ this.state.ProjectJoinDate}/>                                   
+                        {this.renderdate(this.props.project_start_date, this.props.type)}
+                                                          
                         
                     </td>                                  
                     <td className = "stepperspace">
-                        <div className = "stepperWidth">
-                            <ProgressStepper currentStep="1"/>
-                        </div>
+                        {this.renderProgressStepper(this.props.project_status, this.props.type)}                       
                     </td>                            
                 </tr>                                                                                                    
                 </tbody>                    

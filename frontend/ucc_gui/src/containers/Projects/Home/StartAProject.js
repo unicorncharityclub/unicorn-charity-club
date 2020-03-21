@@ -21,6 +21,7 @@ class ProjectsHome extends React.Component {
           ],
           selectedCategory : "",
           activeProjectsList : [],
+          plannedProjectsList : [],
           UserEmailId: cookie.load('user_emailid')
       }
    }
@@ -29,6 +30,7 @@ class ProjectsHome extends React.Component {
         this.fetchListOfProjectCategory(this);
         this.fetchProjectDetails(this);
         this.fetchActiveProjectsList(this);
+        this.fetchPlannedProjectsList(this);
    }
 
    fetchActiveProjectsList(obj) {
@@ -37,6 +39,13 @@ class ProjectsHome extends React.Component {
       .then(function(response) {obj.setActiveProjectsList(response);})
       .catch(function(error) {console.log(error);});
    }
+
+  fetchPlannedProjectsList(obj) {
+        const user_emailid = this.state.UserEmailId;      
+        axiosConfig.get(`charityproject/plannedProjects/${user_emailid}`)
+        .then(function(response) {obj.setPlannedProjectsList(response);})
+        .catch(function(error) {console.log(error);});
+    }
 
     fetchListOfProjectCategory(obj) {
         axiosConfig.get(`charityproject/category`)
@@ -65,6 +74,14 @@ class ProjectsHome extends React.Component {
           }));      
     }
 
+    setPlannedProjectsList (response) {            
+      let plannedProjectsList = response.data["project_list"];
+      this.setState(prevState => ({
+        plannedProjectsList: plannedProjectsList
+    }));      
+    console.log(this.state.plannedProjectsList)
+}
+
     setProjectDetails(response) {
         this.setState(prevState => ({
             projectsList: response.data["project_list"]
@@ -87,10 +104,9 @@ class ProjectsHome extends React.Component {
             Planning
         </div>
 
-        <div> 
-                    {console.log(this.state.activeProjectsList)}
-        {this.state.activeProjectsList && this.state.activeProjectsList.length > 0?
-                  (  <ActiveProjectInfo projectList={this.state.activeProjectsList}/>):(<div/>)}            
+        <div>                     
+        {this.state.plannedProjectsList && this.state.plannedProjectsList.length > 0?
+                  (  <ActiveProjectInfo projectList={this.state.plannedProjectsList} list_type = {"Planning"}/>):(<div/>)}            
         </div>
         
         <br/>
@@ -103,7 +119,7 @@ class ProjectsHome extends React.Component {
 
         <div> 
           {this.state.activeProjectsList && this.state.activeProjectsList.length > 0?
-                  (  <ActiveProjectInfo projectList={this.state.activeProjectsList}/>):(<div/>)}                 
+                  (  <ActiveProjectInfo projectList={this.state.activeProjectsList} list_type = {"Active"}/>):(<div/>)}                 
         </div>
 
         <br/>
