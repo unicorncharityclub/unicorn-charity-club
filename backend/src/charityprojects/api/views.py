@@ -78,7 +78,7 @@ def get_active_project_details(request, user_emailid):
         active_charity_project_list = []
         if len(project_user_list) > 0:
             for project_user in project_user_list:
-                project_id = project_user.project_id
+                project_id = project_user.project_id_id
                 project = CharityProjects.objects.get(pk=project_id)
                 project_name = project.Name
                 project_badge = request.build_absolute_uri(project.Badge.url)
@@ -442,16 +442,16 @@ def create_volunteer_adventure(request):
     return Response(volunteer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def fetch_project_planning_status(request):
+def fetch_project_planning_status(request, user_emailid):
     response = {'status': "Invalid Request"}
-    json_data = json.loads(request.body)
-    user_email_id = json_data["user_email"]
+    #json_data = json.loads(request.body)
+    user_email_id = user_emailid
     user_id = User.objects.get(email=user_email_id).id
     project_user_list = ProjectUser.objects.filter(user_id=user_id)
     planning_project_list = []
     if len(project_user_list) > 0:
         for project_user in project_user_list:
-            project_id = project_user.project_id
+            project_id = project_user.project_id_id
             project = CharityProjects.objects.get(pk=project_id)
             project_name = project.Name
             project_badge = request.build_absolute_uri(project.Badge.url)
