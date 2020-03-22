@@ -575,6 +575,9 @@ def join_project_invitation(request):
         prize_given_id = inviter_user_details.prize_given_id
         project_user_details = ProjectUserDetails.objects.create(pu_id=pu_id, prize_given_id=prize_given_id)
         project_user_details.save()
+        user_invitation = UserInvitation.objects.filter(pu_d=inviter_user_record)
+        user_invitation.status = "Accepted"
+        user_invitation.save()
         response["Status"] = "Success"
     return JsonResponse(response)
 
