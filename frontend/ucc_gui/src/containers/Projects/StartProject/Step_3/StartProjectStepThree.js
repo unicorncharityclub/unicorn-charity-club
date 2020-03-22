@@ -93,7 +93,6 @@ class StartProjectStepThree extends React.Component {
   /*
   This method will actually call the backend API and fetch the friends result based on the search query
    */
-
   fetchFriendsData(obj, searchType, searchValue, offset, searchMoreFlag) {
     if(searchType==='emailid')
     {
