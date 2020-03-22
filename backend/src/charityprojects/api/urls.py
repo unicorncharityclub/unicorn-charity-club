@@ -14,7 +14,7 @@ urlpatterns = [
     path('all_project_info_list', all_project_info_list),
     path('category', project_category),
     path('start', start_project),
-    path('plannedProjects', fetch_project_planning_status),
+    path('plannedProjects/<str:user_emailid>/', fetch_project_planning_status),
     path('invitationVideo', update_project_invitation_video_details),
     path('projectPrize', update_project_prize),
     path('userInvitation', update_user_invitation),
