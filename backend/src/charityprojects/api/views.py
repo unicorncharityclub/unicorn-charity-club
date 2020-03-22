@@ -135,7 +135,7 @@ def start_project(request):
                 project_user.save()
                 print("Created new record")
                 pu_id = project_user.id
-                project_user_details = ProjectUserDetails.objects.create(pu_id=project_user)
+                project_user_details = ProjectUserDetails.objects.create(pu_id=pu_id)
                 project_user_details.save()
                 response["pu_id"] = pu_id
                 response['status'] = "Success"
@@ -286,9 +286,9 @@ def update_user_invitation(request):
             invited_user = User.objects.get(email=email)
             if invited_user:
                 invited_user_id = invited_user.id
-                user_invitation = UserInvitation.objects.create(pu_id_id=project_user_id,
-                                                        friend_id=invited_user_id, status="Pending",
-                                                        invitation_message= message, prize_given_id_id=prize_given_id)
+                user_invitation = UserInvitation.objects.create(pu_id_id=project_user_id, friend_id=invited_user_id,
+                                                                status="Pending", invitation_message= message,
+                                                                prize_given_id_id=prize_given_id)
                 user_invitation.save()
             else:
                 response = {'status': "Requested user does not exist"}
@@ -352,7 +352,7 @@ def search_friends(request):
                 user_photo = request.build_absolute_uri(user.myaccount.ProfilePic.url)
             else:
                 user_photo = ""
-            user_details = {"user_email": user.email, "user_name": user.first_name+" "+user.last_name,
+            user_details = {"user_email": user.email, "user_name": user.get_full_name(),
                             "user_photo": user_photo}
             friend_list.append(user_details)
     for child in children_list:
@@ -497,3 +497,88 @@ def challenge_develop_new_habit(request):
     print(request.data)
 
     return JsonResponse(response)
+
+
+def get_project_invitations(request):
+    response = {'status': "Invalid Request"}
+    json_data = json.loads(request.body)
+    user_email_id = json_data["user_email"]
+    user_id = User.objects.get(email=user_email_id).id
+    invited_project_user_id_list = UserInvitation.objects.filter(friend_id=user_id, status="Pending")
+    invited_project_list = []
+    if invited_project_user_id_list > 0:
+        for invitation in invited_project_user_id_list:
+            pu_id = invitation.pu_id
+            project_user_record = ProjectUser.objects.get(pk=pu_id)
+            project_id = project_user_record.project_id_id
+            user_id = project_user_record.user_id
+            user = User.objects.get(pk=user_id)
+            project = CharityProjects.objects.get(pk=project_id)
+            project_name = project.Name
+            project_badge = request.build_absolute_uri(project.Badge.url)
+            inviter_name = user.get_full_name()
+            invitation_date = invitation.invitation_date
+            invitation_details = {"inviter_user_email": user.email, "inviter_user_name": inviter_name, "project_id": project_id, "project_name": project_name,
+                                  "project_badge": project_badge, "invitation_date": invitation_date } #invitation date has to be updated
+            invited_project_list.append(invitation_details)
+        response["invited_project_list"] = invited_project_list
+        response["status"] = "Success"
+    else:
+        response["status"] = "User has no project invitation"
+
+    return JsonResponse(response)
+
+
+def fetch_project_invitation_details(request):
+    response = {'status': "Invalid Request"}
+    json_data = json.loads(request.body)
+    project_id = json_data["project_id"]
+    invited_user_email = json_data["user_email"]
+    inviter_user_email = json_data["inviter_user_email"]
+    inviter_user_id = User.objects.get(email=inviter_user_email).id
+    invited_user = User.objects.get(email=invited_user_email)
+    user_id = invited_user.id
+    user_name = invited_user.get_full_name()
+    project = CharityProjects.objects.get(pk=project_id)
+    project_user_record = ProjectUser.objects.filter(user_id=inviter_user_id, project_id_id=project_id)[0]
+    pu_id = project_user_record.id
+    project_user_details = ProjectUserDetails.objects.filter(pu_id=pu_id)[0]
+    invitation_video = request.build_absolute_uri(project_user_details.video.url)
+    user_invitation = UserInvitation.objects.filter(pu_d=pu_id, status="Pending")
+    invitation_message = user_invitation.invitation_message
+    project_invitation = {"user_name": user_name, "message": invitation_message, "video": invitation_video,
+                          "project_category": project.Category, "project_tags": project.Tags,
+                          "project_Mission": project.Mission, "project_goal": project.Goal}
+    response["invitation_details"] = project_invitation
+    response["status"] = "Success"
+    return JsonResponse(response)
+
+
+def join_project_invitation(request):
+    response = {'status': "Invalid Request"}
+    json_data = json.loads(request.body)
+    project_id = json_data["project_id"]
+    user_email = json_data["user_email"]
+    user_id = User.objects.get(email=user_email).id
+    inviter_user_email = json_data["inviter_user_email"]
+    inviter_user_id = User.objects.get(email=inviter_user_email).id
+    project_user_record = ProjectUser.objects.filter(project_id_id=project_id, user_id_id=user_id)
+    if len(project_user_record) > 0:
+        response["status"] = "User has already joined this project"
+    else:
+        project_user = ProjectUser.objects.create(project_id=project_id, user_id=user_id,
+                                                  invited_by=inviter_user_email)
+        project_user.save()
+        pu_id = project_user.id
+        inviter_user_record = ProjectUser.objects.filter(project_id_id=project_id, user_id_id=inviter_user_id)[0].id
+        inviter_user_details = ProjectUserDetails.objects.get(pu_id=inviter_user_record)
+        prize_given_id = inviter_user_details.prize_given_id
+        project_user_details = ProjectUserDetails.objects.create(pu_id=pu_id, prize_given_id=prize_given_id)
+        project_user_details.save()
+        user_invitation = UserInvitation.objects.filter(pu_d=inviter_user_record)
+        user_invitation.status = "Accepted"
+        user_invitation.save()
+        response["Status"] = "Success"
+    return JsonResponse(response)
+
+

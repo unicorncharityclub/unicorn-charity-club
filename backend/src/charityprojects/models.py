@@ -85,9 +85,11 @@ class UserInvitation(models.Model):
     status = models.CharField(max_length=255, blank=True, null=True)
     prize_given_id = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
     invitation_message = models.TextField(blank=True)
+    invitation_date = models.DateField(null=True, blank=True) #should not be empty
 
     def __str__(self):
-        return '{} {} {} {} {}'.format(self.pu_id, self.friend_id, self.status, self.prize_given_id, self.invitation_message)
+        return '{} {} {} {} {} {}'.format(self.pu_id, self.friend_id, self.status, self.prize_given_id,
+                                          self.invitation_message, self.invitation_date)
 
 
 class UnregisterInvitation(models.Model):
