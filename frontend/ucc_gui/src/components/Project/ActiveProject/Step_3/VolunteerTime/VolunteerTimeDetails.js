@@ -13,50 +13,15 @@ import Address from "../../../../General/Form/Address/Address";
 import Video from "../../../../General/Video/Video"
 
 class VolunteerTimeDetails extends React.Component {
-
     constructor(props) {
     super(props);
     this.state = {
         project_id: this.props.id,
         projectName : '',
         projectBanner : '',
-        projectBadge : '',
-        hours : '',
-        description :'',
-        video :'',
-        finalVideo:'',
-        userEmailId: cookie.load('user_emailid'),
-        name :'',
-        address :'',
-        city :'',
-        state_name : '',
-        website :''
+        projectBadge : ''
     }
  }
-
- onSubmit(){
-        console.log(this.state.project_id)
-        console.log(this.state.userEmailId)
-        console.log(this.state.name)
-        console.log(this.state.address)
-        console.log(this.state.city)
-        console.log(this.state.state_name)
-        console.log(this.state.website)
-        console.log(this.state.hours)
-        console.log(this.state.description)
- }
-
-defaultIfEmpty(value){
-        return value === "" ? "":value;
-    }
-
-
- changeHandler = (event) =>{
-        this.setState({
-           [event.target.name]:event.target.value
-        })
-    };
-
 
     componentDidMount () {
         axiosConfig.get(`charityproject/${this.state.project_id}`)
@@ -122,21 +87,16 @@ defaultIfEmpty(value){
                         <TextBlack message = "Volunteer time at a local organization that supports the mission of the project."/>
                         <div className="project-form-inner">
                             <Address
-                                changeHandler = {this.changeHandler.bind(this)}
-                            name = {this.state.name}
-                            address = {this.state.address}
-                            city = {this.state.city}
-                            state_name = {this.state.state_name}
-                            website = {this.state.website}/>
+                                changeHandler = {this.props.changeHandler}/>
                             <label>2. How much time did you volunteer? </label> <br/>
-                            <input type="number" style={{width:"20%", marginLeft:"40%"}} name="hours" value={this.state.hours}
-                                   onChange={this.changeHandler.bind(this)}/>
+                            <input type="number" style={{width:"20%", marginLeft:"40%"}} name="hours" value={this.props.hours}
+                                   onChange={this.props.changeHandler}/>
                                    <label htmlFor="hours">Hours</label>
 
                             <label>3. Describe what you did to volunteer your time.</label><br/>
                               <textarea name="description"
-                                     value={this.defaultIfEmpty(this.state.description)}
-                                     onChange={this.changeHandler.bind(this)} /><br/>
+                                     value={this.props.defaultIfEmpty(this.props.description)}
+                                     onChange={this.props.changeHandler.bind(this)} /><br/>
 
                                      <label>3. Share a video or photo that celebrates your volunteer experience.</label>
                           </div>
@@ -144,7 +104,7 @@ defaultIfEmpty(value){
 
                     <div className="buttons">
                         <Button style={{ borderRadius : "50px 0px 0px 50px", backgroundColor:"white", border:"2px solid"}} className = "backButton"  variant="light" size="lg"> BACK </Button>
-                        <Button style={{ borderRadius : "0px 50px 50px 0px", border:"2px solid black"}} className = "nextButton" variant="success" size="lg" onClick={this.onSubmit.bind(this)}> NEXT </Button>
+                        <Button style={{ borderRadius : "0px 50px 50px 0px", border:"2px solid black"}} className = "nextButton" variant="success" size="lg" onClick={this.props.onSubmit}> NEXT </Button>
                     </div>
 
                   </div>
