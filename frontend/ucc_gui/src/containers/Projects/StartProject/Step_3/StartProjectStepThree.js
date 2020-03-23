@@ -12,7 +12,8 @@ import UnregisteredFriendsInvite from "../../../../components/Project/StartProje
 import TextArea from "../../../../components/General/Form/TextArea";
 import TwoButtonLayout from "../../../../components/General/TwoButtonLayout";
 import AlertMessage from "../../../../components/General/AlertMessage";
-import * as FriendsSearchHelper from '../../../../components/Project/FriendsSearcHelper/FriendsSearchHelper';
+import * as FriendsSearchHelper from "../../../../components/Project/FriendsSearcHelper/FriendsSearchHelper";
+import TextBlackSubHeading from "../../../../components/General/Text/TextBlackSubHeading";
 class StartProjectStepThree extends React.Component {
   constructor(props) {
     super(props);
@@ -27,16 +28,19 @@ class StartProjectStepThree extends React.Component {
       SearchValue: "",
       SearchMoreAvailable: true,
       SearchOffset: 0,
-      SelectedFriends : new Map(),
-      InviteMessage : "Hello Friends",
-      UnregisteredUser : [{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""}],
-      UnregisteredUserIssue : "",
-      SendInvitationIssue : "",
-      FriendsSearchData: [
-
-      ]
+      SelectedFriends: new Map(),
+      InviteMessage: "Hello Friends",
+      UnregisteredUser: [
+        { email_address: "", issue: "" },
+        { email_address: "", issue: "" },
+        { email_address: "", issue: "" },
+        { email_address: "", issue: "" },
+        { email_address: "", issue: "" }
+      ],
+      UnregisteredUserIssue: "",
+      SendInvitationIssue: "",
+      FriendsSearchData: []
     };
-
   }
   componentDidMount() {
     const project_id = this.props.match.params.id;
@@ -55,37 +59,33 @@ class StartProjectStepThree extends React.Component {
   This method will actually call the backend API and fetch the friends result based on the search query
    */
   fetchFriendsData(obj, searchType, searchValue, offset, searchMoreFlag) {
-    if(searchType==='emailid')
-    {
+    if (searchType === "emailid") {
       axiosConfig.defaults.withCredentials = true;
       axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
       axiosConfig
-        .post(`charityproject/friendByEmail`,
-            {
-              "friend_email" : searchValue
-            })
+        .post(`charityproject/friendByEmail`, {
+          friend_email: searchValue
+        })
         .then(function(response) {
-          console.log(response.data)
+          console.log(response.data);
           obj.setState({ PopupSearch: true });
-          obj.setState({FriendsSearchData: response.data["friend_list"]})
+          obj.setState({ FriendsSearchData: response.data["friend_list"] });
         })
         .catch(function(error) {
           console.log(error);
         });
-    }
-    else {
+    } else {
       axiosConfig.defaults.withCredentials = true;
       axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
       axiosConfig
-        .post(`charityproject/search`,
-            {
-              "text" : searchValue,
-              "offset_value" : offset
-            })
+        .post(`charityproject/search`, {
+          text: searchValue,
+          offset_value: offset
+        })
         .then(function(response) {
-          console.log(response.data)
+          console.log(response.data);
           obj.setState({ PopupSearch: true });
-          obj.setState({FriendsSearchData: response.data["friend_list"]})
+          obj.setState({ FriendsSearchData: response.data["friend_list"] });
         })
         .catch(function(error) {
           console.log(error);
@@ -96,63 +96,61 @@ class StartProjectStepThree extends React.Component {
     this.setState({ SearchMoreAvailable: true });
   }
 
-  saveButtonClick()
-  {
+  saveButtonClick() {}
 
-  }
-
-  sendInviteButtonClick()
-  {
-    this.setState({SendInvitationIssue: ""});
-    if(this.checkUnregisteredUsersErr()===false && this.checkInvitationMessageErr()===false) {
+  sendInviteButtonClick() {
+    this.setState({ SendInvitationIssue: "" });
+    if (
+      this.checkUnregisteredUsersErr() === false &&
+      this.checkInvitationMessageErr() === false
+    ) {
       this.sendInvitationToRegisteredUsers(this);
     }
   }
 
-  checkInvitationMessageErr()
-  {
-    if(this.state.InviteMessage.length===0)
-    {
-      this.setState({SendInvitationIssue: "Enter an Invitation message to be sent to your invitee's."});
+  checkInvitationMessageErr() {
+    if (this.state.InviteMessage.length === 0) {
+      this.setState({
+        SendInvitationIssue:
+          "Enter an Invitation message to be sent to your invitee's."
+      });
       return true;
     }
     return false;
   }
 
-  checkUnregisteredUsersErr()
-  {
+  checkUnregisteredUsersErr() {
     let errorFlag = false;
-    for(let i=0;i<this.state.UnregisteredUser.length;i++)
-    {
-      if(this.state.UnregisteredUser[i]["issue"].trim().length!==0)
-      {
+    for (let i = 0; i < this.state.UnregisteredUser.length; i++) {
+      if (this.state.UnregisteredUser[i]["issue"].trim().length !== 0) {
         errorFlag = true;
-        this.setState({UnregisteredUser: this.state.UnregisteredUser});
-        this.setState({SendInvitationIssue: "Invalid Email Id of Unregistered User."});
+        this.setState({ UnregisteredUser: this.state.UnregisteredUser });
+        this.setState({
+          SendInvitationIssue: "Invalid Email Id of Unregistered User."
+        });
 
         break;
       }
     }
-    return errorFlag
+    return errorFlag;
   }
-
 
   sendInvitationToUnregisteredUsers() {
     var unregisterEmailId = [];
-    for(let i=0;i<this.state.UnregisteredUser.length;i++)
-    {
-      unregisterEmailId.push(this.state.UnregisteredUser[i]["email_address"].trim());
+    for (let i = 0; i < this.state.UnregisteredUser.length; i++) {
+      unregisterEmailId.push(
+        this.state.UnregisteredUser[i]["email_address"].trim()
+      );
     }
     axiosConfig.defaults.withCredentials = true;
     axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
     axiosConfig
-      .post(`charityproject/unregisteredInvitation`,
-          {
-            "user_email" : this.state.UserEmailId,
-            "project_id" : this.state.ProjectId,
-            "invitation_message" : this.state.InviteMessage,
-            "friend_list" : unregisterEmailId
-          })
+      .post(`charityproject/unregisteredInvitation`, {
+        user_email: this.state.UserEmailId,
+        project_id: this.state.ProjectId,
+        invitation_message: this.state.InviteMessage,
+        friend_list: unregisterEmailId
+      })
       .then(function(response) {
         // go to next page
       })
@@ -161,22 +159,20 @@ class StartProjectStepThree extends React.Component {
       });
   }
 
-  sendInvitationToRegisteredUsers(obj)
-  {
+  sendInvitationToRegisteredUsers(obj) {
     var friendsEmailId = [];
     for (const friends of this.state.SelectedFriends.values()) {
-      friendsEmailId.push(friends["user_email"])
+      friendsEmailId.push(friends["user_email"]);
     }
     axiosConfig.defaults.withCredentials = true;
     axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
     axiosConfig
-      .post(`charityproject/userInvitation`,
-          {
-            "user_email" : this.state.UserEmailId,
-            "project_id" : this.state.ProjectId,
-            "invitation_message" : this.state.InviteMessage,
-            "friend_list" : friendsEmailId
-          })
+      .post(`charityproject/userInvitation`, {
+        user_email: this.state.UserEmailId,
+        project_id: this.state.ProjectId,
+        invitation_message: this.state.InviteMessage,
+        friend_list: friendsEmailId
+      })
       .then(function(response) {
         obj.sendInvitationToUnregisteredUsers();
       })
@@ -195,8 +191,8 @@ class StartProjectStepThree extends React.Component {
               position: "fixed",
               width: "40%",
               height: "70%",
-              overflowY : "auto",
-              overflowX : "hidden",
+              overflowY: "auto",
+              overflowX: "hidden",
               top: "20%",
               bottom: "10px",
               background: "#6b6a63",
@@ -231,32 +227,65 @@ class StartProjectStepThree extends React.Component {
         </div>
         <ProjectInfo id={this.state.ProjectId} />
         <InviteFriends
+          message="1. Build your team by inviting family and friends to your project."
           searchResultHandler={FriendsSearchHelper.searchResultHandler.bind(this)}
           disabled={this.state.PopupSearch}
         />
-        <br/>
-        <div style={{width:"100%", padding:"10px", borderRadius: "10px", borderStyle:"solid"}}>
-        <FriendsInvitedGrid friendsInvitedData={[...this.state.SelectedFriends.values()]} removeInviteClick={FriendsSearchHelper.removeInviteClick.bind(this)}/>
+        <br />
+        {this.state.SelectedFriends.size > 0 ? (
+          <div
+            style={{
+              width: "100%",
+              padding: "10px",
+              borderRadius: "10px",
+              borderStyle: "solid"
+            }}
+          >
+            <FriendsInvitedGrid
+              friendsInvitedData={[...this.state.SelectedFriends.values()]}
+              removeInviteClick={FriendsSearchHelper.removeInviteClick.bind(this)}
+            />
+          </div>
+        ) : (
+          ""
+        )}
+
+        <br />
+        <div>
+          <UnregisteredFriendsInvite
+            message="2. Send invites to unregistered users."
+            unregisteredUser={this.state.UnregisteredUser}
+            unregisteredUserIssue={this.state.UnregisteredUserIssue}
+            unregisteredUserAddMoreClick={FriendsSearchHelper.unregisteredUserAddMore.bind(this)}
+            unregisteredUserEmailChange={FriendsSearchHelper.unregisteredUserEmailChange.bind(this)}
+            unregisteredUserDeleteClick={FriendsSearchHelper.unregisteredUserDeleteClick.bind(this)}
+            unregisteredUserEmailValidate={FriendsSearchHelper.unregisteredUserEmailValidate.bind(this)}
+          />
         </div>
 
-        <br/>
-        <div style={{width:"100%", padding:"10px", borderRadius: "10px", borderStyle:"solid"}}>
-          <UnregisteredFriendsInvite unregisteredUser={this.state.UnregisteredUser}
-                                     unregisteredUserIssue={this.state.UnregisteredUserIssue}
-                                     unregisteredUserAddMoreClick={FriendsSearchHelper.unregisteredUserAddMore.bind(this)}
-                                     unregisteredUserEmailChange={FriendsSearchHelper.unregisteredUserEmailChange.bind(this)}
-                                     unregisteredUserDeleteClick={FriendsSearchHelper.unregisteredUserDeleteClick.bind(this)}
-                                     unregisteredUserEmailValidate={FriendsSearchHelper.unregisteredUserEmailValidate.bind(this)}/>
+        <br />
+        <div
+          style={{
+            width: "100%",
+            padding: "10px",
+            borderRadius: "10px",
+            borderStyle: "solid"
+          }}
+        >
+          <TextBlackSubHeading message="3. Invitation message to friends." />
+          <TextArea
+            value={this.state.InviteMessage}
+            handleChange={FriendsSearchHelper.inviteMessageChange.bind(this)}
+          />
         </div>
-
-        <br/>
-        <div style={{width:"100%", padding:"10px", borderRadius: "10px", borderStyle:"solid"}}>
-        <TextArea title = "Invitation Message to Friends" value={this.state.InviteMessage} handleChange={FriendsSearchHelper.inviteMessageChange.bind(this)}/>
-        </div>
-        <br/>
-          <TwoButtonLayout button1Text="SAVE" button2Text="SEND INVITATIONS"
-                           button1Click={this.saveButtonClick.bind(this)} button2Click={this.sendInviteButtonClick.bind(this)}/>
-                           <AlertMessage alertMessage={this.state.SendInvitationIssue} />
+        <br />
+        <TwoButtonLayout
+          button1Text="SAVE"
+          button2Text="SEND INVITATIONS"
+          button1Click={this.saveButtonClick.bind(this)}
+          button2Click={this.sendInviteButtonClick.bind(this)}
+        />
+        <AlertMessage alertMessage={this.state.SendInvitationIssue} />
       </div>
     );
   }

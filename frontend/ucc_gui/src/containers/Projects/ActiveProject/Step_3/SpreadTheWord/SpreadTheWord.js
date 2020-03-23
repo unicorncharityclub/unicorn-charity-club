@@ -13,6 +13,7 @@ import FriendsSearchGrid from "../../../../../components/Project/StartProject/St
 import TwoButtonLayout from "../../../../../components/General/TwoButtonLayout";
 import AlertMessage from "../../../../../components/General/AlertMessage";
 import * as FriendsSearchHelper from '../../../../../components/Project/FriendsSearcHelper/FriendsSearchHelper';
+import TextBlackSubHeading from "../../../../../components/General/Text/TextBlackSubHeading";
 
 class SpreadTheWord extends React.Component {
 
@@ -206,17 +207,21 @@ class SpreadTheWord extends React.Component {
               </div>
 
               <InviteFriends
+                  message="2. Build your team by inviting family and friends to your project."
               searchResultHandler={FriendsSearchHelper.searchResultHandler.bind(this)}
               disabled={this.state.PopupSearch}
             />
             <br/>
+            {this.state.SelectedFriends.size > 0 ? (
         <div style={{width:"100%", padding:"10px", borderRadius: "10px", borderStyle:"solid"}}>
         <FriendsInvitedGrid friendsInvitedData={[...this.state.SelectedFriends.values()]} removeInviteClick={FriendsSearchHelper.removeInviteClick.bind(this)}/>
-        </div>
+        </div>):('')}
 
                       <br/>
         <div style={{width:"100%", padding:"10px", borderRadius: "10px", borderStyle:"solid"}}>
-          <UnregisteredFriendsInvite unregisteredUser={this.state.UnregisteredUser}
+          <UnregisteredFriendsInvite
+              message="3. Send invites to unregistered users."
+              unregisteredUser={this.state.UnregisteredUser}
                                      unregisteredUserIssue={this.state.UnregisteredUserIssue}
                                      unregisteredUserAddMoreClick={FriendsSearchHelper.unregisteredUserAddMore.bind(this)}
                                      unregisteredUserEmailChange={FriendsSearchHelper.unregisteredUserEmailChange.bind(this)}
@@ -226,7 +231,8 @@ class SpreadTheWord extends React.Component {
 
               <br/>
         <div style={{width:"100%", padding:"10px", borderRadius: "10px", borderStyle:"solid"}}>
-        <TextArea title = "Invitation Message to Friends" value={this.state.InviteMessage} handleChange={FriendsSearchHelper.inviteMessageChange.bind(this)}/>
+            <TextBlackSubHeading message="4. Invitation message to friends."/>
+        <TextArea value={this.state.InviteMessage} handleChange={FriendsSearchHelper.inviteMessageChange.bind(this)}/>
         </div>
               <TwoButtonLayout button1Text="SAVE" button2Text="SEND INVITATIONS"
                            button1Click={this.saveButtonClick.bind(this)} button2Click={this.sendInviteButtonClick.bind(this)}/>

@@ -1,4 +1,5 @@
 import React from 'react';
+import TextBlueSubHeading from "../../../General/Text/TextBlueSubHeading";
 import TextBlueHeading from "../../../General/Text/TextBlueHeading";
 import TextBlack from "../../../General/Text/TextBlack";
 import TextBlackSubHeading from "../../../General/Text/TextBlackSubHeading";
@@ -6,6 +7,7 @@ import Search from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
 import AlertMessage from "../../../General/AlertMessage";
 import Input from "../../../General/Form/Input";
+import BlueButton from "../../../General/Form/BlueButton";
 
 
 class InviteFriends extends React.Component {
@@ -56,9 +58,11 @@ class InviteFriends extends React.Component {
         return (
             <div >
                 <TextBlueHeading message="BUILD YOUR TEAM"/>
-                <TextBlackSubHeading message="Build your team by inviting family and friends to your project."/>
+                <div style={{textAlign:"center"}}>
+                    <TextBlackSubHeading message={this.props.message}/>
+                </div>
                 <br/>
-                <div style={{width:"100%", height:"260px", padding:"10px", borderRadius: "10px", borderStyle:"solid"}}>
+                <div >
                     <div>
                         <div style={{width:"100%", height:"50px", float:"left", textAlign:"left"}}>
                             <div style={{width:"40%", height:"100%", float:"left", position: "relative"}}>
@@ -82,7 +86,7 @@ class InviteFriends extends React.Component {
                         </div>
 
                         <div style={{width:"100%", float:"left", textAlign:"center"}}>
-                            <TextBlueHeading message="OR"/>
+                            <TextBlueSubHeading message="OR"/>
                         </div>
 
                         <div style={{width:"100%", height:"50px", float:"left", textAlign:"left"}}>
@@ -109,17 +113,12 @@ class InviteFriends extends React.Component {
 
                     <div style={{height:"25%", width:"100%",  textAlign:"center"}}>
 
-                        <Button
-                            size="small"
-                            variant="outlined"
-                            startIcon={<Search />}
-                            component="span"
-                            style={{textTransform:"None"}}
-                            onClick={this.onSearchFriends.bind(this)}
+                        <BlueButton
+                            startIcon={<Search style={{ fontSize: 30 }}/>}
+                            handleOnClick={this.onSearchFriends.bind(this)}
                             disabled={this.props.disabled}
-                          >
-                            <TextBlueHeading message="Search"/>
-                          </Button>
+                            title="SEARCH"
+                          />
                             <AlertMessage alertMessage={this.state.searchStatus} />
                     </div>
                 </div>
