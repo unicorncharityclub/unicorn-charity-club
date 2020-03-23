@@ -10,51 +10,45 @@ import Button from "react-bootstrap/Button";
 import cookie from "react-cookies";
 import {Container} from "@material-ui/core";
 import Address from "../../../../General/Form/Address/Address";
+import Video from "../../../../General/Video/Video"
 
 class VolunteerTimeDetails extends React.Component {
 
     constructor(props) {
     super(props);
     this.state = {
-        Project_id: this.props.id,
-        ProjectName : '',
-        ProjectBanner : '',
-        ProjectBadge : '',
-        Hours : '',
-        Description :'',
+        project_id: this.props.id,
+        projectName : '',
+        projectBanner : '',
+        projectBadge : '',
+        hours : '',
+        description :'',
         video :'',
         finalVideo:'',
-        UserEmailId: cookie.load('user_emailid'),
-        Name :'',
-        Address :'',
-        City :'',
-        State_name : '',
-        Website :''
+        userEmailId: cookie.load('user_emailid'),
+        name :'',
+        address :'',
+        city :'',
+        state_name : '',
+        website :''
     }
  }
 
  onSubmit(){
-        console.log(this.state.Project_id)
-        console.log(this.state.UserEmailId)
-        console.log(this.state.Name)
-        console.log(this.state.Address)
-        console.log(this.state.City)
-        console.log(this.state.State_name)
-        console.log(this.state.Website)
-        console.log(this.state.Hours)
-        console.log(this.state.Description)
+        console.log(this.state.project_id)
+        console.log(this.state.userEmailId)
+        console.log(this.state.name)
+        console.log(this.state.address)
+        console.log(this.state.city)
+        console.log(this.state.state_name)
+        console.log(this.state.website)
+        console.log(this.state.hours)
+        console.log(this.state.description)
  }
 
- defaultIfEmpty(value){
+defaultIfEmpty(value){
         return value === "" ? "":value;
     }
-
-    videoHandler = (event) =>{
-       this.setState({
-           video : URL.createObjectURL(event.target.files[0]),
-           finalVideo: event.target.files[0]
-        });
-    };
 
 
  changeHandler = (event) =>{
@@ -65,12 +59,12 @@ class VolunteerTimeDetails extends React.Component {
 
 
     componentDidMount () {
-        axiosConfig.get(`charityproject/${this.state.Project_id}`)
+        axiosConfig.get(`charityproject/${this.state.project_id}`)
       .then(res => {
               this.setState({
-                  ProjectName : res.data.project_name,
-                  ProjectBanner : res.data.project_banner,
-                  ProjectBadge: res.data.project_badge
+                  projectName : res.data.project_name,
+                  projectBanner : res.data.project_banner,
+                  projectBadge: res.data.project_badge
               });
       }).catch(error => console.log(error))
     }
@@ -83,14 +77,14 @@ class VolunteerTimeDetails extends React.Component {
                         <ProgressStepper currentStep="2" />
                     </div>
                     <div className="banner">
-                        <ProjectBanner image={this.state.ProjectBanner}  />
+                        <ProjectBanner image={this.state.projectBanner}  />
                     </div>
                 </div>
 
                 <div className="ProjectInfo_MainDiv"  >
                 <div className="ProjectInfo_Container">
                       <div className="ProjectInfo_Badge" >
-                        <Image src={this.state.ProjectBadge} style={{width: "100%", maxHeight: "100%"}} roundedCircle/>
+                        <Image src={this.state.projectBadge} style={{width: "100%", maxHeight: "100%"}} roundedCircle/>
                       </div>
 
                       <div className="ProjectInfo_Text" >
@@ -98,7 +92,7 @@ class VolunteerTimeDetails extends React.Component {
                           <tbody>
                             <tr>
                               <td colSpan={2}>
-                                  <TextBlackHeading message={this.state.ProjectName}/>
+                                  <TextBlackHeading message={this.state.projectName}/>
                               </td>
                             </tr>
 
@@ -129,23 +123,22 @@ class VolunteerTimeDetails extends React.Component {
                         <div className="project-form-inner">
                             <Address
                                 changeHandler = {this.changeHandler.bind(this)}
-                            Name = {this.state.Name}
-                            Address = {this.state.Address}
-                            City = {this.state.City}
-                            State_name = {this.state.State_name}
-                            Website = {this.state.Website}/>
+                            name = {this.state.name}
+                            address = {this.state.address}
+                            city = {this.state.city}
+                            state_name = {this.state.state_name}
+                            website = {this.state.website}/>
                             <label>2. How much time did you volunteer? </label> <br/>
-                            <input type="number" style={{width:"20%", marginLeft:"40%"}} name="Hours" value={this.state.Hours}
+                            <input type="number" style={{width:"20%", marginLeft:"40%"}} name="hours" value={this.state.hours}
                                    onChange={this.changeHandler.bind(this)}/>
-                                   <label htmlFor="Hours">Hours</label>
+                                   <label htmlFor="hours">Hours</label>
 
                             <label>3. Describe what you did to volunteer your time.</label><br/>
-                              <textarea name="Description"
-                                     value={this.defaultIfEmpty(this.state.Description)}
+                              <textarea name="description"
+                                     value={this.defaultIfEmpty(this.state.description)}
                                      onChange={this.changeHandler.bind(this)} /><br/>
 
-                              <label>3. Share a video or photo that celebrates your volunteer experience.</label>
-
+                                     <label>3. Share a video or photo that celebrates your volunteer experience.</label>
                           </div>
                     <br/>
 
