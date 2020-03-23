@@ -434,6 +434,7 @@ def create_volunteer_adventure(request):
                                   "organisation_address": request.data[" organisation_address"],
                                   " organisation_city": request.data[" organisation_city"],
                                   "organisation_state": request.data[" organisation_state"],
+                                  "organisation_website": request.data["website"],
                                   "volunteer_hours": request.data["hours"],
                                   "volunteer_work_description": request.data["description"],
                                   "volunteer_exp": request.data["exp_video"]}
