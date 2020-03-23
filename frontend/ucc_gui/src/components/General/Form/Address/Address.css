@@ -1,4 +1,4 @@
-.project-form {
+.project-form-address {
     float: left;
     position: relative;
     width: 100%;
@@ -8,7 +8,7 @@
     padding-top: 20px;
 }
 
-.project-form label {
+.project-form-address label {
     padding-top: calc(0.375rem + 1px);
     padding-bottom: calc(0.375rem + 1px);
     margin-bottom: 0;
@@ -19,11 +19,11 @@
     width: 100%;
 }
 
-.project-form-inner label {
+.project-form-address label {
     padding-top: calc(2rem + 1px);
 }
 
-.project-form input {
+.project-form-address input {
     display: block;
     margin-left: 20px;
     width: 80%;
@@ -38,7 +38,7 @@
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.project-form textarea {
+.project-form-address textarea {
     display: block;
     margin-left: 20px;
     width: 80%;
@@ -51,32 +51,4 @@
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.buttons {
-    display: flex;
-    justify-content: center;
-    border-radius : 0rem;
-    width : 100%;
-}
-
-.backButton {
-    font-size: 18px;
-    height: 50px;
-    width: 40%;
-    border: 2px solid;
-    border-right-width: 1px;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-}
-
-.nextButton {
-    font-size: 18px;
-    height: 50px;
-    width: 40%;
-    border: 2px solid;
-    border-left-width: 1px;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    cursor: pointer;
 }

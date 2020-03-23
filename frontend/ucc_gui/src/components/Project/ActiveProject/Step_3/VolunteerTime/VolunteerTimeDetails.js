@@ -6,10 +6,10 @@ import axiosConfig from "../../../../../axiosConfig";
 import TextBlackHeading from "../../../../General/Text/TextBlackHeading";
 import ProgressStepper from "../../../ProgressStepper";
 import ProjectBanner from "../../../ProjectBanner";
-import Upload_video from "../../../../../image/Settings_Camera.png";
 import Button from "react-bootstrap/Button";
 import cookie from "react-cookies";
-import {Player} from "video-react";
+import {Container} from "@material-ui/core";
+import Address from "../../../../General/Form/Address/Address";
 
 class VolunteerTimeDetails extends React.Component {
 
@@ -20,21 +20,20 @@ class VolunteerTimeDetails extends React.Component {
         ProjectName : '',
         ProjectBanner : '',
         ProjectBadge : '',
-        Name :'',
-        Address :'',
-        City :'',
-        State_name : '',
-        Website :'',
         Hours : '',
         Description :'',
         video :'',
         finalVideo:'',
-        UserEmailId: cookie.load('user_emailid')
+        UserEmailId: cookie.load('user_emailid'),
+        Name :'',
+        Address :'',
+        City :'',
+        State_name : '',
+        Website :''
     }
  }
 
  onSubmit(){
-
         console.log(this.state.Project_id)
         console.log(this.state.UserEmailId)
         console.log(this.state.Name)
@@ -44,8 +43,6 @@ class VolunteerTimeDetails extends React.Component {
         console.log(this.state.Website)
         console.log(this.state.Hours)
         console.log(this.state.Description)
-
-
  }
 
  defaultIfEmpty(value){
@@ -62,8 +59,7 @@ class VolunteerTimeDetails extends React.Component {
 
  changeHandler = (event) =>{
         this.setState({
-            ...this.state,
-            [event.target.name]: event.target.value
+           [event.target.name]:event.target.value
         })
     };
 
@@ -131,47 +127,17 @@ class VolunteerTimeDetails extends React.Component {
                         <br/>
                         <TextBlack message = "Volunteer time at a local organization that supports the mission of the project."/>
                         <div className="project-form-inner">
-                              <label>1. Local Organization </label> <br/>
-                              <input type="text"
-                                    name="Name"
-                                     placeholder="Name"
-                                    value={this.state.Name}
-                                     onChange={this.changeHandler.bind(this)}/> <br/><br/>
-
-                              <input type="text"
-                                    name="Address"
-                                     placeholder="Address"
-                                    value={this.state.Address}
-                                    onChange={this.changeHandler.bind(this)}/> <br/><br/>
-
-                                    <input type="text"
-                                           style={{float:"left", width:"60%"}}
-                                    name="City"
-                                           placeholder="City"
-                                    value={this.state.City}
-                                    onChange={this.changeHandler.bind(this)}/>
-
-                                    <input type="text"
-                                           style={{float:"left", width:"18%"}}
-                                    name="State_name"
-                                    value={this.state.State_name}
-                                           placeholder="State"
-                                    onChange={this.changeHandler.bind(this)}/> <br/><br/>
-                                    <br/>
-
-                                    <input type="text"
-                                    name="Website"
-                                           placeholder="Website"
-                                    value={this.state.Website}
-                                           onChange={this.changeHandler.bind(this)}/> <br/>
-                                           <label>2. How much time did you volunteer? </label> <br/>
-                                   <input type="number" style={{width:"20%", marginLeft:"40%"}}
-                                    name="Hours"
-                                    value={this.state.Hours}
-                                    onChange={this.changeHandler.bind(this)}/>
-                                       <label htmlFor="Hours">Hours</label>
-
-
+                            <Address
+                                changeHandler = {this.changeHandler.bind(this)}
+                            Name = {this.state.Name}
+                            Address = {this.state.Address}
+                            City = {this.state.City}
+                            State_name = {this.state.State_name}
+                            Website = {this.state.Website}/>
+                            <label>2. How much time did you volunteer? </label> <br/>
+                            <input type="number" style={{width:"20%", marginLeft:"40%"}} name="Hours" value={this.state.Hours}
+                                   onChange={this.changeHandler.bind(this)}/>
+                                   <label htmlFor="Hours">Hours</label>
 
                             <label>3. Describe what you did to volunteer your time.</label><br/>
                               <textarea name="Description"
@@ -181,27 +147,6 @@ class VolunteerTimeDetails extends React.Component {
                               <label>3. Share a video or photo that celebrates your volunteer experience.</label>
 
                           </div>
-
-                    <div className="project-video-preview">
-                        {
-                              this.state.video ?
-                                  <div className="video-upload-preview">
-                                      <Player playsInline
-                                          src={this.state.video}
-                                      />
-                                  </div>:''
-                        }
-                    </div>
-
-                    <div className="project-video">
-                          <img className="project-video-upload" src={Upload_video} alt=""/>
-                          <input id="file" style={{display: 'none'}}
-                                         type="file"
-                                         name="video"
-                                         accept="video/*"
-                                         onChange={this.videoHandler.bind(this)}/>
-                          <label className="upload-video" htmlFor="file">Upload/Create Video</label>
-                      </div>
                     <br/>
 
                     <div className="buttons">
