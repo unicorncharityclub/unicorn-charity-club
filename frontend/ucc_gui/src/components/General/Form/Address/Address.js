@@ -7,13 +7,13 @@ class Address extends React.Component {
     constructor(props) {
     super(props);
     this.state = {
-        Project_id: this.props.id,
+        project_id: this.props.id,
     }
  }
 
 
  componentDidMount () {
-        axiosConfig.get(`charityproject/${this.state.Project_id}`)
+        axiosConfig.get(`charityproject/${this.state.project_id}`)
     }
 
     render() {
@@ -23,36 +23,36 @@ class Address extends React.Component {
                         <div className="project-form-address">
                               <label>1. Local Organization </label> <br/>
                               <input type="text"
-                                    name="Name"
+                                    name="name"
                                      placeholder="Name"
-                                    value={this.props.Name}
+                                    value={this.props.name}
                                      onChange={this.props.changeHandler}/> <br/><br/>
 
                               <input type="text"
-                                    name="Address"
+                                    name="address"
                                      placeholder="Address"
-                                    value={this.props.Address}
+                                    value={this.props.address}
                                     onChange={this.props.changeHandler}/> <br/><br/>
 
                                     <input type="text"
                                            style={{float:"left", width:"60%"}}
-                                    name="City"
+                                    name="city"
                                            placeholder="City"
-                                    value={this.props.City}
+                                    value={this.props.city}
                                     onChange={this.props.changeHandler}/>
 
                                     <input type="text"
                                            style={{float:"left", width:"18%"}}
-                                    name="State_name"
-                                    value={this.props.State_name}
+                                    name="state_name"
+                                    value={this.props.state_name}
                                            placeholder="State"
                                     onChange={this.props.changeHandler}/> <br/><br/>
                                     <br/>
 
                                     <input type="text"
-                                    name="Website"
+                                    name="website"
                                            placeholder="Website"
-                                    value={this.props.Website}
+                                    value={this.props.website}
                                            onChange={this.props.changeHandler}/> <br/>
                         </div>
                 </form>
