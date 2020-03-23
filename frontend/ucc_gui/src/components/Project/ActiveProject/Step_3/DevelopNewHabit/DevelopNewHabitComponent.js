@@ -1,8 +1,10 @@
 import React from 'react';
 import "../../../../../containers/Projects/ActiveProject/Step_3/LearnNewSkill/LearnNewSkill.css";
 import Button from "react-bootstrap/Button";
-import Project_logo from "../../../../../site_media/default-images/project_default.jpg";
 import Video from "../../../../../components/General/Video/Video.js"
+import ProgressStepper from "../../../ProgressStepper";
+import ProjectBanner from "../../../ProjectBanner";
+import ProjectInfo from "../../../ProjectHeader/ProjectInfo.js";
 
 
 class DevelopNewHabitComponent extends React.Component {
@@ -10,16 +12,12 @@ class DevelopNewHabitComponent extends React.Component {
     render() {
         return (
             <div className="form-wrapper">
-                <div className="project-header">
-                    <p>
-                        <img className="project-logo" src={Project_logo} alt="Avatar"/>
-                    </p>
-                    <p>
-                        <label>Charity Project</label>
-                        <label>Date Joined</label>
-                        <label>Status</label>
-                    </p>
-                </div>
+                <ProgressStepper currentStep="3"/>
+                <ProjectBanner image={this.props.project_banner}/>
+                <ProjectInfo project_name={this.props.project_name} project_badge={this.props.project_badge}
+                             project_join_date={this.props.project_join_date}
+                             challenge_status={this.props.challenge_status}
+                />
                 <div className="challenge-name">
                     <label>CHALLENGE 3: Adventure</label>
                 </div>

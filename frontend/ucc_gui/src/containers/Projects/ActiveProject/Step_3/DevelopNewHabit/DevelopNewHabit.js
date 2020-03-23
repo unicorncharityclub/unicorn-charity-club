@@ -14,22 +14,46 @@ class DevelopNewHabit extends React.Component {
             description: '',
             video: '',
             final_video: '',
-            project_Id: this.props.match.params.id
+            project_Id: this.props.match.params.id,
+            project_name: '',
+            project_banner: '',
+            project_badge: '',
+            //project_join_date: '',
+            challenge_status: ''
         }
+    };
+
+    componentDidMount () {
+        axiosConfig.get(`charityproject/activeProjectList/${cookie.load('user_emailid')}`)
+      .then(res => {
+          for(let i=0; i < res.data.active_project_list.length; i++) {
+              if(res.data.active_project_list[i].project_id === parseInt(this.state.project_Id)) {
+                  console.log("inside");
+                  this.setState({
+                      project_name: res.data.active_project_list[i].project_name,
+                      project_banner: res.data.active_project_list[i].project_banner,
+                      project_badge: res.data.active_project_list[i].project_badge,
+                      project_join_date: res.data.active_project_list[i].project_join_date,
+                      challenge_status: res.data.active_project_list[i].challenge_status
+                  });
+              }
+          }
+              console.log(res.data);
+      }).catch(error => console.log(error))
     };
 
     defaultIfEmpty(value) {
         return value === "" ? "" : value;
     }
 
-    changeHandler(event){
+    changeHandler(event) {
         this.setState({
             ...this.state,
             [event.target.name]: event.target.value
         })
     };
 
-    videoHandler(event){
+    videoHandler(event) {
         this.setState({
             video: URL.createObjectURL(event.target.files[0]),
             final_video: event.target.files[0]
@@ -85,6 +109,11 @@ class DevelopNewHabit extends React.Component {
                     <DevelopNewHabitComponent new_habit={this.state.new_habit}
                                               description={this.state.description}
                                               video={this.state.video}
+                                              project_banner={this.state.project_banner}
+                                              project_badge={this.state.project_badge}
+                                              project_name={this.state.project_name}
+                                              project_join_date={this.state.project_join_date}
+                                              challenge_status={this.state.challenge_status}
                                               defaultIfEmpty={this.defaultIfEmpty.bind(this)}
                                               changeHandler={this.changeHandler.bind(this)}
                                               videoHandler={this.videoHandler.bind(this)}
