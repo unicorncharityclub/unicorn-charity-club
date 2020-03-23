@@ -48,7 +48,6 @@ class BaseRouter extends React.Component {
               <Route exact path='/Projects/:id/StartProjectStepTwo' component={StartProjectStepTwo} />
               <Route exact path='/Projects/:id/InviteFriends' component={StartProjectStepThree} />
               <Route exact path='/Projects/:id/ActiveProjectChallenge1' component={ActiveProjectChallenge1} />
-              <Route exact path='/Projects/:id/LearnNewSkill' component={LearnNewSkill} />
               <Route exact path='/AddChild' component={AddChild}/>
               <Route exact path="/Mobile_toolbar" component={Mobile_toolbar}/>
             </div>
