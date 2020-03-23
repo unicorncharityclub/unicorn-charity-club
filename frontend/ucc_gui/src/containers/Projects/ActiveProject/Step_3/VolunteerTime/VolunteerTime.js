@@ -13,7 +13,7 @@ class VolunteerTime extends React.Component {
         hours : '',
         description :'',
         video :'',
-        finalVideo:'',
+        final_video :'',
         name :'',
         address :'',
         city :'',
@@ -44,6 +44,13 @@ defaultIfEmpty(value){
         })
     };
 
+    videoHandler = (event) =>{
+        this.setState({
+            video: URL.createObjectURL(event.target.files[0]),
+            final_video: event.target.files[0]
+        });
+    };
+
     render() {
       return(
                   <div>
@@ -58,7 +65,9 @@ defaultIfEmpty(value){
                         hours = {this.state.hours}
                         description = {this.state.description}
                         defaultIfEmpty = {this.defaultIfEmpty.bind(this)}
-                        onSubmit = {this.onSubmit.bind(this)}/>
+                        onSubmit = {this.onSubmit.bind(this)}
+                        videoHandler={this.videoHandler.bind(this)}
+                        video = {this.state.video}/>
                     </Container>
                   </div>
         )

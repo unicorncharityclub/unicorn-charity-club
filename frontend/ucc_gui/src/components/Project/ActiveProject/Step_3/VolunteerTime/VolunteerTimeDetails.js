@@ -9,6 +9,7 @@ import ProjectBanner from "../../../ProjectBanner";
 import Button from "react-bootstrap/Button";
 import cookie from "react-cookies";
 import {Container} from "@material-ui/core";
+import VolunteerTime from "../../../../../containers/Projects/ActiveProject/Step_3/VolunteerTime/VolunteerTime.css"
 import Address from "../../../../General/Form/Address/Address";
 import Video from "../../../../General/Video/Video"
 
@@ -89,9 +90,13 @@ class VolunteerTimeDetails extends React.Component {
                             <Address
                                 changeHandler = {this.props.changeHandler}/>
                             <label>2. How much time did you volunteer? </label> <br/>
-                            <input type="number" style={{width:"20%", marginLeft:"40%"}} name="hours" value={this.props.hours}
+
+                            <div className="form_control">
+                            <input type="number" name="hours" value={this.props.hours}
                                    onChange={this.props.changeHandler}/>
-                                   <label htmlFor="hours">Hours</label>
+                                    <label>Hours</label>
+
+                        </div>
 
                             <label>3. Describe what you did to volunteer your time.</label><br/>
                               <textarea name="description"
@@ -101,6 +106,12 @@ class VolunteerTimeDetails extends React.Component {
                                      <label>3. Share a video or photo that celebrates your volunteer experience.</label>
                           </div>
                     <br/>
+                    <Video src={this.props.video}
+                        id="file" style={{display: 'none'}}
+                           type="file"
+                           name="video"
+                           accept="video/*"
+                           onChange={this.props.videoHandler.bind(this)}/>
 
                     <div className="buttons">
                         <Button style={{ borderRadius : "50px 0px 0px 50px", backgroundColor:"white", border:"2px solid"}} className = "backButton"  variant="light" size="lg"> BACK </Button>
