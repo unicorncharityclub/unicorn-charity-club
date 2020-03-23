@@ -1,5 +1,5 @@
 import string
-from django.utils.crypto import random
+import random
 from accounts.api.serializers import AccountUpdateSerializer
 from accounts.models import User
 from django.http import JsonResponse
