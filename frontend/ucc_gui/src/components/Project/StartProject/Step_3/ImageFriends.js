@@ -5,6 +5,7 @@ import TextBlackSubHeading from "../../../General/Text/TextBlackSubHeading";
 import Search from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
 import AlertMessage from "../../../General/AlertMessage";
+import Input from "../../../General/Form/Input";
 
 
 class InviteFriends extends React.Component {
@@ -55,26 +56,27 @@ class InviteFriends extends React.Component {
         return (
             <div >
                 <TextBlueHeading message="BUILD YOUR TEAM"/>
-                <TextBlack message="Build your team by inviting family and friends to your project."/>
+                <TextBlackSubHeading message="Build your team by inviting family and friends to your project."/>
                 <br/>
                 <div style={{width:"100%", height:"260px", padding:"10px", borderRadius: "10px", borderStyle:"solid"}}>
                     <div>
                         <div style={{width:"100%", height:"50px", float:"left", textAlign:"left"}}>
-                            <div style={{width:"5%",float:"left"}}>
-                                &nbsp;
-                            </div>
-                            <div style={{width:"40%",float:"left"}}>
-                                <TextBlackSubHeading message="Find Friends By Their Name : "/>
+                            <div style={{width:"40%", height:"100%", float:"left", position: "relative"}}>
+                                <TextBlack message="Find friends by their name : "
+                                           top = "50%"
+                                           position = "absolute"
+                                           transform = "translateY(-50%)"
+                                           right = {5}/>
                             </div>
                             <div className="form-item" style={{float:"left",width:"50%"}}>
-                              <input
+
+                              <Input
                                 name="friend-name"
                                 type="text"
                                 id="friend-name"
                                 placeholder="Enter Name"
-                                style={{width:"100%"}}
                                 value={this.state.friendName}
-                                onChange={this.onFriendNameChange.bind(this)}
+                                handleChange={this.onFriendNameChange.bind(this)}
                               />
                             </div>
                         </div>
@@ -83,22 +85,22 @@ class InviteFriends extends React.Component {
                             <TextBlueHeading message="OR"/>
                         </div>
 
-                        <div style={{width:"100%", float:"left", textAlign:"left"}}>
-                            <div style={{width:"5%",float:"left"}}>
-                                &nbsp;
-                            </div>
-                            <div style={{width:"40%",float:"left"}}>
-                                <TextBlackSubHeading message="Find Friends By Their Email-Id : "/>
+                        <div style={{width:"100%", height:"50px", float:"left", textAlign:"left"}}>
+                            <div style={{width:"40%", height:"100%", float:"left", position: "relative"}}>
+                                <TextBlack message="Find friends by their email : "
+                                        top = "50%"
+                                           position = "absolute"
+                                           transform = "translateY(-50%)"
+                                           right = {5}/>
                             </div>
                             <div className="form-item" style={{float:"left",width:"50%"}}>
-                              <input
+                              <Input
                             name="friend-emailid"
                             type="text"
                             id="friend-emailid"
-                            placeholder="Enter EmailId"
-                            style={{width:"100%"}}
+                            placeholder="Enter Email"
                             value={this.state.friendEmailid}
-                            onChange={this.onFriendEmailidChange.bind(this)}
+                            handleChange={this.onFriendEmailidChange.bind(this)}
                           />
                             </div>
                         </div>
