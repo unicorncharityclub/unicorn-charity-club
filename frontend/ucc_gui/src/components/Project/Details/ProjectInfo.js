@@ -13,7 +13,7 @@ class ProjectInfo extends React.Component {
       ProjectName : '',
       ProjectCategory : '',
       ProjectTags : '',
-      ProjectBanner : ''
+      ProjectBadge : ''
     }
  }
 
@@ -24,7 +24,7 @@ class ProjectInfo extends React.Component {
                   ProjectName : res.data.project_name,
                   ProjectCategory : res.data.project_category,
                   ProjectTags : res.data.project_tags,
-                  ProjectBanner : res.data.project_banner,
+                  ProjectBadge : res.data.project_badge,
                   ProjectMission : res.data.project_mission
               });
       }).catch(error => console.log(error))
@@ -36,7 +36,7 @@ class ProjectInfo extends React.Component {
             <div className="ProjectInfo_MainDiv"  >
                 <div className="ProjectInfo_Container">
                     <div className="ProjectInfo_Badge" >
-                        <Image src={this.state.ProjectBanner} style={{width: "120px", height : "120px", maxHeight: "100%"}} roundedCircle/>
+                        <Image src={this.state.ProjectBadge} style={{width: "120px", height : "120px", maxHeight: "100%"}} roundedCircle/>
                     </div>
                     <div className="ProjectInfo_Text" >
                         <table>

@@ -3,7 +3,7 @@ import React from "react";
 class TextBlue extends React.Component {
     render() {
         return (
-            <div style={{color:"#2BB9B7", fontSize: "1.1em"}}>
+            <div style={{color:"#2BB9B7", fontSize: "1.1em",  fontFamily: "monospace"}}>
                 {this.props.message}
             </div>
         );
