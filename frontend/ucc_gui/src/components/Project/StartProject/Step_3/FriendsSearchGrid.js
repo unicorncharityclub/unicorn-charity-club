@@ -16,7 +16,7 @@ class FriendsSearchGrid extends React.Component {
     return (
       <div style={{ flexGrow: 1 }}>
 
-          <div style={{textAlign:"center"}}>
+          <div>
               <TextBlackSubHeading message={"Search Result For " + this.props.searchStringType + " : \"" + this.props.searchStringValue + "\""}/>
             </div>
         <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start" style={{paddingLeft: "20px", paddingRight: "20px", paddingTop: "20px"}}>

@@ -258,7 +258,7 @@ class StartProjectStepThree extends React.Component {
         <br />
         <hr/>
         <div style={{marginTop : "20px"}}>
-            <div style={{textAlign:"center"}}>
+            <div>
               <TextBlackSubHeading message="3. Invitation message to friends." />
             </div>
           <TextArea

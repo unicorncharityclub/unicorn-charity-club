@@ -11,10 +11,10 @@ class UnregisteredFriendsInvite extends React.Component {
     return (
       <div style={{ width:"100%"}}>
           <hr/>
-        <div style={{textAlign:"center"}}>
+        <div>
           <TextBlackSubHeading message={this.props.message} />
         </div>
-        <table style={{margin: "0 auto", marginTop: "10px"}}>
+        <table >
             <tbody>
         {this.props.unregisteredUser.map((user, index) => {
           return (
@@ -45,7 +45,7 @@ class UnregisteredFriendsInvite extends React.Component {
         })}
         </tbody>
               </table>
-        <div style={{width:"100%", textAlign: "center", marginTop: "5px"}}>
+        <div style={{width:"100%", marginTop: "5px"}}>
           <BlueButton
                 startIcon={<Add style={{ fontSize: 30 }}/>}
                 handleOnClick={this.props.unregisteredUserAddMoreClick}
@@ -53,7 +53,7 @@ class UnregisteredFriendsInvite extends React.Component {
                 disabled={this.props.disabled}
               />
           </div>
-          <div style={{textAlign:"center", marginTop:"5px"}}>
+          <div style={{marginTop:"5px"}}>
               <AlertMessage alertMessage={this.props.unregisteredUserIssue} />
             </div>
 

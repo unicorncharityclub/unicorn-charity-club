@@ -61,14 +61,14 @@ class InviteFriends extends React.Component {
                     : ('')
                 }
                 <hr/>
-                <div style={{textAlign:"center"}}>
+                <div >
                     <TextBlackSubHeading message={this.props.message}/>
                 </div>
                 <br/>
                 <div >
                     <div>
                         <div style={{width:"100%", height:"50px", float:"left", textAlign:"left"}}>
-                            <div style={{width:"40%", height:"100%", float:"left", position: "relative"}}>
+                            <div style={{width:"30%", height:"100%", float:"left", position: "relative"}}>
                                 <TextBlack message="Find friends by their name : "
                                            top = "50%"
                                            position = "absolute"
@@ -93,7 +93,7 @@ class InviteFriends extends React.Component {
                         </div>
 
                         <div style={{width:"100%", height:"50px", float:"left", textAlign:"left"}}>
-                            <div style={{width:"40%", height:"100%", float:"left", position: "relative"}}>
+                            <div style={{width:"30%", height:"100%", float:"left", position: "relative"}}>
                                 <TextBlack message="Find friends by their email : "
                                         top = "50%"
                                            position = "absolute"

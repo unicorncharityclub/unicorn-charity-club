@@ -215,9 +215,9 @@ class SpreadTheWord extends React.Component {
                 <br/>
             </div>
 <hr/>
-              <div style={{textAlign:"center"}}>
+              <div >
                     <TextBlackSubHeading message="1. Create a Personal Video to :"/>
-                    <table style={{margin: "0 auto", marginTop: "10px"}}>
+                    <table style={{marginTop: "10px"}}>
                     <tbody>
                     <tr>
                             <td>
@@ -262,7 +262,7 @@ class SpreadTheWord extends React.Component {
               <br/>
         <div>
             <hr/>
-            <div style={{textAlign:"center"}}>
+            <div >
                 <TextBlackSubHeading message="4. Invitation message to friends."/>
             </div>
             <TextArea
