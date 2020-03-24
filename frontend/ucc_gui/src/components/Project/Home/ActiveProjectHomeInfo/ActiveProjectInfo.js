@@ -9,12 +9,12 @@ class ActiveProjectInfo extends React.Component {
     this.state = { 
       ProjectId : this.props.projectId,     
       ProjectName : '',
-      ProjectJoinDate : 'Not Available' 
+      ProjectJoinDate : '03/04/2020' 
     }
  }
 
 renderList (type) {
-    if("Planning" === type) {
+    if(this.props.list_type === type) {
       return (
           <div>                    
               {this.props.projectList              
@@ -32,7 +32,7 @@ renderList (type) {
               ))}                    
         </div>
       );
-    }else if ("Active" === type){
+    }else if (this.props.list_type === type){
       return (
         <div>                    
             {this.props.projectList              
@@ -42,8 +42,8 @@ renderList (type) {
                     <EachActiveProject 
                       key={index} projectId={elem.project_id} 
                       challenge_status = {elem.challenge_status} 
-                      type = {type}                       
-                      project_start_date = {elem.project_join_date}
+                      type = {type} 
+                      
                     /> 
                   </div>
                 </div>
