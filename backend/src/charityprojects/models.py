@@ -110,14 +110,16 @@ class VolunteerTime(models.Model):
     organisation_address = models.CharField(max_length=100, blank=True)
     organisation_city = models.CharField(max_length=50, blank=True)
     organisation_state = models.CharField(max_length=50, blank=True)
+    organisation_website = models.CharField(max_length=200, blank=True)
     volunteer_hours = models.IntegerField(blank=True)
     volunteer_work_description = models.TextField(blank=True)
     volunteer_exp = models.FileField(upload_to='upload/video/volunteer_exp', null=True)
 
     def __str__(self):
-        return '{} {} {} {} {} {} {} {}'.format(self.pu_id, self.organisation_name, self.organisation_address,
-                                                self.organisation_city, self.organisation_state, self.volunteer_hours,
-                                                self.volunteer_work_description, self.volunteer_exp)
+        return '{} {} {} {} {} {} {} {} {}'.format(self.pu_id, self.organisation_name, self.organisation_address,
+                                                   self.organisation_city, self.organisation_state,
+                                                   self.organisation_website, self.volunteer_hours,
+                                                   self.volunteer_work_description, self.volunteer_exp)
 
 
 class DevelopNewHabit(models.Model):
