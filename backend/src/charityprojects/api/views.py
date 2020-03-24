@@ -82,9 +82,11 @@ def get_active_project_details(request, user_emailid):
                 project = CharityProjects.objects.get(pk=project_id)
                 project_name = project.Name
                 project_badge = request.build_absolute_uri(project.Badge.url)
+                project_banner = request.build_absolute_uri(project.Banner.url)
                 joined_date = project_user.date_joined
                 challenge_status = project_user.challenge_status
                 project_info = {"project_id": project_id, "project_name": project_name, "project_badge": project_badge,
+                                "project_banner": project_banner,
                                 "project_join_date": joined_date, "challenge_status": challenge_status}
                 active_charity_project_list.append(project_info)
             response['active_project_list'] = active_charity_project_list
@@ -432,6 +434,7 @@ def create_volunteer_adventure(request):
                                   "organisation_address": request.data[" organisation_address"],
                                   " organisation_city": request.data[" organisation_city"],
                                   "organisation_state": request.data[" organisation_state"],
+                                  "organisation_website": request.data["website"],
                                   "volunteer_hours": request.data["hours"],
                                   "volunteer_work_description": request.data["description"],
                                   "volunteer_exp": request.data["exp_video"]}

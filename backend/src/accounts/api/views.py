@@ -1,6 +1,6 @@
 from django.db import DatabaseError
 from django.views.decorators.csrf import csrf_exempt
-
+from django.contrib.auth.hashers import make_password, check_password
 from myaccount.models import ChildAccount, Myaccount
 from ..models import User
 import json
@@ -11,7 +11,7 @@ import django.middleware.csrf
 
 @csrf_exempt
 def register_user_view(request):
-    response = {'status':"Invalid Request"}
+    response = {'status': "Invalid Request"}
     if request.method == 'POST':
         try:
             json_data = json.loads(request.body)
@@ -20,7 +20,8 @@ def register_user_view(request):
             email = json_data["email"]
             password = json_data["password"]
             dob = json_data["dob"]
-            user = User.objects.create(first_name=first_name, last_name=last_name, email=email, password=password,
+            hashed_password = make_password(password)
+            user = User.objects.create(first_name=first_name, last_name=last_name, email=email, password=hashed_password,
                                        dob=dob)
             user.save()
             response['status'] = "Success"
@@ -41,8 +42,8 @@ def login_user(request):
             password = json_data["password"]
             user = User.objects.get(email=email)
             #user_authenticated = authenticate(request, email = email, password = password)
-
-            if user.password == password and user.is_active == True:
+            hashed_password = user.password
+            if check_password(password, hashed_password) and user.is_active == True:
                 user_details_list = []
                 child_details_list = []
                 login(request, user)

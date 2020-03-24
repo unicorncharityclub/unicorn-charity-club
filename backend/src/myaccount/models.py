@@ -65,3 +65,13 @@ class ChildAccount(models.Model):
 
     def get_school_grade(self):
         return self.SchoolGrade
+
+
+class ProjectInterest(models.Model):
+    objects = None
+    name = models.CharField(max_length=255)
+    tags = models.CharField(max_length=255, blank=True)
+    feature = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return '{} {} {}'.format(self.name,  self.tags, self.feature)
