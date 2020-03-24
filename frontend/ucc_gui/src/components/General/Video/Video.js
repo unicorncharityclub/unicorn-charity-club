@@ -10,17 +10,17 @@ class Video extends React.Component {
     render() {
         return (
             <div>
-                <div className="project-video-preview">
+                <div className="project-video-preview" style={{width:this.props.width}}>
                     {
                         (this.props.src) ?
-                            <div>
+                            <div style={{width:this.props.width}}>
                                 <Player className="video-upload-preview" fluid={false} width={600} height={400}
                                     playsInline src={this.props.src}
                                 />
                             </div> : ''
                     }
                 </div>
-                <div className="project-video">
+                <div className="project-video" style={{width:this.props.width}}>
                     <img className="project-video-upload" src={Upload_video} alt=""/>
                     <input id={this.props.id} style={{display: 'none'}}
                            type={this.props.type}

@@ -15,6 +15,7 @@ import AlertMessage from "../../../../../components/General/AlertMessage";
 import * as FriendsSearchHelper from '../../../../../components/Project/FriendsSearcHelper/FriendsSearchHelper';
 import TextBlackSubHeading from "../../../../../components/General/Text/TextBlackSubHeading";
 import TextBlackHeading from "../../../../../components/General/Text/TextBlackHeading";
+import Video from "../../../../../components/General/Video/Video";
 
 class SpreadTheWord extends React.Component {
 
@@ -39,7 +40,9 @@ class SpreadTheWord extends React.Component {
               SendInvitationIssue : "",
               FriendsSearchData: [
 
-              ]
+              ],
+            video : "",
+            final_video : ""
         }
     }
 
@@ -56,6 +59,12 @@ class SpreadTheWord extends React.Component {
       }).catch(error => console.log(error))
     }
 
+    videoHandler = (event) =>{
+        this.setState({
+            video: URL.createObjectURL(event.target.files[0]),
+            final_video: event.target.files[0]
+        });
+    };
 
   sendInviteButtonClick()
   {
@@ -221,6 +230,14 @@ class SpreadTheWord extends React.Component {
                     </tr>
                     </tbody>
                     </table>
+
+                  <Video src={this.state.video}
+                        id="file" style={{display: 'none'}}
+                           type="file"
+                           name="video"
+                           accept="video/*"
+                         width="100%"
+                           onChange={this.videoHandler.bind(this)}/>
                 </div>
 
               <InviteFriends
