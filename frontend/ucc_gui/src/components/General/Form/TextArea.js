@@ -6,6 +6,7 @@ const TextArea = (props) => (
     <label className="form-label">{props.title}</label>
     <textarea
       className="form-control"
+      style={{border:"solid 2px black"}}
       name={props.name}
       rows={props.rows}
       cols = {props.cols}

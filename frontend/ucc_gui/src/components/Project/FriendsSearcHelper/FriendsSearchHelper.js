@@ -119,6 +119,6 @@
     const emailaddress = this.state.UnregisteredUser[index]["email_address"];
     if(emailaddress.length>0 && emailaddress.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)===null)
     {
-      this.state.UnregisteredUser[index] = {email_address:emailaddress, issue:"Invalid Email Id"};
+      this.state.UnregisteredUser[index] = {email_address:emailaddress, issue:"Invalid Email"};
     }
   };

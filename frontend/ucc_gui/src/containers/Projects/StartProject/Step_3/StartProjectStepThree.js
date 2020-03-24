@@ -126,7 +126,7 @@ class StartProjectStepThree extends React.Component {
         errorFlag = true;
         this.setState({ UnregisteredUser: this.state.UnregisteredUser });
         this.setState({
-          SendInvitationIssue: "Invalid Email Id of Unregistered User."
+          SendInvitationIssue: "Invalid Email of Unregistered User."
         });
 
         break;
@@ -190,23 +190,24 @@ class StartProjectStepThree extends React.Component {
             style={{
               position: "fixed",
               width: "40%",
-              height: "70%",
+              height: "75%",
               overflowY: "auto",
               overflowX: "hidden",
               top: "20%",
               bottom: "10px",
-              background: "#6b6a63",
+              background: "#2BB9B7",
               left: "50%",
               marginLeft: "-20%",
+              border: "3px solid",
+              boxShadow: "5px 10px #888888",
               zIndex: "100",
               marginTop: "-40px"
             }}
           >
             <FriendsSearchGrid
               friendsSearchData={this.state.FriendsSearchData}
-              searchString={
-                this.state.SearchType + " : " + this.state.SearchValue
-              }
+              searchStringType={this.state.SearchType}
+              searchStringValue={this.state.SearchValue}
               searchMore={this.state.SearchMoreAvailable}
               searchResultCancelClick={FriendsSearchHelper.searchResultCancelClick.bind(this)}
               searchResultMoreClick={FriendsSearchHelper.searchResultMoreClick.bind(this)}
@@ -227,28 +228,18 @@ class StartProjectStepThree extends React.Component {
         </div>
         <ProjectInfo id={this.state.ProjectId} />
         <InviteFriends
+            showHeaderMessage={true}
           message="1. Build your team by inviting family and friends to your project."
           searchResultHandler={FriendsSearchHelper.searchResultHandler.bind(this)}
           disabled={this.state.PopupSearch}
         />
         <br />
-        {this.state.SelectedFriends.size > 0 ? (
-          <div
-            style={{
-              width: "100%",
-              padding: "10px",
-              borderRadius: "10px",
-              borderStyle: "solid"
-            }}
-          >
+          <div>
             <FriendsInvitedGrid
               friendsInvitedData={[...this.state.SelectedFriends.values()]}
               removeInviteClick={FriendsSearchHelper.removeInviteClick.bind(this)}
             />
           </div>
-        ) : (
-          ""
-        )}
 
         <br />
         <div>
@@ -260,21 +251,19 @@ class StartProjectStepThree extends React.Component {
             unregisteredUserEmailChange={FriendsSearchHelper.unregisteredUserEmailChange.bind(this)}
             unregisteredUserDeleteClick={FriendsSearchHelper.unregisteredUserDeleteClick.bind(this)}
             unregisteredUserEmailValidate={FriendsSearchHelper.unregisteredUserEmailValidate.bind(this)}
+            disabled={this.state.PopupSearch}
           />
         </div>
 
         <br />
-        <div
-          style={{
-            width: "100%",
-            padding: "10px",
-            borderRadius: "10px",
-            borderStyle: "solid"
-          }}
-        >
-          <TextBlackSubHeading message="3. Invitation message to friends." />
+        <hr/>
+        <div style={{marginTop : "20px"}}>
+            <div style={{textAlign:"center"}}>
+              <TextBlackSubHeading message="3. Invitation message to friends." />
+            </div>
           <TextArea
             value={this.state.InviteMessage}
+            rows = {5}
             handleChange={FriendsSearchHelper.inviteMessageChange.bind(this)}
           />
         </div>
@@ -284,6 +273,7 @@ class StartProjectStepThree extends React.Component {
           button2Text="SEND INVITATIONS"
           button1Click={this.saveButtonClick.bind(this)}
           button2Click={this.sendInviteButtonClick.bind(this)}
+          disabled={this.state.PopupSearch}
         />
         <AlertMessage alertMessage={this.state.SendInvitationIssue} />
       </div>

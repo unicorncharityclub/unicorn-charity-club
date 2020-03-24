@@ -14,6 +14,6 @@ const Input = (props) => {
       style={{marginTop:"5px", borderRadius:"0", border:"2px solid", width:"100%" }}/>
   </div>
 )
-}
+};
 
 export default Input;

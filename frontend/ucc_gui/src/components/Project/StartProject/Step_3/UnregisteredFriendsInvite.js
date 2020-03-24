@@ -10,10 +10,11 @@ class UnregisteredFriendsInvite extends React.Component {
   render() {
     return (
       <div style={{ width:"100%"}}>
+          <hr/>
         <div style={{textAlign:"center"}}>
           <TextBlackSubHeading message={this.props.message} />
         </div>
-        <table style={{margin: "0 auto"}}>
+        <table style={{margin: "0 auto", marginTop: "10px"}}>
             <tbody>
         {this.props.unregisteredUser.map((user, index) => {
           return (
@@ -31,9 +32,7 @@ class UnregisteredFriendsInvite extends React.Component {
                     </td>
                     <td>
                       {index > 4 ? (
-
                           <DeleteButton handleOnClick={e =>this.props.unregisteredUserDeleteClick(e, index)}/>
-
                       ) : (
                         <div />
                       )}
@@ -42,7 +41,6 @@ class UnregisteredFriendsInvite extends React.Component {
                       <AlertMessage alertMessage={user.issue} />
                     </td>
                   </tr>
-
           );
         })}
         </tbody>
@@ -51,10 +49,15 @@ class UnregisteredFriendsInvite extends React.Component {
           <BlueButton
                 startIcon={<Add style={{ fontSize: 30 }}/>}
                 handleOnClick={this.props.unregisteredUserAddMoreClick}
-                title="Add More"
+                title="ADD MORE&nbsp;"
+                disabled={this.props.disabled}
               />
           </div>
-        {this.props.unregisteredUserIssue}
+          <div style={{textAlign:"center", marginTop:"5px"}}>
+              <AlertMessage alertMessage={this.props.unregisteredUserIssue} />
+            </div>
+
+
       </div>
     );
   }

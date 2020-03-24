@@ -4,7 +4,6 @@ import TextBlueHeading from "../../../General/Text/TextBlueHeading";
 import TextBlack from "../../../General/Text/TextBlack";
 import TextBlackSubHeading from "../../../General/Text/TextBlackSubHeading";
 import Search from "@material-ui/icons/Search";
-import Button from "@material-ui/core/Button";
 import AlertMessage from "../../../General/AlertMessage";
 import Input from "../../../General/Form/Input";
 import BlueButton from "../../../General/Form/BlueButton";
@@ -57,7 +56,11 @@ class InviteFriends extends React.Component {
     render() {
         return (
             <div >
-                <TextBlueHeading message="BUILD YOUR TEAM"/>
+                {this.props.showHeaderMessage ?
+                    (<TextBlueHeading message="BUILD YOUR TEAM"/>)
+                    : ('')
+                }
+                <hr/>
                 <div style={{textAlign:"center"}}>
                     <TextBlackSubHeading message={this.props.message}/>
                 </div>
@@ -117,7 +120,7 @@ class InviteFriends extends React.Component {
                             startIcon={<Search style={{ fontSize: 30 }}/>}
                             handleOnClick={this.onSearchFriends.bind(this)}
                             disabled={this.props.disabled}
-                            title="SEARCH"
+                            title="SEARCH&nbsp;"
                           />
                             <AlertMessage alertMessage={this.state.searchStatus} />
                     </div>

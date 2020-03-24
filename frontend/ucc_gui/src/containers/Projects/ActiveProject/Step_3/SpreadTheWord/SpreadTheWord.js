@@ -14,6 +14,7 @@ import TwoButtonLayout from "../../../../../components/General/TwoButtonLayout";
 import AlertMessage from "../../../../../components/General/AlertMessage";
 import * as FriendsSearchHelper from '../../../../../components/Project/FriendsSearcHelper/FriendsSearchHelper';
 import TextBlackSubHeading from "../../../../../components/General/Text/TextBlackSubHeading";
+import TextBlackHeading from "../../../../../components/General/Text/TextBlackHeading";
 
 class SpreadTheWord extends React.Component {
 
@@ -161,23 +162,24 @@ class SpreadTheWord extends React.Component {
             style={{
               position: "fixed",
               width: "40%",
-              height: "70%",
-              overflowY : "auto",
-              overflowX : "hidden",
+              height: "75%",
+              overflowY: "auto",
+              overflowX: "hidden",
               top: "20%",
               bottom: "10px",
-              background: "#6b6a63",
+              background: "#2BB9B7",
               left: "50%",
               marginLeft: "-20%",
+              border: "3px solid",
+              boxShadow: "5px 10px #888888",
               zIndex: "100",
               marginTop: "-40px"
             }}
           >
             <FriendsSearchGrid
               friendsSearchData={this.state.FriendsSearchData}
-              searchString={
-                this.state.SearchType + " : " + this.state.SearchValue
-              }
+              searchStringType={this.state.SearchType}
+              searchStringValue={this.state.SearchValue}
               searchMore={this.state.SearchMoreAvailable}
               searchResultCancelClick={FriendsSearchHelper.searchResultCancelClick.bind(this)}
               searchResultMoreClick={FriendsSearchHelper.searchResultMoreClick.bind(this)}
@@ -198,27 +200,38 @@ class SpreadTheWord extends React.Component {
 
             <div>
                 <TextBlueHeading message="CHALLENGE 3: Adventure"/>
-                <TextBlack message="SPREAD THE WORD."/>
+                <br/>
+                <TextBlackHeading message="SPREAD THE WORD"/>
+                <TextBlack message="Spread the word by inviting your family and friends to join you on your project."/>
                 <br/>
             </div>
-
-              <div>
-                <TextBlack message="1. Create a Personal Video to :"/>
-              </div>
+<hr/>
+              <div style={{textAlign:"center"}}>
+                    <TextBlackSubHeading message="1. Create a Personal Video to :"/>
+                    <table style={{margin: "0 auto", marginTop: "10px"}}>
+                    <tbody>
+                    <tr>
+                            <td>
+                        <ul>
+                            <li><TextBlack message="Explain why you choose this project."/></li>
+                            <li><TextBlack message="Explain why people should support the project."/></li>
+                            <li><TextBlack message="Ask your family and friends to join your project."/></li>
+                        </ul>
+                            </td>
+                    </tr>
+                    </tbody>
+                    </table>
+                </div>
 
               <InviteFriends
-                  message="2. Build your team by inviting family and friends to your project."
+                  message="2. Invite family and friends to join the project."
               searchResultHandler={FriendsSearchHelper.searchResultHandler.bind(this)}
               disabled={this.state.PopupSearch}
             />
             <br/>
-            {this.state.SelectedFriends.size > 0 ? (
-        <div style={{width:"100%", padding:"10px", borderRadius: "10px", borderStyle:"solid"}}>
-        <FriendsInvitedGrid friendsInvitedData={[...this.state.SelectedFriends.values()]} removeInviteClick={FriendsSearchHelper.removeInviteClick.bind(this)}/>
-        </div>):('')}
-
+            <FriendsInvitedGrid friendsInvitedData={[...this.state.SelectedFriends.values()]} removeInviteClick={FriendsSearchHelper.removeInviteClick.bind(this)}/>
                       <br/>
-        <div style={{width:"100%", padding:"10px", borderRadius: "10px", borderStyle:"solid"}}>
+        <div>
           <UnregisteredFriendsInvite
               message="3. Send invites to unregistered users."
               unregisteredUser={this.state.UnregisteredUser}
@@ -230,9 +243,15 @@ class SpreadTheWord extends React.Component {
         </div>
 
               <br/>
-        <div style={{width:"100%", padding:"10px", borderRadius: "10px", borderStyle:"solid"}}>
-            <TextBlackSubHeading message="4. Invitation message to friends."/>
-        <TextArea value={this.state.InviteMessage} handleChange={FriendsSearchHelper.inviteMessageChange.bind(this)}/>
+        <div>
+            <hr/>
+            <div style={{textAlign:"center"}}>
+                <TextBlackSubHeading message="4. Invitation message to friends."/>
+            </div>
+            <TextArea
+                value={this.state.InviteMessage}
+                rows = {5}
+                handleChange={FriendsSearchHelper.inviteMessageChange.bind(this)}/>
         </div>
               <TwoButtonLayout button1Text="SAVE" button2Text="SEND INVITATIONS"
                            button1Click={this.saveButtonClick.bind(this)} button2Click={this.sendInviteButtonClick.bind(this)}/>

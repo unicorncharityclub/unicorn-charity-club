@@ -21,7 +21,7 @@ class ImgMediaCard extends React.Component {
 
     render() {
         return (
-            <Card onClick={this.searchResultImageClick.bind(this)}>
+            <Card onClick={this.searchResultImageClick.bind(this)} style={{border:"2px solid"}}>
                 <CardActionArea style={{padding: "3px"}} >
                     <CardMedia style={{objectFit: "contain"}}
                         component="img"
@@ -30,16 +30,18 @@ class ImgMediaCard extends React.Component {
                         alt="Charity Project"
 
                     />
-                    <CardContent style={{fontSize: "12px", padding:"0px", textAlign:"center"}}>
+                    <CardContent style={{fontSize: "14px", padding:"0px", textAlign:"center"}}>
                         {this.props.imageName}
                     </CardContent>
 
                 </CardActionArea>
                 {this.props.removeInviteClick?(
                 <CardActions>
+                    <div style={{width:"100%", textAlign:"center"}}>
                     <Button size="small" color="primary" onClick={this.removeInviteClick.bind(this)}>
                       Remove Invite
                     </Button>
+                        </div>
                 </CardActions>
                     ):(<div/>)}
 
