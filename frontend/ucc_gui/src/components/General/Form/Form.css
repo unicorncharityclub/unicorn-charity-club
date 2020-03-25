@@ -1,0 +1,50 @@
+.input-main{
+    margin-top:5px;
+    border-radius:0;
+    border:2px solid;
+    width:100%;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.textarea-main
+{
+    border:solid 2px black;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+
+@media screen and (max-width: 640px){
+      .input-main{
+        margin-top:5px;
+        border-radius:0;
+        border:2px solid;
+        width:100%;
+        font-size: 0.8rem;
+        font-weight: 400;
+    }
+
+    .textarea-main
+    {
+        border:solid 2px black;
+        font-size: 0.8rem;
+        font-weight: 400;
+    }
+}
+@media screen and (max-width: 480px){
+    .input-main{
+        margin-top:5px;
+        border-radius:0;
+        border:2px solid;
+        width:100%;
+        font-size: 0.8rem;
+        font-weight: 300;
+    }
+    .textarea-main
+    {
+        border:solid 2px black;
+        font-size: 0.8rem;
+        font-weight: 300;
+    }
+}

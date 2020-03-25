@@ -20,8 +20,9 @@ class UnregisteredFriendsInvite extends React.Component {
           return (
 
                   <tr key={index}>
-                    <td style={{width:"400px"}}>
+                    <td style={{width:"100%"}}>
                       <Input
+                          width="70%"
                         placeholder="Email"
                         handleChange={e =>
                           this.props.unregisteredUserEmailChange(e, index)

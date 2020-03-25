@@ -1,17 +1,19 @@
 import React from 'react';
+import "./Form.css"
 
 const Input = (props) => {
 	return (
   <div >
     <input
-      className="form-control"
+      className="form-control input-main"
+      style={{width:props.width}}
       id={props.name}
       name={props.name}
       type={props.inputType}
       value={props.value}
       onChange={props.handleChange}
       placeholder={props.placeholder}
-      style={{marginTop:"5px", borderRadius:"0", border:"2px solid", width:"100%" }}/>
+      />
   </div>
 )
 };
