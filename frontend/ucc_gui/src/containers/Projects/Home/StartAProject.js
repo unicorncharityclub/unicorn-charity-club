@@ -85,8 +85,7 @@ class ProjectsHome extends React.Component {
     setProjectDetails(response) {
         this.setState(prevState => ({
             projectsList: response.data["project_list"]
-        }));
-        // console.log(this.state.projectsList)
+        }));        
     }
 
 
@@ -98,8 +97,21 @@ class ProjectsHome extends React.Component {
   render() {
     return (
       <div>
-        <div className="blackDivider"></div>
+
+        <div className="textHeader">
+            Invitations
+        </div>
+
+        <div>                     
+        {/* here is the invitations component */}
+        {this.state.plannedProjectsList && this.state.plannedProjectsList.length > 0?
+          (  <ActiveProjectInfo projectList={this.state.plannedProjectsList} list_type = {"Invitation"}/>):(<div/>)} 
+        </div>
         
+        <br/>
+
+        <div className="blackDivider"></div>
+
         <div className="textHeader">
             Planning
         </div>

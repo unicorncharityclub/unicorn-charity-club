@@ -9,12 +9,12 @@ class ActiveProjectInfo extends React.Component {
     this.state = { 
       ProjectId : this.props.projectId,     
       ProjectName : '',
-      ProjectJoinDate : '03/04/2020' 
+      ProjectJoinDate : '' 
     }
  }
 
 renderList (type) {
-    if(this.props.list_type === type) {
+    if("Planning" === type) {
       return (
           <div>                    
               {this.props.projectList              
@@ -32,7 +32,7 @@ renderList (type) {
               ))}                    
         </div>
       );
-    }else if (this.props.list_type === type){
+    }else if ("Active" === type){
       return (
         <div>                    
             {this.props.projectList              
@@ -42,8 +42,23 @@ renderList (type) {
                     <EachActiveProject 
                       key={index} projectId={elem.project_id} 
                       challenge_status = {elem.challenge_status} 
-                      type = {type} 
-                      
+                      type = {type}                       
+                    /> 
+                  </div>
+                </div>
+            ))}                
+        </div>
+      );
+    }else if ("Invitation" === type){
+      return (
+        <div>                    
+            {this.props.projectList              
+              .map((elem, index) => (
+                <div className="ProjectInfo_MainDiv" key={index} >
+                  <div className="ProjectInfo_Container">    
+                    <EachActiveProject 
+                      key={index} projectId={elem.project_id}                        
+                      type = {type}                       
                     /> 
                   </div>
                 </div>
@@ -58,7 +73,8 @@ renderList (type) {
     render() {
       return (
         <div>
-          {this.renderList(this.props.list_type)}    
+          {console.log(this.props)}
+          {this.renderList(this.props.list_type)}              
         </div>        
       )        
     }

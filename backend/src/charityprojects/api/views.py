@@ -509,7 +509,7 @@ def get_project_invitations(request):
     user_id = User.objects.get(email=user_email_id).id
     invited_project_user_id_list = UserInvitation.objects.filter(friend_id=user_id, status="Pending")
     invited_project_list = []
-    if invited_project_user_id_list > 0:
+    if len(invited_project_user_id_list) > 0:
         for invitation in invited_project_user_id_list:
             pu_id = invitation.pu_id
             project_user_record = ProjectUser.objects.get(pk=pu_id)
