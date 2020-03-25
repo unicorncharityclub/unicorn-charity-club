@@ -25,7 +25,7 @@ urlpatterns = [
     path('LearnNewSkill', challenge_learn_new_skill),
     path('volunteerTime', create_volunteer_adventure),
     path('activeProjectList/<str:user_emailid>/', get_active_project_details),
-    path('invitations', get_project_invitations),
+    path('invitations/<str:user_emailid>/', get_project_invitations),
     path('invitation/Details', fetch_project_invitation_details),
     path('joinProject', join_project_invitation),
     path('unregisteredInvitation', unregistered_invitation),
