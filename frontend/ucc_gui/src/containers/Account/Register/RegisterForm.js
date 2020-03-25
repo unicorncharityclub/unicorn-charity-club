@@ -3,7 +3,6 @@ import axiosConfig from '../../../axiosConfig'
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import AlertMessage from "../../../components/General/AlertMessage";
 import TextField from "@material-ui/core/TextField";
-import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
@@ -206,11 +205,11 @@ class RegisterForm extends React.Component {
     return (
       <div className="register-form-div">
         <form
-          className="register-form form-wrapper"
+          className="register-form"
           name="form"
           onSubmit={this.submitRegister}
         >
-          <Container>
+          <div className="form-content">
             <Row>
               <Col md={{ span: 5, offset: 5}}>
                 <AlertMessage alertMessage={this.state.status} />
@@ -254,7 +253,7 @@ class RegisterForm extends React.Component {
             <Row>
               <Col md={{ span: 4, offset: 1 }}>
                 <div className="form-item">
-                  <label>Email ID:</label>
+                  <label>Email:</label>
                   <input
                     name="email"
                     type="text"
@@ -272,16 +271,12 @@ class RegisterForm extends React.Component {
               <Col md={{ span: 4, offset: 2 }}>
                 <div className="form-item">
                   <label>Date of Birth:</label>
-                  <TextField
+                  <input
                     id="dob"
                     name="dob"
                     type="date"
-                    style={{ borderBottom: "0px" }}
                     value={this.state.dob}
                     onChange={this.onDobChange.bind(this)}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
                   />
                 </div>
                 <small className="danger-error">{dobErr ? dobErr : ""}</small>
@@ -366,7 +361,7 @@ class RegisterForm extends React.Component {
                 </a>
               </Col>
             </Row>
-          </Container>
+          </div>
         </form>
       </div>
     );
