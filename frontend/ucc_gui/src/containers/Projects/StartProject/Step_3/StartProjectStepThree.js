@@ -1,4 +1,5 @@
 import React from "react";
+import "../../../ProjectComman.css";
 import "./StartProjectStepThree.css";
 import axiosConfig from "../../../../axiosConfig";
 import ProjectBanner from "../../../../components/Project/ProjectBanner";
@@ -218,11 +219,11 @@ class StartProjectStepThree extends React.Component {
           <div />
         )}
 
-        <div className="headerStepBanner">
-          <div className="stepper">
+        <div className="header_step_banner_common">
+          <div className="stepper_common">
             <ProgressStepper currentStep="2" />
           </div>
-          <div className="banner">
+          <div className="banner_common">
             <ProjectBanner image={this.state.ProjectBanner} />
           </div>
         </div>

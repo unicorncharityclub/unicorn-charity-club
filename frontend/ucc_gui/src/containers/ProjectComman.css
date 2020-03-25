@@ -1,0 +1,65 @@
+.header_step_banner_common
+{
+    height:400px;
+    position:relative
+}
+
+.stepper_common
+{
+    height: 30%;
+    position: absolute;
+    bottom: 0;
+    width : 100%
+}
+
+.banner_common
+{
+    height: 70%;
+    width: 100%;
+}
+
+@media screen and (max-device-width: 640px){
+    .header_step_banner_common
+{
+    height:200px;
+    position:relative
+}
+  .stepper_common
+    {
+      position: absolute;
+      top: 0;
+        height: 30%;
+        width : 100%
+    }
+
+    .banner_common
+    {
+        height: 70%;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+}
+
+@media screen and (max-device-width: 480px){
+    .header_step_banner_common
+{
+    height:200px;
+    position:relative
+}
+  .stepper_common
+    {
+      position: absolute;
+      top: 0;
+        height: 30%;
+        width : 100%
+    }
+
+    .banner_common
+    {
+        height: 70%;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+}
