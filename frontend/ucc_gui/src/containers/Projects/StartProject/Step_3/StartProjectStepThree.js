@@ -1,5 +1,5 @@
 import React from "react";
-import "../../../ProjectComman.css";
+import "../../../ProjectCommon.css";
 import "./StartProjectStepThree.css";
 import axiosConfig from "../../../../axiosConfig";
 import ProjectBanner from "../../../../components/Project/ProjectBanner";
