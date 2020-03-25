@@ -3,7 +3,7 @@ import React from "react";
 class TextBlueSubHeading extends React.Component {
     render() {
         return (
-            <div style={{color:"#2BB9B7", fontSize: "1.5em", fontFamily: "monospace"}}>
+            <div  className="text_blue_subheading">
                 {this.props.message}
             </div>
         );

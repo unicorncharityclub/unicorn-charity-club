@@ -3,7 +3,7 @@ import React from "react";
 class TextWhiteHeading extends React.Component {
     render() {
         return (
-            <div style={{color:"white", fontSize: "2em", fontFamily: "monospace"}}>
+            <div  className="text_white_heading">
                 <b>{this.props.message}</b>
             </div>
         );

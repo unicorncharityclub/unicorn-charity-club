@@ -1,33 +1,19 @@
-.insideInfo {
-    padding-left: 20px;
-}
-
-.projectTitle {
-    padding-left: 20px;
-
-}
-
-.ProjectInfo_MainDiv{
+.start_project_info_main_div{
     border-radius: 10px;
     border-style:solid;
-    margin: 10px;
-    margin-left: 10px;
+    margin:10px;
+    margin-left:10px;
     height:100%
 }
 
-.stepperspace{
-    padding-left: 300px;
-
-}
-
-.ProjectInfo_Container
+.start_project_info_container
 {
     display:flex;
     margin:10px;
     height:100%;
 }
 
-.ProjectInfo_Badge
+.start_project_info_badge
 {
     width:20%;
     height:100%;
@@ -35,30 +21,43 @@
     float:left
 }
 
-.ProjectInfo_Text
+.start_project_info_text
 {
     width:80%;
     height:100%;
     float:left
 }
 
-@media screen and (max-device-width: 720px){
-  .ProjectInfo_Badge
+.start_project_info_badge_image
+{
+    width: 110px;
+    height : 110px;
+    max-height: 100%;
+}
+
+@media screen and (max-width: 640px){
+  .start_project_info_badge
     {
         width:30%;
     }
-    .ProjectInfo_Text
+    .start_project_info_text
     {
         width:70%;
     }
-}
-@media screen and (max-device-width: 480px){
-  .ProjectInfo_Badge
+    .start_project_info_badge_image
     {
-        width:40%;
+        width: 80px;
+        height : 80px;
+        max-height: 100%;
     }
-    .ProjectInfo_Text
+}
+@media screen and (max-width: 480px){
+  .start_project_info_badge
     {
-        width:60%;
+        width:30%;
+    }
+    .start_project_info_text
+    {
+        width:70%;
     }
 }

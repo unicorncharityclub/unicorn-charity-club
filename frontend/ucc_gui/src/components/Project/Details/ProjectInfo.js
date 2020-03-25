@@ -33,13 +33,13 @@ class ProjectInfo extends React.Component {
     render() {
       return(
         <div>
-            <div className="ProjectInfo_MainDiv"  >
-                <div className="ProjectInfo_Container">
-                    <div className="ProjectInfo_Badge" >
-                        <Image src={this.state.ProjectBadge} style={{width: "120px", height : "120px", maxHeight: "100%"}} roundedCircle/>
+            <div className="start_project_info_main_div"  >
+                <div className="start_project_info_container">
+                    <div className="start_project_info_badge" >
+                        <Image src={this.state.ProjectBadge} className="start_project_info_badge_image" roundedCircle/>
                     </div>
-                    <div className="ProjectInfo_Text" >
-                        <table>
+                    <div className="start_project_info_text" >
+                        <table >
                           <tbody>
                             <tr>
                               <td colSpan={2}>
@@ -47,7 +47,7 @@ class ProjectInfo extends React.Component {
                               </td>
                             </tr>
                           <tr>
-                              <td>
+                              <td valign="top">
                                   <TextBlack message="Category"/>
                               </td>
                               <td>
@@ -55,7 +55,7 @@ class ProjectInfo extends React.Component {
                               </td>
                             </tr>
                           <tr>
-                              <td>
+                              <td valign="top">
                                   <TextBlack message="Tags"/>
                               </td>
                               <td>
@@ -63,7 +63,7 @@ class ProjectInfo extends React.Component {
                               </td>
                             </tr>
                           <tr>
-                              <td>
+                              <td valign="top">
                                   <TextBlack message="Mission"/>
                               </td>
                               <td>

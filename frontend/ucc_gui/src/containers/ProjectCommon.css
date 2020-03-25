@@ -18,10 +18,10 @@
     width: 100%;
 }
 
-@media screen and (max-device-width: 640px){
+@media screen and (max-width: 640px){
     .header_step_banner_common
 {
-    height:200px;
+    height:300px;
     position:relative
 }
   .stepper_common
@@ -41,7 +41,7 @@
     }
 }
 
-@media screen and (max-device-width: 480px){
+@media screen and (max-width: 480px){
     .header_step_banner_common
 {
     height:200px;

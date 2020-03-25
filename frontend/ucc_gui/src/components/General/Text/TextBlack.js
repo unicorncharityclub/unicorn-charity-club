@@ -1,10 +1,11 @@
 import React from "react";
+import "./Text.css";
 
 class TextBlack extends React.Component {
     render() {
         return (
-            <div style={{ color:"black", fontSize: "1.2em", fontFamily: "monospace",
-                top: this.props.top,
+            <div className="text_black"
+                 style={{ top: this.props.top,
                 position: this.props.position,
                 transform: this.props.transform,
                 right: this.props.right,
