@@ -6,7 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import Upload_photo from "../../../../image/Default-profile-picture.png";
-
+import "../../../../containers/ProjectCommon.css"
 
 class ImgMediaCard extends React.Component {
 
@@ -23,14 +23,15 @@ class ImgMediaCard extends React.Component {
         return (
             <Card onClick={this.searchResultImageClick.bind(this)} style={{border:"2px solid"}}>
                 <CardActionArea style={{padding: "3px"}} >
-                    <CardMedia style={{objectFit: "contain"}}
+                    <CardMedia
+                        className="friends_search_card"
+                        style={{objectFit: "contain"}}
                         component="img"
-                        height="100"
                         image={this.props.imageSrc?this.props.imageSrc:Upload_photo}
                         alt="Charity Project"
 
                     />
-                    <CardContent style={{fontSize: "14px", padding:"0px", textAlign:"center"}}>
+                    <CardContent className="friends_search_card_text">
                         {this.props.imageName}
                     </CardContent>
 

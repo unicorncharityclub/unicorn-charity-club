@@ -188,22 +188,7 @@ class StartProjectStepThree extends React.Component {
         {this.state.PopupSearch ? (
           <div
             id="popup"
-            style={{
-              position: "fixed",
-              width: "40%",
-              height: "75%",
-              overflowY: "auto",
-              overflowX: "hidden",
-              top: "20%",
-              bottom: "10px",
-              background: "#2BB9B7",
-              left: "50%",
-              marginLeft: "-20%",
-              border: "3px solid",
-              boxShadow: "5px 10px #888888",
-              zIndex: "100",
-              marginTop: "-40px"
-            }}
+            className="friends-popup-window"
           >
             <FriendsSearchGrid
               friendsSearchData={this.state.FriendsSearchData}
