@@ -1,13 +1,9 @@
 import React from "react";
 import "./ActiveProjectChallenge2.css";
 import Challenge2Details from "../../../../components/Project/ActiveProject/Step_2/Challenge2Details";
-import TextWhite from "../../../../components/General/Text/TextWhite";
 import {Container} from "@material-ui/core";
 import cookie from "react-cookies";
 import axiosConfig from "../../../../axiosConfig";
-import TextBlack from "../../../../components/General/Text/TextBlack";
-import DatePicker from "react-datepicker";
-import Button from 'react-bootstrap/Button';
 
 class ActiveProjectChallenge2 extends React.Component {
 
@@ -66,19 +62,9 @@ class ActiveProjectChallenge2 extends React.Component {
                     <Container>
                         <Challenge2Details id={this.props.match.params.id}
                         handleChecked={this.handleChecked.bind(this)}
-                        />
-                        <br/>
-                        <TextBlack message = "2. Set a target date to complete your goal:"/>
-                        <div className="DatePick">
-                        <DatePicker selected = {this.state.goalDate} onChange={this.handleDateChange}/>
-                        </div>
-                        <br/>
-                        <div  className="ButtonDetail">
-                            <Button onClick={this.onSubmit.bind(this)} style={{ borderRadius : "50px 50px 50px 50px", border:"2px solid black"}} className = "nextButton"
-                                    variant="success" size="lg">
-                        <TextWhite message="DONE "/>
-                        </Button>
-                        </div>
+                        goalDate = {this.state.goalDate}
+                        handleDateChange = {this.handleDateChange.bind(this)}
+                        onSubmit = {this.onSubmit.bind(this)}/>
                     </Container>
                   </div>
         )
