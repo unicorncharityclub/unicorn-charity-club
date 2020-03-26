@@ -10,6 +10,7 @@ import ProgressStepper from "../../ProgressStepper";
 import ProjectBanner from "../../ProjectBanner";
 import Checkbox from "../../../General/Form/Checkbox"
 import ProjectInfo from "../../../Project/ProjectHeader/ProjectInfo.js"
+import Project_Data from "./Project_Data";
 class ProjectContent extends React.Component {
 
     constructor(props) {
@@ -41,51 +42,13 @@ class ProjectContent extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="headerStepBanner">
-                    <div className="stepper" >
-                        <ProgressStepper currentStep="1" />
-                    </div>
-                    <div className="banner">
-                        <ProjectBanner image={this.state.ProjectBanner}  />
-                    </div>
-                </div>
-
-                <div className="ProjectInfo_MainDiv"  >
-                <div className="ProjectInfo_Container">
-                      <div className="ProjectInfo_Badge" >
-                        <Image src={this.state.ProjectBadge} style={{width: "100%", maxHeight: "100%"}} roundedCircle/>
-                      </div>
-
-                      <div className="ProjectInfo_Text" >
-                        <table>
-                          <tbody>
-                            <tr>
-                              <td colSpan={2}>
-                                  <TextBlackHeading message={this.state.ProjectName}/>
-                              </td>
-                            </tr>
-
-                          <tr>
-                              <td>
-                                  <TextBlack message="Date joined:"/>
-                              </td>
-                            </tr>
-                          <tr>
-                              <td>
-                                  <TextBlack message="Status:"/>
-                              </td>
-                            </tr>
-                          </tbody>
-                      </table>
-                    </div>
-
-                </div>
-                </div>
-
-
                 <form onSubmit={this.handleFormSubmit}>
                 <div>
+                    <Project_Data ProjectName = {this.state.ProjectName}
+                    ProjectBadge = {this.state.ProjectBadge}
+                    ProjectBanner = {this.state.ProjectBanner}
+                    ProjectJoinDate = {this.state.ProjectJoinDate}
+                    ProjectChallengeStatus = {this.state.ProjectChallengeStatus}/>
                 <TextBlueHeading message="Challenge 2: Ideation"/>
                       <br/>
                         <TextBlack message = "SET YOUR GOAL"/>
@@ -121,7 +84,6 @@ class ProjectContent extends React.Component {
                         </ul>
                         </div>
                      </form>
-                  </div>
         );
     }
 }

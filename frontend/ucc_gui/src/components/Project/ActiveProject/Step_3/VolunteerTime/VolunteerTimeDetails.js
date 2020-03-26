@@ -11,6 +11,7 @@ import cookie from "react-cookies";
 import {Container} from "@material-ui/core";
 import VolunteerTime from "../../../../../containers/Projects/ActiveProject/Step_3/VolunteerTime/VolunteerTime.css"
 import Address from "../../../../General/Form/Address/Address";
+import Project_Data from "../../Step_2/Project_Data";
 import Video from "../../../../General/Video/Video"
 
 class VolunteerTimeDetails extends React.Component {
@@ -20,7 +21,9 @@ class VolunteerTimeDetails extends React.Component {
         project_id: this.props.id,
         projectName : '',
         projectBanner : '',
-        projectBadge : ''
+        projectBadge : '',
+        projectJoinDate :'',
+        projectChallengeStatus: ''
     }
  }
 
@@ -30,56 +33,21 @@ class VolunteerTimeDetails extends React.Component {
               this.setState({
                   projectName : res.data.project_name,
                   projectBanner : res.data.project_banner,
-                  projectBadge: res.data.project_badge
+                  projectBadge: res.data.project_badge,
+                  projectJoinDate: res.data.project_join_date,
+                  projectChallengeStatus: res.data.challenge_status
               });
       }).catch(error => console.log(error))
     }
 
     render() {
         return (
-            <div>
-                <div className="headerStepBanner">
-                    <div className="stepper" >
-                        <ProgressStepper currentStep="2" />
-                    </div>
-                    <div className="banner">
-                        <ProjectBanner image={this.state.projectBanner}  />
-                    </div>
-                </div>
-
-                <div className="ProjectInfo_MainDiv"  >
-                <div className="ProjectInfo_Container">
-                      <div className="ProjectInfo_Badge" >
-                        <Image src={this.state.projectBadge} style={{width: "100%", maxHeight: "100%"}} roundedCircle/>
-                      </div>
-
-                      <div className="ProjectInfo_Text" >
-                        <table>
-                          <tbody>
-                            <tr>
-                              <td colSpan={2}>
-                                  <TextBlackHeading message={this.state.projectName}/>
-                              </td>
-                            </tr>
-
-                          <tr>
-                              <td>
-                                  <TextBlack message="Date joined:"/>
-                              </td>
-                            </tr>
-                          <tr>
-                              <td>
-                                  <TextBlack message="Status:"/>
-                              </td>
-                            </tr>
-                          </tbody>
-                      </table>
-                    </div>
-
-                </div>
-                </div>
-
                 <form onSubmit={this.handleFormSubmit}>
+                    <Project_Data ProjectName = {this.state.projectName}
+                    ProjectBadge = {this.state.projectBadge}
+                    ProjectBanner = {this.state.projectBanner}
+                    ProjectJoinDate = {this.state.projectJoinDate}
+                    ProjectChallengeStatus = {this.state.projectChallengeStatus}/>
                 <div className="project-form">
                 <TextBlueHeading message="Challenge 3: Adventure"/>
                       <br/>
@@ -120,7 +88,6 @@ class VolunteerTimeDetails extends React.Component {
 
                   </div>
                 </form>
-            </div>
         );
     }
 }

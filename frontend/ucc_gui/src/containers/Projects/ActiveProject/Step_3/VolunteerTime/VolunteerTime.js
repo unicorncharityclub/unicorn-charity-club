@@ -40,11 +40,12 @@ class VolunteerTime extends React.Component {
             form_data.append(' organisation_name', this.state.name);
             form_data.append(' organisation_address', this.state.address);
             form_data.append(' organisation_city', this.state.city);
+            form_data.append('website', this.state.website)
             form_data.append(' organisation_state', this.state.state_name);
             form_data.append('hours', this.state.hours);
             form_data.append('description', this.state.description);
             if (this.state.final_video) {
-                form_data.append('exp_video', this.state.final_video, this.state.final_video.name);
+                form_data.append('exp_video', this.state.final_video);
             }
         } catch (err) {
             console.log(err)
