@@ -127,7 +127,7 @@ a {
     background: #1a73e8;
 }
 
-@media only screen and (max-device-width: 520px) and (max-width: 40em){
+@media only screen and (max-width: 520px){
     .title {
         height: 65px;
         font-size: 1.2rem;
