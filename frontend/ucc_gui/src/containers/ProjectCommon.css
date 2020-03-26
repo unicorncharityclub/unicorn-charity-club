@@ -1,0 +1,220 @@
+.header_step_banner_common
+{
+    height:400px;
+    position:relative
+}
+
+.stepper_common
+{
+    height: 30%;
+    position: absolute;
+    bottom: 0;
+    width : 100%
+}
+
+.banner_common
+{
+    height: 70%;
+    width: 100%;
+}
+
+@media screen and (max-width: 640px){
+    .header_step_banner_common
+{
+    height:300px;
+    position:relative
+}
+  .stepper_common
+    {
+      position: absolute;
+      top: 0;
+        height: 30%;
+        width : 100%
+    }
+
+    .banner_common
+    {
+        height: 70%;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 480px){
+    .header_step_banner_common
+{
+    height:200px;
+    position:relative
+}
+  .stepper_common
+    {
+      position: absolute;
+      top: 0;
+        height: 30%;
+        width : 100%
+    }
+
+    .banner_common
+    {
+        height: 70%;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+}
+
+
+
+/*CSS for page content */
+.content_section
+{
+    margin-bottom: 150px;
+    width:80%;
+    border-radius: 10px;
+    float:left;
+    border: 1px solid;
+    padding: 10px;
+}
+
+.content_project_info
+{
+    display: none;
+}
+
+.content_project_info_vertical
+{
+    margin-bottom: 150px;
+    width:20%;
+    float:left;
+}
+
+@media screen and (max-width: 640px){
+
+    .content_project_info
+    {
+        display: block;
+    }
+    .content_project_info_vertical
+    {
+        display: none;
+    }
+    .content_section
+    {
+        margin-bottom: 150px;
+        width:100%;
+        float:left;
+        border: 0;
+    }
+}
+
+/*CSS for the friends screen and popup*/
+.friends-popup-window
+{
+    position: fixed;
+    width: 60%;
+    height: 85%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    top: 20%;
+    bottom: 10px;
+    background: #2BB9B7;
+    left: 50%;
+    margin-left: -30%;
+    border: 3px solid;
+    box-shadow: 5px 10px #888888;
+    z-index: 100;
+    margin-top: -90px;
+}
+
+.friends_search_card
+{
+    object-fit: contain;
+    height: 80px;
+}
+
+.friends_search_card_text
+{
+    font-size: 1.5vw;
+    height: 50px;
+    padding:0px;
+    text-align:center;
+}
+
+@media screen and (max-width: 1200px){
+.friends-popup-window{
+        width: 70%;
+        height: 85%;
+        margin-left: -35%;
+        margin-top: -80px;
+    }
+
+.friends_search_card
+    {
+        object-fit: contain;
+        height: 80px;
+    }
+
+    .friends_search_card_text
+    {
+        font-size: 2vw;
+    }
+}
+
+@media screen and (max-width: 920px){
+.friends-popup-window{
+        width: 70%;
+        height: 85%;
+        margin-left: -35%;
+        margin-top: -80px;
+    }
+
+.friends_search_card
+    {
+        object-fit: contain;
+        height: 60px;
+    }
+.friends_search_card_text
+    {
+        font-size: 2vw;
+    }
+}
+
+@media screen and (max-width: 720px){
+.friends-popup-window{
+        width: 80%;
+        height: 75%;
+        margin-left: -40%;
+        margin-top: -80px;
+    }
+
+.friends_search_card
+    {
+        object-fit: contain;
+        height: 50px;
+    }
+.friends_search_card_text
+    {
+        height: 30px;
+        font-size: 2vw;
+    }
+}
+
+@media screen and (max-width: 480px) {
+.friends-popup-window{
+        width: 80%;
+        height: 75%;
+        margin-left: -40%;
+        margin-top: -80px;
+    }
+
+.friends_search_card
+    {
+        object-fit: contain;
+        height: 40px;
+    }
+.friends_search_card_text
+    {
+        font-size: 2vw;
+    }
+}
