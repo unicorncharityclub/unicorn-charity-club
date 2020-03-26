@@ -1,6 +1,7 @@
 import React from 'react';
 import TextBlueHeading from "../../../../General/Text/TextBlueHeading";
 import TextBlack from "../../../../General/Text/TextBlack";
+import ProjectInfo from "../../../Details/ProjectInfo";
 import Image from "react-bootstrap/Image";
 import axiosConfig from "../../../../../axiosConfig";
 import TextBlackHeading from "../../../../General/Text/TextBlackHeading";
@@ -11,7 +12,6 @@ import cookie from "react-cookies";
 import {Container} from "@material-ui/core";
 import VolunteerTime from "../../../../../containers/Projects/ActiveProject/Step_3/VolunteerTime/VolunteerTime.css"
 import Address from "../../../../General/Form/Address/Address";
-import Project_Data from "../../Step_2/Project_Data";
 import Video from "../../../../General/Video/Video"
 
 class VolunteerTimeDetails extends React.Component {
@@ -43,11 +43,15 @@ class VolunteerTimeDetails extends React.Component {
     render() {
         return (
                 <form onSubmit={this.handleFormSubmit}>
-                    <Project_Data ProjectName = {this.state.projectName}
-                    ProjectBadge = {this.state.projectBadge}
-                    ProjectBanner = {this.state.projectBanner}
-                    ProjectJoinDate = {this.state.projectJoinDate}
-                    ProjectChallengeStatus = {this.state.projectChallengeStatus}/>
+                    <div className="header_step_banner_common">
+                    <div className="stepper_common">
+                    <ProgressStepper currentStep="2" />
+                    </div>
+                    <div className="banner_common">
+                    <ProjectBanner image={this.state.projectBanner}  />
+                    </div>
+                    </div>
+                    <ProjectInfo id={this.state.project_id}/>
                 <div className="project-form">
                 <TextBlueHeading message="Challenge 3: Adventure"/>
                       <br/>

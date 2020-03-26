@@ -9,8 +9,7 @@ import TextBlackHeading from "../../../General/Text/TextBlackHeading";
 import ProgressStepper from "../../ProgressStepper";
 import ProjectBanner from "../../ProjectBanner";
 import Checkbox from "../../../General/Form/Checkbox"
-import ProjectInfo from "../../../Project/ProjectHeader/ProjectInfo.js"
-import Project_Data from "./Project_Data";
+import ProjectInfo from "../../Details/ProjectInfo";
 class ProjectContent extends React.Component {
 
     constructor(props) {
@@ -31,11 +30,7 @@ class ProjectContent extends React.Component {
         axiosConfig.get(`charityproject/${this.state.Project_id}`)
       .then(res => {
               this.setState({
-                  ProjectName : res.data.project_name,
                   ProjectBanner : res.data.project_banner,
-                  ProjectBadge: res.data.project_badge,
-                  ProjectJoinDate: res.data.project_join_date,
-                  ProjectChallengeStatus: res.data.challenge_status
               });
       }).catch(error => console.log(error))
     }
@@ -44,11 +39,15 @@ class ProjectContent extends React.Component {
         return (
                 <form onSubmit={this.handleFormSubmit}>
                 <div>
-                    <Project_Data ProjectName = {this.state.ProjectName}
-                    ProjectBadge = {this.state.ProjectBadge}
-                    ProjectBanner = {this.state.ProjectBanner}
-                    ProjectJoinDate = {this.state.ProjectJoinDate}
-                    ProjectChallengeStatus = {this.state.ProjectChallengeStatus}/>
+                    <div className="header_step_banner_common">
+                    <div className="stepper_common">
+                    <ProgressStepper currentStep="1" />
+                    </div>
+                    <div className="banner_common">
+                    <ProjectBanner image={this.state.ProjectBanner}  />
+                    </div>
+                    </div>
+                    <ProjectInfo id={this.state.Project_id}/>
                 <TextBlueHeading message="Challenge 2: Ideation"/>
                       <br/>
                         <TextBlack message = "SET YOUR GOAL"/>
