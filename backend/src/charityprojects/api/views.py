@@ -407,6 +407,7 @@ def unregistered_invitation(request):
 @parser_classes([MultiPartParser, FormParser])
 def create_volunteer_adventure(request):
     user_email_id = request.data["user_email"]
+    print(user_email_id)
     user_id = User.objects.get(email=user_email_id).id
     project_id = request.data["project_id"]
     project_user_record = ProjectUser.objects.filter(user_id_id=user_id, project_id_id=project_id)[0]  # ideally only one entry should be there
