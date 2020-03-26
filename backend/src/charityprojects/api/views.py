@@ -1,8 +1,8 @@
 import json
-
+from datetime import date
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
-from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation
+from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation, SpreadWord
 from django.http import JsonResponse
 from accounts.models import User
 from myaccount.models import ChildAccount
@@ -74,7 +74,7 @@ def get_active_project_details(request, user_emailid):
     response = {'status': "Success"}
     if request.method == 'GET':
         user_id = User.objects.get(email=user_emailid).id
-        project_user_list = ProjectUser.objects.filter(user_id=user_id)
+        project_user_list = ProjectUser.objects.filter(user_id_id=user_id)
         active_charity_project_list = []
         if len(project_user_list) > 0:
             for project_user in project_user_list:
@@ -283,17 +283,11 @@ def update_user_invitation(request):
         message = json_data["invitation_message"]
         project_user_id = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0].id
         prize_given_id = ProjectUserDetails.objects.filter(pu_id_id=project_user_id)[0].prize_given_id_id
-
         for email in invited_users:
-            invited_user = User.objects.get(email=email)
-            if invited_user:
-                invited_user_id = invited_user.id
-                user_invitation = UserInvitation.objects.create(pu_id_id=project_user_id, friend_id=invited_user_id,
-                                                                status="Pending", invitation_message= message,
-                                                                prize_given_id_id=prize_given_id)
-                user_invitation.save()
+            if create_user_invitation(email, project_user_id, prize_given_id, message):
+                response["status"] = "Successfully stored invitation"
             else:
-                response = {'status': "Requested user does not exist"}
+                response["status"] = "Requested user does not exist"
 
         return JsonResponse(response)
 
@@ -391,7 +385,7 @@ def unregistered_invitation(request):
         user_email_id = json_data["user_email"]
         user_id = User.objects.get(email=user_email_id).id
         project_id = json_data["project_id"]
-        project_user_id = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0].id
+        project_user_id = ProjectUser.objects.filter(user_id_id=user_id, project_id_id=project_id)[0].id
         message = json_data["invitation_message"]
         invited_users = json_data["friend_list"]
         # Remove null, duplicates and own emailId if it exists
@@ -400,20 +394,11 @@ def unregistered_invitation(request):
         prize_given_id = ProjectUserDetails.objects.filter(pu_id_id=project_user_id)[0].prize_given_id_id
 
         for email in invited_users:
-            invited_user = User.objects.get(email=email)
+            invited_user = check_user(email)
             if invited_user:
-                invited_user_id = invited_user.id
-                user_invitation = UserInvitation.objects.create(pu_id_id=project_user_id,
-                                                                friend_id=invited_user_id, status="Pending",
-                                                                invitation_message=message,
-                                                                prize_given_id_id=prize_given_id)
-                user_invitation.save()
+                create_user_invitation(email, project_user_id, prize_given_id, message)
             else:
-                unregister_invitation = UnregisterInvitation.objects.create(pu_id_id=project_user_id,
-                                                                            unregister_user_emailId=email,
-                                                                            prize_given_id_id=prize_given_id,
-                                                                            invitation_message=message)
-                unregister_invitation.save()
+                create_unregister_user_invitation(email, project_user_id, prize_given_id, message)
 
     return JsonResponse(response)
 
@@ -421,11 +406,10 @@ def unregistered_invitation(request):
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
 def create_volunteer_adventure(request):
-    json_data = json.loads(request.body)
-    user_email_id = json_data["user_email"]
+    user_email_id = request.data["user_email"]
     user_id = User.objects.get(email=user_email_id).id
-    project_id = json_data["project_id"]
-    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0]  # ideally only one entry should be there
+    project_id = request.data["project_id"]
+    project_user_record = ProjectUser.objects.filter(user_id_id=user_id, project_id_id=project_id)[0]  # ideally only one entry should be there
     pu_id = project_user_record.id
     if project_user_record:
         project_user_record.challenge_status = "Challenge3Complete"
@@ -502,19 +486,17 @@ def challenge_develop_new_habit(request):
     return JsonResponse(response)
 
 
-def get_project_invitations(request):
+def get_project_invitations(request, user_email):
     response = {'status': "Invalid Request"}
-    json_data = json.loads(request.body)
-    user_email_id = json_data["user_email"]
-    user_id = User.objects.get(email=user_email_id).id
+    user_id = User.objects.get(email=user_email).id
     invited_project_user_id_list = UserInvitation.objects.filter(friend_id=user_id, status="Pending")
     invited_project_list = []
     if len(invited_project_user_id_list) > 0:
         for invitation in invited_project_user_id_list:
-            pu_id = invitation.pu_id
+            pu_id = invitation.pu_id_id
             project_user_record = ProjectUser.objects.get(pk=pu_id)
             project_id = project_user_record.project_id_id
-            user_id = project_user_record.user_id
+            user_id = project_user_record.user_id_id
             user = User.objects.get(pk=user_id)
             project = CharityProjects.objects.get(pk=project_id)
             project_name = project.Name
@@ -543,11 +525,11 @@ def fetch_project_invitation_details(request):
     user_id = invited_user.id
     user_name = invited_user.get_full_name()
     project = CharityProjects.objects.get(pk=project_id)
-    project_user_record = ProjectUser.objects.filter(user_id=inviter_user_id, project_id_id=project_id)[0]
+    project_user_record = ProjectUser.objects.filter(user_id_id=inviter_user_id, project_id_id=project_id)[0]
     pu_id = project_user_record.id
-    project_user_details = ProjectUserDetails.objects.filter(pu_id=pu_id)[0]
+    project_user_details = ProjectUserDetails.objects.filter(pu_id_id=pu_id)[0]
     invitation_video = request.build_absolute_uri(project_user_details.video.url)
-    user_invitation = UserInvitation.objects.filter(pu_d=pu_id, status="Pending")
+    user_invitation = UserInvitation.objects.filter(pu_id_id=pu_id, status="Pending")
     invitation_message = user_invitation.invitation_message
     project_invitation = {"user_name": user_name, "message": invitation_message, "video": invitation_video,
                           "project_category": project.Category, "project_tags": project.Tags,
@@ -574,14 +556,98 @@ def join_project_invitation(request):
         project_user.save()
         pu_id = project_user.id
         inviter_user_record = ProjectUser.objects.filter(project_id_id=project_id, user_id_id=inviter_user_id)[0].id
-        inviter_user_details = ProjectUserDetails.objects.get(pu_id=inviter_user_record)
-        prize_given_id = inviter_user_details.prize_given_id
+        prize_given_id = find_user_prize(inviter_user_record)
         project_user_details = ProjectUserDetails.objects.create(pu_id=pu_id, prize_given_id=prize_given_id)
         project_user_details.save()
-        user_invitation = UserInvitation.objects.filter(pu_d=inviter_user_record)
+        user_invitation = UserInvitation.objects.filter(pu_id_id=inviter_user_record)
         user_invitation.status = "Accepted"
         user_invitation.save()
-        response["Status"] = "Success"
+        response["status"] = "Success"
     return JsonResponse(response)
 
 
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def spread_the_word(request):
+    response = {'status': "Invalid Request"}
+    project_id = request.data["project_id"]
+    user_email = request.data["user_email"]
+    message = request.data["invite_message"]
+    user_id = User.objects.get(email=user_email).id
+    project_user_record = ProjectUser.objects.filter(user_id_id=user_id, project_id_id=project_id)[0]
+    pu_id = project_user_record.id
+    prize_id = find_user_prize(pu_id)
+    project_user_details = ProjectUserDetails.objects.get(pu_id_id=pu_id)
+    if "video" in request.data:
+        project_user_details.video = request.data["video"]
+        project_user_details.save()
+
+    registered_user_list = request.data["registered_user"]
+    unregistered_user_list = request.data["unregistered_user"]
+
+    unregistered_user_invite = [item for item in unregistered_user_list if len(item) > 1 and item != user_email]
+    unregistered_user_invite = set(unregistered_user_invite)
+    for user_email in unregistered_user_invite:
+        invited_user = User.objects.get(email=user_email)
+        if invited_user:
+            registered_user_list.append(invited_user)
+        else:
+            create_unregister_user_invitation(user_email, pu_id, prize_id, message)
+
+    invited_users = [item for item in registered_user_list if len(item) > 1 and item != user_email]
+    invited_users = set(invited_users)
+    for user_email in invited_users:
+        if check_existing_project(user_email, project_id):
+            response["status"] = "User is already doing project"
+        else:
+            if create_user_invitation(user_email, pu_id, prize_id, message):
+                response["status"] = "Successfully stored invitation"
+
+    invitee_count = len(unregistered_user_invite) + len(invited_users)
+    spread_word = SpreadWord.objects.create(pu_id_id=pu_id, invitee_count=invitee_count)
+    spread_word.save()
+    response["status"] = "Success"
+    return JsonResponse(response)
+
+
+def find_user_prize(pu_id):
+    project_user_details = ProjectUserDetails.objects.get(pu_id_id=pu_id)
+    prize_given_id = project_user_details.prize_given_id_id
+    return prize_given_id
+
+
+def create_user_invitation(email, pu_id, prize_id, message):
+    invited_user = check_user(email)
+    if invited_user:
+        invited_user_id = invited_user.id
+        invitation_date = date.today()
+        user_invitation = UserInvitation.objects.create(pu_id_id=pu_id, friend_id=invited_user_id,
+                                                        status="Pending",
+                                                        invitation_message=message,
+                                                        prize_given_id_id=prize_id,
+                                                        invitation_date=invitation_date)
+        user_invitation.save()
+        return True
+    else:
+        return False
+
+
+def create_unregister_user_invitation(email, pu_id, prize_id, message):
+    unregister_invitation = UnregisterInvitation.objects.create(pu_id_id=pu_id, unregister_user_emailId=email,
+                                                                prize_given_id_id=prize_id, invitation_message=message)
+    unregister_invitation.save()
+
+
+def check_user(email):
+    user = User.objects.get(email=email)
+    if user:
+        return user
+
+
+def check_existing_project(email, project_id):
+    user_id = User.objects.get(email=email).id
+    project_user_record = ProjectUser.objects.filter(user_id_id=user_id, project_id_id=project_id)[0]
+    if project_user_record:
+        return True
+    else:
+        return False
