@@ -62,6 +62,7 @@ renderList (type) {
                       type = {type}                       
                       project_date = {elem.invitation_date}
                       inviter_name = {elem.inviter_user_name}
+                      inviter_email = {elem.inviter_user_email}
                     /> 
                   </div>
                 </div>

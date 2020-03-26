@@ -183,10 +183,17 @@ class EachActiveProject extends React.Component {
         }   
     }
 
+    buttonHandler() {
+        // on button click action
+        var projectID = this.props.projectId;
+        var email = this.props.inviter_email;        
+        window.open(`/Projects/${projectID}/ProjectInvitation/${email}`,"_self");
+    }
+
     renderProgressStepperOrButton(type) {
         if (type === "Invitation"){
             return (
-                    <Button className="viewButton" variant="success" size="lg">
+                    <Button className="viewButton" onClick = {this.buttonHandler.bind(this)} variant="success" size="lg">
                         VIEW INVITATION
                     </Button>
               );          
