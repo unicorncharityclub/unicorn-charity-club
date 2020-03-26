@@ -275,6 +275,7 @@ class RegisterForm extends React.Component {
                     id="dob"
                     name="dob"
                     type="date"
+                    placeholder="dd/mm/yyyy"
                     value={this.state.dob}
                     onChange={this.onDobChange.bind(this)}
                   />
