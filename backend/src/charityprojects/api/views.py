@@ -528,9 +528,6 @@ def fetch_project_invitation_details(request):
     invited_user_email = request.GET['user_email']
     inviter_user_email = request.GET['inviter_user_email']
 
-    print(project_id, invited_user_email,inviter_user_email)
-
-
     inviter_user_id = User.objects.get(email=inviter_user_email).id
     invited_user = User.objects.get(email=invited_user_email)
     user_id = invited_user.id
@@ -553,11 +550,19 @@ def fetch_project_invitation_details(request):
 
 def join_project_invitation(request):
     response = {'status': "Invalid Request"}
-    json_data = json.loads(request.body)
-    project_id = json_data["project_id"]
-    user_email = json_data["user_email"]
+
+    # json_data = json.loads(request.body)
+    # project_id = json_data["project_id"]
+    # user_email = json_data["user_email"]
+    # inviter_user_email = json_data["inviter_user_email"]
+
+    project_id = request.GET['project_id']
+    user_email = request.GET['user_email']
+    inviter_user_email = request.GET['inviter_user_email']
+
+    print(project_id, user_email, inviter_user_email)
+
     user_id = User.objects.get(email=user_email).id
-    inviter_user_email = json_data["inviter_user_email"]
     inviter_user_id = User.objects.get(email=inviter_user_email).id
     project_user_record = ProjectUser.objects.filter(project_id_id=project_id, user_id_id=user_id)
     if len(project_user_record) > 0:
