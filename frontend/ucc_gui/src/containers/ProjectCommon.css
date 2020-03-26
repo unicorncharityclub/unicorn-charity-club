@@ -65,6 +65,49 @@
 }
 
 
+
+/*CSS for page content */
+.content_section
+{
+    margin-bottom: 150px;
+    width:80%;
+    border-radius: 10px;
+    float:left;
+    border: 1px solid;
+    padding: 10px;
+}
+
+.content_project_info
+{
+    display: none;
+}
+
+.content_project_info_vertical
+{
+    margin-bottom: 150px;
+    width:20%;
+    float:left;
+}
+
+@media screen and (max-width: 640px){
+
+    .content_project_info
+    {
+        display: block;
+    }
+    .content_project_info_vertical
+    {
+        display: none;
+    }
+    .content_section
+    {
+        margin-bottom: 150px;
+        width:100%;
+        float:left;
+        border: 0;
+    }
+}
+
 /*CSS for the friends screen and popup*/
 .friends-popup-window
 {

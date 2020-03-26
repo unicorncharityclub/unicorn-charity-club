@@ -1,4 +1,5 @@
 import React from "react";
+import "../../../../ProjectCommon.css"
 import axiosConfig from "../../../../../axiosConfig";
 import ProgressStepper from "../../../../../components/Project/ProgressStepper";
 import ProjectBanner from "../../../../../components/Project/ProjectBanner";
@@ -168,23 +169,8 @@ class SpreadTheWord extends React.Component {
               {this.state.PopupSearch ? (
           <div
             id="popup"
-            style={{
-              position: "fixed",
-              width: "40%",
-              height: "75%",
-              overflowY: "auto",
-              overflowX: "hidden",
-              top: "20%",
-              bottom: "10px",
-              background: "#2BB9B7",
-              left: "50%",
-              marginLeft: "-20%",
-              border: "3px solid",
-              boxShadow: "5px 10px #888888",
-              zIndex: "100",
-              marginTop: "-40px"
-            }}
-          >
+             className="friends-popup-window">
+
             <FriendsSearchGrid
               friendsSearchData={this.state.FriendsSearchData}
               searchStringType={this.state.SearchType}
@@ -198,11 +184,11 @@ class SpreadTheWord extends React.Component {
         ) : (
           <div />
         )}
-            <div className="headerStepBanner">
-                <div className="stepper" >
+            <div className="header_step_banner_common">
+                <div className="stepper_common">
                     <ProgressStepper currentStep="2" />
                 </div>
-                <div className="banner">
+                <div className="banner_common">
                     <ProjectBanner image={this.state.ProjectBanner}  />
                 </div>
             </div>

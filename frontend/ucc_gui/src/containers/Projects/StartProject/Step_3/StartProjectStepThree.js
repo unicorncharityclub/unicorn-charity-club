@@ -36,24 +36,24 @@ class StartProjectStepThree extends React.Component {
         { email_address: "", issue: "" },
         { email_address: "", issue: "" },
         { email_address: "", issue: "" },
-        { email_address: "", issue: "" }
+        { email_address: "", issue: "" },
       ],
       UnregisteredUserIssue: "",
       SendInvitationIssue: "",
-      FriendsSearchData: []
+      FriendsSearchData: [],
     };
   }
   componentDidMount() {
     const project_id = this.props.match.params.id;
     axiosConfig
       .get(`charityproject/${project_id}`)
-      .then(res => {
+      .then((res) => {
         this.setState({
           ProjectName: res.data["project_name"],
-          ProjectBanner: res.data["project_banner"]
+          ProjectBanner: res.data["project_banner"],
         });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   }
 
   /*
@@ -65,14 +65,14 @@ class StartProjectStepThree extends React.Component {
       axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
       axiosConfig
         .post(`charityproject/friendByEmail`, {
-          friend_email: searchValue
+          friend_email: searchValue,
         })
-        .then(function(response) {
+        .then(function (response) {
           console.log(response.data);
           obj.setState({ PopupSearch: true });
           obj.setState({ FriendsSearchData: response.data["friend_list"] });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     } else {
@@ -81,14 +81,14 @@ class StartProjectStepThree extends React.Component {
       axiosConfig
         .post(`charityproject/search`, {
           text: searchValue,
-          offset_value: offset
+          offset_value: offset,
         })
-        .then(function(response) {
+        .then(function (response) {
           console.log(response.data);
           obj.setState({ PopupSearch: true });
           obj.setState({ FriendsSearchData: response.data["friend_list"] });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     }
@@ -113,7 +113,7 @@ class StartProjectStepThree extends React.Component {
     if (this.state.InviteMessage.length === 0) {
       this.setState({
         SendInvitationIssue:
-          "Enter an Invitation message to be sent to your invitee's."
+          "Enter an Invitation message to be sent to your invitee's.",
       });
       return true;
     }
@@ -127,7 +127,7 @@ class StartProjectStepThree extends React.Component {
         errorFlag = true;
         this.setState({ UnregisteredUser: this.state.UnregisteredUser });
         this.setState({
-          SendInvitationIssue: "Invalid Email of Unregistered User."
+          SendInvitationIssue: "Invalid Email of Unregistered User.",
         });
 
         break;
@@ -150,12 +150,12 @@ class StartProjectStepThree extends React.Component {
         user_email: this.state.UserEmailId,
         project_id: this.state.ProjectId,
         invitation_message: this.state.InviteMessage,
-        friend_list: unregisterEmailId
+        friend_list: unregisterEmailId,
       })
-      .then(function(response) {
+      .then(function (response) {
         // go to next page
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   }
@@ -172,96 +172,126 @@ class StartProjectStepThree extends React.Component {
         user_email: this.state.UserEmailId,
         project_id: this.state.ProjectId,
         invitation_message: this.state.InviteMessage,
-        friend_list: friendsEmailId
+        friend_list: friendsEmailId,
       })
-      .then(function(response) {
+      .then(function (response) {
         obj.sendInvitationToUnregisteredUsers();
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   }
 
   render() {
     return (
-      <div style={{ margin: "10px", marginBottom: "150px" }}>
-        {this.state.PopupSearch ? (
-          <div
-            id="popup"
-            className="friends-popup-window"
-          >
-            <FriendsSearchGrid
-              friendsSearchData={this.state.FriendsSearchData}
-              searchStringType={this.state.SearchType}
-              searchStringValue={this.state.SearchValue}
-              searchMore={this.state.SearchMoreAvailable}
-              searchResultCancelClick={FriendsSearchHelper.searchResultCancelClick.bind(this)}
-              searchResultMoreClick={FriendsSearchHelper.searchResultMoreClick.bind(this)}
-              searchResultImageClick={FriendsSearchHelper.searchResultImageClick.bind(this)}
-            />
-          </div>
-        ) : (
-          <div />
-        )}
+      <div style={{ margin: "10px" }}>
+        <div style={{ marginBottom: "150px" }}>
+          {this.state.PopupSearch ? (
+            <div id="popup" className="friends-popup-window">
+              <FriendsSearchGrid
+                friendsSearchData={this.state.FriendsSearchData}
+                searchStringType={this.state.SearchType}
+                searchStringValue={this.state.SearchValue}
+                searchMore={this.state.SearchMoreAvailable}
+                searchResultCancelClick={FriendsSearchHelper.searchResultCancelClick.bind(
+                  this
+                )}
+                searchResultMoreClick={FriendsSearchHelper.searchResultMoreClick.bind(
+                  this
+                )}
+                searchResultImageClick={FriendsSearchHelper.searchResultImageClick.bind(
+                  this
+                )}
+              />
+            </div>
+          ) : (
+            <div />
+          )}
 
-        <div className="header_step_banner_common">
-          <div className="stepper_common">
-            <ProgressStepper currentStep="2" />
-          </div>
-          <div className="banner_common">
-            <ProjectBanner image={this.state.ProjectBanner} />
-          </div>
-        </div>
-        <ProjectInfo id={this.state.ProjectId} />
-        <InviteFriends
-            showHeaderMessage={true}
-          message="1. Build your team by inviting family and friends to your project."
-          searchResultHandler={FriendsSearchHelper.searchResultHandler.bind(this)}
-          disabled={this.state.PopupSearch}
-        />
-        <br />
-          <div>
-            <FriendsInvitedGrid
-              friendsInvitedData={[...this.state.SelectedFriends.values()]}
-              removeInviteClick={FriendsSearchHelper.removeInviteClick.bind(this)}
-            />
+          <div className="header_step_banner_common">
+            <div className="stepper_common">
+              <ProgressStepper currentStep="2" />
+            </div>
+            <div className="banner_common">
+              <ProjectBanner image={this.state.ProjectBanner} />
+            </div>
           </div>
 
-        <br />
-        <div>
-          <UnregisteredFriendsInvite
-            message="2. Send invites to unregistered users."
-            unregisteredUser={this.state.UnregisteredUser}
-            unregisteredUserIssue={this.state.UnregisteredUserIssue}
-            unregisteredUserAddMoreClick={FriendsSearchHelper.unregisteredUserAddMore.bind(this)}
-            unregisteredUserEmailChange={FriendsSearchHelper.unregisteredUserEmailChange.bind(this)}
-            unregisteredUserDeleteClick={FriendsSearchHelper.unregisteredUserDeleteClick.bind(this)}
-            unregisteredUserEmailValidate={FriendsSearchHelper.unregisteredUserEmailValidate.bind(this)}
+          <div className="content_project_info_vertical">
+            <ProjectInfo vertical={true} id={this.state.ProjectId} />
+          </div>
+          <div className="content_section">
+            <div className="content_project_info">
+              <ProjectInfo id={this.state.ProjectId} />
+            </div>
+            <InviteFriends
+              showHeaderMessage={true}
+              message="1. Build your team by inviting family and friends to your project."
+              searchResultHandler={FriendsSearchHelper.searchResultHandler.bind(
+                this
+              )}
+              disabled={this.state.PopupSearch}
+            />
+            <br />
+            <div>
+              <FriendsInvitedGrid
+                friendsInvitedData={[...this.state.SelectedFriends.values()]}
+                removeInviteClick={FriendsSearchHelper.removeInviteClick.bind(
+                  this
+                )}
+              />
+            </div>
+
+            <br />
+            <div>
+              <UnregisteredFriendsInvite
+                message="2. Send invites to unregistered users."
+                unregisteredUser={this.state.UnregisteredUser}
+                unregisteredUserIssue={this.state.UnregisteredUserIssue}
+                unregisteredUserAddMoreClick={FriendsSearchHelper.unregisteredUserAddMore.bind(
+                  this
+                )}
+                unregisteredUserEmailChange={FriendsSearchHelper.unregisteredUserEmailChange.bind(
+                  this
+                )}
+                unregisteredUserDeleteClick={FriendsSearchHelper.unregisteredUserDeleteClick.bind(
+                  this
+                )}
+                unregisteredUserEmailValidate={FriendsSearchHelper.unregisteredUserEmailValidate.bind(
+                  this
+                )}
+                disabled={this.state.PopupSearch}
+              />
+            </div>
+
+            <br />
+            <hr />
+            <div style={{ marginTop: "20px" }}>
+              <div>
+                <TextBlackSubHeading message="3. Invitation message to friends." />
+              </div>
+              <TextArea
+                value={this.state.InviteMessage}
+                rows={5}
+                handleChange={FriendsSearchHelper.inviteMessageChange.bind(
+                  this
+                )}
+              />
+            </div>
+
+            <br />
+          <TwoButtonLayout
+            button1Text="SAVE"
+            button2Text="SEND INVITATIONS"
+            button1Click={this.saveButtonClick.bind(this)}
+            button2Click={this.sendInviteButtonClick.bind(this)}
             disabled={this.state.PopupSearch}
           />
-        </div>
+          <AlertMessage alertMessage={this.state.SendInvitationIssue} />
 
-        <br />
-        <hr/>
-        <div style={{marginTop : "20px"}}>
-            <div>
-              <TextBlackSubHeading message="3. Invitation message to friends." />
-            </div>
-          <TextArea
-            value={this.state.InviteMessage}
-            rows = {5}
-            handleChange={FriendsSearchHelper.inviteMessageChange.bind(this)}
-          />
+          </div>
+
         </div>
-        <br />
-        <TwoButtonLayout
-          button1Text="SAVE"
-          button2Text="SEND INVITATIONS"
-          button1Click={this.saveButtonClick.bind(this)}
-          button2Click={this.sendInviteButtonClick.bind(this)}
-          disabled={this.state.PopupSearch}
-        />
-        <AlertMessage alertMessage={this.state.SendInvitationIssue} />
       </div>
     );
   }

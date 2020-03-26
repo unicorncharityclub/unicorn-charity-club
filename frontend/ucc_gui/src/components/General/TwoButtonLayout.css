@@ -1,5 +1,5 @@
 .two_button_div{
-    width:60%;
+    width:80%;
     margin-left: 25%;
     margin-bottom: 10px;
     align-text: center;
@@ -25,8 +25,8 @@
 
 @media screen and (max-width: 920px){
   .two_button_div{
-    width:80%;
-    margin-left: 15%;
+    width:120%;
+    margin-left: 2%;
     margin-bottom: 10px;
     align-text: center;
     justify-content: center;
@@ -36,8 +36,8 @@
 
 @media screen and (max-width: 720px){
   .two_button_div{
-    width:90%;
-    margin-left: 15%;
+    width:120%;
+    margin-left: 2%;
     margin-bottom: 10px;
     align-text: center;
     justify-content: center;
@@ -46,8 +46,8 @@
 
 @media screen and (max-width: 640px){
   .two_button_div{
-    width:100%;
-    margin-left: 10%;
+    width:110%;
+    margin-left: 5%;
     margin-bottom: 10px;
     align-text: center;
     justify-content: center;
