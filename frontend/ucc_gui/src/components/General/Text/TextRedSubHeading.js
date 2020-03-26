@@ -1,13 +1,13 @@
 import React from "react";
 
-class TextWhite extends React.Component {
+class TextRedSubHeading extends React.Component {
     render() {
         return (
-            <div className="text_white">
+            <div className="text_red_heading">
                 {this.props.message}
             </div>
         );
     }
 }
 
-export default TextWhite;
+export default TextRedSubHeading;

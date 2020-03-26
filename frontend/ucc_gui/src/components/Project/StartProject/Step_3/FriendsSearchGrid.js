@@ -1,9 +1,10 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import FriendsMediaCard from "./FriendsCard";
-import Search from "@material-ui/icons/Search";
-import TextBlueHeading from "../../../General/Text/TextBlueHeading";
-import Button from "@material-ui/core/Button";
+import Add from "@material-ui/icons/Add";
+import Close from "@material-ui/icons/Close";
+import TextBlackSubHeading from "../../../General/Text/TextBlackSubHeading";
+import PinkButton from "../../../General/Form/PinkButton";
 
 class FriendsSearchGrid extends React.Component {
 
@@ -14,7 +15,10 @@ class FriendsSearchGrid extends React.Component {
   render() {
     return (
       <div style={{ flexGrow: 1 }}>
-        Search Result For {this.props.searchString}
+
+          <div>
+              <TextBlackSubHeading message={"Search Result For " + this.props.searchStringType + " : \"" + this.props.searchStringValue + "\""}/>
+            </div>
         <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start" style={{paddingLeft: "20px", paddingRight: "20px", paddingTop: "20px"}}>
 
           {this.props.friendsSearchData
@@ -24,29 +28,23 @@ class FriendsSearchGrid extends React.Component {
             </Grid>
           ))}
         </Grid>
-        <div style={{width:"100%", height:"50px"}}>
-            <Button
-                size="small"
-                variant="outlined"
-                startIcon={<Search />}
-                component="span"
-                onClick={this.props.searchResultMoreClick}
-                disabled={!this.props.searchMore}
-                style={{textTransform:"None", height:"35px"}}
-              >
-                <TextBlueHeading message="More"/>
-              </Button>
+        <div style={{width:"100%", height:"50px", position: "absolute",bottom: "10px", textAlign: "center"}}>
 
-            <Button
-                size="small"
-                variant="outlined"
-                startIcon={<Search />}
-                component="span"
-                onClick={this.props.searchResultCancelClick}
-                style={{textTransform:"None", height:"35px"}}
-              >
-                <TextBlueHeading message="Cancel"/>
-              </Button>
+            <PinkButton
+                startIcon={<Add />}
+                handleOnClick={this.props.searchResultMoreClick}
+                disabled={!this.props.searchMore}
+                height="35px"
+                title="More"
+            />
+            <PinkButton
+                startIcon={<Close />}
+                handleOnClick={this.props.searchResultCancelClick}
+                disabled={!this.props.searchMore}
+                height="35px"
+                marginLeft="20px"
+                title="Cancel"
+            />
         </div>
       </div>
     );
