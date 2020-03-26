@@ -33,20 +33,30 @@ class VolunteerTime extends React.Component {
      console.log(this.state.website)
      console.log(this.state.hours)
      console.log(this.state.description)
+     let form_data = new FormData();
+        try {
+            form_data.append('user_email', this.state.userEmailId);
+            form_data.append('project_id', this.state.project_id);
+            form_data.append(' organisation_name', this.state.name);
+            form_data.append(' organisation_address', this.state.address);
+            form_data.append(' organisation_city', this.state.city);
+            form_data.append(' organisation_state', this.state.state_name);
+            form_data.append('hours', this.state.hours);
+            form_data.append('description', this.state.description);
+            if (this.state.final_video) {
+                form_data.append('exp_video', this.state.final_video, this.state.final_video.name);
+            }
+        } catch (err) {
+            console.log(err)
+        }
      axiosConfig.defaults.withCredentials = true;
         axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-        axiosConfig.post('charityproject/volunteerTime',
-            {"user_email": this.state.userEmailId,
-                    "project_id":this.state.project_id,
-                " organisation_name": this.state.name,
-                " organisation_address": this.state.address,
-                " organisation_city": this.state.city,
-                " organisation_state": this.state.state_name,
-                "hours": this.state.hours,
-                "description": this.state.description,
-                "exp_video": this.state.final_video
-            },
-                )
+        axiosConfig.post('charityproject/volunteerTime', form_data,
+            {
+                        headers: {
+                            'content-type': 'multipart/form-data'
+                        }
+                    })
                 .then(res => console.log(res))
                 .catch(error => console.log(error))
  }

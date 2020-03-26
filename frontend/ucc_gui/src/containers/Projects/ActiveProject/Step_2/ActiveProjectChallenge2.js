@@ -65,7 +65,8 @@ class ActiveProjectChallenge2 extends React.Component {
                   <div>
                     <Container>
                         <Challenge2Details id={this.props.match.params.id}
-                        handleChecked={this.handleChecked.bind(this)}/>
+                        handleChecked={this.handleChecked.bind(this)}
+                        />
                         <br/>
                         <TextBlack message = "2. Set a target date to complete your goal:"/>
                         <div className="DatePick">

@@ -9,6 +9,7 @@ import TextBlackHeading from "../../../General/Text/TextBlackHeading";
 import ProgressStepper from "../../ProgressStepper";
 import ProjectBanner from "../../ProjectBanner";
 import Checkbox from "../../../General/Form/Checkbox"
+import ProjectInfo from "../../../Project/ProjectHeader/ProjectInfo.js"
 class ProjectContent extends React.Component {
 
     constructor(props) {
@@ -18,6 +19,8 @@ class ProjectContent extends React.Component {
         ProjectName : '',
         ProjectBanner : '',
         ProjectBadge : '',
+        ProjectJoinDate :'',
+        ProjectChallengeStatus: '',
         selectedOption: '',
     }
  }
@@ -29,7 +32,9 @@ class ProjectContent extends React.Component {
               this.setState({
                   ProjectName : res.data.project_name,
                   ProjectBanner : res.data.project_banner,
-                  ProjectBadge: res.data.project_badge
+                  ProjectBadge: res.data.project_badge,
+                  ProjectJoinDate: res.data.project_join_date,
+                  ProjectChallengeStatus: res.data.challenge_status
               });
       }).catch(error => console.log(error))
     }
@@ -78,10 +83,11 @@ class ProjectContent extends React.Component {
                 </div>
                 </div>
 
+
                 <form onSubmit={this.handleFormSubmit}>
                 <div>
                 <TextBlueHeading message="Challenge 2: Ideation"/>
-                      <br/>a
+                      <br/>
                         <TextBlack message = "SET YOUR GOAL"/>
                         <br/>
                         <TextBlack message = "1. How can I make a difference? Explore the following impact adventures and set your project goal."/>
