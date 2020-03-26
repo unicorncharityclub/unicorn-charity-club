@@ -1,17 +1,21 @@
 import React from 'react';
 import TextBlueHeading from "../../../../General/Text/TextBlueHeading";
 import TextBlack from "../../../../General/Text/TextBlack";
-import Image from "react-bootstrap/Image";
+import TextArea from "../../../../General/Form/TextArea"
+import Input from  "../../../../../components/General/Form/Input"
+import ProjectInfo from "../../../Details/ProjectInfo";
+import "../../../../../containers/ProjectCommon.css"
 import axiosConfig from "../../../../../axiosConfig";
 import TextBlackHeading from "../../../../General/Text/TextBlackHeading";
 import ProgressStepper from "../../../ProgressStepper";
 import ProjectBanner from "../../../ProjectBanner";
-import Button from "react-bootstrap/Button";
 import cookie from "react-cookies";
 import {Container} from "@material-ui/core";
-import VolunteerTime from "../../../../../containers/Projects/ActiveProject/Step_3/VolunteerTime/VolunteerTime.css"
+import "../../../../../containers/Projects/ActiveProject/Step_3/VolunteerTime/VolunteerTime.css"
 import Address from "../../../../General/Form/Address/Address";
 import Video from "../../../../General/Video/Video"
+import TwoButtonLayout from "../../../../General/TwoButtonLayout";
+import TextBlackSubHeading from "../../../../General/Text/TextBlackSubHeading";
 
 class VolunteerTimeDetails extends React.Component {
     constructor(props) {
@@ -20,7 +24,9 @@ class VolunteerTimeDetails extends React.Component {
         project_id: this.props.id,
         projectName : '',
         projectBanner : '',
-        projectBadge : ''
+        projectBadge : '',
+        projectJoinDate :'',
+        projectChallengeStatus: ''
     }
  }
 
@@ -30,80 +36,59 @@ class VolunteerTimeDetails extends React.Component {
               this.setState({
                   projectName : res.data.project_name,
                   projectBanner : res.data.project_banner,
-                  projectBadge: res.data.project_badge
+                  projectBadge: res.data.project_badge,
+                  projectJoinDate: res.data.project_join_date,
+                  projectChallengeStatus: res.data.challenge_status
               });
       }).catch(error => console.log(error))
     }
 
     render() {
         return (
-            <div>
-                <div className="headerStepBanner">
-                    <div className="stepper" >
-                        <ProgressStepper currentStep="2" />
-                    </div>
-                    <div className="banner">
-                        <ProjectBanner image={this.state.projectBanner}  />
-                    </div>
-                </div>
-
-                <div className="ProjectInfo_MainDiv"  >
-                <div className="ProjectInfo_Container">
-                      <div className="ProjectInfo_Badge" >
-                        <Image src={this.state.projectBadge} style={{width: "100%", maxHeight: "100%"}} roundedCircle/>
-                      </div>
-
-                      <div className="ProjectInfo_Text" >
-                        <table>
-                          <tbody>
-                            <tr>
-                              <td colSpan={2}>
-                                  <TextBlackHeading message={this.state.projectName}/>
-                              </td>
-                            </tr>
-
-                          <tr>
-                              <td>
-                                  <TextBlack message="Date joined:"/>
-                              </td>
-                            </tr>
-                          <tr>
-                              <td>
-                                  <TextBlack message="Status:"/>
-                              </td>
-                            </tr>
-                          </tbody>
-                      </table>
-                    </div>
-
-                </div>
-                </div>
-
+            <div style={{ margin: "10px" }}>
+        <div style={{ marginBottom: "150px" }}>
                 <form onSubmit={this.handleFormSubmit}>
-                <div className="project-form">
+                    <div className="header_step_banner_common">
+                    <div className="stepper_common">
+                    <ProgressStepper currentStep="2" />
+                    </div>
+                    <div className="banner_common">
+                    <ProjectBanner image={this.state.projectBanner}  />
+                    </div>
+                    </div>
+                    <div className="content_project_info_vertical">
+                    <ProjectInfo vertical={true} id={this.state.project_id} />
+                    </div>
+                {/*<div className="project-form">*/}
+                <div className="content_section">
+                <div className="content_project_info">
+                <ProjectInfo id={this.state.project_id} />
+                </div>
                 <TextBlueHeading message="Challenge 3: Adventure"/>
                       <br/>
-                        <TextBlack message = "VOLUNTEER TIME"/>
+                      <br/>
+                        <TextBlackSubHeading message = "VOLUNTEER TIME"/>
                         <br/>
-                        <TextBlack message = "Volunteer time at a local organization that supports the mission of the project."/>
+                        <TextBlackSubHeading message = "Volunteer time at a local organization that supports the mission of the project."/>
                         <div className="project-form-inner">
                             <Address
                                 changeHandler = {this.props.changeHandler}/>
-                            <label>2. How much time did you volunteer? </label> <br/>
+                            <TextBlackSubHeading message ="2. How much time did you volunteer?"/> <br/>
 
                             <div className="form_control">
-                            <input type="number" name="hours" value={this.props.hours}
-                                   onChange={this.props.changeHandler}/>
-                                    <label>Hours</label>
+                            <Input type="number" name="hours" value={this.props.hours}
+                                   handleChange={this.props.changeHandler}/>
+                                    <label><TextBlack message="Hours"/></label>
+                                <br/>
 
                         </div>
 
-                            <label>3. Describe what you did to volunteer your time.</label><br/>
-                              <textarea name="description"
+                            <TextBlackSubHeading message = "3. Describe what you did to volunteer your time."/><br/>
+                              <TextArea name="description" rows={3} cols={80}
                                      value={this.props.defaultIfEmpty(this.props.description)}
-                                     onChange={this.props.changeHandler.bind(this)} /><br/>
+                                     handleChange={this.props.changeHandler.bind(this)} /><br/>
 
-                                     <label>3. Share a video or photo that celebrates your volunteer experience.</label>
+                                     <TextBlackSubHeading message="3. Share a video or photo that celebrates your volunteer experience."/>
                           </div>
                     <br/>
                     <Video src={this.props.video}
@@ -112,14 +97,14 @@ class VolunteerTimeDetails extends React.Component {
                            name="video"
                            accept="video/*"
                            onChange={this.props.videoHandler.bind(this)}/>
-
-                    <div className="buttons">
-                        <Button style={{ borderRadius : "50px 0px 0px 50px", backgroundColor:"white", border:"2px solid"}} className = "backButton"  variant="light" size="lg"> BACK </Button>
-                        <Button style={{ borderRadius : "0px 50px 50px 0px", border:"2px solid black"}} className = "nextButton" variant="success" size="lg" onClick={this.props.onSubmit}> NEXT </Button>
-                    </div>
+                           <div>
+                    <TwoButtonLayout button1Text="SAVE" button2Text="COMPLETE PROJECT"
+                           button1Click={this.props.onSubmit} button2Click={this.props.onSubmit}/>
+                           </div>
 
                   </div>
                 </form>
+            </div>
             </div>
         );
     }

@@ -9,6 +9,7 @@ import TextBlackHeading from "../../../General/Text/TextBlackHeading";
 import ProgressStepper from "../../ProgressStepper";
 import ProjectBanner from "../../ProjectBanner";
 import Checkbox from "../../../General/Form/Checkbox"
+import ProjectInfo from "../../Details/ProjectInfo";
 class ProjectContent extends React.Component {
 
     constructor(props) {
@@ -18,6 +19,8 @@ class ProjectContent extends React.Component {
         ProjectName : '',
         ProjectBanner : '',
         ProjectBadge : '',
+        ProjectJoinDate :'',
+        ProjectChallengeStatus: '',
         selectedOption: '',
     }
  }
@@ -27,61 +30,26 @@ class ProjectContent extends React.Component {
         axiosConfig.get(`charityproject/${this.state.Project_id}`)
       .then(res => {
               this.setState({
-                  ProjectName : res.data.project_name,
                   ProjectBanner : res.data.project_banner,
-                  ProjectBadge: res.data.project_badge
               });
       }).catch(error => console.log(error))
     }
 
     render() {
         return (
-            <div>
-                <div className="headerStepBanner">
-                    <div className="stepper" >
-                        <ProgressStepper currentStep="1" />
-                    </div>
-                    <div className="banner">
-                        <ProjectBanner image={this.state.ProjectBanner}  />
-                    </div>
-                </div>
-
-                <div className="ProjectInfo_MainDiv"  >
-                <div className="ProjectInfo_Container">
-                      <div className="ProjectInfo_Badge" >
-                        <Image src={this.state.ProjectBadge} style={{width: "100%", maxHeight: "100%"}} roundedCircle/>
-                      </div>
-
-                      <div className="ProjectInfo_Text" >
-                        <table>
-                          <tbody>
-                            <tr>
-                              <td colSpan={2}>
-                                  <TextBlackHeading message={this.state.ProjectName}/>
-                              </td>
-                            </tr>
-
-                          <tr>
-                              <td>
-                                  <TextBlack message="Date joined:"/>
-                              </td>
-                            </tr>
-                          <tr>
-                              <td>
-                                  <TextBlack message="Status:"/>
-                              </td>
-                            </tr>
-                          </tbody>
-                      </table>
-                    </div>
-
-                </div>
-                </div>
-
                 <form onSubmit={this.handleFormSubmit}>
                 <div>
+                    <div className="header_step_banner_common">
+                    <div className="stepper_common">
+                    <ProgressStepper currentStep="1" />
+                    </div>
+                    <div className="banner_common">
+                    <ProjectBanner image={this.state.ProjectBanner}  />
+                    </div>
+                    </div>
+                    <ProjectInfo id={this.state.Project_id}/>
                 <TextBlueHeading message="Challenge 2: Ideation"/>
-                      <br/>a
+                      <br/>
                         <TextBlack message = "SET YOUR GOAL"/>
                         <br/>
                         <TextBlack message = "1. How can I make a difference? Explore the following impact adventures and set your project goal."/>
@@ -115,7 +83,6 @@ class ProjectContent extends React.Component {
                         </ul>
                         </div>
                      </form>
-                  </div>
         );
     }
 }

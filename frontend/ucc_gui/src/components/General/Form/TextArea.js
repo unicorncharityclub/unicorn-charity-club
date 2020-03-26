@@ -3,9 +3,12 @@ import React from 'react';
 
 const TextArea = (props) => (
   <div className="form-group">
-    <label className="form-label">{props.title}</label>
+      {props.title?
+          (<label className="form-label textarea-main">{props.title}</label>)
+          :
+          ('')}
     <textarea
-      className="form-control"
+      className="form-control textarea-main"
       name={props.name}
       rows={props.rows}
       cols = {props.cols}
