@@ -25,7 +25,7 @@ renderList (type) {
                         key={index} projectId={elem.project_id} 
                         project_status = {elem.planning_status} 
                         type = {type}
-                        project_start_date = {elem.project_start_date}
+                        project_date = {elem.project_start_date}
                       /> 
                     </div>
                   </div>
@@ -42,7 +42,8 @@ renderList (type) {
                     <EachActiveProject 
                       key={index} projectId={elem.project_id} 
                       challenge_status = {elem.challenge_status} 
-                      type = {type}                       
+                      type = {type}     
+                      // need to add a date here..                  
                     /> 
                   </div>
                 </div>
@@ -59,6 +60,8 @@ renderList (type) {
                     <EachActiveProject 
                       key={index} projectId={elem.project_id}                        
                       type = {type}                       
+                      project_date = {elem.invitation_date}
+                      inviter_name = {elem.inviter_user_name}
                     /> 
                   </div>
                 </div>

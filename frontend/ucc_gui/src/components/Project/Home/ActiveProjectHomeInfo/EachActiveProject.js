@@ -30,8 +30,15 @@ class EachActiveProject extends React.Component {
       }).catch(error => console.log(error))
 
     }
+    
+    reverseDate(date) { 
+        var splitString = date.split("-");   
+        var reverseArray = splitString.reverse();
+        var joinString = reverseArray.join("-");
+        return joinString; 
+    }
 
-    renderdate (date, type, friend) {
+    renderdate (date, type) {
         let msg;
         if(date !== null && type === "Planning") {
             // if date is for Planning
@@ -45,9 +52,10 @@ class EachActiveProject extends React.Component {
             return (
                 <TextBlack message={msg + date}/> 
             );
-        }else if (date !== null && type === "Active") {
+        }else if (date !== null && type === "Invitation") {
             // if date is for Invitation
-            msg = "By 'Friend' on : ";
+            msg = "By "+ this.props.inviter_name + " on : ";
+            date = this.reverseDate(date);
             return (
                 <TextBlack message={msg + date}/> 
             );
@@ -209,7 +217,7 @@ class EachActiveProject extends React.Component {
                     <td className="firstCell" colSpan={2}>
                         {this.renderOnClick(this.props.project_status, this.props.type)}                                                                            
                         <br /> <br/>
-                        {this.renderdate(this.props.project_start_date, this.props.type)}                                                 
+                        {this.renderdate(this.props.project_date, this.props.type)}                                                 
                     </td>                                  
                     <td className = "stepperspace">
                         {this.renderProgressStepperOrButton(this.props.type)}                 

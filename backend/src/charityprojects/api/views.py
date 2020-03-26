@@ -486,9 +486,9 @@ def challenge_develop_new_habit(request):
     return JsonResponse(response)
 
 
-def get_project_invitations(request, user_email):
+def get_project_invitations(request, user_emailid):
     response = {'status': "Invalid Request"}
-    user_id = User.objects.get(email=user_email).id
+    user_id = User.objects.get(email=user_emailid).id
     invited_project_user_id_list = UserInvitation.objects.filter(friend_id=user_id, status="Pending")
     invited_project_list = []
     if len(invited_project_user_id_list) > 0:

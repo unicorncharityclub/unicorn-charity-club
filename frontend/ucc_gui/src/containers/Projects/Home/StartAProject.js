@@ -22,6 +22,7 @@ class ProjectsHome extends React.Component {
           selectedCategory : "",
           activeProjectsList : [],
           plannedProjectsList : [],
+          invitationsList : [],
           UserEmailId: cookie.load('user_emailid')
       }
    }
@@ -31,6 +32,14 @@ class ProjectsHome extends React.Component {
         this.fetchProjectDetails(this);
         this.fetchActiveProjectsList(this);
         this.fetchPlannedProjectsList(this);
+        this.fetchInvitaionsList(this);
+   }
+
+   fetchInvitaionsList (obj) {
+      const user_emailid = this.state.UserEmailId;      
+      axiosConfig.get(`charityproject/invitations/${user_emailid}`)
+      .then(function(response) {obj.setInvitationsList(response);})
+      .catch(function(error) {console.log(error);});
    }
 
    fetchActiveProjectsList(obj) {
@@ -75,12 +84,19 @@ class ProjectsHome extends React.Component {
     }
 
     setPlannedProjectsList (response) {            
-      let plannedProjectsList = response.data["project_list"];
-      this.setState(prevState => ({
-        plannedProjectsList: plannedProjectsList
-    }));      
-    console.log(this.state.plannedProjectsList)
-}
+        let plannedProjectsList = response.data["project_list"];
+        this.setState(prevState => ({
+          plannedProjectsList: plannedProjectsList
+      }));      
+      //console.log(this.state.plannedProjectsList)
+    }
+
+    setInvitationsList (response) {
+        let invitationsList = response.data["invited_project_list"];
+        this.setState(prevState => ({
+          invitationsList: invitationsList
+      }));      
+    }
 
     setProjectDetails(response) {
         this.setState(prevState => ({
@@ -104,8 +120,8 @@ class ProjectsHome extends React.Component {
 
         <div>                     
         {/* here is the invitations component */}
-        {this.state.plannedProjectsList && this.state.plannedProjectsList.length > 0?
-          (  <ActiveProjectInfo projectList={this.state.plannedProjectsList} list_type = {"Invitation"}/>):(<div/>)} 
+        {this.state.invitationsList && this.state.invitationsList.length > 0?
+          (  <ActiveProjectInfo projectList={this.state.invitationsList} list_type = {"Invitation"}/>):(<div/>)} 
         </div>
         
         <br/>
