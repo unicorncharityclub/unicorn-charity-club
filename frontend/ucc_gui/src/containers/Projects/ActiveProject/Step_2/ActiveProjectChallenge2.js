@@ -20,14 +20,14 @@ class ActiveProjectChallenge2 extends React.Component {
         console.log(this.state.goalDate)
         axiosConfig.defaults.withCredentials = true;
         axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-        axiosConfig.post('charityproject/update/Challenge2',
+        axiosConfig.put('charityproject/update/Challenge2',
             {"user_email": this.state.UserEmailId,
                     "project_id":project_id,
                 "goal_date":this.state.goalDate,
                 "adv_id":this.state.optionValue
             },
                 )
-                .then(res => this.props.history.push(`/Projects/${project_id}/`))
+                .then(res => console.log(res))
                 .catch(error => console.log(error))
 
     }
@@ -65,7 +65,8 @@ class ActiveProjectChallenge2 extends React.Component {
                   <div>
                     <Container>
                         <Challenge2Details id={this.props.match.params.id}
-                        handleChecked={this.handleChecked.bind(this)}/>
+                        handleChecked={this.handleChecked.bind(this)}
+                        />
                         <br/>
                         <TextBlack message = "2. Set a target date to complete your goal:"/>
                         <div className="DatePick">

@@ -8,47 +8,9 @@
     padding-top: 20px;
 }
 
-.project-form-address label {
-    padding-top: calc(0.375rem + 1px);
-    padding-bottom: calc(0.375rem + 1px);
-    margin-bottom: 0;
-    font-size: inherit;
-    line-height: 1.5rem;
+.Box1, .Box2 {
+    display: block;
     float: left;
-    color: #000;
-    width: 100%;
-}
-
-.project-form-address label {
-    padding-top: calc(2rem + 1px);
-}
-
-.project-form-address input {
-    display: block;
-    margin-left: 20px;
-    width: 80%;
-    padding: 0.375rem 0.75rem;
-    font-size: 1.1rem;
-    line-height: 1.5;
-    color: #000;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.project-form-address textarea {
-    display: block;
-    margin-left: 20px;
-    width: 80%;
-    padding: 0.375rem 0.75rem;
-    font-size: 1.1rem;
-    line-height: 2.5;
-    color: #000;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    width: 50%;
+    height: 100px;
 }
