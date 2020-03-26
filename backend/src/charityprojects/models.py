@@ -133,3 +133,15 @@ class DevelopNewHabit(models.Model):
 
     def __str__(self):
         return '{} {} {} {}'.format(self.newHabit, self.description, self.video, self.pu_id)
+
+
+class SpreadWord(models.Model):
+    objects = None
+    pu_id = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
+    invitee_count = models.IntegerField(blank=True)
+
+    def __str__(self):
+        return '{} {}'.format(self.pu_id, self.invitee_count)
+
+
+
