@@ -151,8 +151,7 @@ class EachActiveProject extends React.Component {
                   // if the status is ""              
                 // the project needs to be started to come to planning so this is not possible
               }          
-          }else {
-            // type === "Active"              
+          }else if (type === "Active"){                     
             if("Challenge1Complete" === status) {
               return (
                 <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/ActiveProjectChallenge2'}>
@@ -180,7 +179,15 @@ class EachActiveProject extends React.Component {
                     </a>
                   );
             } 
-        }   
+        }else{
+            // if Invitation
+            return (
+                <a className = "projectName" href = {`/Projects/${this.props.projectId}/ProjectInvitation/${this.props.inviter_email}`}>
+                    <TextBlackHeading message={this.state.ProjectName}/>
+                </a>
+              );
+        }
+
     }
 
     buttonHandler() {

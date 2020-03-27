@@ -6,6 +6,7 @@ import ProgressStepper from "../../../../components/Project/ProgressStepper";
 import ProjectBanner from "../../../../components/Project/ProjectBanner";
 import axiosConfig from '../../../../axiosConfig'
 import { Player } from 'video-react';
+import ProjectInfo from "../../../../components/Project/Details/ProjectInfo";
 
 class ActiveProjectChallenge1 extends React.Component {
     constructor(props) {
@@ -42,16 +43,19 @@ class ActiveProjectChallenge1 extends React.Component {
     render() {
       return(
             <div style={{margin:"15px", marginBottom: "150px"}}> 
-                <div className="headerStepBanner">
-                    <div className="stepper" >
+                <div className="header_step_banner_common">
+                    <div className="stepper_common" >
                         <ProgressStepper currentStep="0" />
                     </div>
-                    <div className="banner">
+                    <div className="banner_common">
                         <ProjectBanner image={this.state.ProjectBanner}  />
                     </div>
                 </div>
 
-                <ActiveProjectChallengeInfo id = {this.state.ProjectID}/>
+                {/* <div className="content_project_info_vertical"> */}
+                    <ActiveProjectChallengeInfo id = {this.state.ProjectID}/>                    
+                {/* </div> */}
+                
                 <br/>
                 <div>
                     <h2 className="textHeader">CHALLENGE 1: Exploration</h2>

@@ -48,7 +48,7 @@ class ProjectInvitation extends React.Component {
         
         // now move to challenge 1
         window.open('/Projects/'+ this.props.match.params.id +'/ActiveProjectChallenge1',"_self");
-
+    
     }
 
     componentDidMount () {        
