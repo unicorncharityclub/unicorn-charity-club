@@ -52,14 +52,15 @@ class ActiveProjectChallenge1 extends React.Component {
                     </div>
                 </div>
 
-                {/* <div className="content_project_info_vertical"> */}
-                    <ActiveProjectChallengeInfo id = {this.state.ProjectID}/>                    
-                {/* </div> */}
+                <div className="content_project_info_vertical">
+                    <ActiveProjectChallengeInfo vertical={true} id = {this.state.ProjectID}/>                    
+                </div>
                 
                 <br/>
-                <div>
+                <div className="content_section">
                     <h2 className="textHeader">CHALLENGE 1: Exploration</h2>
                         <p className="insideContent">
+                        <br/>
                         PRESENTATION
                         <br/>
                         Prep for Success Exploration Presentation
@@ -70,29 +71,33 @@ class ActiveProjectChallenge1 extends React.Component {
                             src={this.state.ProjectVideo}
                             />
                         </div>
-                    
+
+                        <br/>
+                        <div className="insideContent">                    
+                            {this.state.ProjectMission}
+                        </div>    
                                        
                 </div>
-                <br/>
-                <div className="insideContent">                    
+                
+                <div className="insideContent1">                    
                     {this.state.ProjectMission}
                 </div>
                                 
-                <div className="buttonDiv">                    
-                    <Button className = "doneButton" variant="light" size="lg" onClick = {this.buttonHandler.bind(this)}>Done</Button>                    
-                </div>
-            
-                <br/>
-                <br/>
                 
-                <hr style={{height: "1px", background:"#333"}}/>
+                {/* <hr style={{height: "1px", background:"#333"}}/> */}
                 
-                <div className="exploreLink">
+                <div className="exploreLink content_section">
+                    <div className = "inside-content">
                     <a href="https://www.pinterest.com/" target="_blank">
                     <h5 className="textHeader">
-                        <span className = "explore">Explore More</span>
+                        <span>Explore More</span>
                     </h5>     
                     </a>
+                    </div>
+                </div>
+
+                <div className="buttonDiv">                    
+                    <Button className = "doneButton" variant="light" size="lg" onClick = {this.buttonHandler.bind(this)}>Done</Button>                    
                 </div>               
             </div>
         )

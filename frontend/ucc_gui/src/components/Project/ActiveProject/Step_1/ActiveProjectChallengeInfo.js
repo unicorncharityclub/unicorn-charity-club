@@ -14,7 +14,8 @@ class ActiveProjectChallengeInfo extends React.Component {
         ProjectBadge : '',
       ProjectStatus : '',
       ProjectDateJoined : '',
-      ProjectBanner : ''
+      ProjectBanner : '',
+      ProjectMission : ''
     }  
     
  }
@@ -26,52 +27,121 @@ class ActiveProjectChallengeInfo extends React.Component {
                 this.setState({                  
                   ProjectName : res.data.project_name,
                   ProjectBadge : res.data.project_badge,
+                  ProjectMission : res.data.project_mission,
+                  ProjectCategory :res.data.project_category 
                 });
         }).catch(error => console.log(error))
 
     }
 
-
-    render() {
-      return(
-        <div>
-            <div className="ProjectInfo_MainDiv"  >
-                <div className="ProjectInfo_Container">
-                    <div className="ProjectInfo_Badge" >
-                        <Image src={this.state.ProjectBadge} style={{width: "100%", maxHeight: "100%"}} roundedCircle/>
-                    </div>
-                    <div className="ProjectInfo_Text" >
-                        <table>
-                          <tbody>
-                            <tr>
-                              <td colSpan={2}>
-                                  <TextBlackHeading message={this.state.ProjectName}/>
-                              </td>
-                            </tr>
+    render() {      
+        return (
+          <div>
+            {this.props.vertical ? (
+              <div>
+                <div className="start_project_info_main_div">
+                  <div className="start_project_info_container">
+                    <br />
+                    <div style={{width:"100%"}}>
+                      <table>
+                        <tbody>
+                        <tr>
+                            <td>
+                              <Image
+                        src={this.state.ProjectBadge}
+                        className="start_project_info_badge_image"
+                        roundedCircle/>
+                            </td>
+                          </tr>
                           <tr>
-                              <td>
-                                  <TextBlack message="Date Joined"/>
-                              </td>
-                              <td>
-                                  <TextBlack message= " : 02/06/2020"/>
-                              </td>
-                            </tr>
+                            <td>
+                              <TextBlackHeading message={this.state.ProjectName} />
+                            </td>
+                          </tr>
                           <tr>
-                              <td>
-                                  <TextBlack message="Status"/>
-                              </td>
-                              <td>
-                                  <TextBlack message=" : Active"/>
-                              </td>
-                            </tr>                         
-                          </tbody>
+                            <td valign="top">
+                              <b>
+                                <TextBlack className = "title" message={this.state.ProjectCategory} />
+                              </b>
+                            </td>
+                          </tr>                          
+                         
+                          <tr>
+                            <td valign="top">
+                                <b><TextBlack className = "title" message="Mission"/></b>
+                            </td>
+                          </tr>
+    
+                          <tr>
+                            <td>
+                              <TextBlack
+                                message={this.state.ProjectMission}
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
                       </table>
                     </div>
+                  </div>
                 </div>
-            </div>
-        </div>
-    )
-    }
+              </div>
+            ) : (
+              <div>
+                <div className="start_project_info_main_div">
+                  <div className="start_project_info_container">
+                    <div className="start_project_info_badge">
+                      <Image
+                        src={this.state.ProjectBadge}
+                        className="start_project_info_badge_image"
+                        roundedCircle
+                      />
+                    </div>
+                    <div className="start_project_info_text">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td colSpan={2}>
+                              <TextBlackHeading message={this.state.ProjectName} />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td valign="top">
+                              <TextBlack message="Category" />
+                            </td>
+                            <td>
+                              <TextBlack
+                                message={" : " + this.state.ProjectCategory}
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td valign="top">
+                              <TextBlack message="Tags" />
+                            </td>
+                            <td>
+                              <TextBlack message={" : " + this.state.ProjectTags} />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td valign="top">
+                              <TextBlack message="Mission" />
+                            </td>
+                            <td>
+                              <TextBlack
+                                message={" : " + this.state.ProjectMission}
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      }
 }
 
 export default ActiveProjectChallengeInfo;  

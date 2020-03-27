@@ -27,27 +27,44 @@
 }
 
 .ProjectInfo_Badge
-{
+{       
     height:100%;
     margin:5px;
-    float:left
+    float:left   
 }
 
 .ProjectInfo_Text
 {
+    padding: 3%;
     width:80%;
     height:100%;
-    float:left
+    float:left    
 }
+
+.textHeader {
+    font-size: x-large;
+    padding-left: 1%;        
+}
+
+
 
 @media screen and (max-device-width: 720px){
   .ProjectInfo_Badge
     {
         width:30%;
+        margin:5px;
+        float:left
     }
     .ProjectInfo_Text
     {
         width:70%;
+        height:100%;
+        float:left
+    }
+
+    .textHeader {
+        font-size: x-large;
+        padding: 2%;        
     }
 }
 @media screen and (max-device-width: 480px){
@@ -58,5 +75,9 @@
     .ProjectInfo_Text
     {
         width:60%;
+    }
+    .textHeader {
+        font-size: x-large;
+        padding: 2%;
     }
 }

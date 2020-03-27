@@ -89,7 +89,7 @@ class EachActiveProject extends React.Component {
                     </div>
                 );
               }else{
-                  // if the status is ""
+                  // if the status is planningStatus
                   return (
                     <div className = "stepperWidth">
                         <ProgressStepper currentStep={0}/>
@@ -117,7 +117,7 @@ class EachActiveProject extends React.Component {
                     </div>
                 );
               }else{
-                  // if the status is ""
+                  // if the status is startChallenge
                   return (
                     <div className = "stepperWidth">
                         <ProgressStepper currentStep={0}/>
@@ -148,8 +148,12 @@ class EachActiveProject extends React.Component {
                     </a>
                 );
               }else{
-                  // if the status is ""              
-                // the project needs to be started to come to planning so this is not possible
+                  // if the status is planningStart                             
+                return (
+                    <a className = "projectName" href = {'/Projects/'+ this.state.Project_id}>
+                        <TextBlackHeading message={this.state.ProjectName}/>
+                    </a>
+                );
               }          
           }else if (type === "Active"){                     
             if("Challenge1Complete" === status) {
@@ -171,7 +175,7 @@ class EachActiveProject extends React.Component {
                 </a>
               );
             }else{
-                // if the status is ""              
+                // if the status is startChallenge             
                 // as challenge1 is not completed yet
                 return (
                     <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/ActiveProjectChallenge1'}>
