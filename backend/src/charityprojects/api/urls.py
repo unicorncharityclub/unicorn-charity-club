@@ -27,7 +27,7 @@ urlpatterns = [
     path('spreadWord', spread_the_word),
     path('activeProjectList/<str:user_emailid>/', get_active_project_details),
     path('invitations/<str:user_emailid>/', get_project_invitations),
-    path('invitation/Details', fetch_project_invitation_details),
+    path('invitation/Details/', fetch_project_invitation_details),
     path('joinProject', join_project_invitation),
     path('unregisteredInvitation', unregistered_invitation),
     path('DevelopNewHabit', challenge_develop_new_habit)

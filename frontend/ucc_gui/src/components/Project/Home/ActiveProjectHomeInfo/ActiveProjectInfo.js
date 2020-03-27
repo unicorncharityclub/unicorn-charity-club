@@ -9,7 +9,7 @@ class ActiveProjectInfo extends React.Component {
     this.state = { 
       ProjectId : this.props.projectId,     
       ProjectName : '',
-      ProjectJoinDate : 'Not Available' 
+      ProjectJoinDate : '' 
     }
  }
 
@@ -25,7 +25,7 @@ renderList (type) {
                         key={index} projectId={elem.project_id} 
                         project_status = {elem.planning_status} 
                         type = {type}
-                        project_start_date = {elem.project_start_date}
+                        project_date = {elem.project_start_date}
                       /> 
                     </div>
                   </div>
@@ -42,8 +42,27 @@ renderList (type) {
                     <EachActiveProject 
                       key={index} projectId={elem.project_id} 
                       challenge_status = {elem.challenge_status} 
+                      type = {type}     
+                      // need to add a date here..                  
+                    /> 
+                  </div>
+                </div>
+            ))}                
+        </div>
+      );
+    }else if ("Invitation" === type){
+      return (
+        <div>                    
+            {this.props.projectList              
+              .map((elem, index) => (
+                <div className="ProjectInfo_MainDiv" key={index} >
+                  <div className="ProjectInfo_Container">    
+                    <EachActiveProject 
+                      key={index} projectId={elem.project_id}                        
                       type = {type}                       
-                      project_start_date = {elem.project_join_date}
+                      project_date = {elem.invitation_date}
+                      inviter_name = {elem.inviter_user_name}
+                      inviter_email = {elem.inviter_user_email}
                     /> 
                   </div>
                 </div>
@@ -58,7 +77,8 @@ renderList (type) {
     render() {
       return (
         <div>
-          {this.renderList(this.props.list_type)}    
+          {console.log(this.props)}
+          {this.renderList(this.props.list_type)}              
         </div>        
       )        
     }
