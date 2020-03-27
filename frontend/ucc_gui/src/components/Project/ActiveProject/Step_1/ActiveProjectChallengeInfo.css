@@ -16,7 +16,7 @@
 }
 
 .stepperspace{
-    padding-left: 300px;
+    padding-left: 12%;
 }
 
 .ProjectInfo_Container
@@ -46,6 +46,9 @@
     padding-left: 1%;        
 }
 
+.content_project_info_vertical {
+    margin-top: 0px;
+}
 
 
 @media screen and (max-device-width: 720px){
@@ -66,6 +69,20 @@
         font-size: x-large;
         padding: 2%;        
     }
+
+    .content_project_info_vertical
+    {
+        display: none;
+    }
+    .content_section
+    {
+        margin-bottom: 150px;
+        width:100%;
+        float:left;
+        border: 0;
+    }
+
+
 }
 @media screen and (max-device-width: 480px){
   .ProjectInfo_Badge
@@ -79,5 +96,17 @@
     .textHeader {
         font-size: x-large;
         padding: 2%;
+    }
+
+    .content_project_info_vertical
+    {
+        display: none;
+    }
+    .content_section
+    {
+        margin-bottom: 150px;
+        width:100%;
+        float:left;
+        border: 0;
     }
 }

@@ -223,15 +223,14 @@ class EachActiveProject extends React.Component {
 
     render() {
       return(
-        <div>     
-            {console.log(this.props.project_status)}          
+        <div>                          
             <div className="ActiveProjectInfo_Badge" style={{width: "117px", height : "117px"}}>                        
                 <Image src={this.state.ProjectBanner}  style={{width: "100%", height: "100%"}} roundedCircle/>
             </div>
             <div className="ActiveProjectInfo_Text" >
                 <table >
                     <tbody>
-                    <tr>
+                    <tr className = "row">
                     <td className="firstCell" colSpan={2}>
                         {this.renderOnClick(this.props.project_status, this.props.type)}                                                                            
                         <br /> <br/>

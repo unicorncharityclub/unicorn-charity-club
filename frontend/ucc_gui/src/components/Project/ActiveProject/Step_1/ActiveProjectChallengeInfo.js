@@ -113,25 +113,7 @@ class ActiveProjectChallengeInfo extends React.Component {
                                 message={" : " + this.state.ProjectCategory}
                               />
                             </td>
-                          </tr>
-                          <tr>
-                            <td valign="top">
-                              <TextBlack message="Tags" />
-                            </td>
-                            <td>
-                              <TextBlack message={" : " + this.state.ProjectTags} />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td valign="top">
-                              <TextBlack message="Mission" />
-                            </td>
-                            <td>
-                              <TextBlack
-                                message={" : " + this.state.ProjectMission}
-                              />
-                            </td>
-                          </tr>
+                          </tr>                                                    
                         </tbody>
                       </table>
                     </div>

@@ -5,6 +5,7 @@ import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
 import axiosConfig from '../../../axiosConfig'
 import ActiveProjectInfo from "../../../components/Project/Home/ActiveProjectHomeInfo/ActiveProjectInfo";
 import cookie from "react-cookies";
+import {Container} from "@material-ui/core";
 
 
 class ProjectsHome extends React.Component {
@@ -113,63 +114,71 @@ class ProjectsHome extends React.Component {
   render() {
     return (
       <div>
+        <Container>
+        <div className = "content_section">
+          <div className="textHeader">
+              Invitations
+          </div>
 
-        <div className="textHeader">
-            Invitations
-        </div>
-
-        <div>                     
-        {/* here is the invitations component */}
-        {this.state.invitationsList && this.state.invitationsList.length > 0?
-          (  <ActiveProjectInfo projectList={this.state.invitationsList} list_type = {"Invitation"}/>):(<div/>)} 
-        </div>
-        
-        <br/>
-
-        <div className="blackDivider"></div>
-
-        <div className="textHeader">
-            Planning
-        </div>
-
-        <div>                     
-        {this.state.plannedProjectsList && this.state.plannedProjectsList.length > 0?
-                  (  <ActiveProjectInfo projectList={this.state.plannedProjectsList} list_type = {"Planning"}/>):(<div/>)}            
+          <div>                             
+              {this.state.invitationsList && this.state.invitationsList.length > 0?
+                (  <ActiveProjectInfo projectList={this.state.invitationsList} list_type = {"Invitation"}/>):(<div/>)} 
+          </div>
         </div>
         
         <br/>
-        <div className="blackDivider"></div>
-        
-        
-        <div className="textHeader">
-            Active
-        </div>
 
-        <div> 
-          {this.state.activeProjectsList && this.state.activeProjectsList.length > 0?
-                  (  <ActiveProjectInfo projectList={this.state.activeProjectsList} list_type = {"Active"}/>):(<div/>)}                 
+        {/* <div className="blackDivider"></div> */}
+        
+        <div className = "content_section">
+          <div className="textHeader">
+              Planning
+          </div>
+
+          <div>                     
+          {this.state.plannedProjectsList && this.state.plannedProjectsList.length > 0?
+                    (  <ActiveProjectInfo projectList={this.state.plannedProjectsList} list_type = {"Planning"}/>):(<div/>)}            
+          </div>
+        </div>
+        
+        <br/>
+        {/* <div className="blackDivider"></div> */}
+        
+        <div className = "content_section">
+          <div className="textHeader">
+              Active
+          </div>
+
+          <div> 
+            {this.state.activeProjectsList && this.state.activeProjectsList.length > 0?
+                    (  <ActiveProjectInfo projectList={this.state.activeProjectsList} list_type = {"Active"}/>):(<div/>)}                 
+          </div>
         </div>
 
         <br/>
-        <div className="blackDivider"></div>
+        {/* <div className="blackDivider"></div> */}
 
-        <div className="textHeader">
-            Start a Project
-        </div>
+        <div className = "content_section">
+          <div className="textHeader">
+              Start a Project
+          </div>
 
-        <div className="marginSpaceTop marginSpaceBottom">
-          <FormControl variant="outlined" style={{marginLeft: '15%', border: '2px solid black', width : "70%"}}>
-              <Select  native style={{height: "50px"}} onChange={this.onCategoryChange.bind(this)} >
-              <option value="" />
-                {this.state.categoryList.map((projectCategory) => <option key={projectCategory} value={projectCategory}>{projectCategory}</option>)}
-            </Select>
-          </FormControl>
-        </div>
+          <div className="marginSpaceTop marginSpaceBottom">
+            <FormControl variant="outlined" style={{marginLeft: '15%', border: '2px solid black', width : "70%"}}>
+                <Select  native style={{height: "50px"}} onChange={this.onCategoryChange.bind(this)} >
+                <option value="" />
+                  {this.state.categoryList.map((projectCategory) => <option key={projectCategory} value={projectCategory}>{projectCategory}</option>)}
+              </Select>
+            </FormControl>
+          </div>
 
-        <div>
-            {this.state.projectsList[0].project_banner?
-                (<ProjectGrid projectData={this.state.projectsList} category={this.state.selectedCategory} />):(<div/>)}
+          <div>
+              {this.state.projectsList[0].project_banner?
+                  (<ProjectGrid projectData={this.state.projectsList} category={this.state.selectedCategory} />):(<div/>)}
+          </div>
+
          </div>
+         </Container>      
       </div>
     );
   }

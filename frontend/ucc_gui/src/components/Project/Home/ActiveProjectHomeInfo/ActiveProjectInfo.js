@@ -41,9 +41,9 @@ renderList (type) {
                   <div className="ProjectInfo_Container">    
                     <EachActiveProject 
                       key={index} projectId={elem.project_id} 
-                      challenge_status = {elem.challenge_status} 
-                      type = {type}     
-                      // need to add a date here..                  
+                      project_status = {elem.challenge_status} 
+                      type = {type} 
+                      project_date = {elem.project_join_date}
                     /> 
                   </div>
                 </div>
@@ -62,7 +62,7 @@ renderList (type) {
                       type = {type}                       
                       project_date = {elem.invitation_date}
                       inviter_name = {elem.inviter_user_name}
-                      inviter_email = {elem.inviter_user_email}
+                      inviter_email = {elem.inviter_user_email}                      
                     /> 
                   </div>
                 </div>
