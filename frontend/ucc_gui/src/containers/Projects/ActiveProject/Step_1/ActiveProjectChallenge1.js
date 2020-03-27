@@ -53,11 +53,16 @@ class ActiveProjectChallenge1 extends React.Component {
                 </div>
 
                 <div className="content_project_info_vertical">
-                    <ActiveProjectChallengeInfo vertical={true} id = {this.state.ProjectID}/>                    
+                    <ProjectInfo vertical={true} id = {this.state.ProjectID}/>                    
                 </div>
+                        
                 
-                <br/>
                 <div className="content_section">
+                    <div className="content_project_info">
+                        <ProjectInfo vertical={false} id = {this.state.ProjectID}/>  
+                    </div>
+                    
+                    <br/>
                     <h2 className="textHeader">CHALLENGE 1: Exploration</h2>
                         <p className="insideContent">
                         <br/>

@@ -57,8 +57,12 @@
     height:100%
 }
 
+.solo{
+    /* margin-top : 25px; */
+}
+
 .content_project_info_vertical {
-    margin-top : 25px;
+    /* margin-top : 25px; */
     margin-bottom : 0px;
 }
 
