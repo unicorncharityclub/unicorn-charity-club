@@ -2,12 +2,13 @@ import React from "react";
 import "./StartProjectStepTwo.css";
 import { Container } from "@material-ui/core";
 import ProjectInfo from "../../../../components/Project/Details/ProjectInfo";
-import Button from "react-bootstrap/Button";
 import GiftGrid from "../../../../components/Project/StartProject/Step_2/GiftGrid";
 import axiosConfig from '../../../../axiosConfig'
 import ProgressStepper from "../../../../components/Project/ProgressStepper";
+import "../../../ProjectCommon.css"
 import ProjectBanner from "../../../../components/Project/ProjectBanner";
 import cookie from 'react-cookies';
+import TwoButtonLayout from "../../../../components/General/TwoButtonLayout";
 import { withAlert } from 'react-alert'
 
 
@@ -83,7 +84,7 @@ class StartProjectStepTwo extends React.Component {
         }else{
             // show message that need to select one prize to proceed.
             const alert = this.props.alert;
-            alert.show('Please select one prize to proceed!');
+            alert.show('Please select one prize to proceed!',{position:'top right'});
         }
     }
 
@@ -102,12 +103,15 @@ class StartProjectStepTwo extends React.Component {
                             <ProjectBanner image={this.state.ProjectBanner} />
                         </div>
                     </div>
-              
-                    <div>
-                        <ProjectInfo id={this.props.match.params.id} />
+                    <div className="content_project_info_vertical">
+                    <ProjectInfo vertical={true} id={this.props.match.params.id} />
                     </div>
                     
                     <br/>
+                    <div className="content_section">
+                    <div className="content_project_info">
+                    <ProjectInfo id={this.props.match.params.id} />
+                    </div>
                     <div>
                         <h2 className="textHeader">PLAN YOUR PROJECT GIFT</h2>
                         <p className = "insideContent">Reward your Project Team with a secret gift when they complete the Project.</p>
@@ -118,9 +122,9 @@ class StartProjectStepTwo extends React.Component {
                         
                     </div>                    
                     <br/>
-                    <div className="buttons">
-                        <Button className = "backButton" variant="light" size="lg"> BACK </Button>
-                        <Button className = "nextButton" variant="success" size="lg" onClick={this.moveToStepThreeHandler.bind(this)}> NEXT </Button>
+                    <div>
+                    <TwoButtonLayout button1Text="BACK" button2Text="NEXT" button2Click={this.moveToStepThreeHandler.bind(this)}/>
+                    </div>
                     </div>
 
 

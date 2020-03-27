@@ -18,11 +18,10 @@ class UnregisteredFriendsInvite extends React.Component {
             <tbody>
         {this.props.unregisteredUser.map((user, index) => {
           return (
-
                   <tr key={index}>
-                    <td style={{width:"100%"}}>
+                    <td style={{width:"400px"}}>
                       <Input
-                          width="70%"
+                          width="100%"
                         placeholder="Email"
                         handleChange={e =>
                           this.props.unregisteredUserEmailChange(e, index)

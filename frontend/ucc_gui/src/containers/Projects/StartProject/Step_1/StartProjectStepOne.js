@@ -1,15 +1,16 @@
 import React from "react";
 import "./StartProjectStepOne.css";
+import "../../../ProjectCommon.css"
 import axiosConfig from '../../../../axiosConfig'
 import ProjectBanner from "../../../../components/Project/ProjectBanner";
 import ProjectInfo from "../../../../components/Project/Details/ProjectInfo";
 import ProjectContent from "../../../../components/Project/StartProject/Step_1/ProjectContent";
 import cookie from "react-cookies";
-import Button from "react-bootstrap/Button";
 import ProgressStepper from "../../../../components/Project/ProgressStepper";
 import TextBlue from "../../../../components/General/Text/TextBlue";
 import TextWhite from "../../../../components/General/Text/TextWhite";
 import AlertMessage from "../../../../components/General/AlertMessage";
+import TwoButtonLayout from "../../../../components/General/TwoButtonLayout";
 
 
 
@@ -27,18 +28,19 @@ class StartProjectStepOne extends React.Component {
             ProjectGoal: '',
             ProjectVideoName: '',
             ProjectDateStarted: 'Date Started',
+            video:'',
             UserProjectVideo: '',
             UserEmailId: cookie.load('user_emailid'),
             ErrorMessage : ''
         }
      }  
 
-     videoHandler(event){
-        this.setState({ErrorMessage : ""});
-      this.setState({
-            UserProjectVideo : event.target.files[0]
+    videoHandler = (event) =>{
+        this.setState({
+            video: URL.createObjectURL(event.target.files[0]),
+            UserProjectVideo: event.target.files[0]
         });
-     }
+    };
 
      moveToStepTwoHandler(event)
      {
@@ -84,29 +86,33 @@ class StartProjectStepOne extends React.Component {
     render() {
       return(
             <div style={{margin:"10px", marginBottom:"150px"}}>
-                <div className="headerStepBanner">
-                    <div className="stepper" >
-                        <ProgressStepper currentStep="0" />
+                <div className="header_step_banner_common">
+                    <div className="stepper_common">
+                    <ProgressStepper currentStep="1" />
                     </div>
-                    <div className="banner">
-                        <ProjectBanner image={this.state.ProjectBanner}  />
+                    <div className="banner_common">
+                    <ProjectBanner image={this.state.ProjectBanner}  />
                     </div>
-                </div>
+                    </div>
+                <div className="content_project_info_vertical">
+                    <ProjectInfo vertical={true} id={this.props.match.params.id} />
+                    </div>
 
-                <ProjectInfo id={this.state.ProjectId} />
+                <div className="content_section">
+                    <div className="content_project_info">
+                    <ProjectInfo id={this.props.match.params.id} />
+                    </div>
 
                 <ProjectContent videoHandler={this.videoHandler.bind(this)}
-                                userProjectVideo={this.state.UserProjectVideo}/>
-                <div style={{width:"60%", float:"right", alignText:"left", marginBottom:"10px"}}>
-                    <Button style={{ borderRadius : "50px 0px 0px 50px", backgroundColor:"white", border:"2px solid"}} className = "backButton" variant="light" size="lg">
-                        <TextBlue message="SAVE "/>
-                    </Button>
-                    <Button style={{ borderRadius : "0px 50px 50px 0px", border:"2px solid black"}} className = "nextButton" variant="success" size="lg" onClick={this.moveToStepTwoHandler.bind(this)}>
-                        <TextWhite message="NEXT "/>
-                    </Button>
+                                video={this.state.video}/> <br/>
+
+                    <div>
+                       <TwoButtonLayout button1Text="SAVE" button2Text="NEXT" button2Click={this.moveToStepTwoHandler.bind(this)}/>
+                       </div>
                     <div style={{width:"100%"}}>
                         <AlertMessage alertMessage={this.state.ErrorMessage} />
                     </div>
+
                 </div>
             </div>
         )

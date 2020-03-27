@@ -6,7 +6,6 @@ import Input from  "../../../../../components/General/Form/Input"
 import ProjectInfo from "../../../Details/ProjectInfo";
 import "../../../../../containers/ProjectCommon.css"
 import axiosConfig from "../../../../../axiosConfig";
-import TextBlackHeading from "../../../../General/Text/TextBlackHeading";
 import ProgressStepper from "../../../ProgressStepper";
 import ProjectBanner from "../../../ProjectBanner";
 import cookie from "react-cookies";
