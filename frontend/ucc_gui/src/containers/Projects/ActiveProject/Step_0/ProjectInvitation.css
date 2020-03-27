@@ -8,7 +8,7 @@
 
 
 @media screen and (max-width: 640px){
-    .banner_common {
+    .banner_inside {
         visibility: hidden;
     }
 }

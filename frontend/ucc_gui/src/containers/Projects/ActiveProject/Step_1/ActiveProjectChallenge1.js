@@ -42,7 +42,7 @@ class ActiveProjectChallenge1 extends React.Component {
 
     render() {
       return(
-            <div style={{margin:"15px", marginBottom: "150px"}}> 
+            <div style={{margin:"15px"}}> 
                 <div className="header_step_banner_common">
                     <div className="stepper_common" >
                         <ProgressStepper currentStep="0" />

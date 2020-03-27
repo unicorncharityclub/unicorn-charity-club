@@ -118,7 +118,7 @@ class ProjectInvitation extends React.Component {
             <div style={{margin:"25px"}}> 
                 
                 {/* Add project banner here */}
-                <div className="banner_common">
+                <div className="banner_common banner_inside">
                     <ProjectBanner image={this.state.project_banner}  />
                     <br/>
                 </div>
