@@ -5,6 +5,19 @@ import {Container} from "@material-ui/core";
 import * as cookie from "react-cookies";
 import axiosConfig from "../../../../../axiosConfig";
 
+/**
+ * @description Saves and fetches all the information of the Challenge 3 Develop new habit
+ * @class DevelopNewHabit
+ * @implements DevelopNewHabitComponent
+ * @extends React.Component
+ * @type {DevelopNewHabit}
+ * @example <DevelopNewHabit />
+ * pre-condition: all the imports
+ * post-condition: saves all the information of the Develop new habit page
+ * @param null
+ * @returns {DevelopNewHabit}
+ */
+
 class DevelopNewHabit extends React.Component {
 
     constructor(props) {

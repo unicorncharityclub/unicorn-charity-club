@@ -6,6 +6,19 @@ import ProgressStepper from "../../../ProgressStepper";
 import ProjectBanner from "../../../ProjectBanner";
 import ProjectInfo from "../../../ProjectHeader/ProjectInfo.js";
 
+/**
+ * @description Creates a form displaying all the information of the Challenge 3 Develop new habit
+ * @class DevelopNewHabitComponent
+ * @implements ProgressStepper, ProjectBanner, ProjectInfo, Video
+ * @extends React.Component
+ * @type {DevelopNewHabitComponent}
+ * @example <DevelopNewHabitComponent />
+ * pre-condition: all the imports
+ * post-condition: returns a form with all the information about develop new habit
+ * @param project_banner, project_name, project_badge, project_join_date, challenge_status, new_habit, description,
+ * changeHandler, videoHandler, saveHandler
+ * @returns {DevelopNewHabitComponent}
+ */
 
 class DevelopNewHabitComponent extends React.Component {
 
