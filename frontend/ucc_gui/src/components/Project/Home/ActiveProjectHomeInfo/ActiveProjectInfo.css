@@ -7,6 +7,12 @@
 
 }
 
+.viewButton {
+    border-radius: 0rem;
+    width: 130%;
+    background-color: #2BB9B7;
+}
+
 .ProjectInfo_MainDiv{
     border-radius: 10px;
     border-style:solid;

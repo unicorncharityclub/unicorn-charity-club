@@ -1,3 +1,4 @@
+
 import React from "react";
 import axiosConfig from '../../../../axiosConfig'
 import "./ActiveProjectInfo.css";
@@ -5,6 +6,7 @@ import Image from "react-bootstrap/Image";
 import TextBlackHeading from "../../../General/Text/TextBlackHeading";
 import TextBlack from "../../../General/Text/TextBlack";
 import ProgressStepper from "../../ProgressStepper";
+import Button from 'react-bootstrap/Button';
 
 
 class EachActiveProject extends React.Component {
@@ -13,8 +15,7 @@ class EachActiveProject extends React.Component {
     this.state = {      
         Project_id : this.props.projectId,        
         ProjectName : '',
-        ProjectJoinDate : '03/04/2020',   
-        project_status : ''
+        ProjectJoinDate : '03/04/2020',          
     }
  }
 
@@ -29,6 +30,13 @@ class EachActiveProject extends React.Component {
       }).catch(error => console.log(error))
 
     }
+    
+    reverseDate(date) { 
+        var splitString = date.split("-");   
+        var reverseArray = splitString.reverse();
+        var joinString = reverseArray.join("-");
+        return joinString; 
+    }
 
     renderdate (date, type) {
         let msg;
@@ -41,6 +49,13 @@ class EachActiveProject extends React.Component {
         }else if (date !== null && type === "Active") {
             // if date is for Active
             msg = "Joined On: ";
+            return (
+                <TextBlack message={msg + date}/> 
+            );
+        }else if (date !== null && type === "Invitation") {
+            // if date is for Invitation
+            msg = "By "+ this.props.inviter_name + " on : ";
+            date = this.reverseDate(date);
             return (
                 <TextBlack message={msg + date}/> 
             );
@@ -168,6 +183,32 @@ class EachActiveProject extends React.Component {
         }   
     }
 
+    buttonHandler() {
+        // on button click action
+        var projectID = this.props.projectId;
+        var email = this.props.inviter_email;        
+        window.open(`/Projects/${projectID}/ProjectInvitation/${email}`,"_self");
+    }
+
+    renderProgressStepperOrButton(type) {
+        if (type === "Invitation"){
+            return (
+                    <Button className="viewButton" onClick = {this.buttonHandler.bind(this)} variant="success" size="lg">
+                        VIEW INVITATION
+                    </Button>
+              );          
+        }else{
+            return (
+                // this is for planning or Active
+                <div>
+                    {this.renderProgressStepper(this.props.project_status, this.props.type)}    
+                </div>            
+          ); 
+            
+        }
+        
+    }
+
 
     render() {
       return(
@@ -183,10 +224,10 @@ class EachActiveProject extends React.Component {
                     <td className="firstCell" colSpan={2}>
                         {this.renderOnClick(this.props.project_status, this.props.type)}                                                                            
                         <br /> <br/>
-                        {this.renderdate(this.props.project_start_date, this.props.type)}                                                 
+                        {this.renderdate(this.props.project_date, this.props.type)}                                                 
                     </td>                                  
                     <td className = "stepperspace">
-                        {this.renderProgressStepper(this.props.project_status, this.props.type)}                       
+                        {this.renderProgressStepperOrButton(this.props.type)}                 
                     </td>                            
                 </tr>                                                                                                    
                 </tbody>                    
@@ -199,3 +240,4 @@ class EachActiveProject extends React.Component {
 }
 
 export default EachActiveProject;  
+

@@ -487,9 +487,9 @@ def challenge_develop_new_habit(request):
     return JsonResponse(response)
 
 
-def get_project_invitations(request, user_email):
+def get_project_invitations(request, user_emailid):
     response = {'status': "Invalid Request"}
-    user_id = User.objects.get(email=user_email).id
+    user_id = User.objects.get(email=user_emailid).id
     invited_project_user_id_list = UserInvitation.objects.filter(friend_id=user_id, status="Pending")
     invited_project_list = []
     if len(invited_project_user_id_list) > 0:
@@ -517,10 +517,18 @@ def get_project_invitations(request, user_email):
 
 def fetch_project_invitation_details(request):
     response = {'status': "Invalid Request"}
-    json_data = json.loads(request.body)
-    project_id = json_data["project_id"]
-    invited_user_email = json_data["user_email"]
-    inviter_user_email = json_data["inviter_user_email"]
+
+    #json_data = json.loads(request.body)
+    #project_id = json_data["project_id"]
+    #invited_user_email = json_data["user_email"]
+    #inviter_user_email = json_data["inviter_user_email"]
+
+    # take url parametes like this
+    # as get request does not send data in json
+    project_id = request.GET['project_id']
+    invited_user_email = request.GET['user_email']
+    inviter_user_email = request.GET['inviter_user_email']
+
     inviter_user_id = User.objects.get(email=inviter_user_email).id
     invited_user = User.objects.get(email=invited_user_email)
     user_id = invited_user.id
@@ -530,7 +538,8 @@ def fetch_project_invitation_details(request):
     pu_id = project_user_record.id
     project_user_details = ProjectUserDetails.objects.filter(pu_id_id=pu_id)[0]
     invitation_video = request.build_absolute_uri(project_user_details.video.url)
-    user_invitation = UserInvitation.objects.filter(pu_id_id=pu_id, status="Pending")
+    user_invitation = UserInvitation.objects.filter(pu_id_id=pu_id, status="Pending")[0]
+    print(user_invitation)
     invitation_message = user_invitation.invitation_message
     project_invitation = {"user_name": user_name, "message": invitation_message, "video": invitation_video,
                           "project_category": project.Category, "project_tags": project.Tags,
@@ -542,11 +551,19 @@ def fetch_project_invitation_details(request):
 
 def join_project_invitation(request):
     response = {'status': "Invalid Request"}
-    json_data = json.loads(request.body)
-    project_id = json_data["project_id"]
-    user_email = json_data["user_email"]
+
+    # json_data = json.loads(request.body)
+    # project_id = json_data["project_id"]
+    # user_email = json_data["user_email"]
+    # inviter_user_email = json_data["inviter_user_email"]
+
+    project_id = request.GET['project_id']
+    user_email = request.GET['user_email']
+    inviter_user_email = request.GET['inviter_user_email']
+
+    print(project_id, user_email, inviter_user_email)
+
     user_id = User.objects.get(email=user_email).id
-    inviter_user_email = json_data["inviter_user_email"]
     inviter_user_id = User.objects.get(email=inviter_user_email).id
     project_user_record = ProjectUser.objects.filter(project_id_id=project_id, user_id_id=user_id)
     if len(project_user_record) > 0:
@@ -560,7 +577,7 @@ def join_project_invitation(request):
         prize_given_id = find_user_prize(inviter_user_record)
         project_user_details = ProjectUserDetails.objects.create(pu_id=pu_id, prize_given_id=prize_given_id)
         project_user_details.save()
-        user_invitation = UserInvitation.objects.filter(pu_id_id=inviter_user_record)
+        user_invitation = UserInvitation.objects.filter(pu_id_id=inviter_user_record)[0]
         user_invitation.status = "Accepted"
         user_invitation.save()
         response["status"] = "Success"
