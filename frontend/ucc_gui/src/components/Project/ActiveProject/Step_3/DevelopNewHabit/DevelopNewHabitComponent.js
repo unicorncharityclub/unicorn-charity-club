@@ -31,10 +31,10 @@ class DevelopNewHabitComponent extends React.Component {
                              project_join_date={this.props.project_join_date}
                              challenge_status={this.props.challenge_status}
                 />
-                <div className="challenge-name">
-                    <label>CHALLENGE 3: Adventure</label>
-                </div>
                 <div className="project-form">
+                    <div className="challenge-name">
+                        <label>CHALLENGE 3: Adventure</label>
+                    </div>
                     <label>DEVELOP A NEW HABIT</label>
                     <label>Develop a new habit that will support the mission of the project.</label>
                     <div className="project-form-inner">
@@ -51,11 +51,11 @@ class DevelopNewHabitComponent extends React.Component {
                     </div>
                 </div>
                 <Video src={this.props.video}
-                        id="file" style={{display: 'none'}}
-                           type="file"
-                           name="video"
-                           accept="video/*"
-                           onChange={this.props.videoHandler.bind(this)}/>
+                       id="file" style={{display: 'none'}}
+                       type="file"
+                       name="video"
+                       accept="video/*"
+                       onChange={this.props.videoHandler.bind(this)}/>
                 <div className="navigate-save">
                     {/*<label htmlFor="save">Save</label>*/}
                     <Button className="save-button" id="save" variant="contained" type="submit"

@@ -31,6 +31,7 @@ class LearnNewSkill extends React.Component {
             project_name: '',
             project_banner: '',
             project_badge: '',
+            project_mission: '',
             //project_join_date: '',
             challenge_status: ''
         }
@@ -46,6 +47,7 @@ class LearnNewSkill extends React.Component {
                             project_name: res.data.active_project_list[i].project_name,
                             project_banner: res.data.active_project_list[i].project_banner,
                             project_badge: res.data.active_project_list[i].project_badge,
+                            project_mission: res.data.active_project_list[i].project_mission,
                             project_join_date: res.data.active_project_list[i].project_join_date,
                             challenge_status: res.data.active_project_list[i].challenge_status
                         });
@@ -108,21 +110,20 @@ class LearnNewSkill extends React.Component {
     render() {
         return (
             <div>
-                <Container>
-                    <LearnNewSkillComponent
-                        new_skill={this.state.new_skill}
-                        description={this.state.description}
-                        video={this.state.video}
-                        project_banner={this.state.project_banner}
-                        project_badge={this.state.project_badge}
-                        project_name={this.state.project_name}
-                        project_join_date={this.state.project_join_date}
-                        challenge_status={this.state.challenge_status}
-                        defaultIfEmpty={this.defaultIfEmpty.bind(this)}
-                        changeHandler={this.changeHandler.bind(this)}
-                        videoHandler={this.videoHandler.bind(this)}
-                        saveHandler={this.saveHandler.bind(this)}/>
-                </Container>
+                <LearnNewSkillComponent
+                    new_skill={this.state.new_skill}
+                    description={this.state.description}
+                    video={this.state.video}
+                    project_banner={this.state.project_banner}
+                    project_badge={this.state.project_badge}
+                    project_name={this.state.project_name}
+                    project_mission={this.state.project_mission}
+                    project_join_date={this.state.project_join_date}
+                    challenge_status={this.state.challenge_status}
+                    defaultIfEmpty={this.defaultIfEmpty.bind(this)}
+                    changeHandler={this.changeHandler.bind(this)}
+                    videoHandler={this.videoHandler.bind(this)}
+                    saveHandler={this.saveHandler.bind(this)}/>
             </div>
         )
     }

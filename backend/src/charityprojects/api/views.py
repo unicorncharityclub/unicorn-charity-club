@@ -2,12 +2,14 @@ import json
 from datetime import date
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
-from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation, SpreadWord
+from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation, \
+    SpreadWord
 from django.http import JsonResponse
 from accounts.models import User
 from myaccount.models import ChildAccount
 from myaccount.models import Myaccount
-from .serializers import ProjectUserSerializer, LearnNewSkillSerializer, VolunteerTimeSerializer, DevelopNewHabitSerializer
+from .serializers import ProjectUserSerializer, LearnNewSkillSerializer, VolunteerTimeSerializer, \
+    DevelopNewHabitSerializer
 from rest_framework import status
 from rest_framework.response import Response
 
@@ -83,10 +85,11 @@ def get_active_project_details(request, user_emailid):
                 project_name = project.Name
                 project_badge = request.build_absolute_uri(project.Badge.url)
                 project_banner = request.build_absolute_uri(project.Banner.url)
+                project_mission = project.Mission
                 joined_date = project_user.date_joined
                 challenge_status = project_user.challenge_status
                 project_info = {"project_id": project_id, "project_name": project_name, "project_badge": project_badge,
-                                "project_banner": project_banner,
+                                "project_banner": project_banner, "project_mission": project_mission,
                                 "project_join_date": joined_date, "challenge_status": challenge_status}
                 active_charity_project_list.append(project_info)
             response['active_project_list'] = active_charity_project_list
@@ -133,7 +136,7 @@ def start_project(request):
                             response['status'] = "Select prize for project. Complete step3"
             else:
                 project_user = ProjectUser.objects.create(project_id=project, user_id=user,
-                                                                  invited_by=invited_by, project_status="PlanningPhase1")
+                                                          invited_by=invited_by, project_status="PlanningPhase1")
                 project_user.save()
                 print("Created new record")
                 pu_id = project_user.id
@@ -154,8 +157,8 @@ def update_project_invitation_video_details(request):
         user_emailid = request.data["Email"]
         project_id = request.data["ProjectId"]
 
-        user_id = User.objects.get(email=user_emailid).id #get user id from email id
-        project_user_record = ProjectUser.objects.filter(user_id_id=user_id, project_id_id=project_id)[0]# from project user table get id
+        user_id = User.objects.get(email=user_emailid).id  # get user id from email id
+        project_user_record = ProjectUser.objects.filter(user_id_id=user_id, project_id_id=project_id)[0]  # from project user table get id
         pu_id = project_user_record.id
         project_user_details = ProjectUserDetails.objects.filter(pu_id=pu_id)[0]
         project_user_update_data = {"video": request.data["ProjectVideo"]}
@@ -186,7 +189,7 @@ def update_project_prize(request):
         project_id = json_data["project_id"]
         prize_id = json_data["prize_id"]
         project_user_record = ProjectUser.objects.filter(user_id=user_id,
-                                        project_id_id=project_id)[0]
+                                                         project_id_id=project_id)[0]
         pu_id = project_user_record.id
         project_user_details = ProjectUserDetails.objects.filter(pu_id=pu_id)[0]
 
@@ -209,7 +212,7 @@ def update_project_challenge_status_explore(request):
         user_id = User.objects.get(email=user_email_id).id
         project_id = json_data["project_id"]
         project_join_date = json_data["joining_date"]
-        project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0] #ideally only one entry should be there
+        project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0]  # ideally only one entry should be there
         if project_user_record:
             project_user_record.date_joined = project_join_date
             project_user_record.challenge_status = "Challenge1Complete"
@@ -258,7 +261,7 @@ def update_project_challenge_status_ideation(request):
         project_id = json_data["project_id"]
         project_goal_date = json_data["goal_date"]
         adventure_id = json_data["adv_id"]
-        project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0] #ideally only one entry should be there
+        project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0]  # ideally only one entry should be there
         if project_user_record:
             project_user_record.goal_date = project_goal_date
             project_user_record.challenge_status = "Challenge2Complete"
@@ -277,8 +280,8 @@ def update_user_invitation(request):
         user_id = User.objects.get(email=user_email_id).id
         project_id = json_data["project_id"]
         invited_users = json_data["friend_list"]
-        #Remove null, duplicates and own emailId if it exists
-        invited_users = [item for item in invited_users if len(item)>1 and item!=user_email_id]
+        # Remove null, duplicates and own emailId if it exists
+        invited_users = [item for item in invited_users if len(item) > 1 and item != user_email_id]
         invited_users = set(invited_users)
         message = json_data["invitation_message"]
         project_user_id = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0].id
@@ -339,7 +342,7 @@ def search_friends(request):
     json_data = json.loads(request.body)
     search_text = json_data["text"]
     offset = json_data["offset_value"]
-    offset = offset*10
+    offset = offset * 10
     user_list = User.objects.all()
     children_list = ChildAccount.objects.all()
     for user in user_list:
@@ -364,7 +367,7 @@ def search_friends(request):
             else:
                 child_photo = ""
             child_details = {"user_email": child_email_id, "user_name": child_name,
-                             "user_photo": child_photo} # Check with child account what dummy email to use
+                             "user_photo": child_photo}  # Check with child account what dummy email to use
             friend_list.append(child_details)
     if len(friend_list) == 0:
         response["status"] = "No user exists with the search name"
@@ -432,7 +435,7 @@ def create_volunteer_adventure(request):
 
 def fetch_project_planning_status(request, user_emailid):
     response = {'status': "Invalid Request"}
-    #json_data = json.loads(request.body)
+    # json_data = json.loads(request.body)
     user_email_id = user_emailid
     user_id = User.objects.get(email=user_email_id).id
     project_user_list = ProjectUser.objects.filter(user_id=user_id)
@@ -469,7 +472,8 @@ def challenge_develop_new_habit(request):
         new_habit_list['video'] = request.data['video']
     project_id = request.data["projectId"]
     new_habit_list['projectId'] = project_id
-    project_user_record = ProjectUser.objects.filter(user_id_id=user_id, project_id_id=project_id)[0]  # from project user table get id
+    project_user_record = ProjectUser.objects.filter(user_id_id=user_id, project_id_id=project_id)[0]
+    # from project user table get id
     if project_user_record:
         pu_id = project_user_record.id
         new_habit_list['pu_id'] = pu_id
@@ -504,8 +508,10 @@ def get_project_invitations(request, user_email):
             project_badge = request.build_absolute_uri(project.Badge.url)
             inviter_name = user.get_full_name()
             invitation_date = invitation.invitation_date
-            invitation_details = {"inviter_user_email": user.email, "inviter_user_name": inviter_name, "project_id": project_id, "project_name": project_name,
-                                  "project_badge": project_badge, "invitation_date": invitation_date } #invitation date has to be updated
+            invitation_details = {"inviter_user_email": user.email, "inviter_user_name": inviter_name,
+                                  "project_id": project_id, "project_name": project_name,
+                                  "project_badge": project_badge,
+                                  "invitation_date": invitation_date}  # invitation date has to be updated
             invited_project_list.append(invitation_details)
         response["invited_project_list"] = invited_project_list
         response["status"] = "Success"

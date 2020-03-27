@@ -1,12 +1,17 @@
 .project-header {
     float: left;
     position: relative;
-    width: 100%;
+    width: 90%;
     /*display: flex;*/
     flex-flow: row;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    display: table;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    border-radius: 10px;
+    height: 50%;
+    border: 1px solid #9d9d9d;
 }
 
 .project-header label {
@@ -16,8 +21,8 @@
     font-size: inherit;
     float: left;
     color: #000;
-    width: 200%;
-    line-height: 0.75rem;
+    width: 100%;
+    line-height: 1.5rem;
     overflow: hidden;
 }
 
@@ -32,15 +37,84 @@
 }
 
 .project-header p {
-    /*max-width: 1%;*/
-    border-radius: 50%;
     font-size: unset;
-    display: table-cell;
-    vertical-align: middle;
-    white-space: nowrap;
-    margin: 0;
+    margin: 5px;
+    justify-content: center;
+    text-align: center;
 }
 
-.project-header .logo-cell {
-    max-width: 0px;
+.adventure-project {
+    display: flex;
+    flex-direction: row;
+    margin: 3%;
+}
+
+.project-banner {
+    height: unset !important;
+    border: 1px solid #9d9d9d;
+    border-radius: 5px;
+}
+
+.project-content {
+    border: 1px solid #9d9d9d;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.project-name {
+    color: #3b9f9d !important;
+    font-size: 18px !important;
+}
+
+.mobile-content {
+    display: none;
+}
+
+@media only screen and (max-width: 520px) {
+    .project-header {
+        width: 100%;
+        /*display: flex;*/
+        flex-flow: row;
+        display: table;
+        margin-bottom: 3%;
+    }
+
+    .project-header p {
+        /*max-width: 1%;*/
+        font-size: unset;
+        display: table-cell;
+        vertical-align: middle;
+        white-space: nowrap;
+        margin: 5px;
+        text-align: left;
+    }
+
+    .adventure-project {
+        display: inline-block;
+    }
+
+    .desktop-content {
+        display: none;
+    }
+
+    .mobile-content {
+        display: block;
+    }
+
+    .project-logo {
+        width: 90px;
+        height: 90px;
+    }
+
+    .project-header label {
+        width: 100%;
+        line-height: 0.5rem;
+    }
+
+    .project-content {
+        display: inline-block;
+        border: none;
+        margin: 0;
+        position: relative;
+    }
 }

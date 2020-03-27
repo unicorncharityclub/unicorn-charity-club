@@ -16,13 +16,20 @@ class ProjectInfo extends React.Component {
         return (
             <div>
                 <div className="project-header">
-                    <p className="logo-cell">
+                    <p>
                         <img className="project-logo" src={this.props.project_badge || Project_logo} alt="Avatar"/>
                     </p>
                     <p>
-                        <label>{this.props.project_name}</label>
+                        <label className="project-name">{this.props.project_name}</label>
                         <label>Date Joined: {this.props.project_join_date}</label>
                         <label>Status: {status}</label>
+                        {(this.props.project_mission) ?
+                            <div>
+                                <label className="project-name">Mission</label>
+                                <label>{this.props.project_mission}</label>
+                            </div>
+                            : ''
+                        }
                     </p>
                 </div>
             </div>
