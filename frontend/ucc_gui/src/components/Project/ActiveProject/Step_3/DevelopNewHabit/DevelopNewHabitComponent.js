@@ -6,6 +6,19 @@ import ProgressStepper from "../../../ProgressStepper";
 import ProjectBanner from "../../../ProjectBanner";
 import ProjectInfo from "../../../ProjectHeader/ProjectInfo.js";
 
+/**
+ * @description Creates a form displaying all the information of the Challenge 3 Develop new habit
+ * @class DevelopNewHabitComponent
+ * @implements ProgressStepper, ProjectBanner, ProjectInfo, Video
+ * @extends React.Component
+ * @type {DevelopNewHabitComponent}
+ * @example <DevelopNewHabitComponent />
+ * pre-condition: all the imports
+ * post-condition: returns a form with all the information about develop new habit
+ * @param project_banner, project_name, project_badge, project_join_date, challenge_status, new_habit, description,
+ * changeHandler, videoHandler, saveHandler
+ * @returns {DevelopNewHabitComponent}
+ */
 
 class DevelopNewHabitComponent extends React.Component {
 
@@ -18,10 +31,10 @@ class DevelopNewHabitComponent extends React.Component {
                              project_join_date={this.props.project_join_date}
                              challenge_status={this.props.challenge_status}
                 />
-                <div className="challenge-name">
-                    <label>CHALLENGE 3: Adventure</label>
-                </div>
                 <div className="project-form">
+                    <div className="challenge-name">
+                        <label>CHALLENGE 3: Adventure</label>
+                    </div>
                     <label>DEVELOP A NEW HABIT</label>
                     <label>Develop a new habit that will support the mission of the project.</label>
                     <div className="project-form-inner">
@@ -38,11 +51,11 @@ class DevelopNewHabitComponent extends React.Component {
                     </div>
                 </div>
                 <Video src={this.props.video}
-                        id="file" style={{display: 'none'}}
-                           type="file"
-                           name="video"
-                           accept="video/*"
-                           onChange={this.props.videoHandler.bind(this)}/>
+                       id="file" style={{display: 'none'}}
+                       type="file"
+                       name="video"
+                       accept="video/*"
+                       onChange={this.props.videoHandler.bind(this)}/>
                 <div className="navigate-save">
                     {/*<label htmlFor="save">Save</label>*/}
                     <Button className="save-button" id="save" variant="contained" type="submit"
