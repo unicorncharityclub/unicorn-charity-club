@@ -3,13 +3,15 @@ import "./Challenge2Details.css"
 import "react-datepicker/dist/react-datepicker.css";
 import TextBlueHeading from "../../../General/Text/TextBlueHeading";
 import TextBlack from "../../../General/Text/TextBlack";
-import Image from "react-bootstrap/Image";
+import "../../../../containers/ProjectCommon.css"
 import axiosConfig from "../../../../axiosConfig";
 import TextBlackHeading from "../../../General/Text/TextBlackHeading";
 import ProgressStepper from "../../ProgressStepper";
 import ProjectBanner from "../../ProjectBanner";
-import Checkbox from "../../../General/Form/Checkbox"
 import ProjectInfo from "../../Details/ProjectInfo";
+import TextBlackSubHeading from "../../../General/Text/TextBlackSubHeading";
+import DatePicker from "react-datepicker";
+import TwoButtonLayout from "../../../General/TwoButtonLayout";
 class ProjectContent extends React.Component {
 
     constructor(props) {
@@ -47,17 +49,23 @@ class ProjectContent extends React.Component {
                     <ProjectBanner image={this.state.ProjectBanner}  />
                     </div>
                     </div>
-                    <ProjectInfo id={this.state.Project_id}/>
-                <TextBlueHeading message="Challenge 2: Ideation"/>
+                    <div className="content_project_info_vertical">
+                    <ProjectInfo vertical={true} id={this.state.Project_id} />
+                    </div>
+                    <div className="content_section">
+                    <div className="content_project_info">
+                    <ProjectInfo id={this.state.Project_id} />
+                    </div>
+                    <TextBlueHeading message="Challenge 2: Ideation"/>
                       <br/>
-                        <TextBlack message = "SET YOUR GOAL"/>
+                        <TextBlackSubHeading message = "SET YOUR GOAL"/>
                         <br/>
-                        <TextBlack message = "1. How can I make a difference? Explore the following impact adventures and set your project goal."/>
+                        <TextBlackSubHeading message = "1. How can I make a difference? Explore the following impact adventures and set your project goal."/>
                         <ul style={{paddingLeft:"60px"}}>
                             <br/>
                             <div className="OptionList">
-                            <input name="Options" type = "radio" value="1" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                            <label for="Option1"> <TextBlack message = "Spread the word by inviting 5+ friends to the project"/></label><br/>
+                            <input name="Options" type ="radio" value="1" checked={this.state.checked} onClick={this.props.handleChecked}/>
+                            <label htmlFor="Option1"> <TextBlack message = "Spread the word by inviting 5+ friends to the project"/></label><br/>
                             <br/>
 
                             <input name="Options" type="radio" value="2" checked={this.state.checked} onClick={this.props.handleChecked}/>
@@ -79,10 +87,21 @@ class ProjectContent extends React.Component {
                             <input name="Options" type="radio" value="6" checked={this.state.checked} onClick={this.props.handleChecked}/>
                             <label for="Option6"> <TextBlack message = "Fundraise money to support the mission"/></label><br/>
                             <br/>
-                            </div>
+                        </div>
                         </ul>
+                        <br/>
+                        <TextBlackSubHeading message = "2. Set a target date to complete your goal:"/> <br/>
+                        <div className="DatePick">
+                        <DatePicker selected = {this.props.goalDate} onChange={this.props.handleDateChange}/>
+                        </div>
+                        <br/>
+                        <div>
+                       <TwoButtonLayout button1Text="SAVE" button2Text="NEXT" button2Click={this.props.onSubmit}/>
+                       </div>
+                        </div>
                         </div>
                      </form>
+
         );
     }
 }

@@ -27,7 +27,6 @@ class SpreadTheWord extends React.Component {
             ProjectName: '',
             ProjectBanner: '',
             ProjectBadge: '',
-            Video: '',
             UserEmailId: cookie.load("user_emailid"),
               PopupSearch: false,
               SearchType: "",
@@ -71,13 +70,12 @@ class SpreadTheWord extends React.Component {
   {
     this.setState({SendInvitationIssue: ""});
     if(this.checkUnregisteredUsersErr()===false && this.checkInvitationMessageErr()===false) {
-      this.sendInvitationToRegisteredUsers(this);
-
+      //this.sendInvitationToRegisteredUsers(this);
+        this.props.history.push(`/Projects`)
     }
   }
 
-    sendInvitationToRegisteredUsers(obj)
-  {
+  sendInvitationToRegisteredUsers(obj) {
 
   }
 
@@ -87,7 +85,12 @@ class SpreadTheWord extends React.Component {
 
   checkInvitationMessageErr()
   {
-    if(this.state.InviteMessage.length===0)
+      if(this.state.video.length===0)
+    {
+      this.setState({SendInvitationIssue: "Please upload a video for your invitees."});
+      return true;
+    }
+    else if(this.state.InviteMessage.length===0)
     {
       this.setState({SendInvitationIssue: "Enter an Invitation message to be sent to your invitee's."});
       return true;
@@ -116,45 +119,7 @@ class SpreadTheWord extends React.Component {
   This method will actually call the backend API and fetch the friends result based on the search query
    */
   fetchFriendsData(obj, searchType, searchValue, offset, searchMoreFlag) {
-    if(searchType==='emailid')
-    {
-      axiosConfig.defaults.withCredentials = true;
-      axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-      axiosConfig
-        .post(`charityproject/friendByEmail`,
-            {
-              "friend_email" : searchValue
-            })
-        .then(function(response) {
-          console.log(response.data)
-          obj.setState({ PopupSearch: true });
-          obj.setState({FriendsSearchData: response.data["friend_list"]})
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    }
-    else {
-      axiosConfig.defaults.withCredentials = true;
-      axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-      axiosConfig
-        .post(`charityproject/search`,
-            {
-              "text" : searchValue,
-              "offset_value" : offset
-            })
-        .then(function(response) {
-          console.log(response.data)
-          obj.setState({ PopupSearch: true });
-          obj.setState({FriendsSearchData: response.data["friend_list"]})
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    }
-
-    //Set this accordingly
-    this.setState({ SearchMoreAvailable: true });
+      FriendsSearchHelper.fetchFriendsDataHelper( obj, searchType, searchValue, offset, searchMoreFlag);
   }
 
   saveButtonClick()
