@@ -78,17 +78,18 @@ def get_active_project_details(request, user_emailid):
         active_charity_project_list = []
         if len(project_user_list) > 0:
             for project_user in project_user_list:
-                project_id = project_user.project_id_id
-                project = CharityProjects.objects.get(pk=project_id)
-                project_name = project.Name
-                project_badge = request.build_absolute_uri(project.Badge.url)
-                project_banner = request.build_absolute_uri(project.Banner.url)
-                joined_date = project_user.date_joined
-                challenge_status = project_user.challenge_status
-                project_info = {"project_id": project_id, "project_name": project_name, "project_badge": project_badge,
-                                "project_banner": project_banner,
-                                "project_join_date": joined_date, "challenge_status": challenge_status}
-                active_charity_project_list.append(project_info)
+                if project_user.project_status == "PlanningPhase3":
+                    project_id = project_user.project_id_id
+                    project = CharityProjects.objects.get(pk=project_id)
+                    project_name = project.Name
+                    project_badge = request.build_absolute_uri(project.Badge.url)
+                    project_banner = request.build_absolute_uri(project.Banner.url)
+                    joined_date = project_user.date_joined
+                    challenge_status = project_user.challenge_status
+                    project_info = {"project_id": project_id, "project_name": project_name, "project_badge": project_badge,
+                                    "project_banner": project_banner,
+                                    "project_join_date": joined_date, "challenge_status": challenge_status}
+                    active_charity_project_list.append(project_info)
             response['active_project_list'] = active_charity_project_list
             response['status'] = "Success"
         else:
@@ -133,7 +134,7 @@ def start_project(request):
                             response['status'] = "Select prize for project. Complete step3"
             else:
                 project_user = ProjectUser.objects.create(project_id=project, user_id=user,
-                                                                  invited_by=invited_by, project_status="PlanningPhase1")
+                                                          invited_by=invited_by, project_status="PlanningStarted")
                 project_user.save()
                 print("Created new record")
                 pu_id = project_user.id
@@ -165,7 +166,7 @@ def update_project_invitation_video_details(request):
             project_user_serializer = ProjectUserSerializer(project_user_details, data=project_user_update_data)
             if project_user_serializer.is_valid():
                 project_user_serializer.save()
-                project_user_record.project_status = "PlanningPhase2"
+                project_user_record.project_status = "PlanningPhase1"
                 project_user_record.save()
                 return Response(project_user_serializer.data, status=status.HTTP_201_CREATED)
             else:
@@ -185,15 +186,15 @@ def update_project_prize(request):
         user_id = User.objects.get(email=user_email_id).id  # get user id from email id
         project_id = json_data["project_id"]
         prize_id = json_data["prize_id"]
-        project_user_record = ProjectUser.objects.filter(user_id=user_id,
+        project_user_record = ProjectUser.objects.filter(user_id_id=user_id,
                                         project_id_id=project_id)[0]
         pu_id = project_user_record.id
-        project_user_details = ProjectUserDetails.objects.filter(pu_id=pu_id)[0]
+        project_user_details = ProjectUserDetails.objects.filter(pu_id_id=pu_id)[0]
 
         if project_user_details:
             project_user_details.prize_given_id = Prize.objects.get(pk=prize_id)
             project_user_details.save()
-            project_user_record.project_status = "PlanningPhase3"
+            project_user_record.project_status = "PlanningPhase2"
             project_user_record.save()
             response['status'] = "Success"
         else:
@@ -281,7 +282,8 @@ def update_user_invitation(request):
         invited_users = [item for item in invited_users if len(item)>1 and item!=user_email_id]
         invited_users = set(invited_users)
         message = json_data["invitation_message"]
-        project_user_id = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0].id
+        project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id_id=project_id)[0]
+        project_user_id = project_user_record.id
         prize_given_id = ProjectUserDetails.objects.filter(pu_id_id=project_user_id)[0].prize_given_id_id
         for email in invited_users:
             if create_user_invitation(email, project_user_id, prize_given_id, message):
@@ -289,6 +291,9 @@ def update_user_invitation(request):
             else:
                 response["status"] = "Requested user does not exist"
 
+        project_user_record.project_status = "PlanningPhase3"
+        project_user_record.challenge_status = "StartChallenge"
+        project_user_record.save()
         return JsonResponse(response)
 
 
@@ -439,15 +444,16 @@ def fetch_project_planning_status(request, user_emailid):
     planning_project_list = []
     if len(project_user_list) > 0:
         for project_user in project_user_list:
-            project_id = project_user.project_id_id
-            project = CharityProjects.objects.get(pk=project_id)
-            project_name = project.Name
-            project_badge = request.build_absolute_uri(project.Badge.url)
-            start_date = project_user.date_started
-            planning_status = project_user.project_status
-            project_info = {"project_id": project_id, "project_name": project_name, "project_badge": project_badge,
-                            "project_start_date": start_date, "planning_status": planning_status}
-            planning_project_list.append(project_info)
+            if "Challenge" not in project_user.challenge_status and project_user.project_status:
+                project_id = project_user.project_id_id
+                project = CharityProjects.objects.get(pk=project_id)
+                project_name = project.Name
+                project_badge = request.build_absolute_uri(project.Badge.url)
+                start_date = project_user.date_started
+                planning_status = project_user.project_status
+                project_info = {"project_id": project_id, "project_name": project_name, "project_badge": project_badge,
+                                "project_start_date": start_date, "planning_status": planning_status}
+                planning_project_list.append(project_info)
         response["project_list"] = planning_project_list
         response["status"] = "Success"
     else:
