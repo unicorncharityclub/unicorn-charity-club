@@ -89,7 +89,7 @@ class EachActiveProject extends React.Component {
                     </div>
                 );
               }else{
-                  // if the status is ""
+                  // if the status is planningStatus
                   return (
                     <div className = "stepperWidth">
                         <ProgressStepper currentStep={0}/>
@@ -117,7 +117,7 @@ class EachActiveProject extends React.Component {
                     </div>
                 );
               }else{
-                  // if the status is ""
+                  // if the status is startChallenge
                   return (
                     <div className = "stepperWidth">
                         <ProgressStepper currentStep={0}/>
@@ -148,11 +148,14 @@ class EachActiveProject extends React.Component {
                     </a>
                 );
               }else{
-                  // if the status is ""              
-                // the project needs to be started to come to planning so this is not possible
+                  // if the status is planningStart                             
+                return (
+                    <a className = "projectName" href = {'/Projects/'+ this.state.Project_id}>
+                        <TextBlackHeading message={this.state.ProjectName}/>
+                    </a>
+                );
               }          
-          }else {
-            // type === "Active"              
+          }else if (type === "Active"){                     
             if("Challenge1Complete" === status) {
               return (
                 <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/ActiveProjectChallenge2'}>
@@ -172,7 +175,7 @@ class EachActiveProject extends React.Component {
                 </a>
               );
             }else{
-                // if the status is ""              
+                // if the status is startChallenge             
                 // as challenge1 is not completed yet
                 return (
                     <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/ActiveProjectChallenge1'}>
@@ -180,7 +183,15 @@ class EachActiveProject extends React.Component {
                     </a>
                   );
             } 
-        }   
+        }else{
+            // if Invitation
+            return (
+                <a className = "projectName" href = {`/Projects/${this.props.projectId}/ProjectInvitation/${this.props.inviter_email}`}>
+                    <TextBlackHeading message={this.state.ProjectName}/>
+                </a>
+              );
+        }
+
     }
 
     buttonHandler() {
@@ -212,15 +223,14 @@ class EachActiveProject extends React.Component {
 
     render() {
       return(
-        <div>     
-            {console.log(this.props.project_status)}          
+        <div>                          
             <div className="ActiveProjectInfo_Badge" style={{width: "117px", height : "117px"}}>                        
                 <Image src={this.state.ProjectBanner}  style={{width: "100%", height: "100%"}} roundedCircle/>
             </div>
             <div className="ActiveProjectInfo_Text" >
                 <table >
                     <tbody>
-                    <tr>
+                    <tr className = "row">
                     <td className="firstCell" colSpan={2}>
                         {this.renderOnClick(this.props.project_status, this.props.type)}                                                                            
                         <br /> <br/>

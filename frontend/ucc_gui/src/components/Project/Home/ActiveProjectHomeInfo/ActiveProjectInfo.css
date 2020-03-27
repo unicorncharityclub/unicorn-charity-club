@@ -9,8 +9,10 @@
 
 .viewButton {
     border-radius: 0rem;
-    width: 130%;
+    width: 105%;
     background-color: #2BB9B7;
+    padding: 4px;    
+    border: 0px;    
 }
 
 .ProjectInfo_MainDiv{
@@ -22,12 +24,13 @@
 }
 
 .stepperspace{
-    padding-left: 300px;
-
+    padding-left: 12%;
+    padding-top: 3%;
+    float: right;
 }
 
 .stepperWidth {
-    width: 300px;
+    width: 150%;
 }
 
 .ProjectInfo_Container
@@ -42,24 +45,29 @@
 }
 
 .firstCell {
-    padding-left: 10px;
-    width: 300px;
-    padding-bottom: 40px;
+    padding-top: 2%;
+    padding-left: 2%;
+    
+}
+
+.row {
+     /* padding-top: 5px; */
+    /* align-content: inline;  */
+    width: 550px;
 }
 
 .ActiveProjectInfo_Badge
 {
-    /* width:20%; */
+    
     height:100%;
-    /* margin:5px; */
+    margin-top: 2%;
     float:left
 }
 
 .ActiveProjectInfo_Text
 {
-    width:80%;
-    height:100%;
-    float:left
+    float: right;
+    width: 79%;
 }
 
 @media screen and (max-device-width: 720px){
@@ -83,4 +91,42 @@
         width:60%;
     }
 
+}
+
+@media screen and (max-width: 720px){
+
+    .content_project_info
+    {
+        display: block;
+    }
+    .content_project_info_vertical
+    {
+        display: none;
+    }
+    .content_section
+    {
+        margin-bottom: 150px;
+        width:100%;
+        float:left;
+        border: 0;
+    }
+}
+
+@media screen and (max-width: 480px){
+
+    .content_project_info
+    {
+        display: block;
+    }
+    .content_project_info_vertical
+    {
+        display: none;
+    }
+    .content_section
+    {
+        margin-bottom: 150px;
+        width:100%;
+        float:left;
+        border: 0;
+    }
 }
