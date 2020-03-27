@@ -559,7 +559,7 @@ def join_project_invitation(request):
         response["status"] = "User has already joined this project"
     else:
         project_user = ProjectUser.objects.create(project_id=project_id, user_id=user_id,
-                                                  invited_by=inviter_user_email)
+                                                  invited_by=inviter_user_email, challenge_status="StartChallenge")
         project_user.save()
         pu_id = project_user.id
         inviter_user_record = ProjectUser.objects.filter(project_id_id=project_id, user_id_id=inviter_user_id)[0].id
