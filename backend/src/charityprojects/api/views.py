@@ -10,7 +10,7 @@ from myaccount.models import Myaccount
 from .serializers import ProjectUserSerializer, LearnNewSkillSerializer, VolunteerTimeSerializer, DevelopNewHabitSerializer
 from rest_framework import status
 from rest_framework.response import Response
-
+import re
 
 def charity_project_details(request, project_id):
     response = {'status': "Invalid Request"}
@@ -297,7 +297,7 @@ def get_friend_list(request):
     friend_list = []
     json_data = json.loads(request.body)
     friend_email_id = json_data["friend_email"]
-    friend = User.objects.get(email=friend_email_id)
+    friend = User.objects.get(email=friend_email_id.lower())
     friend_id = friend.id
     if friend_id:
         user_name = friend.first_name + " " + friend.last_name
@@ -343,7 +343,7 @@ def search_friends(request):
     user_list = User.objects.all()
     children_list = ChildAccount.objects.all()
     for user in user_list:
-        if user.first_name.startswith(search_text):
+        if bool(re.match(search_text, user.first_name, re.I)):
             if user.myaccount.ProfilePic:
                 user_photo = request.build_absolute_uri(user.myaccount.ProfilePic.url)
             else:
