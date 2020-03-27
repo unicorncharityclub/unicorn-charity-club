@@ -63,11 +63,16 @@
     text-align: center;
 }
 
-.OptionList
-    {
-        margin-left: 10px;
-    }
+.OptionList input[type=radio]{
+    float: left;
+}
 
+
+.OptionList label {
+    float: left;
+    margin-left: 20px;
+    margin-top: -25px;
+}
 
 @media screen and (max-device-width: 720px){
   .ProjectInfo_Badge

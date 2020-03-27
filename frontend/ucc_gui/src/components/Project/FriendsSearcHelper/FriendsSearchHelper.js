@@ -5,6 +5,8 @@
   PopupSearch is set to true to show the popup screen
   SearchMoreAvailable is set to true so the 'More' option on the popup screen is enabled
   */
+ import axiosConfig from "../../../axiosConfig";
+
  export const searchResultHandler = function(value) {
     console.log(value);
     this.setState({ SearchType: value[0] });
@@ -122,3 +124,51 @@
       this.state.UnregisteredUser[index] = {email_address:emailaddress, issue:"Invalid Email"};
     }
   };
+
+  /*
+  This method will actually call the backend API and fetch the friends result based on the search query
+   */
+  export const fetchFriendsDataHelper = function(obj, searchType, searchValue, offset, searchMoreFlag) {
+    if(searchType==='emailid')
+    {
+      axiosConfig.defaults.withCredentials = true;
+      axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+      axiosConfig
+        .post(`charityproject/friendByEmail`,
+            {
+              "friend_email" : searchValue
+            })
+        .then(function(response) {
+          console.log(response.data)
+          obj.setState({ PopupSearch: true });
+          obj.setState({FriendsSearchData: response.data["friend_list"]})
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+    else {
+      axiosConfig.defaults.withCredentials = true;
+      axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+      axiosConfig
+        .post(`charityproject/search`,
+            {
+              "text" : searchValue,
+              "offset_value" : offset
+            })
+        .then(function(response) {
+          console.log(response.data)
+            if("friend_list" in response.data)
+            {
+                obj.setState({ PopupSearch: true });
+                obj.setState({FriendsSearchData: response.data["friend_list"]})
+            }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+
+    //Set this accordingly
+    obj.setState({ SearchMoreAvailable: true });
+  }

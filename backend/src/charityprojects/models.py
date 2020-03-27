@@ -47,6 +47,9 @@ class ProjectUser(models.Model):
     project_status = models.CharField(max_length=100, blank=True)
     adventure_id = models.IntegerField(blank=True, null=True)
 
+    class Meta:
+        unique_together = ('project_id', 'user_id')
+
     def __str__(self):
         return '{} {} {}'.format(self.project_id, self.user_id, self.invited_by)
 

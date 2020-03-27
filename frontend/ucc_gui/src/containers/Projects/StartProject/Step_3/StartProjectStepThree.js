@@ -60,41 +60,7 @@ class StartProjectStepThree extends React.Component {
   This method will actually call the backend API and fetch the friends result based on the search query
    */
   fetchFriendsData(obj, searchType, searchValue, offset, searchMoreFlag) {
-    if (searchType === "emailid") {
-      axiosConfig.defaults.withCredentials = true;
-      axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-      axiosConfig
-        .post(`charityproject/friendByEmail`, {
-          friend_email: searchValue,
-        })
-        .then(function (response) {
-          console.log(response.data);
-          obj.setState({ PopupSearch: true });
-          obj.setState({ FriendsSearchData: response.data["friend_list"] });
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    } else {
-      axiosConfig.defaults.withCredentials = true;
-      axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-      axiosConfig
-        .post(`charityproject/search`, {
-          text: searchValue,
-          offset_value: offset,
-        })
-        .then(function (response) {
-          console.log(response.data);
-          obj.setState({ PopupSearch: true });
-          obj.setState({ FriendsSearchData: response.data["friend_list"] });
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-
-    //Set this accordingly
-    this.setState({ SearchMoreAvailable: true });
+      FriendsSearchHelper.fetchFriendsDataHelper( obj, searchType, searchValue, offset, searchMoreFlag);
   }
 
   saveButtonClick() {}
