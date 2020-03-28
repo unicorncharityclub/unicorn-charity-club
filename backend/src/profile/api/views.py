@@ -4,22 +4,22 @@ from accounts.api.serializers import AccountUpdateSerializer
 from accounts.models import User
 from django.http import JsonResponse
 from rest_framework.parsers import MultiPartParser, FormParser
-from .serializers import MyaccountSerializer, ChildAccountSerializer
+from .serializers import ProfileSerializer, ChildProfileSerializer
 from rest_framework.decorators import api_view
 from rest_framework.decorators import parser_classes
-from ..models import Myaccount, ChildAccount
+from ..models import Profile, ChildProfile
 
 child_email_id_extension = "@ucc_child_user.com"
 
 
 @api_view(['GET', 'PUT'])
 @parser_classes([MultiPartParser, FormParser])
-def account_details(request, user_emailid):
+def account_details(request, user_email):
     response = {'status': "Success"}
     if request.method == 'GET':
-        get_user_details(request, response, user_emailid)
+        get_user_details(request, response, user_email)
     elif request.method == 'PUT':
-        put_user_details(request, response, user_emailid)
+        put_user_details(request, response, user_email)
     return JsonResponse(response)
 
 
@@ -31,9 +31,9 @@ Child Account API Methods
 # Method is used to create a new child detail
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
-def add_child_details(request, user_emailid):
+def add_child_details(request, user_email):
     response = {'status': "Success"}
-    parent_user = User.objects.get(email=user_emailid)
+    parent_user = User.objects.get(email=user_email)
     parent_user_id = parent_user.id
 
     # Step 1 - create the user in the 'Users' table
@@ -63,21 +63,21 @@ def add_child_details(request, user_emailid):
 
 
 # Method is used to get the list of children's
-def get_child_list(request, user_emailid):
+def get_child_list(request, user_email):
     response = {'status': "Success"}
-    user = User.objects.get(email=user_emailid)
-    childrens = ChildAccount.objects.filter(ParentId_id=user.id)
+    user = User.objects.get(email=user_email)
+    childrens = ChildProfile.objects.filter(parent_id=user.id)
     child_list = []
 
     for child in childrens:
         child_id = child.user_id
         child_user_details = User.objects.get(pk=child_id)  # get child user table details to fetch the name
-        account_details = Myaccount.objects.get(user_id=child_id)  # get child account info to get the profile pic
+        profile_details = Profile.objects.get(user_id=child_id)  # get child account info to get the profile pic
 
         child_details = {}
         child_details['Name'] = child_user_details.first_name + " " + child_user_details.last_name
-        if account_details.ProfilePic:
-            child_details['Photo'] = request.build_absolute_uri(account_details.ProfilePic.url)
+        if profile_details.profile_pic:
+            child_details['Photo'] = request.build_absolute_uri(profile_details.profile_pic.url)
         else:
             child_details['Photo'] = ''
         child_details['EmailId'] = child_user_details.email
@@ -110,10 +110,10 @@ def get_user_type(user_email_id):
         return "Parent"
 
 
-def put_user_details(request, response, user_email_id):
+def put_user_details(request, response, user_email):
     try:
         print(request.data)
-        user = User.objects.get(email=user_email_id)  # get details of user by emailid
+        user = User.objects.get(email=user_email)  # get details of user by emailid
         user_id = user.id
         if (update_user_account_details(request, user_id) and
                 update_user_profile_details(request, user_id) and
@@ -127,33 +127,33 @@ def put_user_details(request, response, user_email_id):
         response['status'] = "Issue In Request"
 
 
-def get_user_details(request, response, user_email_id):
+def get_user_details(request, response, user_email):
     try:
-        user_details = User.objects.get(email=user_email_id)  # get child user table details
+        user_details = User.objects.get(email=user_email)  # get child user table details
         if user_details:
             user_id = user_details.id
-            account_details_object = Myaccount.objects.get(user_id=user_id)  # get child account info
+            account_details_object = Profile.objects.get(user_id=user_id)  # get child account info
 
             response['email'] = user_details.email
             response['first_name'] = user_details.first_name
             response['last_name'] = user_details.last_name
             response['dob'] = user_details.dob
             response['gender'] = user_details.gender
-            response['address'] = account_details_object.Address
-            response['mobile'] = account_details_object.Mobile
-            response['aboutme'] = account_details_object.Aboutme
-            response['favorite_thing'] = account_details_object.FavoriteThing
-            response['dream'] = account_details_object.Dream
-            response['super_powers'] = account_details_object.SuperPowers
-            response['support'] = account_details_object.Support
+            response['address'] = account_details_object.address
+            response['mobile'] = account_details_object.mobile
+            response['about_me'] = account_details_object.about_me
+            response['favorite_thing'] = account_details_object.favorite_thing
+            response['dream'] = account_details_object.dream
+            response['super_powers'] = account_details_object.super_powers
+            response['support'] = account_details_object.support
 
-            if get_user_type(user_email_id) == "Child":
-                child_details_object = ChildAccount.objects.get(user_id=user_id)
-                response['school'] = child_details_object.School
-                response['school_grade'] = child_details_object.SchoolGrade
+            if get_user_type(user_email) == "Child":
+                child_details_object = ChildProfile.objects.get(user_id=user_id)
+                response['school'] = child_details_object.school
+                response['school_grade'] = child_details_object.school_grade
 
-            if account_details_object.ProfilePic:
-                response['profile_pic'] = request.build_absolute_uri(account_details_object.ProfilePic.url)
+            if account_details_object.profile_pic:
+                response['profile_pic'] = request.build_absolute_uri(account_details_object.profile_pic.url)
             else:
                 response['profile_pic'] = ''
         else:
@@ -166,18 +166,18 @@ def get_user_details(request, response, user_email_id):
 
 def update_user_profile_details(request, user_id):
     profile_details = {}
-    add_if_exist_in_request(request, profile_details, 'Address')
-    add_if_exist_in_request(request, profile_details, 'Mobile')
-    add_if_exist_in_request(request, profile_details, 'Aboutme')
-    add_if_exist_in_request(request, profile_details, 'FavoriteThing')
-    add_if_exist_in_request(request, profile_details, 'Dream')
-    add_if_exist_in_request(request, profile_details, 'SuperPowers')
-    add_if_exist_in_request(request, profile_details, 'Support')
-    add_if_exist_in_request(request, profile_details, 'ProfilePic')
+    add_if_exist_in_request(request, profile_details, 'address')
+    add_if_exist_in_request(request, profile_details, 'mobile')
+    add_if_exist_in_request(request, profile_details, 'about_me')
+    add_if_exist_in_request(request, profile_details, 'favorite_thing')
+    add_if_exist_in_request(request, profile_details, 'dream')
+    add_if_exist_in_request(request, profile_details, 'super_powers')
+    add_if_exist_in_request(request, profile_details, 'support')
+    add_if_exist_in_request(request, profile_details, 'profile_pic')
 
-    child_account_object = Myaccount.objects.get(user=user_id)
+    child_account_object = Profile.objects.get(user=user_id)
     print(user_id)
-    child_account_serializer = MyaccountSerializer(child_account_object, data=profile_details)
+    child_account_serializer = ProfileSerializer(child_account_object, data=profile_details)
     if child_account_serializer.is_valid():
         child_account_serializer.save()
         return True
@@ -188,10 +188,10 @@ def update_user_profile_details(request, user_id):
 def set_only_child_details(request, child_user_id, parent_user_id):
     child_details = {}
     child_details['user'] = child_user_id
-    child_details['ParentId'] = parent_user_id
-    child_details['School'] = request.data['School']
-    child_details['SchoolGrade'] = request.data['SchoolGrade']
-    child_details_serializer = ChildAccountSerializer(data=child_details)
+    child_details['parent_id'] = parent_user_id
+    child_details['school'] = request.data['school']
+    child_details['school_grade'] = request.data['school_grade']
+    child_details_serializer = ChildProfileSerializer(data=child_details)
     if child_details_serializer.is_valid():
         child_details_serializer.save()
         return True
@@ -200,13 +200,13 @@ def set_only_child_details(request, child_user_id, parent_user_id):
 
 
 def update_only_child_details(request, child_user_id):
-    child_details_object = ChildAccount.objects.get(user_id=child_user_id)
+    child_details_object = ChildProfile.objects.get(user_id=child_user_id)
     if child_details_object:
         child_details = {}
-        add_if_exist_in_request(request, child_details, 'School')
-        add_if_exist_in_request(request, child_details, 'SchoolGrade')
+        add_if_exist_in_request(request, child_details, 'school')
+        add_if_exist_in_request(request, child_details, 'school_grade')
 
-        child_details_serializer = ChildAccountSerializer(child_details_object, data=child_details)
+        child_details_serializer = ChildProfileSerializer(child_details_object, data=child_details)
         if child_details_serializer.is_valid():
             child_details_serializer.save()
             return True

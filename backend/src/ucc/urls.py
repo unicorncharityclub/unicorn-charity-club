@@ -22,7 +22,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('admin/', admin.site.urls),
     path('account/', include('accounts.api.urls')),
-    path('myaccount/', include('myaccount.api.urls')),
+    path('profile/', include('profile.api.urls')),
     path('charityproject/', include('charityprojects.api.urls')),
     path('prize/', include('prize.api.urls'))
 

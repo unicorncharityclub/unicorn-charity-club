@@ -12,4 +12,4 @@ class AccountSerializer(serializers.ModelSerializer):
 class AccountUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'gender', 'dob', 'is_active', 'is_staff' )
+        fields = ('first_name', 'last_name', 'gender', 'dob', 'is_active', 'is_staff')

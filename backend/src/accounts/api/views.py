@@ -1,7 +1,7 @@
 from django.db import DatabaseError
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password, check_password
-from myaccount.models import ChildAccount, Myaccount
+from profile.models import ChildProfile, Profile
 from ..models import User
 import json
 from django.http import JsonResponse
@@ -21,7 +21,8 @@ def register_user_view(request):
             password = json_data["password"]
             dob = json_data["dob"]
             hashed_password = make_password(password)
-            user = User.objects.create(first_name=first_name, last_name=last_name, email=email, password=hashed_password,
+            user = User.objects.create(first_name=first_name, last_name=last_name, email=email,
+                                       password=hashed_password,
                                        dob=dob)
             user.save()
             response['status'] = "Success"
@@ -41,29 +42,29 @@ def login_user(request):
             email = json_data["email"]
             password = json_data["password"]
             user = User.objects.get(email=email)
-            #user_authenticated = authenticate(request, email = email, password = password)
+            # user_authenticated = authenticate(request, email = email, password = password)
             hashed_password = user.password
             if check_password(password, hashed_password) and user.is_active == True:
                 user_details_list = []
                 child_details_list = []
                 login(request, user)
                 name = user.first_name + user.last_name
-                if user.myaccount.ProfilePic:
-                    profilepic = request.build_absolute_uri(user.myaccount.ProfilePic.url)
+                if user.profile.profile_pic:
+                    profile_pic = request.build_absolute_uri(user.profile.profile_pic.url)
                 else:
-                    profilepic = ""
+                    profile_pic = ""
                 email = user.email
-                user_details = {"name": name, "email": email, "photo": profilepic}
+                user_details = {"name": name, "email": email, "photo": profile_pic}
                 user_details_list.append(user_details)
-                children = ChildAccount.objects.filter(ParentId_id=user.id)
+                children = ChildProfile.objects.filter(ParentId_id=user.id)
                 if children:
                     for child in children:
                         child_user_id = child.user_id
-                        child_profile_object = Myaccount.objects.get(user_id=child_user_id)
+                        child_profile_object = Profile.objects.get(user_id=child_user_id)
                         child_account_object = User.objects.get(pk=child_user_id)
                         child_email_id = child_account_object.email
-                        if child_profile_object.ProfilePic:
-                            child_photo = request.build_absolute_uri(child_profile_object.ProfilePic.url)
+                        if child_profile_object.profile_pic:
+                            child_photo = request.build_absolute_uri(child_profile_object.profile_pic.url)
                         else:
                             child_photo = ""
                         child_name = child_account_object.first_name + child_account_object.last_name
@@ -81,13 +82,3 @@ def login_user(request):
         except User.DoesNotExist:
             response['status'] = "User Not Registered"
     return JsonResponse(response)
-
-
-
-
-
-            
-
-
-
-
