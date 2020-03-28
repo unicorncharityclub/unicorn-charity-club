@@ -1,0 +1,14 @@
+.insideContent {
+    padding-left: 10px;
+}
+
+.content_project_info_vertical {
+    margin-top: 0%;
+}
+
+
+@media screen and (max-width: 640px){
+    .banner_inside {
+        visibility: hidden;
+    }
+}

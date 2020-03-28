@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {BrowserRouter as Router} from "react-router-dom";
-import Navbar from "./Navbar/Navbar";
-import Header from "./Header/Header";
+import Navbar from "./Template/Navbar/Navbar";
+import Header from "./Template/Header/Header";
 import BaseRouter from "../routes";
-import RegisterBannerImage from "../components/Register/RegisterBannerImage";
+import RegisterBannerImage from "../components/Account/Register/RegisterBannerImage";
 import { connect } from 'react-redux';
 import cookie from 'react-cookies';
 
@@ -17,11 +17,10 @@ class UCC_App extends Component {
   componentDidMount() {
     if(cookie.load('user_emailid')!==undefined)
     {
-        this.props.dispatch({ type: "LOGIN_SUCCESS", user_emailid:cookie.load('user_emailid'), token:cookie.load('XSRF-TOKEN')});
+        this.props.dispatch({ type: "LOGIN_SUCCESS", user_list:cookie.load('user_list'), token:cookie.load('XSRF-TOKEN')});
     }
   }
 
-  
 
     render() {
 

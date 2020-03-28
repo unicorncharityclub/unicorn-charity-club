@@ -3,8 +3,9 @@ import { Select } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
 import axiosConfig from '../../../axiosConfig'
-import ActiveProjectInfo from "../../../components/Project/ActiveProjectInfo/ActiveProjectInfo";
+import ActiveProjectInfo from "../../../components/Project/Home/ActiveProjectHomeInfo/ActiveProjectInfo";
 import cookie from "react-cookies";
+import {Container} from "@material-ui/core";
 
 
 class ProjectsHome extends React.Component {
@@ -21,6 +22,8 @@ class ProjectsHome extends React.Component {
           ],
           selectedCategory : "",
           activeProjectsList : [],
+          plannedProjectsList : [],
+          invitationsList : [],
           UserEmailId: cookie.load('user_emailid')
       }
    }
@@ -29,14 +32,30 @@ class ProjectsHome extends React.Component {
         this.fetchListOfProjectCategory(this);
         this.fetchProjectDetails(this);
         this.fetchActiveProjectsList(this);
+        this.fetchPlannedProjectsList(this);
+        this.fetchInvitaionsList(this);
+   }
+
+   fetchInvitaionsList (obj) {
+      const user_emailid = this.state.UserEmailId;      
+      axiosConfig.get(`charityproject/invitations/${user_emailid}`)
+      .then(function(response) {obj.setInvitationsList(response);})
+      .catch(function(error) {console.log(error);});
    }
 
    fetchActiveProjectsList(obj) {
-      const user_emailid = this.state.UserEmailId;
+      const user_emailid = this.state.UserEmailId;      
       axiosConfig.get(`charityproject/activeProjectList/${user_emailid}`)
       .then(function(response) {obj.setActiveProjectsList(response);})
       .catch(function(error) {console.log(error);});
    }
+
+  fetchPlannedProjectsList(obj) {
+        const user_emailid = this.state.UserEmailId;      
+        axiosConfig.get(`charityproject/plannedProjects/${user_emailid}`)
+        .then(function(response) {obj.setPlannedProjectsList(response);})
+        .catch(function(error) {console.log(error);});
+    }
 
     fetchListOfProjectCategory(obj) {
         axiosConfig.get(`charityproject/category`)
@@ -55,23 +74,35 @@ class ProjectsHome extends React.Component {
         this.setState(prevState => ({
         categoryList: categoryList
       }));
+      
     }
 
-    setActiveProjectsList (response) {
-        let activeProjectsList = response.data["active_project_list"];
-        this.setState(prevState => ({
-          activeProjectsList: activeProjectsList
-      }));
+    setActiveProjectsList (response) {            
+            let activeProjectsList = response.data["active_project_list"];
+            this.setState(prevState => ({
+              activeProjectsList: activeProjectsList
+          }));      
+    }
 
-      // console.log(this.state.activeProjectsList);
-      
+    setPlannedProjectsList (response) {            
+        let plannedProjectsList = response.data["project_list"];
+        this.setState(prevState => ({
+          plannedProjectsList: plannedProjectsList
+      }));      
+      //console.log(this.state.plannedProjectsList)
+    }
+
+    setInvitationsList (response) {
+        let invitationsList = response.data["invited_project_list"];
+        this.setState(prevState => ({
+          invitationsList: invitationsList
+      }));      
     }
 
     setProjectDetails(response) {
         this.setState(prevState => ({
             projectsList: response.data["project_list"]
-        }));
-        // console.log(this.state.projectsList)
+        }));        
     }
 
 
@@ -83,42 +114,71 @@ class ProjectsHome extends React.Component {
   render() {
     return (
       <div>
-        <div className="blackDivider"></div>
+        <Container>
+        <div className = "content_section">
+          <div className="textHeader">
+              Invitations
+          </div>
+
+          <div>                             
+              {this.state.invitationsList && this.state.invitationsList.length > 0?
+                (  <ActiveProjectInfo projectList={this.state.invitationsList} list_type = {"Invitation"}/>):(<div/>)} 
+          </div>
+        </div>
         
-        <div className="textHeader">
-            Active
+        <br/>
+
+        {/* <div className="blackDivider"></div> */}
+        
+        <div className = "content_section">
+          <div className="textHeader">
+              Planning
+          </div>
+
+          <div>                     
+          {this.state.plannedProjectsList && this.state.plannedProjectsList.length > 0?
+                    (  <ActiveProjectInfo projectList={this.state.plannedProjectsList} list_type = {"Planning"}/>):(<div/>)}            
+          </div>
+        </div>
+        
+        <br/>
+        {/* <div className="blackDivider"></div> */}
+        
+        <div className = "content_section">
+          <div className="textHeader">
+              Active
+          </div>
+
+          <div> 
+            {this.state.activeProjectsList && this.state.activeProjectsList.length > 0?
+                    (  <ActiveProjectInfo projectList={this.state.activeProjectsList} list_type = {"Active"}/>):(<div/>)}                 
+          </div>
         </div>
 
-        <div>  
-          {this.state.projectsList
-          .map(elem => (             
-            <ActiveProjectInfo key={this.state.activeProjectsList.indexOf(elem)} projectId={elem.project_id}/>            
-          ))} 
+        <br/>
+        {/* <div className="blackDivider"></div> */}
 
-          {this.state.projectsList.map(elem => console.log(elem))}                                   
-        </div>
+        <div className = "content_section">
+          <div className="textHeader">
+              Start a Project
+          </div>
 
+          <div className="marginSpaceTop marginSpaceBottom">
+            <FormControl variant="outlined" style={{marginLeft: '15%', border: '2px solid black', width : "70%"}}>
+                <Select  native style={{height: "50px"}} onChange={this.onCategoryChange.bind(this)} >
+                <option value="" />
+                  {this.state.categoryList.map((projectCategory) => <option key={projectCategory} value={projectCategory}>{projectCategory}</option>)}
+              </Select>
+            </FormControl>
+          </div>
 
-  
-        <div className="blackDivider"></div>
+          <div>
+              {this.state.projectsList[0].project_banner?
+                  (<ProjectGrid projectData={this.state.projectsList} category={this.state.selectedCategory} />):(<div/>)}
+          </div>
 
-        <div className="textHeader">
-            Start a Project
-        </div>
-
-        <div className="marginSpaceTop marginSpaceBottom">
-          <FormControl variant="outlined" style={{marginLeft: '15%', border: '2px solid black', width : "70%"}}>
-              <Select  native style={{height: "50px"}} onChange={this.onCategoryChange.bind(this)} >
-              <option value="" />
-                {this.state.categoryList.map((projectCategory) => <option key={projectCategory} value={projectCategory}>{projectCategory}</option>)}
-            </Select>
-          </FormControl>
-        </div>
-
-        <div>
-            {this.state.projectsList[0].project_banner?
-                (<ProjectGrid projectData={this.state.projectsList} category={this.state.selectedCategory} />):(<div/>)}
          </div>
+         </Container>      
       </div>
     );
   }

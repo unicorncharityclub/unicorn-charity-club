@@ -1,0 +1,42 @@
+.project-video {
+    width: 80%;
+    margin: 10px 5px 5px 10px;
+    text-align: center;
+    align-content: center;
+}
+
+.project-video-upload {
+    display: inline-block;
+    width: 50px;
+    height: 40px;
+    /*border-radius: 50%;*/
+    /*object-fit: cover;*/
+    font-size: unset;
+}
+
+.project-video-preview {
+    width: 80%;
+    margin: 10px 5px 5px 10px;
+    text-align: center;
+    align-content: center;
+    line-height: 20rem;
+}
+
+.video-upload-preview {
+    display: inline-block;
+    /*border-radius: 50%;*/
+    object-fit: cover;
+    font-size: unset;
+    align-content: center;
+    vertical-align: top;
+    margin: 20px;
+    border: solid;
+}
+
+.upload-video {
+    width: 25%;
+    margin: 5px 5px 0px 10px;
+    color: #3b9f9d;
+    position: relative;
+    vertical-align: center;
+}

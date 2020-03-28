@@ -1,0 +1,79 @@
+.start_project_info_main_div{
+    border-radius: 10px;
+    border: 1px solid;
+    margin-right:10px;
+    height:100%
+}
+
+.start_project_info_container
+{
+    display:flex;
+    margin:10px;
+    height:100%;
+}
+
+.start_project_info_badge
+{
+    width:20%;
+    height:100%;
+    margin:5px;
+    float:left
+}
+
+.start_project_info_text
+{
+    width:80%;
+    height:100%;
+    float:left
+}
+
+.start_project_info_badge_image
+{
+    width: 110px;
+    height : 110px;
+    max-height: 100%;
+}
+
+@media screen and (max-width: 720px){
+
+    .start_project_info_badge_image
+    {
+        width: 90px;
+        height : 90px;
+        max-height: 100%;
+    }
+
+    .start_project_info_container
+    {
+        display:flex;
+        margin:2px;
+        height:100%;
+    }
+}
+
+@media screen and (max-width: 640px){
+  .start_project_info_badge
+    {
+        width:30%;
+    }
+    .start_project_info_text
+    {
+        width:70%;
+    }
+    .start_project_info_badge_image
+    {
+        width: 80px;
+        height : 80px;
+        max-height: 100%;
+    }
+}
+@media screen and (max-width: 480px){
+  .start_project_info_badge
+    {
+        width:40%;
+    }
+    .start_project_info_text
+    {
+        width:70%;
+    }
+}
