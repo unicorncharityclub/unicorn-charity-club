@@ -421,10 +421,10 @@ def create_volunteer_adventure(request):
     if project_user_record:
         project_user_record.challenge_status = "Challenge3Complete"
         project_user_record.save()
-    volunteer_time_update_data = {"pu_id": pu_id, "organisation_name": request.data[" organisation_name"],
-                                  "organisation_address": request.data[" organisation_address"],
-                                  " organisation_city": request.data[" organisation_city"],
-                                  "organisation_state": request.data[" organisation_state"],
+    volunteer_time_update_data = {"pu_id": pu_id, "organisation_name": request.data["organisation_name"],
+                                  "organisation_address": request.data["organisation_address"],
+                                  " organisation_city": request.data["organisation_city"],
+                                  "organisation_state": request.data["organisation_state"],
                                   "organisation_website": request.data["website"],
                                   "volunteer_hours": request.data["hours"],
                                   "volunteer_work_description": request.data["description"],
