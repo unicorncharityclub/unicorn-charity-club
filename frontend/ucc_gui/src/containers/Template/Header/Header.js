@@ -1,13 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Settings from "./Desktop/Settings";
-import Mobile_logo from "../../../image/Logo-mobile.png";
+import MobileLogo from "../../../image/Logo-mobile.png";
 import DesktopLogo from "../../../site_media/Logo_Horizontal_No_Tagline.png";
-import Mobile_menu_icon from "../../../site_media/Images/mobile_menu_icon.png";
+import MobileMenuIcon from "../../../site_media/Images/mobile_menu_icon.png";
 import Toolbar from "./Desktop/Toolbar";
-import Arrow_forward from "../../../image/arrow-forward.png";
+import ArrowForward from "../../../image/arrow-forward.png";
 import cookie from "react-cookies";
-import Upload_photo from "../../../site_media/Images/Default-profile-picture.png";
+import UploadPhoto from "../../../site_media/Images/Default-profile-picture.png";
 import "./Header.css";
 
 
@@ -15,14 +15,14 @@ class Header extends React.Component {
 
  constructor(props) {
      super(props);
-     this.user_list = cookie.load('user_list');
-     this.user_emailid = cookie.load('user_emailid');
+     this.userList = cookie.load('user_list');
+     this.userEmail = cookie.load('user_email');
      this.state = {email: "", name: "", photo: ""};
-     for (let i in this.user_list) {
-         if (this.user_list[i].email === this.user_emailid) {
-             this.state["email"] = this.user_list[i].email;
-             this.state["name"] = this.user_list[i].name;
-             this.state["photo"] = this.user_list[i].photo;
+     for (let i in this.userList) {
+         if (this.userList[i].email === this.userEmail) {
+             this.state["email"] = this.userList[i].email;
+             this.state["name"] = this.userList[i].name;
+             this.state["photo"] = this.userList[i].photo;
          }
      }
  }
@@ -46,7 +46,7 @@ class Header extends React.Component {
                         ) :
                         (<div
                                 className="child-select__avatar"
-                                style={{backgroundImage: `url(${Upload_photo})`}}
+                                style={{backgroundImage: `url(${UploadPhoto})`}}
                                 alt={this.state.name}
                             />)
                     }
@@ -60,7 +60,7 @@ class Header extends React.Component {
                 alt="Unicorn Charity Club"
               />
               <img
-                src={Mobile_logo}
+                src={MobileLogo}
                 className="header__logo-mobile"
                 alt="Unicorn Charity Club"
               />
@@ -81,7 +81,7 @@ class Header extends React.Component {
                         ) :
                         (<div
                                 className="child-select__avatar"
-                                style={{backgroundImage: `url(${Upload_photo})`}}
+                                style={{backgroundImage: `url(${UploadPhoto})`}}
                                 alt={this.state.name}
                             />)
                     }
@@ -104,7 +104,7 @@ class Header extends React.Component {
                           alt="Unicorn Charity Club"
                         />
                         <img
-                          src={Mobile_logo}
+                          src={MobileLogo}
                           className="header__logo-mobile logo-popup"
                           alt="Unicorn Charity Club"
                         />
@@ -113,7 +113,7 @@ class Header extends React.Component {
                       <div className="header-menu-mobile">
                         <img
                           className="return-button"
-                          src={Arrow_forward}
+                          src={ArrowForward}
                           alt="Forward Arrow"
                         />
                       </div>
@@ -133,7 +133,7 @@ class Header extends React.Component {
 
           <NavLink to={"/Mobile_toolbar"}>
             <div className="header__mobile-toolbar">
-              <img src={Mobile_menu_icon} alt="Mobile Menu Icon" />
+              <img src={MobileMenuIcon} alt="Mobile Menu Icon" />
             </div>
           </NavLink>
         </header>

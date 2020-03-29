@@ -8,8 +8,6 @@ import "../../../../../containers/ProjectCommon.css"
 import axiosConfig from "../../../../../axiosConfig";
 import ProgressStepper from "../../../ProgressStepper";
 import ProjectBanner from "../../../ProjectBanner";
-import cookie from "react-cookies";
-import {Container} from "@material-ui/core";
 import "../../../../../containers/Projects/ActiveProject/Step_3/VolunteerTime/VolunteerTime.css"
 import Address from "../../../../General/Form/Address/Address";
 import Video from "../../../../General/Video/Video"
@@ -20,7 +18,7 @@ class VolunteerTimeDetails extends React.Component {
     constructor(props) {
     super(props);
     this.state = {
-        project_id: this.props.id,
+        projectId: this.props.id,
         projectName : '',
         projectBanner : '',
         projectBadge : '',
@@ -30,7 +28,7 @@ class VolunteerTimeDetails extends React.Component {
  }
 
     componentDidMount () {
-        axiosConfig.get(`charityproject/${this.state.project_id}`)
+        axiosConfig.get(`charityproject/${this.state.projectId}`)
       .then(res => {
               this.setState({
                   projectName : res.data.project_name,
@@ -56,12 +54,12 @@ class VolunteerTimeDetails extends React.Component {
                     </div>
                     </div>
                     <div className="content_project_info_vertical">
-                    <ProjectInfo vertical={true} id={this.state.project_id} />
+                    <ProjectInfo vertical={true} id={this.state.projectId} />
                     </div>
                 {/*<div className="project-form">*/}
                 <div className="content_section">
                 <div className="content_project_info">
-                <ProjectInfo id={this.state.project_id} />
+                <ProjectInfo id={this.state.projectId} />
                 </div>
                 <TextBlueHeading message="Challenge 3: Adventure"/>
                       <br/>

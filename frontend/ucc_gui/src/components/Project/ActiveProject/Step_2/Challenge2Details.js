@@ -5,7 +5,6 @@ import TextBlueHeading from "../../../General/Text/TextBlueHeading";
 import TextBlack from "../../../General/Text/TextBlack";
 import "../../../../containers/ProjectCommon.css"
 import axiosConfig from "../../../../axiosConfig";
-import TextBlackHeading from "../../../General/Text/TextBlackHeading";
 import ProgressStepper from "../../ProgressStepper";
 import ProjectBanner from "../../ProjectBanner";
 import ProjectInfo from "../../Details/ProjectInfo";
@@ -17,22 +16,22 @@ class ProjectContent extends React.Component {
     constructor(props) {
     super(props);
     this.state = {
-        Project_id: this.props.id,
-        ProjectName : '',
-        ProjectBanner : '',
-        ProjectBadge : '',
-        ProjectJoinDate :'',
-        ProjectChallengeStatus: '',
+        projectId: this.props.id,
+        projectName : '',
+        projectBanner : '',
+        projectBadge : '',
+        projectJoinDate :'',
+        projectChallengeStatus: '',
         selectedOption: '',
     }
  }
 
 
     componentDidMount () {
-        axiosConfig.get(`charityproject/${this.state.Project_id}`)
+        axiosConfig.get(`charityproject/${this.state.projectId}`)
       .then(res => {
               this.setState({
-                  ProjectBanner : res.data.project_banner,
+                  projectBanner : res.data.project_banner,
               });
       }).catch(error => console.log(error))
     }
@@ -46,15 +45,15 @@ class ProjectContent extends React.Component {
                     <ProgressStepper currentStep="1" />
                     </div>
                     <div className="banner_common">
-                    <ProjectBanner image={this.state.ProjectBanner}  />
+                    <ProjectBanner image={this.state.projectBanner}  />
                     </div>
                     </div>
                     <div className="content_project_info_vertical">
-                    <ProjectInfo vertical={true} id={this.state.Project_id} />
+                    <ProjectInfo vertical={true} id={this.state.projectId} />
                     </div>
                     <div className="content_section">
                     <div className="content_project_info">
-                    <ProjectInfo id={this.state.Project_id} />
+                    <ProjectInfo id={this.state.projectId} />
                     </div>
                     <TextBlueHeading message="Challenge 2: Ideation"/>
                       <br/>

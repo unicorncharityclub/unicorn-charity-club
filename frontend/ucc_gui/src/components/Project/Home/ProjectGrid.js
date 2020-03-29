@@ -11,7 +11,8 @@ class ProjectGrid extends React.Component {
   render() {
     return (
       <div style={{ flexGrow: 1 }}>
-        <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start" style={{paddingLeft: "20px", paddingRight: "20px", paddingTop: "20px"}}>
+        <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start"
+              style={{paddingLeft: "20px", paddingRight: "20px", paddingTop: "20px"}}>
 
           {this.props.projectData
           .filter(elem => elem.project_category.startsWith(this.props.category))

@@ -1,8 +1,7 @@
 import React from "react";
-import axiosConfig from '../../../axiosConfig'
+import AxiosConfig from '../../../axiosConfig'
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import AlertMessage from "../../../components/General/AlertMessage";
-import TextField from "@material-ui/core/TextField";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
@@ -20,11 +19,11 @@ class RegisterForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      first_name: "",
-      last_name: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
-      confirmpassword: "",
+      confirmPassword: "",
       terms: "",
       dob: "",
       status: "",
@@ -51,13 +50,13 @@ class RegisterForm extends React.Component {
   }
 
   onFirstNameChange(e) {
-    this.setState({ first_name: e.target.value });
-    this.clearValidationErr("first_name");
+    this.setState({ firstName: e.target.value });
+    this.clearValidationErr("firstName");
   }
 
   onLastNameChange(e) {
-    this.setState({ last_name: e.target.value });
-    this.clearValidationErr("last_name");
+    this.setState({ lastName: e.target.value });
+    this.clearValidationErr("lastName");
   }
 
   onEmailChange(e) {
@@ -76,8 +75,8 @@ class RegisterForm extends React.Component {
   }
 
   onConfirmPasswordChange(e) {
-    this.setState({ confirmpassword: e.target.value });
-    this.clearValidationErr("confirmpassword");
+    this.setState({ confirmPassword: e.target.value });
+    this.clearValidationErr("confirmPassword");
   }
 
   onTermsChange(e) {
@@ -88,13 +87,13 @@ class RegisterForm extends React.Component {
   submitRegister(e) {
     e.preventDefault();
     let valid = true;
-    if (this.state.first_name === "") {
+    if (this.state.firstName === "") {
       valid = false;
-      this.showValidationErr("first_name", "First name cannot be empty");
+      this.showValidationErr("firstName", "First name cannot be empty");
     }
-    if (this.state.last_name === "") {
+    if (this.state.lastName === "") {
       valid = false;
-      this.showValidationErr("last_name", "Last name cannot be empty");
+      this.showValidationErr("lastName", "Last name cannot be empty");
     }
     if (this.state.dob === "") {
       valid = false;
@@ -124,17 +123,17 @@ class RegisterForm extends React.Component {
         "Password should have minimum 6 characters"
       );
     }
-    if (this.state.password !== this.state.confirmpassword) {
+    if (this.state.password !== this.state.confirmPassword) {
       valid = false;
       this.showValidationErr(
         "password",
         "Password and Confirm Password dont match"
       );
     }
-    if (this.state.confirmpassword === "") {
+    if (this.state.confirmPassword === "") {
       valid = false;
       this.showValidationErr(
-        "confirmpassword",
+        "confirmPassword",
         "Confirm Password cannot be empty"
       );
     }
@@ -159,7 +158,7 @@ class RegisterForm extends React.Component {
 
   handleInsert(obj, event) {
     var status = "";
-    axiosConfig
+    AxiosConfig
       .post(`account/register`, this.state)
       .then(function(response) {
         status = response.data["status"];
@@ -186,13 +185,13 @@ class RegisterForm extends React.Component {
       if (err.elm === "password") {
         passwordErr = err.msg;
       }
-      if (err.elm === "confirmpassword") {
+      if (err.elm === "confirmPassword") {
         confirmPasswordErr = err.msg;
       }
-      if (err.elm === "first_name") {
+      if (err.elm === "firstName") {
         firstNameErr = err.msg;
       }
-      if (err.elm === "last_name") {
+      if (err.elm === "lastName") {
         lastNameErr = err.msg;
       }
       if (err.elm === "terms") {
@@ -220,9 +219,9 @@ class RegisterForm extends React.Component {
                 <div className="form-item">
                   <label>First name:</label>
                   <input
-                    name="first_name"
+                    name="firstName"
                     type="text"
-                    id="first_name"
+                    id="firstName"
                     placeholder="First Name"
                     value={this.state.value}
                     onChange={this.onFirstNameChange.bind(this)}
@@ -237,9 +236,9 @@ class RegisterForm extends React.Component {
                 <div className="form-item">
                   <label>Last name:</label>
                   <input
-                    name="last_name"
+                    name="lastName"
                     type="text"
-                    id="last_name"
+                    id="lastName"
                     placeholder="Last Name"
                     value={this.state.value}
                     onChange={this.onLastNameChange.bind(this)}

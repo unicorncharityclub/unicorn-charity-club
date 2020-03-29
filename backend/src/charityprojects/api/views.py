@@ -154,14 +154,14 @@ def start_project(request):
 @parser_classes([MultiPartParser, FormParser])
 def update_project_invitation_video_details(request):
     if request.method == 'PUT':
-        user_email = request.data["Email"]
-        project_id = request.data["ProjectId"]
+        user_email = request.data["email"]
+        project_id = request.data["project_id"]
 
         user_id = User.objects.get(email=user_email).id #get user id from email id
         project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]# from project user table get id
         project_user_id = project_user_record.id
         project_user_details = ProjectUserDetails.objects.filter(project_user_id=project_user_id)[0]
-        project_user_update_data = {"video": request.data["Projectvideo"]}
+        project_user_update_data = {"video": request.data["project_video"]}
         # Create new dictionary containing data to update
 
         if project_user_details:
@@ -228,11 +228,11 @@ def challenge_learn_new_skill(request):
     new_skill_list = {}
     user_email_id = request.data["email"]
     user_id = User.objects.get(email=user_email_id).id
-    new_skill_list['new_skill'] = request.data['newSkill']
+    new_skill_list['new_skill'] = request.data['new_skill']
     new_skill_list['description'] = request.data['description']
     if 'video' in request.data:
         new_skill_list['video'] = request.data['video']
-    project_id = request.data["projectId"]
+    project_id = request.data["project_id"]
     project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # from project user table get id
     if project_user_record:
         project_user_id = project_user_record.id
@@ -470,7 +470,7 @@ def challenge_develop_new_habit(request):
     new_habit_list = {}
     user_email_id = request.data["email"]
     user_id = User.objects.get(email=user_email_id).id
-    new_habit_list['new_habit'] = request.data['newHabit']
+    new_habit_list['new_habit'] = request.data['new_habit']
     new_habit_list['description'] = request.data['description']
     if 'video' in request.data:
         new_habit_list['video'] = request.data['video']

@@ -3,7 +3,7 @@ import DevelopNewHabitComponent
     from "../../../../../components/Project/ActiveProject/Step_3/DevelopNewHabit/DevelopNewHabitComponent";
 import {Container} from "@material-ui/core";
 import * as cookie from "react-cookies";
-import axiosConfig from "../../../../../axiosConfig";
+import AxiosConfig from "../../../../../axiosConfig";
 
 /**
  * @description Saves and fetches all the information of the Challenge 3 Develop new habit
@@ -23,31 +23,31 @@ class DevelopNewHabit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            new_habit: '',
+            newHabit: '',
             description: '',
             video: '',
-            final_video: '',
-            project_Id: this.props.match.params.id,
-            project_name: '',
-            project_banner: '',
-            project_badge: '',
+            finalVideo: '',
+            projectId: this.props.match.params.id,
+            projectName: '',
+            projectBanner: '',
+            projectBadge: '',
             //project_join_date: '',
-            challenge_status: ''
+            challengeStatus: ''
         }
     };
 
     componentDidMount () {
-        axiosConfig.get(`charityproject/activeProjectList/${cookie.load('user_emailid')}`)
+        AxiosConfig.get(`charityproject/activeProjectList/${cookie.load('user_email')}`)
       .then(res => {
           for(let i=0; i < res.data.active_project_list.length; i++) {
-              if(res.data.active_project_list[i].project_id === parseInt(this.state.project_Id)) {
+              if(res.data.active_project_list[i].project_id === parseInt(this.state.projectId)) {
                   console.log("inside");
                   this.setState({
-                      project_name: res.data.active_project_list[i].project_name,
-                      project_banner: res.data.active_project_list[i].project_banner,
-                      project_badge: res.data.active_project_list[i].project_badge,
-                      project_join_date: res.data.active_project_list[i].project_join_date,
-                      challenge_status: res.data.active_project_list[i].challenge_status
+                      projectName: res.data.active_project_list[i].project_name,
+                      projectBanner: res.data.active_project_list[i].project_banner,
+                      projectNadge: res.data.active_project_list[i].project_badge,
+                      projectJoinDate: res.data.active_project_list[i].project_join_date,
+                      challengeStatus: res.data.active_project_list[i].challenge_status
                   });
               }
           }
@@ -69,30 +69,30 @@ class DevelopNewHabit extends React.Component {
     videoHandler(event) {
         this.setState({
             video: URL.createObjectURL(event.target.files[0]),
-            final_video: event.target.files[0]
+            finalVideo: event.target.files[0]
         });
     };
 
 
     saveHandler(event, requestType) {
         //event.preventDefault();
-        let form_data = new FormData();
+        let formData = new FormData();
         try {
-            form_data.append('newHabit', this.state.new_habit);
-            form_data.append('description', this.state.description);
+            formData.append('new_habit', this.state.newHabit);
+            formData.append('description', this.state.description);
             if (this.state.final_video) {
-                form_data.append('video', this.state.final_video, this.state.final_video.name);
+                formData.append('video', this.state.finalVideo, this.state.finalVideo.name);
             }
-            form_data.append('projectId', this.state.project_Id);
-            //form_data.append('email', 'bhawanaprasadmail@gmail.com');
-            form_data.append('email', cookie.load('user_emailid'));
+            formData.append('project_id', this.state.projectId);
+            //formData.append('email', 'bhawanaprasadmail@gmail.com');
+            formData.append('email', cookie.load('user_email'));
         } catch (err) {
             console.log(err)
         }
 
         switch (requestType) {
             case 'post':
-                return axiosConfig.post('charityproject/DevelopNewHabit', form_data,
+                return AxiosConfig.post('charityproject/DevelopNewHabit', formData,
                     {
                         headers: {
                             'content-type': 'multipart/form-data'
@@ -102,31 +102,21 @@ class DevelopNewHabit extends React.Component {
                         console.log(res)
                     })
                     .catch(error => console.log(error))
-            // case 'put':
-            //     return axiosConfig.put(`http://127.0.0.1:8000/learn_new_skill/${id}/`, form_data,
-            //         {
-            //             headers: {
-            //                 'content-type': 'multipart/form-data'
-            //             }
-            //         })
-            //         .then(res => console.log(res))
-            //         .catch(error => console.log(error))
         }
     };
 
     render() {
         return (
-
             <div>
                 <Container>
-                    <DevelopNewHabitComponent new_habit={this.state.new_habit}
+                    <DevelopNewHabitComponent newHabit={this.state.newHabit}
                                               description={this.state.description}
                                               video={this.state.video}
-                                              project_banner={this.state.project_banner}
-                                              project_badge={this.state.project_badge}
-                                              project_name={this.state.project_name}
-                                              project_join_date={this.state.project_join_date}
-                                              challenge_status={this.state.challenge_status}
+                                              projectBanner={this.state.projectBanner}
+                                              projectBadge={this.state.projectBadge}
+                                              projectName={this.state.projectName}
+                                              projectJoinDate={this.state.projectJoinDate}
+                                              challengeStatus={this.state.challengeStatus}
                                               defaultIfEmpty={this.defaultIfEmpty.bind(this)}
                                               changeHandler={this.changeHandler.bind(this)}
                                               videoHandler={this.videoHandler.bind(this)}

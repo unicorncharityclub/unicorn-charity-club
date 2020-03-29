@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Login.css";
-import axiosConfig from '../../../axiosConfig'
+import AxiosConfig from '../../../axiosConfig'
 import AlertMessage from "../../../components/General/AlertMessage";
 import { connect } from 'react-redux';
 import cookie from 'react-cookies'
@@ -41,7 +41,7 @@ class Login_Form extends React.Component {
   }
 
   handleValidateUser(obj, event) {
-    axiosConfig
+    AxiosConfig
       .post(`account/login`, this.state)
       .then(function(response) {
         obj.updateResponseStatus(response);
@@ -54,13 +54,13 @@ class Login_Form extends React.Component {
   updateResponseStatus(response) {
     let response_status = response.data["status"];
     if (response_status === "Success") {
-      let user_list = response.data["user_list"];
+      let userList = response.data["user_list"];
       let token = response.data["token"];
 
-      cookie.save('user_emailid', user_list[0]["email"]);
-      cookie.save('user_list', user_list);
+      cookie.save('user_email', userList[0]["email"]);
+      cookie.save('user_list', userList);
       cookie.save('XSRF-TOKEN', token);
-      this.props.dispatch({ type: "LOGIN_SUCCESS", user_list:user_list, token:token});
+      this.props.dispatch({ type: "LOGIN_SUCCESS", userList:userList, token:token});
     }
     else {
       this.setState(prevState => ({

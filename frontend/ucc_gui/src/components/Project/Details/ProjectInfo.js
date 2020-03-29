@@ -9,24 +9,24 @@ class ProjectInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      Project_id: this.props.id,
-      ProjectName: "",
-      ProjectCategory: "",
-      ProjectTags: "",
-      ProjectBadge: "",
+      projectId: this.props.id,
+      projectName: "",
+      projectCategory: "",
+      projectTags: "",
+      projectBadge: "",
     };
   }
 
   componentDidMount() {
     axiosConfig
-      .get(`charityproject/${this.state.Project_id}`)
+      .get(`charityproject/${this.state.projectId}`)
       .then((res) => {
         this.setState({
-          ProjectName: res.data.project_name,
-          ProjectCategory: res.data.project_category,
-          ProjectTags: res.data.project_tags,
-          ProjectBadge: res.data.project_badge,
-          ProjectMission: res.data.project_mission,
+          projectName: res.data.project_name,
+          projectCategory: res.data.project_category,
+          projectTags: res.data.project_tags,
+          projectBadge: res.data.project_badge,
+          projectMission: res.data.project_mission,
         });
       })
       .catch((error) => console.log(error));
@@ -45,14 +45,14 @@ class ProjectInfo extends React.Component {
                     <tr>
                         <td>
                           <Image
-                    src={this.state.ProjectBadge}
+                    src={this.state.projectBadge}
                     className="start_project_info_badge_image"
                     roundedCircle/>
                         </td>
                       </tr>
                       <tr>
                         <td>
-                          <TextBlackHeading message={this.state.ProjectName} />
+                          <TextBlackHeading message={this.state.projectName} />
                         </td>
                       </tr>
                       <tr>
@@ -64,7 +64,7 @@ class ProjectInfo extends React.Component {
                       </tr>
                       <tr>
                         <td>
-                          <TextBlack message={this.state.ProjectCategory} />
+                          <TextBlack message={this.state.projectCategory} />
                         </td>
                       </tr>
 
@@ -79,7 +79,7 @@ class ProjectInfo extends React.Component {
                       </tr>
                       <tr>
                         <td>
-                          <TextBlack message={this.state.ProjectTags} />
+                          <TextBlack message={this.state.projectTags} />
                         </td>
                       </tr>
                       <tr>
@@ -95,7 +95,7 @@ class ProjectInfo extends React.Component {
                     <tr>
                         <td>
                           <TextBlack
-                            message={this.state.ProjectMission}
+                            message={this.state.projectMission}
                           />
                         </td>
                       </tr>
@@ -111,7 +111,7 @@ class ProjectInfo extends React.Component {
               <div className="start_project_info_container">
                 <div className="start_project_info_badge">
                   <Image
-                    src={this.state.ProjectBadge}
+                    src={this.state.projectBadge}
                     className="start_project_info_badge_image"
                     roundedCircle
                   />
@@ -121,7 +121,7 @@ class ProjectInfo extends React.Component {
                     <tbody>
                       <tr>
                         <td colSpan={2}>
-                          <TextBlackHeading message={this.state.ProjectName} />
+                          <TextBlackHeading message={this.state.projectName} />
                         </td>
                       </tr>
                       <tr>
@@ -130,7 +130,7 @@ class ProjectInfo extends React.Component {
                         </td>
                         <td>
                           <TextBlack
-                            message={" : " + this.state.ProjectCategory}
+                            message={" : " + this.state.projectCategory}
                           />
                         </td>
                       </tr>
@@ -139,7 +139,7 @@ class ProjectInfo extends React.Component {
                           <TextBlack message="Tags" />
                         </td>
                         <td>
-                          <TextBlack message={" : " + this.state.ProjectTags} />
+                          <TextBlack message={" : " + this.state.projectTags} />
                         </td>
                       </tr>
                       <tr>
@@ -148,7 +148,7 @@ class ProjectInfo extends React.Component {
                         </td>
                         <td>
                           <TextBlack
-                            message={" : " + this.state.ProjectMission}
+                            message={" : " + this.state.projectMission}
                           />
                         </td>
                       </tr>

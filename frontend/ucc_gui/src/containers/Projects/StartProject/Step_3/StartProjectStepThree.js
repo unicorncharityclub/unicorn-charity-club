@@ -1,7 +1,7 @@
 import React from "react";
 import "../../../ProjectCommon.css";
 import "./StartProjectStepThree.css";
-import axiosConfig from "../../../../axiosConfig";
+import AxiosConfig from "../../../../qxiosConfig";
 import ProjectBanner from "../../../../components/Project/ProjectBanner";
 import ProjectInfo from "../../../../components/Project/Details/ProjectInfo";
 import cookie from "react-cookies";
@@ -19,38 +19,38 @@ class StartProjectStepThree extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ProjectId: this.props.match.params.id,
-      ProjectBanner: "",
-      ProjectName: "",
-      ProjectDateStarted: "Date Started",
-      UserEmailId: cookie.load("user_emailid"),
-      PopupSearch: false,
-      SearchType: "",
-      SearchValue: "",
-      SearchMoreAvailable: true,
-      SearchOffset: 0,
-      SelectedFriends: new Map(),
-      InviteMessage: "Hello Friends",
-      UnregisteredUser: [
+      projectId: this.props.match.params.id,
+      projectBanner: "",
+      projectName: "",
+      projectDateStarted: "Date Started",
+      userEmailId: cookie.load("user_emailid"),
+      popupSearch: false,
+      searchType: "",
+      searchValue: "",
+      searchMoreAvailable: true,
+      searchOffset: 0,
+      selectedFriends: new Map(),
+      inviteMessage: "Hello Friends",
+      unregisteredUser: [
         { email_address: "", issue: "" },
         { email_address: "", issue: "" },
         { email_address: "", issue: "" },
         { email_address: "", issue: "" },
         { email_address: "", issue: "" },
       ],
-      UnregisteredUserIssue: "",
-      SendInvitationIssue: "",
-      FriendsSearchData: [],
+      unregisteredUserIssue: "",
+      sendInvitationIssue: "",
+      friendsSearchData: [],
     };
   }
   componentDidMount() {
     const project_id = this.props.match.params.id;
-    axiosConfig
+    AxiosConfig
       .get(`charityproject/${project_id}`)
       .then((res) => {
         this.setState({
-          ProjectName: res.data["project_name"],
-          ProjectBanner: res.data["project_banner"],
+          projectName: res.data["project_name"],
+          projectBanner: res.data["project_banner"],
         });
       })
       .catch((error) => console.log(error));
@@ -66,7 +66,7 @@ class StartProjectStepThree extends React.Component {
   saveButtonClick() {}
 
   sendInviteButtonClick() {
-    this.setState({ SendInvitationIssue: "" });
+    this.setState({ sendInvitationIssue: "" });
     if (
       this.checkUnregisteredUsersErr() === false &&
       this.checkInvitationMessageErr() === false
@@ -76,9 +76,9 @@ class StartProjectStepThree extends React.Component {
   }
 
   checkInvitationMessageErr() {
-    if (this.state.InviteMessage.length === 0) {
+    if (this.state.inviteMessage.length === 0) {
       this.setState({
-        SendInvitationIssue:
+        sendInvitationIssue:
           "Enter an Invitation message to be sent to your invitee's.",
       });
       return true;
@@ -88,14 +88,13 @@ class StartProjectStepThree extends React.Component {
 
   checkUnregisteredUsersErr() {
     let errorFlag = false;
-    for (let i = 0; i < this.state.UnregisteredUser.length; i++) {
-      if (this.state.UnregisteredUser[i]["issue"].trim().length !== 0) {
+    for (let i = 0; i < this.state.unregisteredUser.length; i++) {
+      if (this.state.unregisteredUser[i]["issue"].trim().length !== 0) {
         errorFlag = true;
-        this.setState({ UnregisteredUser: this.state.UnregisteredUser });
+        this.setState({ unregisteredUser: this.state.unregisteredUser });
         this.setState({
-          SendInvitationIssue: "Invalid Email of Unregistered User.",
+          sendInvitationIssue: "Invalid Email of Unregistered User.",
         });
-
         break;
       }
     }
@@ -104,18 +103,18 @@ class StartProjectStepThree extends React.Component {
 
   sendInvitationToUnregisteredUsers() {
     var unregisterEmailId = [];
-    for (let i = 0; i < this.state.UnregisteredUser.length; i++) {
+    for (let i = 0; i < this.state.unregisteredUser.length; i++) {
       unregisterEmailId.push(
-        this.state.UnregisteredUser[i]["email_address"].trim()
+        this.state.unregisteredUser[i]["email_address"].trim()
       );
     }
-    axiosConfig.defaults.withCredentials = true;
-    axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-    axiosConfig
+    AxiosConfig.defaults.withCredentials = true;
+    AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+    AxiosConfig
       .post(`charityproject/unregisteredInvitation`, {
-        user_email: this.state.UserEmailId,
-        project_id: this.state.ProjectId,
-        invitation_message: this.state.InviteMessage,
+        user_email: this.state.userEmailId,
+        project_id: this.state.projectId,
+        invitation_message: this.state.inviteMessage,
         friend_list: unregisterEmailId,
       })
       .then(function (response) {
@@ -128,16 +127,16 @@ class StartProjectStepThree extends React.Component {
 
   sendInvitationToRegisteredUsers(obj) {
     var friendsEmailId = [];
-    for (const friends of this.state.SelectedFriends.values()) {
+    for (const friends of this.state.selectedFriends.values()) {
       friendsEmailId.push(friends["user_email"]);
     }
-    axiosConfig.defaults.withCredentials = true;
-    axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-    axiosConfig
+    AxiosConfig.defaults.withCredentials = true;
+    AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+    AxiosConfig
       .post(`charityproject/userInvitation`, {
-        user_email: this.state.UserEmailId,
-        project_id: this.state.ProjectId,
-        invitation_message: this.state.InviteMessage,
+        user_email: this.state.userEmailId,
+        project_id: this.state.projectId,
+        invitation_message: this.state.inviteMessage,
         friend_list: friendsEmailId,
       })
       .then(function (response) {
@@ -152,13 +151,13 @@ class StartProjectStepThree extends React.Component {
     return (
       <div style={{ margin: "10px" }}>
         <div style={{ marginBottom: "150px" }}>
-          {this.state.PopupSearch ? (
+          {this.state.popupSearch ? (
             <div id="popup" className="friends-popup-window">
               <FriendsSearchGrid
-                friendsSearchData={this.state.FriendsSearchData}
-                searchStringType={this.state.SearchType}
-                searchStringValue={this.state.SearchValue}
-                searchMore={this.state.SearchMoreAvailable}
+                friendsSearchData={this.state.friendsSearchData}
+                searchStringType={this.state.searchType}
+                searchStringValue={this.state.searchValue}
+                searchMore={this.state.searchMoreAvailable}
                 searchResultCancelClick={FriendsSearchHelper.searchResultCancelClick.bind(
                   this
                 )}
@@ -179,16 +178,16 @@ class StartProjectStepThree extends React.Component {
               <ProgressStepper currentStep="2" />
             </div>
             <div className="banner_common">
-              <ProjectBanner image={this.state.ProjectBanner} />
+              <ProjectBanner image={this.state.projectBanner} />
             </div>
           </div>
 
           <div className="content_project_info_vertical">
-            <ProjectInfo vertical={true} id={this.state.ProjectId} />
+            <ProjectInfo vertical={true} id={this.state.projectId} />
           </div>
           <div className="content_section">
             <div className="content_project_info">
-              <ProjectInfo id={this.state.ProjectId} />
+              <ProjectInfo id={this.state.projectId} />
             </div>
             <InviteFriends
               showHeaderMessage={true}
@@ -196,12 +195,12 @@ class StartProjectStepThree extends React.Component {
               searchResultHandler={FriendsSearchHelper.searchResultHandler.bind(
                 this
               )}
-              disabled={this.state.PopupSearch}
+              disabled={this.state.popupSearch}
             />
             <br />
             <div>
               <FriendsInvitedGrid
-                friendsInvitedData={[...this.state.SelectedFriends.values()]}
+                friendsInvitedData={[...this.state.selectedFriends.values()]}
                 removeInviteClick={FriendsSearchHelper.removeInviteClick.bind(
                   this
                 )}
@@ -212,8 +211,8 @@ class StartProjectStepThree extends React.Component {
             <div>
               <UnregisteredFriendsInvite
                 message="2. Send invites to unregistered users."
-                unregisteredUser={this.state.UnregisteredUser}
-                unregisteredUserIssue={this.state.UnregisteredUserIssue}
+                unregisteredUser={this.state.unregisteredUser}
+                unregisteredUserIssue={this.state.unregisteredUserIssue}
                 unregisteredUserAddMoreClick={FriendsSearchHelper.unregisteredUserAddMore.bind(
                   this
                 )}
@@ -237,7 +236,7 @@ class StartProjectStepThree extends React.Component {
                 <TextBlackSubHeading message="3. Invitation message to friends." />
               </div>
               <TextArea
-                value={this.state.InviteMessage}
+                value={this.state.inviteMessage}
                 rows={5}
                 handleChange={FriendsSearchHelper.inviteMessageChange.bind(
                   this
@@ -251,12 +250,10 @@ class StartProjectStepThree extends React.Component {
             button2Text="SEND INVITATIONS"
             button1Click={this.saveButtonClick.bind(this)}
             button2Click={this.sendInviteButtonClick.bind(this)}
-            disabled={this.state.PopupSearch}
+            disabled={this.state.popupSearch}
           />
-          <AlertMessage alertMessage={this.state.SendInvitationIssue} />
-
+          <AlertMessage alertMessage={this.state.sendInvitationIssue} />
           </div>
-
         </div>
       </div>
     );

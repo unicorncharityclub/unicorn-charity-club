@@ -1,8 +1,6 @@
 import React from 'react';
 import TextBlueHeading from "../../../General/Text/TextBlueHeading";
 import TextBlack from "../../../General/Text/TextBlack";
-import CameraAltRoundedIcon from '@material-ui/icons/CameraAltRounded';
-import AlertMessage from "../../../General/AlertMessage";
 import Video from "../../../General/Video/Video";
 class ProjectContent extends React.Component {
 

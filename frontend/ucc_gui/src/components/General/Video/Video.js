@@ -1,7 +1,7 @@
 import React from 'react';
 import {Player} from "video-react";
 import "../../../../node_modules/video-react/dist/video-react.css";
-import Upload_video from "../../../image/Settings_Camera.png";
+import UploadVideo from "../../../image/Settings_Camera.png";
 import "./Video.css";
 
 
@@ -21,7 +21,7 @@ class Video extends React.Component {
                     }
                 </div>
                 <div className="project-video" style={{width:this.props.width}}>
-                    <img className="project-video-upload" src={Upload_video} alt=""/>
+                    <img className="project-video-upload" src={UploadVideo} alt=""/>
                     <input id={this.props.id} style={{display: 'none'}}
                            type={this.props.type}
                            name={this.props.name}

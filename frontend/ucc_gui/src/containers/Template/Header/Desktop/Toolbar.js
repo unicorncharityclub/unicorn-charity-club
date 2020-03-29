@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import Add_child from "../../../../image/add-child-button-mobile.png";
+import AddChild from "../../../../image/add-child-button-mobile.png";
 import "../Header.css";
 import "./Toolbar.css";
 import cookie from "react-cookies";
-import Upload_photo from "../../../../site_media/Images/Default-profile-picture.png";
-import {connect} from "react-redux";
+import UploadPhoto from "../../../../site_media/Images/Default-profile-picture.png";
 
 /**
  * @description Creates the toolbar section in the header with
@@ -25,20 +24,19 @@ class Toolbar extends Component {
 
     constructor(props) {
      super(props);
-     this.user_list = cookie.load('user_list');
-     this.user_emailid = cookie.load('user_emailid');
-     this.state = {other_users: ""};
-     for (let i in this.user_list) {
-         if (this.user_list[i].email !== this.user_emailid) {
-             this.state["other_users"] = [...this.state.other_users, this.user_list[i]]
+     this.userList = cookie.load('user_list');
+     this.userEmail = cookie.load('user_email');
+     this.state = {otherUsers: ""};
+     for (let i in this.userList) {
+         if (this.userList[i].email !== this.userEmail) {
+             this.state["other_users"] = [...this.state.other_users, this.userList[i]]
          }
      }
-
  }
 
- onUpdateUser(emailid)
+ onUpdateUser(email)
  {
-     cookie.save('user_emailid', emailid);
+     cookie.save('user_email', email);
      this.props.onUpdateUser();
  }
 
@@ -47,10 +45,9 @@ class Toolbar extends Component {
         <div className="child-select__dropdown-menu-wrapper">
 
         {
-            this.state.other_users !== '' ? (
-                this.state.other_users
+            this.state.otherUsers !== '' ? (
+                this.state.otherUsers
           .map(elem => (
-
           <a
               key={elem.email}
             className="child-select__item child-select__item--dropdown "
@@ -66,7 +63,7 @@ class Toolbar extends Component {
                         ) :
                         (<div
                                 className="child-select__avatar"
-                                style={{backgroundImage: `url(${Upload_photo})`}}
+                                style={{backgroundImage: `url(${UploadPhoto})`}}
                                 alt={elem.name}
                             />)
                     }
@@ -88,7 +85,7 @@ class Toolbar extends Component {
             <div className="child-select__name child-select__name--add-child">
               <span className="add-child-web">Add new child</span>
               <span className="add-child-mobile">
-                <img src={Add_child} />
+                <img src={AddChild} />
               </span>
             </div>
           </a>

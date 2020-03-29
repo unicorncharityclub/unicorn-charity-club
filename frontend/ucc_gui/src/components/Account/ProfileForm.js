@@ -2,9 +2,8 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "../../containers/Account/Info/Account.css";
 import "../../containers/Account/MyChildren/MyChildren.css";
-import Arrow_backward from "./../../image/arrow-backward.png";
-import Upload_photo from "./../../image/Default-profile-picture.png";
-import CheckBox from "../General/Form/Checkbox";
+import ArrowBackward from "./../../image/arrow-backward.png";
+import UploadPhoto from "./../../image/Default-profile-picture.png";
 
 class ProfileForm extends React.Component {
 
@@ -26,7 +25,7 @@ class ProfileForm extends React.Component {
         <div className="header__wrapper">
           <div className="header__logo">
             <NavLink to={"/"}>
-              <img src={Arrow_backward} alt="Backward Arrow" />
+              <img src={ArrowBackward} alt="Backward Arrow" />
             </NavLink>
             <div className="header-menu-mobile" />
           </div>
@@ -47,7 +46,7 @@ class ProfileForm extends React.Component {
             <div className="blessing-form">
               <img
                 className="profile-picture"
-                src={this.props.profile_pic || Upload_photo}
+                src={this.props.profilePic || UploadPhoto}
                 alt=""
               />
               <label className="upload-photo" htmlFor="file">
@@ -57,7 +56,7 @@ class ProfileForm extends React.Component {
                 id="file"
                 style={{ display: "none" }}
                 type="file"
-                name="profile_pic"
+                name="profilePic"
                 accept=".png, .jpeg, .jpg"
                 onChange={this.props.onImageChange.bind(this)}
               />
@@ -74,9 +73,9 @@ class ProfileForm extends React.Component {
               <label>First Name:</label>
               <input
                 type="text"
-                name="first_name"
+                name="firstName"
                 placeholder="First Name"
-                value={this.props.first_name}
+                value={this.props.firstName}
                 onChange={this.props.onDataChange.bind(this)}
               />
             </div>
@@ -85,9 +84,9 @@ class ProfileForm extends React.Component {
               <label>Last Name:</label>
               <input
                 type="text"
-                name="last_name"
+                name="lastName"
                 placeholder="Last Name"
-                value={this.props.last_name}
+                value={this.props.lastName}
                 onChange={this.props.onDataChange.bind(this)}
               />
             </div>
@@ -173,9 +172,9 @@ class ProfileForm extends React.Component {
 
                   <select
                     className="child-form-select"
-                    name="school_grade"
+                    name="schoolGrade"
                     placeholder="Select School Grade"
-                    value={this.props.school_grade}
+                    value={this.props.schoolGrade}
                     onChange={this.props.onDataChange.bind(this)}
                   >
                     <option value="Select School Grade">
@@ -202,18 +201,18 @@ class ProfileForm extends React.Component {
               <label>About Me:</label>
               <textarea
                 type="text"
-                name="aboutme"
+                name="aboutMe"
                 placeholder="Tell us what you are..."
-                value={this.props.aboutme}
+                value={this.props.aboutMe}
                 onChange={this.props.onDataChange.bind(this)}
               />
             </div>
             <div className="blessing-info">
               <label>My favorite things are...</label>
               <textarea
-                name="favorite_thing"
+                name="favoriteThing"
                 placeholder="What do you like to do; eat, listen to, play with, or travel to?"
-                value={this.props.favorite_thing}
+                value={this.props.favoriteThing}
                 onChange={this.props.onDataChange.bind(this)}
               />
             </div>
@@ -229,9 +228,9 @@ class ProfileForm extends React.Component {
             <div className="blessing-info">
               <label>I have the super power(s) to...</label>
               <textarea
-                name="super_powers"
+                name="superPowers"
                 placeholder="What powers help you make a greatest impact on the world?"
-                value={this.props.super_powers}
+                value={this.props.superPowers}
                 onChange={this.props.onDataChange.bind(this)}
               />
             </div>

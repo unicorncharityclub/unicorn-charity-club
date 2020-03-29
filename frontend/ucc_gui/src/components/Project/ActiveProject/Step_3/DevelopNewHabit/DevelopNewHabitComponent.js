@@ -26,10 +26,10 @@ class DevelopNewHabitComponent extends React.Component {
         return (
             <div className="form-wrapper">
                 <ProgressStepper currentStep="3"/>
-                <ProjectBanner image={this.props.project_banner}/>
-                <ProjectInfo project_name={this.props.project_name} project_badge={this.props.project_badge}
-                             project_join_date={this.props.project_join_date}
-                             challenge_status={this.props.challenge_status}
+                <ProjectBanner image={this.props.projectBanner}/>
+                <ProjectInfo project_name={this.props.projectName} project_badge={this.props.projectBadge}
+                             project_join_date={this.props.projectJoinDate}
+                             challenge_status={this.props.challengeStatus}
                 />
                 <div className="project-form">
                     <div className="challenge-name">
@@ -40,8 +40,8 @@ class DevelopNewHabitComponent extends React.Component {
                     <div className="project-form-inner">
                         <label>1. What new habit did you develop?</label>
                         <input type="text"
-                               name="new_habit"
-                               value={this.props.defaultIfEmpty(this.props.new_habit)}
+                               name="newHabit"
+                               value={this.props.defaultIfEmpty(this.props.newHabit)}
                                onChange={this.props.changeHandler.bind(this)}/>
                         <label>2. Describe how you learned your new habit.</label>
                         <textarea name="description"

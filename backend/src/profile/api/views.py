@@ -75,12 +75,12 @@ def get_child_list(request, user_email):
         profile_details = Profile.objects.get(user_id=child_id)  # get child account info to get the profile pic
 
         child_details = {}
-        child_details['Name'] = child_user_details.first_name + " " + child_user_details.last_name
+        child_details['name'] = child_user_details.first_name + " " + child_user_details.last_name
         if profile_details.profile_pic:
-            child_details['Photo'] = request.build_absolute_uri(profile_details.profile_pic.url)
+            child_details['photo'] = request.build_absolute_uri(profile_details.profile_pic.url)
         else:
-            child_details['Photo'] = ''
-        child_details['EmailId'] = child_user_details.email
+            child_details['photo'] = ''
+        child_details['email'] = child_user_details.email
         child_list.append(child_details)
         response['child_list'] = child_list
     return JsonResponse(response)

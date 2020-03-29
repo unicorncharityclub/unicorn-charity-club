@@ -3,7 +3,7 @@ import "./StartProjectStepTwo.css";
 import { Container } from "@material-ui/core";
 import ProjectInfo from "../../../../components/Project/Details/ProjectInfo";
 import GiftGrid from "../../../../components/Project/StartProject/Step_2/GiftGrid";
-import axiosConfig from '../../../../axiosConfig'
+import AxiosConfig from '../../../../axiosConfig'
 import ProgressStepper from "../../../../components/Project/ProgressStepper";
 import "../../../ProjectCommon.css"
 import ProjectBanner from "../../../../components/Project/ProjectBanner";
@@ -16,8 +16,8 @@ class StartProjectStepTwo extends React.Component {
     constructor(props) {
         super(props); 
         this.state = {                        
-            ProjectBanner : '', 
-            PhotoSelectedId : "",   
+            projectBanner : '',
+            photoSelectedId : "",
             imageList : [
                 {
                     "prize_id" : "",
@@ -34,10 +34,10 @@ class StartProjectStepTwo extends React.Component {
 
     fetchProjectBanner(){
         const project_id = this.props.match.params.id;
-        axiosConfig.get(`charityproject/${project_id}`)
+        AxiosConfig.get(`charityproject/${project_id}`)
         .then(res => {
               this.setState({                  
-                  ProjectBanner : res.data["project_banner"]                                
+                  projectBanner : res.data["project_banner"]
               });
         //   console.log(res.data)
         }).catch(error => console.log(error))
@@ -51,32 +51,29 @@ class StartProjectStepTwo extends React.Component {
     }
 
     fetchPrizeDetails(obj) {
-        axiosConfig.get(`prize/prizeList`)
+        AxiosConfig.get(`prize/prizeList`)
             .then(function(response) {
                 obj.setPrizeDetails(response);
-                console.log(response);
             })
             .catch(function(error) {console.log(error);});
     }
 
-
     giftPlanSelectedHandler(value) {
-        console.log(value);
         this.setState(prevState => ({
-            PhotoSelectedId : value
+            photoSelectedId : value
         }))
     }
 
     moveToStepThreeHandler() {
         
         // if the prize is selected
-        if (this.state.PhotoSelectedId){            
-            axiosConfig.defaults.withCredentials = true;
-            axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-            axiosConfig.put(`charityproject/projectPrize`, {
+        if (this.state.photoSelectedId){
+            AxiosConfig.defaults.withCredentials = true;
+            AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+            AxiosConfig.put(`charityproject/projectPrize`, {
                 "project_id" : this.props.match.params.id,
-                "user_email" : cookie.load('user_emailid'),
-                "prize_id" : this.state.PhotoSelectedId
+                "user_email" : cookie.load('user_email'),
+                "prize_id" : this.state.photoSelectedId
 
             })
             .then(this.props.history.push(`/Projects/${this.props.match.params.id}/InviteFriends`))
@@ -100,7 +97,7 @@ class StartProjectStepTwo extends React.Component {
                             <ProgressStepper currentStep="1" />
                         </div>
                         <div className="banner">
-                            <ProjectBanner image={this.state.ProjectBanner} />
+                            <ProjectBanner image={this.state.projectBanner} />
                         </div>
                     </div>
                     <div className="content_project_info_vertical">

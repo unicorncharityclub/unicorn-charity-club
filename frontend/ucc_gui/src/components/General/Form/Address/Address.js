@@ -1,8 +1,6 @@
 import React from 'react';
-import cookie from "react-cookies";
 import Input from "../../Form/Input"
 import axiosConfig from "../../../../axiosConfig";
-import TextBlack from "../../Text/TextBlack";
 import "./Address.css"
 import TextBlackSubHeading from "../../Text/TextBlackSubHeading";
 
@@ -11,13 +9,13 @@ class Address extends React.Component {
     constructor(props) {
     super(props);
     this.state = {
-        project_id: this.props.id,
+        projectId: this.props.id,
     }
  }
 
 
  componentDidMount () {
-        axiosConfig.get(`charityproject/${this.state.project_id}`)
+        axiosConfig.get(`charityproject/${this.state.projectId}`)
     }
 
     render() {
@@ -51,8 +49,8 @@ class Address extends React.Component {
                                     <div className="Box2">
                                     <Input type="text"
                                            style={{float:"right"}}
-                                    name="state_name"
-                                    value={this.props.state_name}
+                                    name="stateName"
+                                    value={this.props.stateName}
                                            placeholder="State"
                                     handleChange={this.props.changeHandler}/> <br/><br/>
                                     </div>

@@ -1,7 +1,6 @@
 import React from 'react';
 import "../../../../../containers/Projects/ActiveProject/Step_3/LearnNewSkill/LearnNewSkill.css";
 import Button from "react-bootstrap/Button";
-import Project_logo from "../../../../../site_media/default-images/project_default.jpg";
 import Video from "../../../../General/Video/Video";
 import ProgressStepper from "../../../ProgressStepper";
 import ProjectBanner from "../../../ProjectBanner";
@@ -16,7 +15,7 @@ import ProjectInfo from "../../../ProjectHeader/ProjectInfo";
  * @example <LearnNewSkillComponent />
  * pre-condition: all the imports
  * post-condition: returns a form with all the information about learning new skill
- * @param project_banner, project_name, project_badge, project_join_date, challenge_status, new_skill, description,
+ * @param project_banner, project_name, project_badge, project_join_date, challenge_status, newSkill, description,
  * changeHandler, videoHandler, saveHandler
  * @returns {LearnNewSkillComponent}
  */
@@ -29,24 +28,24 @@ class LearnNewSkillComponent extends React.Component {
             <div className="form-wrapper">
                 <div className="mobile-content">
                     <ProgressStepper currentStep="3"/>
-                    <ProjectBanner image={this.props.project_banner}/>
-                    <ProjectInfo project_name={this.props.project_name} project_badge={this.props.project_badge}
-                                 project_join_date={this.props.project_join_date}
-                                 challenge_status={this.props.challenge_status}
+                    <ProjectBanner image={this.props.projectBanner}/>
+                    <ProjectInfo project_name={this.props.projectName} project_badge={this.props.projectBadge}
+                                 project_join_date={this.props.projectJoinDate}
+                                 challenge_status={this.props.challengeStatus}
                     />
                 </div>
                 <div className="adventure-project">
                     <div className="desktop-content">
-                        <ProjectInfo project_name={this.props.project_name} project_badge={this.props.project_badge}
-                                     project_join_date={this.props.project_join_date}
-                                     challenge_status={this.props.challenge_status}
-                                     project_mission={this.props.project_mission}
+                        <ProjectInfo project_name={this.props.projectName} project_badge={this.props.projectBadge}
+                                     project_join_date={this.props.projectJoinDate}
+                                     challenge_status={this.props.challengeStatus}
+                                     project_mission={this.props.projectMission}
                         />
                     </div>
                     <div>
                         <div className="desktop-content">
                             <div className="project-banner">
-                                <ProjectBanner image={this.props.project_banner}/>
+                                <ProjectBanner image={this.props.projectBanner}/>
                             </div>
                             <ProgressStepper currentStep="3"/>
                         </div>
@@ -60,8 +59,8 @@ class LearnNewSkillComponent extends React.Component {
                                 <div className="project-form-inner">
                                     <label>1. What new skill did you develop?</label>
                                     <input type="text"
-                                           name="new_skill"
-                                           value={this.props.defaultIfEmpty(this.props.new_skill)}
+                                           name="newSkill"
+                                           value={this.props.defaultIfEmpty(this.props.newSkill)}
                                            onChange={this.props.changeHandler.bind(this)}/>
                                     <label>2. Describe how you learned your new skill.</label>
                                     <textarea name="description"

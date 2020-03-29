@@ -13,19 +13,19 @@ class EachActiveProject extends React.Component {
   constructor(props) {
     super(props);    
     this.state = {      
-        Project_id : this.props.projectId,        
-        ProjectName : '',
-        ProjectJoinDate : '03/04/2020',          
+        projectId : this.props.projectId,        
+        projectName : '',
+        projectJoinDate : '03/04/2020',          
     }
  }
 
     componentDidMount () {               
-        const Project_id = this.props.projectId;                    
-        axiosConfig.get(`charityproject/${Project_id}`)
+        const projectId = this.props.projectId;                    
+        axiosConfig.get(`charityproject/${projectId}`)
       .then(res => {
               this.setState({                  
-                  ProjectName : res.data["project_name"],
-                  ProjectBanner : res.data["project_banner"]                 
+                  projectName : res.data["project_name"],
+                  projectBanner : res.data["project_banner"]                 
               });
       }).catch(error => console.log(error))
 
@@ -54,7 +54,7 @@ class EachActiveProject extends React.Component {
             );
         }else if (date !== null && type === "Invitation") {
             // if date is for Invitation
-            msg = "By "+ this.props.inviter_name + " on : ";
+            msg = "By "+ this.props.inviterName + " on : ";
             date = this.reverseDate(date);
             return (
                 <TextBlack message={msg + date}/> 
@@ -131,63 +131,63 @@ class EachActiveProject extends React.Component {
         if(type === "Planning") {
             if("PlanningPhase1" === status) {
                 return (
-                    <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/StartNewProject'}>
-                        <TextBlackHeading message={this.state.ProjectName}/>
+                    <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/StartNewProject'}>
+                        <TextBlackHeading message={this.state.projectName}/>
                     </a>
                 );
               } else if ("PlanningPhase2" === status){
                 return (
-                    <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/StartProjectStepTwo'}>
-                        <TextBlackHeading message={this.state.ProjectName}/>
+                    <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/StartProjectStepTwo'}>
+                        <TextBlackHeading message={this.state.projectName}/>
                     </a>
                 );
               }else if ("PlanningPhase3" === status){
                 return (
-                    <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/InviteFriends'}>
-                        <TextBlackHeading message={this.state.ProjectName}/>
+                    <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/InviteFriends'}>
+                        <TextBlackHeading message={this.state.projectName}/>
                     </a>
                 );
               }else{
                   // if the status is planningStart                             
                 return (
-                    <a className = "projectName" href = {'/Projects/'+ this.state.Project_id}>
-                        <TextBlackHeading message={this.state.ProjectName}/>
+                    <a className = "projectName" href = {'/Projects/'+ this.state.projectId}>
+                        <TextBlackHeading message={this.state.projectName}/>
                     </a>
                 );
               }          
           }else if (type === "Active"){                     
             if("Challenge1Complete" === status) {
               return (
-                <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/ActiveProjectChallenge2'}>
-                    <TextBlackHeading message={this.state.ProjectName}/>
+                <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/ActiveProjectChallenge2'}>
+                    <TextBlackHeading message={this.state.projectName}/>
                 </a>
               );
             } else if ("Challenge2Complete" === status){
               return (                  
-                <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/SpreadTheWord'}>
-                    <TextBlackHeading message={this.state.ProjectName}/>
+                <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/SpreadTheWord'}>
+                    <TextBlackHeading message={this.state.projectName}/>
                 </a>
               );
             }else if ("Challenge3Complete" === status){
               return (
-                <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/LearnNewSkill'}>
-                    <TextBlackHeading message={this.state.ProjectName}/>
+                <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/LearnNewSkill'}>
+                    <TextBlackHeading message={this.state.projectName}/>
                 </a>
               );
             }else{
                 // if the status is startChallenge             
                 // as challenge1 is not completed yet
                 return (
-                    <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/ActiveProjectChallenge1'}>
-                        <TextBlackHeading message={this.state.ProjectName}/>
+                    <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/ActiveProjectChallenge1'}>
+                        <TextBlackHeading message={this.state.projectName}/>
                     </a>
                   );
             } 
         }else{
             // if Invitation
             return (
-                <a className = "projectName" href = {`/Projects/${this.props.projectId}/ProjectInvitation/${this.props.inviter_email}`}>
-                    <TextBlackHeading message={this.state.ProjectName}/>
+                <a className = "projectName" href = {`/Projects/${this.props.projectId}/ProjectInvitation/${this.props.inviterEmail}`}>
+                    <TextBlackHeading message={this.state.projectName}/>
                 </a>
               );
         }
@@ -197,7 +197,7 @@ class EachActiveProject extends React.Component {
     buttonHandler() {
         // on button click action
         var projectID = this.props.projectId;
-        var email = this.props.inviter_email;        
+        var email = this.props.inviterEmail;        
         window.open(`/Projects/${projectID}/ProjectInvitation/${email}`,"_self");
     }
 
@@ -212,7 +212,7 @@ class EachActiveProject extends React.Component {
             return (
                 // this is for planning or Active
                 <div>
-                    {this.renderProgressStepper(this.props.project_status, this.props.type)}    
+                    {this.renderProgressStepper(this.props.projectStatus, this.props.type)}    
                 </div>            
           ); 
             
@@ -232,9 +232,9 @@ class EachActiveProject extends React.Component {
                     <tbody>
                     <tr className = "row">
                     <td className="firstCell" colSpan={2}>
-                        {this.renderOnClick(this.props.project_status, this.props.type)}                                                                            
+                        {this.renderOnClick(this.props.projectStatus, this.props.type)}                                                                            
                         <br /> <br/>
-                        {this.renderdate(this.props.project_date, this.props.type)}                                                 
+                        {this.renderdate(this.props.projectDate, this.props.type)}                                                 
                     </td>                                  
                     <td className = "stepperspace">
                         {this.renderProgressStepperOrButton(this.props.type)}                 

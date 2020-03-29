@@ -9,29 +9,27 @@ class ActiveProjectChallengeInfo extends React.Component {
   constructor(props) {
     super(props); 
     this.state = {
-      ProjectID : this.props.id,
-      ProjectName : '',
-        ProjectBadge : '',
-      ProjectStatus : '',
-      ProjectDateJoined : '',
-      ProjectBanner : '',
-      ProjectMission : ''
-    }  
-    
+      projectId : this.props.id,
+      projectName : '', 
+      projectBadge : '',
+      projectStatus : '',
+      projectDateJoined : '',
+      projectBanner : '',
+      projectMission : ''
+    }
  }
 
     componentDidMount () {
     // get axios function here 
-        axiosConfig.get(`charityproject/${this.state.ProjectID}`)
+        axiosConfig.get(`charityproject/${this.state.projectId}`)
         .then(res => {
                 this.setState({                  
-                  ProjectName : res.data.project_name,
-                  ProjectBadge : res.data.project_badge,
-                  ProjectMission : res.data.project_mission,
-                  ProjectCategory :res.data.project_category 
+                  projectName : res.data.project_name,
+                  projectBadge : res.data.project_badge,
+                  projectMission : res.data.project_mission,
+                  projectCategory :res.data.project_category 
                 });
         }).catch(error => console.log(error))
-
     }
 
     render() {      
@@ -48,20 +46,20 @@ class ActiveProjectChallengeInfo extends React.Component {
                         <tr>
                             <td>
                               <Image
-                        src={this.state.ProjectBadge}
+                        src={this.state.projectBadge}
                         className="start_project_info_badge_image"
                         roundedCircle/>
                             </td>
                           </tr>
                           <tr>
                             <td>
-                              <TextBlackHeading message={this.state.ProjectName} />
+                              <TextBlackHeading message={this.state.projectName} />
                             </td>
                           </tr>
                           <tr>
                             <td valign="top">
                               <b>
-                                <TextBlack className = "title" message={this.state.ProjectCategory} />
+                                <TextBlack className = "title" message={this.state.projectCategory} />
                               </b>
                             </td>
                           </tr>                          
@@ -75,7 +73,7 @@ class ActiveProjectChallengeInfo extends React.Component {
                           <tr>
                             <td>
                               <TextBlack
-                                message={this.state.ProjectMission}
+                                message={this.state.projectMission}
                               />
                             </td>
                           </tr>
@@ -91,7 +89,7 @@ class ActiveProjectChallengeInfo extends React.Component {
                   <div className="start_project_info_container">
                     <div className="start_project_info_badge">
                       <Image
-                        src={this.state.ProjectBadge}
+                        src={this.state.projectBadge}
                         className="start_project_info_badge_image"
                         roundedCircle
                       />
@@ -101,7 +99,7 @@ class ActiveProjectChallengeInfo extends React.Component {
                         <tbody>
                           <tr>
                             <td colSpan={2}>
-                              <TextBlackHeading message={this.state.ProjectName} />
+                              <TextBlackHeading message={this.state.projectName} />
                             </td>
                           </tr>
                           <tr>
@@ -110,7 +108,7 @@ class ActiveProjectChallengeInfo extends React.Component {
                             </td>
                             <td>
                               <TextBlack
-                                message={" : " + this.state.ProjectCategory}
+                                message={" : " + this.state.projectCategory}
                               />
                             </td>
                           </tr>                                                    

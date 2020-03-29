@@ -2,7 +2,7 @@ import React from "react";
 import { Select } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
-import axiosConfig from '../../../axiosConfig'
+import AxiosConfig from '../../../axiosConfig'
 import ActiveProjectInfo from "../../../components/Project/Home/ActiveProjectHomeInfo/ActiveProjectInfo";
 import cookie from "react-cookies";
 import {Container} from "@material-ui/core";
@@ -24,7 +24,7 @@ class ProjectsHome extends React.Component {
           activeProjectsList : [],
           plannedProjectsList : [],
           invitationsList : [],
-          UserEmailId: cookie.load('user_emailid')
+          userEmail: cookie.load('user_email')
       }
    }
 
@@ -37,34 +37,34 @@ class ProjectsHome extends React.Component {
    }
 
    fetchInvitaionsList (obj) {
-      const user_emailid = this.state.UserEmailId;      
-      axiosConfig.get(`charityproject/invitations/${user_emailid}`)
+      const userEmail = this.state.userEmail;
+      AxiosConfig.get(`charityproject/invitations/${userEmail}`)
       .then(function(response) {obj.setInvitationsList(response);})
       .catch(function(error) {console.log(error);});
    }
 
    fetchActiveProjectsList(obj) {
-      const user_emailid = this.state.UserEmailId;      
-      axiosConfig.get(`charityproject/activeProjectList/${user_emailid}`)
+      const userEmail = this.state.userEmail;
+      AxiosConfig.get(`charityproject/activeProjectList/${userEmail}`)
       .then(function(response) {obj.setActiveProjectsList(response);})
       .catch(function(error) {console.log(error);});
    }
 
   fetchPlannedProjectsList(obj) {
-        const user_emailid = this.state.UserEmailId;      
-        axiosConfig.get(`charityproject/plannedProjects/${user_emailid}`)
+        const userEmail = this.state.userEmail;
+        AxiosConfig.get(`charityproject/plannedProjects/${userEmail}`)
         .then(function(response) {obj.setPlannedProjectsList(response);})
         .catch(function(error) {console.log(error);});
     }
 
     fetchListOfProjectCategory(obj) {
-        axiosConfig.get(`charityproject/category`)
+        AxiosConfig.get(`charityproject/category`)
             .then(function(response) {obj.setCategoryList(response);})
             .catch(function(error) {console.log(error);});
     }
 
     fetchProjectDetails(obj) {
-        axiosConfig.get(`charityproject/all_project_info_list`)
+        AxiosConfig.get(`charityproject/all_project_info_list`)
             .then(function(response) {obj.setProjectDetails(response);})
             .catch(function(error) {console.log(error);});
     }
@@ -122,7 +122,7 @@ class ProjectsHome extends React.Component {
 
           <div>                             
               {this.state.invitationsList && this.state.invitationsList.length > 0?
-                (  <ActiveProjectInfo projectList={this.state.invitationsList} list_type = {"Invitation"}/>):(<div/>)} 
+                (  <ActiveProjectInfo projectList={this.state.invitationsList} listType = {"Invitation"}/>):(<div/>)}
           </div>
         </div>
         
@@ -137,7 +137,7 @@ class ProjectsHome extends React.Component {
 
           <div>                     
           {this.state.plannedProjectsList && this.state.plannedProjectsList.length > 0?
-                    (  <ActiveProjectInfo projectList={this.state.plannedProjectsList} list_type = {"Planning"}/>):(<div/>)}            
+                    (  <ActiveProjectInfo projectList={this.state.plannedProjectsList} listType = {"Planning"}/>):(<div/>)}
           </div>
         </div>
         
@@ -151,7 +151,7 @@ class ProjectsHome extends React.Component {
 
           <div> 
             {this.state.activeProjectsList && this.state.activeProjectsList.length > 0?
-                    (  <ActiveProjectInfo projectList={this.state.activeProjectsList} list_type = {"Active"}/>):(<div/>)}                 
+                    (  <ActiveProjectInfo projectList={this.state.activeProjectsList} listType = {"Active"}/>):(<div/>)}
           </div>
         </div>
 
@@ -173,7 +173,7 @@ class ProjectsHome extends React.Component {
           </div>
 
           <div>
-              {this.state.projectsList[0].project_banner?
+              {this.state.projectsList[0].projectBanner?
                   (<ProjectGrid projectData={this.state.projectsList} category={this.state.selectedCategory} />):(<div/>)}
           </div>
 

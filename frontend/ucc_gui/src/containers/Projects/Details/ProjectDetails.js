@@ -1,7 +1,7 @@
 import React from "react";
 import ProjectInfo from "../../../components/Project/Details/ProjectInfo";
 import { Container } from "@material-ui/core";
-import axiosConfig from '../../../axiosConfig'
+import AxiosConfig from '../../../axiosConfig'
 import "./ProjectDetails.css";
 import Button from 'react-bootstrap/Button';
 import "../../../../node_modules/video-react/dist/video-react.css"
@@ -13,44 +13,42 @@ import ProjectBanner from "../../../components/Project/ProjectBanner";
 class ProjectDetails extends React.Component {
     onSubmit()
     {
-        const project_id = this.props.match.params.id;
+        const projectId = this.props.match.params.id;
 
-        axiosConfig.defaults.withCredentials = true;
-        axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-        axiosConfig.post('charityproject/start',
-            {"project_id":project_id,
-                    "user_emailid": this.state.UserEmailId},
+        AxiosConfig.defaults.withCredentials = true;
+        AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+        AxiosConfig.post('charityproject/start',
+            {"project_id":projectId,
+                    "user_emailid": this.state.userEmailId},
                 )
-                .then(res => this.props.history.push(`/Projects/${project_id}/StartNewProject`))
+                .then(res => this.props.history.push(`/Projects/${projectId}/StartNewProject`))
                 .catch(error => console.log(error))
-
     }
 
     constructor(props) {
         super(props); 
         this.state = {
-          ProjectMission : '',
-          ProjectGoal : '',
-          ProjectVideoName : '',
-          ProjectVideo : '',
-            ProjectBanner: '',
-            ProjectName: '',
-            UserEmailId: cookie.load('user_emailid')
+            projectMission : '',
+            projectGoal : '',
+            projectVideoName : '',
+            projectVideo : '',
+            projectBanner: '',
+            projectName: '',
+            userEmailId: cookie.load('user_email')
         }
      }  
 
     componentDidMount () {
-      const project_id = this.props.match.params.id;
-      // console.log(project_id)
-      axiosConfig.get(`charityproject/${project_id}`)
+      const projectId = this.props.match.params.id;
+      AxiosConfig.get(`charityproject/${projectId}`)
       .then(res => {
               this.setState({                  
-                  ProjectMission : res.data.project_mission,
-                  ProjectName: res.data.project_name,
-                  ProjectBanner : res.data.project_banner,
-                  ProjectGoal : res.data.project_goal,
-                  ProjectVideoName : res.data.project_video_name,
-                  ProjectVideo : res.data.project_video
+                  projectMission : res.data.project_mission,
+                  projectName: res.data.project_name,
+                  projectBanner : res.data.project_banner,
+                  projectGoal : res.data.project_goal,
+                  projectVideoName : res.data.project_video_name,
+                  projectVideo : res.data.project_video
               });
       }).catch(error => console.log(error))
     }
@@ -62,7 +60,7 @@ class ProjectDetails extends React.Component {
                   {/* {console.log(this.props)} */}
                   <div className="header_step_banner_common">
                     <div className="banner_common">
-                    <ProjectBanner image={this.state.ProjectBanner}  />
+                    <ProjectBanner image={this.state.projectBanner}  />
                     </div>
                     </div>
                   <div className="content_project_info_vertical">
@@ -80,20 +78,20 @@ class ProjectDetails extends React.Component {
                   <br/>
 
                   <div className="projectNameFormat">
-                    <h2 className="textHeader">{this.state.ProjectName}</h2>
+                    <h2 className="textHeader">{this.state.projectName}</h2>
                   </div>
                   
                   <div>
                     <h2 className="textHeader">Mission</h2>
-                    <p className = "insideContent">{ this.state.ProjectMission }</p>
+                    <p className = "insideContent">{ this.state.projectMission }</p>
                   </div>
 
                   <div>
                     <h2 className="textHeader">Project Video</h2>                    
-                    <p className = "insideContent">Project Name : { this.state.ProjectVideoName }</p>
+                    <p className = "insideContent">Project Name : { this.state.projectVideoName }</p>
                     <Player
                       playsInline                      
-                      src={this.state.ProjectVideo}
+                      src={this.state.projectVideo}
                     />
                   </div>
                   <hr/>

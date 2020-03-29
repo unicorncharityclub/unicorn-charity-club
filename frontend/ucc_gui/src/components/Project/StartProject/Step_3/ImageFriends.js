@@ -14,19 +14,19 @@ class InviteFriends extends React.Component {
             super(props);
             this.state = {
                 friendName: '',
-                friendEmailid : '',
+                friendEmail : '',
                 searchStatus : ''
             }
          }
 
  onFriendNameChange(e) {
     this.setState({ friendName: e.target.value });
-    this.setState({ friendEmailid: '' });
+    this.setState({ friendEmail: '' });
     this.setState({ searchStatus : ''});
   }
 
- onFriendEmailidChange(e) {
-    this.setState({ friendEmailid: e.target.value });
+ onFriendEmailChange(e) {
+    this.setState({ friendEmail: e.target.value });
     this.setState({ friendName: '' });
     this.setState({ searchStatus : ''});
   }
@@ -36,15 +36,15 @@ class InviteFriends extends React.Component {
         {
             this.props.searchResultHandler(["name",this.state.friendName])
         }
-        else if(this.state.friendEmailid)
+        else if(this.state.friendEmail)
         {
-            let emailValid = this.state.friendEmailid.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+            let emailValid = this.state.friendEmail.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
               if (emailValid === null) {
                 this.setState({ searchStatus : "Invalid Email Id"});
               }
               else
               {
-                  this.props.searchResultHandler(["emailid",this.state.friendEmailid])
+                  this.props.searchResultHandler(["emailid",this.state.friendEmail])
               }
         }
         else
@@ -78,7 +78,7 @@ class InviteFriends extends React.Component {
                             <div className="form-item" style={{float:"left",width:"50%"}}>
 
                               <Input
-                                name="friend-name"
+                                name="friendName"
                                 type="text"
                                 id="friend-name"
                                 placeholder="Enter Name"
@@ -102,12 +102,12 @@ class InviteFriends extends React.Component {
                             </div>
                             <div className="form-item" style={{float:"left",width:"50%"}}>
                               <Input
-                            name="friend-emailid"
+                            name="friendEmail"
                             type="text"
                             id="friend-emailid"
                             placeholder="Enter Email"
-                            value={this.state.friendEmailid}
-                            handleChange={this.onFriendEmailidChange.bind(this)}
+                            value={this.state.friendEmail}
+                            handleChange={this.onFriendEmailChange.bind(this)}
                           />
                             </div>
                         </div>

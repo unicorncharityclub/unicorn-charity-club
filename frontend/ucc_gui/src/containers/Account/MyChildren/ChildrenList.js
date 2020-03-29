@@ -9,7 +9,7 @@ class ChildrenList extends React.Component {
   };
 
   componentDidMount() {
-    axiosConfig.get(`myaccount/childrens/${cookie.load('user_emailid')}`).then(res => {
+    axiosConfig.get(`myaccount/childrens/${cookie.load('user_email')}`).then(res => {
       this.setState({
         children: res.data['child_list']
       });

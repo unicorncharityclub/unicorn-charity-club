@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Arrow_backward from "../../../../image/arrow-backward.png";
+import ArrowBackward from "../../../../image/arrow-backward.png";
 import Navbar from "../../Navbar/Navbar";
 import "./Mobile_toolbar.css";
 import {connect} from "react-redux";
@@ -28,10 +28,10 @@ class Mobile_toolbar extends Component {
 
   logout() {
       let empty = "";
-      cookie.save('user_emailid', empty);
+      cookie.save('user_email', empty);
       cookie.save('XSRF-TOKEN', empty);
       cookie.save('user_list', empty);
-      this.props.dispatch({ type: "LOGOUT_SUCCESS", user_list:empty, token:empty});
+      this.props.dispatch({ type: "LOGOUT_SUCCESS", userList:empty, token:empty});
   }
 
   render() {
@@ -41,7 +41,7 @@ class Mobile_toolbar extends Component {
                 <div className="header__logo-wrapper">
                       <div className="header__logo">
                             <a href="/">
-                                <img src={Arrow_backward} alt="Backward Arrow" />
+                                <img src={ArrowBackward} alt="Backward Arrow" />
                               </a>
                             <div className="header-menu-mobile">
                             </div>

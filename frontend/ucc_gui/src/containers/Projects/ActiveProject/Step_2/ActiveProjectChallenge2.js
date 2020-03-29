@@ -3,29 +3,25 @@ import "./ActiveProjectChallenge2.css";
 import Challenge2Details from "../../../../components/Project/ActiveProject/Step_2/Challenge2Details";
 import {Container} from "@material-ui/core";
 import cookie from "react-cookies";
-import axiosConfig from "../../../../axiosConfig";
+import AxiosConfig from "../../../../axiosConfig";
 
 class ActiveProjectChallenge2 extends React.Component {
 
     onSubmit()
     {
-        const project_id = this.props.match.params.id;
-        console.log(project_id);
-        console.log(this.state.UserEmailId)
-        console.log(this.state.optionValue)
-        console.log(this.state.goalDate)
-        let form_data = new FormData();
+        const projectId = this.props.match.params.id;
+        let formData = new FormData();
         try {
-            form_data.append('user_email', this.state.UserEmailId);
-            form_data.append('project_id', project_id);
-            form_data.append('goal_date', this.state.goalDate);
-            form_data.append('adv_id', this.state.optionValue);
+            formData.append('user_email', this.state.UserEmailId);
+            formData.append('project_id', projectId);
+            formData.append('goal_date', this.state.goalDate);
+            formData.append('adv_id', this.state.optionValue);
         } catch (err) {
             console.log(err)
         }
-        axiosConfig.defaults.withCredentials = true;
-        axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-        axiosConfig.put('charityproject/update/Challenge2', form_data,
+        AxiosConfig.defaults.withCredentials = true;
+        AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+        AxiosConfig.put('charityproject/update/Challenge2', formData,
                 {
                         headers: {
                             'content-type': 'multipart/form-data'
@@ -59,9 +55,8 @@ class ActiveProjectChallenge2 extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            UserEmailId: cookie.load('user_emailid'),
+            UserEmailId: cookie.load('user_email'),
             goalDate: new Date(),
-
         }
      }
     render() {
