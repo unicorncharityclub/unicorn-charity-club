@@ -8,9 +8,9 @@ import cookie from "react-cookies";
 
 class Children extends React.Component{
 
-  onUpdateUser(emailid)
+  onUpdateUser(email)
  {
-     cookie.save('user_emailid', emailid);
+     cookie.save('user_email', email);
      window.location.reload(false);
  }
 

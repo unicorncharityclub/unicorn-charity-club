@@ -159,7 +159,13 @@ class RegisterForm extends React.Component {
   handleInsert(obj, event) {
     var status = "";
     AxiosConfig
-      .post(`account/register`, this.state)
+      .post(`account/register`, {
+        'first_name' : this.state.firstName,
+        'last_name' : this.state.lastName,
+        'email' : this.state.email,
+        'password' : this.state.password,
+        'dob' : this.state.dob,
+      })
       .then(function(response) {
         status = response.data["status"];
         obj.updateResponseStatus(status);

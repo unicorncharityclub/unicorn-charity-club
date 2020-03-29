@@ -145,6 +145,3 @@ class SpreadWord(models.Model):
 
     def __str__(self):
         return '{} {}'.format(self.project_user, self.invitee_count)
-
-
-

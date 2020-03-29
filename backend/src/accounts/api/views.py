@@ -56,7 +56,7 @@ def login_user(request):
                 email = user.email
                 user_details = {"name": name, "email": email, "photo": profile_pic}
                 user_details_list.append(user_details)
-                children = ChildProfile.objects.filter(ParentId_id=user.id)
+                children = ChildProfile.objects.filter(parent_id=user.id)
                 if children:
                     for child in children:
                         child_user_id = child.user_id

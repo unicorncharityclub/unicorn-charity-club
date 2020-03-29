@@ -173,7 +173,7 @@ class ProjectsHome extends React.Component {
           </div>
 
           <div>
-              {this.state.projectsList[0].projectBanner?
+              {this.state.projectsList[0].project_banner?
                   (<ProjectGrid projectData={this.state.projectsList} category={this.state.selectedCategory} />):(<div/>)}
           </div>
 
