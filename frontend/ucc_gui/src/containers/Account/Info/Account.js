@@ -41,7 +41,7 @@ class Account extends React.Component {
 
     componentDidMount() {
         const user_email = cookie.load('user_email');
-        AxiosConfig.get(`myaccount/${user_email}`)
+        AxiosConfig.get(`profile/${user_email}`)
             .then(res => {
                     this.setState({
                         email: res.data.email,
@@ -115,7 +115,7 @@ class Account extends React.Component {
 
         AxiosConfig.defaults.withCredentials = true;
         AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-        return AxiosConfig.put(`myaccount/${this.state.email}`, form_data,
+        return AxiosConfig.put(`profile/${this.state.email}`, form_data,
             {
                 headers: {
                     'content-type': 'multipart/form-data'
@@ -123,7 +123,6 @@ class Account extends React.Component {
             })
             .then(res => console.log(res))
             .catch(error => console.log(error));
-
   }
 
   render() {

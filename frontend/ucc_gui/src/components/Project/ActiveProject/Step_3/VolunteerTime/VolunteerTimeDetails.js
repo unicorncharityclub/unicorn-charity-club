@@ -5,7 +5,7 @@ import TextArea from "../../../../General/Form/TextArea"
 import Input from  "../../../../../components/General/Form/Input"
 import ProjectInfo from "../../../Details/ProjectInfo";
 import "../../../../../containers/ProjectCommon.css"
-import axiosConfig from "../../../../../axiosConfig";
+import AxiosConfig from "../../../../../axiosConfig";
 import ProgressStepper from "../../../ProgressStepper";
 import ProjectBanner from "../../../ProjectBanner";
 import "../../../../../containers/Projects/ActiveProject/Step_3/VolunteerTime/VolunteerTime.css"
@@ -28,7 +28,7 @@ class VolunteerTimeDetails extends React.Component {
  }
 
     componentDidMount () {
-        axiosConfig.get(`charityproject/${this.state.projectId}`)
+        AxiosConfig.get(`charityproject/${this.state.projectId}`)
       .then(res => {
               this.setState({
                   projectName : res.data.project_name,

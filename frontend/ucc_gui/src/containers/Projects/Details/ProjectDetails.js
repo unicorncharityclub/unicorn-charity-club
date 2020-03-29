@@ -19,7 +19,7 @@ class ProjectDetails extends React.Component {
         AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
         AxiosConfig.post('charityproject/start',
             {"project_id":projectId,
-                    "user_emailid": this.state.userEmailId},
+                    "user_email": this.state.userEmail},
                 )
                 .then(res => this.props.history.push(`/Projects/${projectId}/StartNewProject`))
                 .catch(error => console.log(error))
@@ -34,7 +34,7 @@ class ProjectDetails extends React.Component {
             projectVideo : '',
             projectBanner: '',
             projectName: '',
-            userEmailId: cookie.load('user_email')
+            userEmail: cookie.load('user_email')
         }
      }  
 

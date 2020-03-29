@@ -1,11 +1,11 @@
  /*
   this method is called when some value is entered in the search option and the search button is pressed
-  value[0] - is the search type (Name | Emailid)
+  value[0] - is the search type (Name | Email)
   value[1] - is the search value string
   popupSearch is set to true to show the popup screen
   searchMoreAvailable is set to true so the 'More' option on the popup screen is enabled
   */
- import axiosConfig from "../../../axiosConfig";
+ import AxiosConfig from "../../../axiosConfig";
 
  export const searchResultHandler = function(value) {
     console.log(value);
@@ -60,7 +60,7 @@
 
   /*
   The method is used to remove an already selected friend whom we were going to send an invite.
-  The value is the email id
+  The value is the email
    */
   export const removeInviteClick = function(value)
   {
@@ -129,11 +129,11 @@
   This method will actually call the backend API and fetch the friends result based on the search query
    */
   export const fetchFriendsDataHelper = function(obj, searchType, searchValue, offset, searchMoreFlag) {
-    if(searchType==='emailid')
+    if(searchType==='email')
     {
-      axiosConfig.defaults.withCredentials = true;
-      axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-      axiosConfig
+      AxiosConfig.defaults.withCredentials = true;
+      AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+      AxiosConfig
         .post(`charityproject/friendByEmail`,
             {
               "friend_email" : searchValue
@@ -147,9 +147,9 @@
         });
     }
     else {
-      axiosConfig.defaults.withCredentials = true;
-      axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-      axiosConfig
+      AxiosConfig.defaults.withCredentials = true;
+      AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+      AxiosConfig
         .post(`charityproject/search`,
             {
               "text" : searchValue,

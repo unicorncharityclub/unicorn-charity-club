@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import TextBlueHeading from "../../../General/Text/TextBlueHeading";
 import TextBlack from "../../../General/Text/TextBlack";
 import "../../../../containers/ProjectCommon.css"
-import axiosConfig from "../../../../axiosConfig";
+import AxiosConfig from "../../../../axiosConfig";
 import ProgressStepper from "../../ProgressStepper";
 import ProjectBanner from "../../ProjectBanner";
 import ProjectInfo from "../../Details/ProjectInfo";
@@ -28,7 +28,7 @@ class ProjectContent extends React.Component {
 
 
     componentDidMount () {
-        axiosConfig.get(`charityproject/${this.state.projectId}`)
+        AxiosConfig.get(`charityproject/${this.state.projectId}`)
       .then(res => {
               this.setState({
                   projectBanner : res.data.project_banner,

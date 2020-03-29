@@ -1,6 +1,6 @@
 
 import React from "react";
-import axiosConfig from '../../../../axiosConfig'
+import AxiosConfig from '../../../../axiosConfig'
 import "./ActiveProjectInfo.css";
 import Image from "react-bootstrap/Image";
 import TextBlackHeading from "../../../General/Text/TextBlackHeading";
@@ -21,7 +21,7 @@ class EachActiveProject extends React.Component {
 
     componentDidMount () {               
         const projectId = this.props.projectId;                    
-        axiosConfig.get(`charityproject/${projectId}`)
+        AxiosConfig.get(`charityproject/${projectId}`)
       .then(res => {
               this.setState({                  
                   projectName : res.data["project_name"],

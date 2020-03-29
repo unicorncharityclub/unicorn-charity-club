@@ -1,5 +1,5 @@
 import React from "react";
-import axiosConfig from "../../../axiosConfig";
+import AxiosConfig from "../../../axiosConfig";
 import "./ProjectInfo.css";
 import Image from "react-bootstrap/Image";
 import TextBlackHeading from "../../General/Text/TextBlackHeading";
@@ -18,7 +18,7 @@ class ProjectInfo extends React.Component {
   }
 
   componentDidMount() {
-    axiosConfig
+    AxiosConfig
       .get(`charityproject/${this.state.projectId}`)
       .then((res) => {
         this.setState({

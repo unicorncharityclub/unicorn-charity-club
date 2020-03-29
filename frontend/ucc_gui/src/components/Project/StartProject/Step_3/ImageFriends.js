@@ -44,7 +44,7 @@ class InviteFriends extends React.Component {
               }
               else
               {
-                  this.props.searchResultHandler(["emailid",this.state.friendEmail])
+                  this.props.searchResultHandler(["email",this.state.friendEmail])
               }
         }
         else

@@ -1,6 +1,6 @@
 import React from 'react';
 import Input from "../../Form/Input"
-import axiosConfig from "../../../../axiosConfig";
+import AxiosConfig from "../../../../axiosConfig";
 import "./Address.css"
 import TextBlackSubHeading from "../../Text/TextBlackSubHeading";
 
@@ -15,7 +15,7 @@ class Address extends React.Component {
 
 
  componentDidMount () {
-        axiosConfig.get(`charityproject/${this.state.projectId}`)
+        AxiosConfig.get(`charityproject/${this.state.projectId}`)
     }
 
     render() {

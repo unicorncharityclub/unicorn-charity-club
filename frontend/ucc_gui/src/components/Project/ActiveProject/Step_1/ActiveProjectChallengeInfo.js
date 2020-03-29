@@ -3,7 +3,7 @@ import "./ActiveProjectChallengeInfo.css";
 import Image from "react-bootstrap/Image";
 import TextBlackHeading from "../../../General/Text/TextBlackHeading";
 import TextBlack from "../../../General/Text/TextBlack";
-import axiosConfig from '../../../../axiosConfig'
+import AxiosConfig from '../../../../axiosConfig'
 
 class ActiveProjectChallengeInfo extends React.Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class ActiveProjectChallengeInfo extends React.Component {
 
     componentDidMount () {
     // get axios function here 
-        axiosConfig.get(`charityproject/${this.state.projectId}`)
+        AxiosConfig.get(`charityproject/${this.state.projectId}`)
         .then(res => {
                 this.setState({                  
                   projectName : res.data.project_name,

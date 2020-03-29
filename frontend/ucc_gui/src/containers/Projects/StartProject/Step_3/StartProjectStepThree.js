@@ -1,7 +1,7 @@
 import React from "react";
 import "../../../ProjectCommon.css";
 import "./StartProjectStepThree.css";
-import AxiosConfig from "../../../../qxiosConfig";
+import AxiosConfig from "../../../../axiosConfig";
 import ProjectBanner from "../../../../components/Project/ProjectBanner";
 import ProjectInfo from "../../../../components/Project/Details/ProjectInfo";
 import cookie from "react-cookies";
@@ -23,7 +23,7 @@ class StartProjectStepThree extends React.Component {
       projectBanner: "",
       projectName: "",
       projectDateStarted: "Date Started",
-      userEmailId: cookie.load("user_emailid"),
+      userEmail: cookie.load("user_email"),
       popupSearch: false,
       searchType: "",
       searchValue: "",
@@ -102,9 +102,9 @@ class StartProjectStepThree extends React.Component {
   }
 
   sendInvitationToUnregisteredUsers() {
-    var unregisterEmailId = [];
+    var unregisterEmail = [];
     for (let i = 0; i < this.state.unregisteredUser.length; i++) {
-      unregisterEmailId.push(
+      unregisterEmail.push(
         this.state.unregisteredUser[i]["email_address"].trim()
       );
     }
@@ -112,10 +112,10 @@ class StartProjectStepThree extends React.Component {
     AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
     AxiosConfig
       .post(`charityproject/unregisteredInvitation`, {
-        user_email: this.state.userEmailId,
+        user_email: this.state.userEmail,
         project_id: this.state.projectId,
         invitation_message: this.state.inviteMessage,
-        friend_list: unregisterEmailId,
+        friend_list: unregisterEmail,
       })
       .then(function (response) {
         // go to next page
@@ -126,18 +126,18 @@ class StartProjectStepThree extends React.Component {
   }
 
   sendInvitationToRegisteredUsers(obj) {
-    var friendsEmailId = [];
+    var friendsEmail = [];
     for (const friends of this.state.selectedFriends.values()) {
-      friendsEmailId.push(friends["user_email"]);
+      friendsEmail.push(friends["user_email"]);
     }
     AxiosConfig.defaults.withCredentials = true;
     AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
     AxiosConfig
       .post(`charityproject/userInvitation`, {
-        user_email: this.state.userEmailId,
+        user_email: this.state.userEmail,
         project_id: this.state.projectId,
         invitation_message: this.state.inviteMessage,
-        friend_list: friendsEmailId,
+        friend_list: friendsEmail,
       })
       .then(function (response) {
         obj.sendInvitationToUnregisteredUsers();
@@ -225,7 +225,7 @@ class StartProjectStepThree extends React.Component {
                 unregisteredUserEmailValidate={FriendsSearchHelper.unregisteredUserEmailValidate.bind(
                   this
                 )}
-                disabled={this.state.PopupSearch}
+                disabled={this.state.popupSearch}
               />
             </div>
 

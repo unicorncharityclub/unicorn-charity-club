@@ -1,5 +1,5 @@
 import React from "react";
-import axiosConfig from '../../../axiosConfig'
+import AxiosConfig from '../../../axiosConfig'
 import Children from "./Children";
 import * as cookie from "react-cookies";
 
@@ -9,7 +9,7 @@ class ChildrenList extends React.Component {
   };
 
   componentDidMount() {
-    axiosConfig.get(`myaccount/childrens/${cookie.load('user_email')}`).then(res => {
+    AxiosConfig.get(`profile/childrens/${cookie.load('user_email')}`).then(res => {
       this.setState({
         children: res.data['child_list']
       });

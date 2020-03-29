@@ -1,6 +1,6 @@
 import React from "react";
 import "../../../../ProjectCommon.css"
-import AxiosConfig from "../../../../../AxiosConfig";
+import AxiosConfig from "../../../../../axiosConfig";
 import ProgressStepper from "../../../../../components/Project/ProgressStepper";
 import ProjectBanner from "../../../../../components/Project/ProjectBanner";
 import TextBlueHeading from "../../../../../components/General/Text/TextBlueHeading";
