@@ -112,7 +112,6 @@ def get_user_type(user_email_id):
 
 def put_user_details(request, response, user_email):
     try:
-        print(request.data)
         user = User.objects.get(email=user_email)  # get details of user by emailid
         user_id = user.id
         if (update_user_account_details(request, user_id) and
@@ -176,7 +175,6 @@ def update_user_profile_details(request, user_id):
     add_if_exist_in_request(request, profile_details, 'profile_pic')
 
     child_account_object = Profile.objects.get(user=user_id)
-    print(user_id)
     child_account_serializer = ProfileSerializer(child_account_object, data=profile_details)
     if child_account_serializer.is_valid():
         child_account_serializer.save()
@@ -187,7 +185,7 @@ def update_user_profile_details(request, user_id):
 
 def set_only_child_details(request, child_user_id, parent_user_id):
     child_details = {}
-    child_details['user'] = child_user_id
+    child_details['user_id'] = child_user_id
     child_details['parent_id'] = parent_user_id
     child_details['school'] = request.data['school']
     child_details['school_grade'] = request.data['school_grade']
@@ -228,5 +226,4 @@ def update_user_account_details(request, user_id):
         child_user_serializer.save()
         return True
     else:
-        print(child_user_serializer.error_messages)
         return False

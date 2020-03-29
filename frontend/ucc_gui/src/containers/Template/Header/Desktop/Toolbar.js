@@ -29,7 +29,7 @@ class Toolbar extends Component {
      this.state = {otherUsers: ""};
      for (let i in this.userList) {
          if (this.userList[i].email !== this.userEmail) {
-             this.state["other_users"] = [...this.state.other_users, this.userList[i]]
+             this.state["otherUsers"] = [...this.state.otherUsers, this.userList[i]]
          }
      }
  }

@@ -68,23 +68,23 @@ class ProjectContent extends React.Component {
                             <br/>
 
                             <input name="Options" type="radio" value="2" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                            <label for="Option2"> <TextBlack message = "Learn a new skill that supports the mission"/></label><br/>
+                            <label htmlFor="Option2"> <TextBlack message = "Learn a new skill that supports the mission"/></label><br/>
                             <br/>
 
                             <input name="Options" type="radio" value="3" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                            <label for="Option3"> <TextBlack message = "Develop a new habit that supports the mission"/></label><br/>
+                            <label htmlFor="Option3"> <TextBlack message = "Develop a new habit that supports the mission"/></label><br/>
                             <br/>
 
                             <input name="Options" type="radio" value="4" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                            <label for="Option4"> <TextBlack message = "Volunteer time at a local organization"/></label><br/>
+                            <label htmlFor="Option4"> <TextBlack message = "Volunteer time at a local organization"/></label><br/>
                             <br/>
 
                             <input name="Options" type="radio" value="5" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                            <label for="Option5"> <TextBlack message = "Give a donation to support the mission"/></label><br/>
+                            <label htmlFor="Option5"> <TextBlack message = "Give a donation to support the mission"/></label><br/>
                             <br/>
 
                             <input name="Options" type="radio" value="6" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                            <label for="Option6"> <TextBlack message = "Fundraise money to support the mission"/></label><br/>
+                            <label htmlFor="Option6"> <TextBlack message = "Fundraise money to support the mission"/></label><br/>
                             <br/>
                         </div>
                         </ul>

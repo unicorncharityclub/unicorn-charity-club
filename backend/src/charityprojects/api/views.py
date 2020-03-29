@@ -16,7 +16,6 @@ import re
 def charity_project_details(request, project_id):
     response = {'status': "Invalid Request"}
     project = CharityProjects.objects.get(pk=project_id)
-    print(request.build_absolute_uri(project.video.url))
     if request.method == "GET":
         try:
             if project:
@@ -66,7 +65,6 @@ def all_project_info_list(request):
                         "project_badge": request.build_absolute_uri(project.badge.url),
                         "project_tags": project.tags, "project_banner": request.build_absolute_uri(project.banner.url)}
         project_list.append(each_project)
-    print(project_list)
     response['project_list'] = project_list
     return JsonResponse(response)
 
@@ -125,7 +123,6 @@ def start_project(request):
             if project_user_records.count() > 0:
                 for record in project_user_records:
                     purecord_id = record.id
-                    print(record.project_status)
                     response['status'] = "Entry already exists."
                     response['project_status'] = record.project_status
                     project_user_details_records = ProjectUserDetails.objects.filter(project_user_id=purecord_id)
@@ -135,10 +132,9 @@ def start_project(request):
                         elif precord.prize_given_id is None:
                             response['status'] = "Select prize for project. Complete step3"
             else:
-                project_user = ProjectUser.objects.create(project_id=project, user_id=user,
+                project_user = ProjectUser.objects.create(project_id=project_id, user_id=user_id,
                                                           invited_by=invited_by, project_status="PlanningStarted")
                 project_user.save()
-                print("Created new record")
                 project_user_id = project_user.id
                 project_user_details = ProjectUserDetails.objects.create(project_user_id=project_user_id)
                 project_user_details.save()
@@ -146,7 +142,6 @@ def start_project(request):
                 response['status'] = "Success"
         except ValueError:
             response['status'] = "Invalid Request"
-    print(response)
     return JsonResponse(response)
 
 
@@ -172,7 +167,6 @@ def update_project_invitation_video_details(request):
                 project_user_record.save()
                 return Response(project_user_serializer.data, status=status.HTTP_201_CREATED)
             else:
-                print('error', project_user_serializer.errors)
                 return Response(project_user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -244,10 +238,7 @@ def challenge_learn_new_skill(request):
         data_serializer.save()
         return Response(data_serializer.data, status=status.HTTP_201_CREATED)
     else:
-        print('error', data_serializer.errors)
         return Response(data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    print(request.data)
-
     return JsonResponse(response)
 
 
@@ -413,7 +404,6 @@ def unregistered_invitation(request):
 @parser_classes([MultiPartParser, FormParser])
 def create_volunteer_adventure(request):
     user_email_id = request.data["user_email"]
-    print(user_email_id)
     user_id = User.objects.get(email=user_email_id).id
     project_id = request.data["project_id"]
     project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
@@ -487,10 +477,7 @@ def challenge_develop_new_habit(request):
         data_serializer.save()
         return Response(data_serializer.data, status=status.HTTP_201_CREATED)
     else:
-        print('error', data_serializer.errors)
         return Response(data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    print(request.data)
-
     return JsonResponse(response)
 
 
@@ -524,7 +511,6 @@ def get_project_invitations(request, user_email):
 
 def fetch_project_invitation_details(request):
     response = {'status': "Invalid Request"}
-
     #json_data = json.loads(request.body)
     #project_id = json_data["project_id"]
     #invited_user_email = json_data["user_email"]
@@ -541,12 +527,12 @@ def fetch_project_invitation_details(request):
     user_id = invited_user.id
     user_name = invited_user.get_full_name()
     project = CharityProjects.objects.get(pk=project_id)
-    project_user_record = ProjectUser.objects.filter(user_id_id=inviter_user_id, project_id=project_id)[0]
+    project_user_record = ProjectUser.objects.filter(user_id=inviter_user_id, project_id=project_id)[0]
     project_user_id = project_user_record.id
     project_user_details = ProjectUserDetails.objects.filter(project_user_id=project_user_id)[0]
     invitation_video = request.build_absolute_uri(project_user_details.video.url)
     user_invitation = UserInvitation.objects.filter(project_user_id=project_user_id, status="Pending")[0]
-    print(user_invitation)
+
     invitation_message = user_invitation.invitation_message
     project_invitation = {"user_name": user_name, "message": invitation_message, "video": invitation_video,
                           "project_category": project.category, "project_tags": project.tags,
@@ -567,8 +553,6 @@ def join_project_invitation(request):
     project_id = request.GET['project_id']
     user_email = request.GET['user_email']
     inviter_user_email = request.GET['inviter_user_email']
-
-    print(project_id, user_email, inviter_user_email)
 
     user_id = User.objects.get(email=user_email).id
     inviter_user_id = User.objects.get(email=inviter_user_email).id

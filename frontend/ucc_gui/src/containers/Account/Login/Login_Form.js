@@ -52,6 +52,7 @@ class Login_Form extends React.Component {
   }
 
   updateResponseStatus(response) {
+    console.log(response.data);
     let response_status = response.data["status"];
     if (response_status === "Success") {
       let userList = response.data["user_list"];

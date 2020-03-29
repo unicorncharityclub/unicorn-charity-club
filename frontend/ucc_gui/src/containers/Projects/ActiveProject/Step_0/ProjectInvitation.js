@@ -91,7 +91,7 @@ class ProjectInvitation extends React.Component {
                     video: res.data.invitation_details["video"],
                     projectCategory: res.data.invitation_details["project_category"],
                     projectTags: res.data.invitation_details["project_tags"],
-                    projectMission: res.data.invitation_details["project_Mission"],
+                    projectMission: res.data.invitation_details["project_mission"],
                     projectGoal: res.data.invitation_details["project_goal"]
                 });
             //console.log(res);

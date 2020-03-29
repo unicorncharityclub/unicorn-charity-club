@@ -17,7 +17,7 @@ class UCC_App extends Component {
   componentDidMount() {
     if(cookie.load('user_email')!==undefined)
     {
-        this.props.dispatch({ type: "LOGIN_SUCCESS", user_list:cookie.load('user_list'), token:cookie.load('XSRF-TOKEN')});
+        this.props.dispatch({ type: "LOGIN_SUCCESS", userList:cookie.load('user_list'), token:cookie.load('XSRF-TOKEN')});
     }
   }
 

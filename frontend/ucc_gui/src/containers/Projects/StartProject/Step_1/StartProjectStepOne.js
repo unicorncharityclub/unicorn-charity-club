@@ -44,7 +44,7 @@ class StartProjectStepOne extends React.Component {
          if(this.state.userProjectVideo){
              let form_data = new FormData();
             form_data.append('project_id', this.state.projectId);
-            form_data.append('email', this.state.userEmailId);
+            form_data.append('email', this.state.userEmail);
             form_data.append('project_video', this.state.userProjectVideo, this.state.userProjectVideo.name);
 
         AxiosConfig.defaults.withCredentials = true;

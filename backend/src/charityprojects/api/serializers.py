@@ -7,13 +7,13 @@ from ..models import VolunteerTime
 class ProjectUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectUserDetails
-        fields = ('pu_id', 'video')
+        fields = ('project_user_id', 'video')
 
 
 class LearnNewSkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = LearnNewSkill
-        fields = ('pu_id', 'newSkill', 'description', 'video')
+        fields = ('project_user_id', 'newSkill', 'description', 'video')
 
 
 class VolunteerTimeSerializer(serializers.ModelSerializer):
@@ -25,4 +25,4 @@ class VolunteerTimeSerializer(serializers.ModelSerializer):
 class DevelopNewHabitSerializer(serializers.ModelSerializer):
     class Meta:
         model = DevelopNewHabit
-        fields = ('pu_id', 'newHabit', 'description', 'video')
+        fields = ('project_user_id', 'newHabit', 'description', 'video')
