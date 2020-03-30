@@ -619,6 +619,22 @@ def spread_the_word(request):
     return JsonResponse(response)
 
 
+def donation(request):
+    response = {'status': "Invalid Request"}
+    if request.method == "POST":
+        response = store_donation_details(request, response)
+
+
+def store_donation_details(request, response):
+    user_email_id = request.data["user_email"]
+    user_id = User.objects.get(email=user_email_id).id
+    project_id = request.data["project_id"]
+    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
+    project_user_id = project_user_record.id
+
+
+
+
 def find_user_prize(project_user_id):
     project_user_details = ProjectUserDetails.objects.get(project_user_id=project_user_id)
     prize_given_id = project_user_details.prize_given_id
