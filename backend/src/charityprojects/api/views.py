@@ -2,12 +2,14 @@ import json
 from datetime import date
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
-from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation, SpreadWord
+from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation,\
+    SpreadWord, GiveDonation
 from django.http import JsonResponse
 from accounts.models import User
 from profile.models import ChildProfile
 from profile.models import Profile
-from .serializers import ProjectUserSerializer, LearnNewSkillSerializer, VolunteerTimeSerializer, DevelopNewHabitSerializer
+from .serializers import ProjectUserSerializer, LearnNewSkillSerializer, VolunteerTimeSerializer,\
+    DevelopNewHabitSerializer, GiveDonationSerializer
 from rest_framework import status
 from rest_framework.response import Response
 import re
@@ -617,6 +619,72 @@ def spread_the_word(request):
     spread_word.save()
     response["status"] = "Success"
     return JsonResponse(response)
+
+
+@api_view(['POST', 'GET', 'PUT'])
+@parser_classes([MultiPartParser, FormParser])
+def donation(request):
+    response = {'status': "Invalid Request"}
+    if request.method == "POST":
+        store_donation_details(request)
+    elif request.method == "GET":
+        fetch_donation_details(request)
+    elif request.method == "PUT":
+        update_donation_details(request)
+    else:
+        return JsonResponse(response)
+
+
+def store_donation_details(request):
+    user_email_id = request.data["user_email"]
+    user_id = User.objects.get(email=user_email_id).id
+    project_id = request.data["project_id"]
+    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
+    project_user_id = project_user_record.id
+    project_user_record.challenge_status = "Challenge3Complete"
+    project_user_record.save()
+    give_donation_data = {"pu_id": project_user_id, "organisation_name": request.data["organisation_name"],
+                          "organisation_address": request.data["organisation_address"],
+                          "organisation_city": request.data["organisation_city"],
+                          "organisation_state": request.data["organisation_state"],
+                          "organisation_website": request.data["website"],
+                          "donation_details": request.data["details"],
+                          "donation_exp": request.data["exp_video"]}
+    donation_serializer = GiveDonationSerializer(data=give_donation_data)
+    if donation_serializer.is_valid():
+        donation_serializer.save()
+        return Response(donation_serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(donation_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def fetch_donation_details(request):
+    user_email_id = request.GET["user_email"]
+    user_id = User.objects.get(email=user_email_id).id
+    project_id = request.GET["project_id"]
+    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
+    project_user_id = project_user_record.id
+    donation_record = GiveDonation.objects.get(project_user_id=project_user_id)
+    if donation_record:
+        serializer = GiveDonationSerializer(donation_record)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+def update_donation_details(request):
+    user_email_id = request.data["user_email"]
+    user_id = User.objects.get(email=user_email_id).id
+    project_id = request.data["project_id"]
+    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
+    project_user_id = project_user_record.id
+    donation_record = GiveDonation.objects.get(project_user_id=project_user_id)
+    if donation_record:
+        serializer = GiveDonationSerializer(donation_record, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def find_user_prize(project_user_id):

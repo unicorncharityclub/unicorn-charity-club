@@ -145,3 +145,20 @@ class SpreadWord(models.Model):
 
     def __str__(self):
         return '{} {}'.format(self.project_user, self.invitee_count)
+
+
+class GiveDonation(models.Model):
+    objects = None
+    project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
+    organisation_name = models.CharField(max_length=100, blank=True)
+    organisation_address = models.CharField(max_length=100, blank=True)
+    organisation_city = models.CharField(max_length=50, blank=True)
+    organisation_state = models.CharField(max_length=50, blank=True)
+    organisation_website = models.CharField(max_length=200, blank=True)
+    donation_details = models.TextField(blank=True, null=True)
+    donation_exp = models.FileField(upload_to='upload/video/volunteer_exp', null=True, blank=True)
+
+    def __str__(self):
+        return '{} {} {} {} {} {} {} {}'.format(self.project_user, self.organisation_name, self.organisation_address,
+                                                self.organisation_city, self.organisation_state,
+                                                self.organisation_website, self.donation_details, self.donation_exp)
