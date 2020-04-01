@@ -2,12 +2,15 @@ from django.db import DatabaseError
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password, check_password
 from profile.models import ChildProfile, Profile
+from .serializers import AccountDetailsSerializer
 from ..models import User
 import json
 from django.http import JsonResponse
 from django.contrib.auth import login
 import django.middleware.csrf
-
+from rest_framework.views import APIView
+from django.http import Http404
+from rest_framework.response import Response
 
 @csrf_exempt
 def register_user_view(request):
@@ -82,3 +85,16 @@ def login_user(request):
         except User.DoesNotExist:
             response['status'] = "User Not Registered"
     return JsonResponse(response)
+
+
+class UserDetailsMixin(object):
+    def get_user_details(self, user_email):
+        try:
+            return AccountDetailsSerializer(User.objects.get(email=user_email)).data
+        except User.DoesNotExist:
+            raise Http404
+
+
+class UserDetail(UserDetailsMixin, APIView):
+    def get(self, request, user_email, format=None):
+        return Response(self.get_user_details(user_email))

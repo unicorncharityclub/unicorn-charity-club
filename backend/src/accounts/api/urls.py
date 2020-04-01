@@ -1,4 +1,5 @@
 from django.urls import path
+from accounts.api import views
 
 from .views import (
      register_user_view, login_user
@@ -6,6 +7,6 @@ from .views import (
 
 urlpatterns = [
     path('register', register_user_view),
-    path('login', login_user)
-
+    path('login', login_user),
+    path('user_test/<str:user_email>/', views.UserDetail.as_view()),
 ]

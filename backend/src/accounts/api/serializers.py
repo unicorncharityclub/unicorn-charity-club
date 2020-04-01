@@ -9,6 +9,12 @@ class AccountSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class AccountDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id','first_name', 'last_name', 'email', 'gender', 'dob', 'is_active', 'is_staff')
+
+
 class AccountUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

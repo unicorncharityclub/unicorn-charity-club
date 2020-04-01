@@ -1,6 +1,7 @@
 import string
 import random
 from accounts.api.serializers import AccountUpdateSerializer
+from accounts.api.views import UserDetail, UserDetailsMixin
 from accounts.models import User
 from django.http import JsonResponse
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -8,6 +9,9 @@ from .serializers import ProfileSerializer, ChildProfileSerializer
 from rest_framework.decorators import api_view
 from rest_framework.decorators import parser_classes
 from ..models import Profile, ChildProfile
+from rest_framework.views import APIView
+from django.http import Http404
+from rest_framework.response import Response
 
 child_email_id_extension = "@ucc_child_user.com"
 
@@ -127,40 +131,7 @@ def put_user_details(request, response, user_email):
 
 
 def get_user_details(request, response, user_email):
-    try:
-        user_details = User.objects.get(email=user_email)  # get child user table details
-        if user_details:
-            user_id = user_details.id
-            account_details_object = Profile.objects.get(user_id=user_id)  # get child account info
-
-            response['email'] = user_details.email
-            response['first_name'] = user_details.first_name
-            response['last_name'] = user_details.last_name
-            response['dob'] = user_details.dob
-            response['gender'] = user_details.gender
-            response['address'] = account_details_object.address
-            response['mobile'] = account_details_object.mobile
-            response['about_me'] = account_details_object.about_me
-            response['favorite_thing'] = account_details_object.favorite_thing
-            response['dream'] = account_details_object.dream
-            response['super_powers'] = account_details_object.super_powers
-            response['support'] = account_details_object.support
-
-            if get_user_type(user_email) == "Child":
-                child_details_object = ChildProfile.objects.get(user_id=user_id)
-                response['school'] = child_details_object.school
-                response['school_grade'] = child_details_object.school_grade
-
-            if account_details_object.profile_pic:
-                response['profile_pic'] = request.build_absolute_uri(account_details_object.profile_pic.url)
-            else:
-                response['profile_pic'] = ''
-        else:
-            response['status'] = "Invalid Request"
-    except ValueError:
-        response['status'] = "Invalid Request"
-    except:
-        response['status'] = "Issue In Request"
+    pass
 
 
 def update_user_profile_details(request, user_id):
@@ -227,3 +198,36 @@ def update_user_account_details(request, user_id):
         return True
     else:
         return False
+
+
+class UserProfileMixin(object):
+    def get_child_profile_details(self, user_id):
+        try:
+            return ChildProfileSerializer(ChildProfile.objects.get(user_id=user_id)).data
+        except ChildProfile.DoesNotExist:
+            raise Http404
+
+
+class UserChildProfileMixin(object):
+    def get_profile_details(self, user_id):
+        try:
+            return ProfileSerializer(Profile.objects.get(user_id=user_id)).data
+        except Profile.DoesNotExist:
+            raise Http404
+
+
+class ProfileDetail(UserDetailsMixin, UserProfileMixin, UserChildProfileMixin, APIView):
+    def get(self, request, user_email):
+        data = {}
+        # 1. Get user data from accounts table
+        user_data = self.get_user_details(user_email)
+        user_id = user_data["id"]
+        del user_data["id"]
+        data.update(user_data)
+
+        # 2. Get child profile details
+        if get_user_type(user_data["email"]) == "Child":
+            data.update(self.get_child_profile_details(user_id))
+        # 3. Get user data from profile
+        data.update(self.get_profile_details(user_id))
+        return Response(data)
