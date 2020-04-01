@@ -18,7 +18,8 @@
     padding-right: 10%;   
     left: 0%;
     width: 100%;
-    justify-content: space-around
+    height: 100%;
+    justify-content: space-between;
 }
 
 .horizontal {
@@ -50,6 +51,21 @@ table {
     color: gray;
 }
 
+
+/* Completed Project */
+.completedproject {
+    width: 120%;
+    height:120%;    
+}
+
+.row {
+    width: 100%;
+}
+
+.col {
+    padding-left: 5%;
+    padding-right: 5%;
+}
 
 @media only screen and (max-width: 40em){
     .header{
@@ -88,6 +104,20 @@ table {
     .statistics_titles{
         font-size: 100%;
         color: gray;
+    }
+
+    .row {
+        width: 100%;
+    }
+    
+    .col {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .completedproject {
+        width: 135%;
+        height:135%;    
     }
     
 }

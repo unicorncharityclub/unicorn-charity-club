@@ -1,11 +1,19 @@
 import React from 'react';
 import "./Spotlight_Common.css";
+import Image from 'react-bootstrap/Image';
+import { Container, Row, Col } from 'reactstrap';
 
 class CollapseComponent extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      open: true
+      open: true,
+      completedProjects : [
+        'https://cdn.pixabay.com/photo/2016/10/18/21/22/california-1751455_1280.jpg',
+        'https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197_1280.jpg',
+        'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
+        'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg'
+      ]
     }
 
     this.togglePanel = this.togglePanel.bind(this);
@@ -56,13 +64,32 @@ class CollapseComponent extends React.Component {
 
   renderCompletedProject () {
       return (
-        <div>This is Completed Projects Component </div>
+        <div>
+            <Row>
+            {this.state.completedProjects          
+            .map((elem, index) => (
+                  <Col>
+                    <Image className="completedproject" key = {index} src={elem} roundedCircle />
+                  </Col>                  
+              ))}                                        
+            </Row>
+        </div>
       );
   }
 
   renderTreasureTrove () {
     return (
-      <div>This is Treasure Trove Component </div>
+      <div>
+        <br/>                
+          <Row>
+          {this.state.completedProjects          
+          .map((elem, index) => (
+                <Col>
+                  <Image className="completedproject" key = {index} src={elem} rounded />
+                </Col>                  
+            ))}                                        
+          </Row>        
+      </div>
     );
 }
 
@@ -75,7 +102,7 @@ class CollapseComponent extends React.Component {
           );
       }else if (title === "Completed Projects") {
         return (
-          <div>
+          <div className="completedProjContainer">
             {this.renderCompletedProject()} 
           </div>          
         );          
@@ -101,9 +128,10 @@ class CollapseComponent extends React.Component {
           (
             <div className="content">    
               {/* render inside content */}
-              { this.renderContent(this.props.title) }              
+              { this.renderContent(this.props.title) } 
+              <br/>             
               <hr className="horizontal"/>                         
-            </div>) : <hr/>}            
+            </div>) : <hr/>}
         </div>
       );
     }
