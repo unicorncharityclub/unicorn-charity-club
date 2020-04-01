@@ -79,7 +79,7 @@ def get_active_project_details(request, user_email):
         active_charity_project_list = []
         if len(project_user_list) > 0:
             for project_user in project_user_list:
-                if project_user.project_status == "PlanningPhase3":
+                if "Challenge" in project_user.challenge_status:
                     project_id = project_user.project_id
                     project = CharityProjects.objects.get(pk=project_id)
                     project_name = project.name
@@ -280,10 +280,12 @@ def update_user_invitation(request):
         project_user_id = project_user_record.id
         prize_given_id = ProjectUserDetails.objects.filter(project_user_id=project_user_id)[0].prize_given_id
         for email in invited_users:
-            if create_user_invitation(email, project_user_id, prize_given_id, message):
+            if check_existing_project(email, project_id):
+                response["status"] = "User is already doing the project"
+            if create_user_invitation(email, project_id, user_id, prize_given_id, message):
                 response["status"] = "Successfully stored invitation"
             else:
-                response["status"] = "Requested user does not exist"
+                response["status"] = "User has invitation for this project"
 
         project_user_record.project_status = "PlanningPhase3"
         project_user_record.challenge_status = "StartChallenge"
@@ -395,7 +397,7 @@ def unregistered_invitation(request):
         for email in invited_users:
             invited_user = check_user(email)
             if invited_user:
-                create_user_invitation(email, project_user_id, prize_given_id, message)
+                create_user_invitation(email, project_id, user_id, prize_given_id, message)
             else:
                 create_unregister_user_invitation(email, project_user_id, prize_given_id, message)
 
@@ -490,10 +492,8 @@ def get_project_invitations(request, user_email):
     invited_project_list = []
     if len(invited_project_user_id_list) > 0:
         for invitation in invited_project_user_id_list:
-            project_user_id = invitation.project_user_id
-            project_user_record = ProjectUser.objects.get(pk=project_user_id)
-            project_id = project_user_record.project_id
-            user_id = project_user_record.user_id
+            project_id = invitation.project_id
+            user_id = invitation.user_id
             user = User.objects.get(pk=user_id)
             project = CharityProjects.objects.get(pk=project_id)
             project_name = project.name
@@ -533,7 +533,7 @@ def fetch_project_invitation_details(request):
     project_user_id = project_user_record.id
     project_user_details = ProjectUserDetails.objects.filter(project_user_id=project_user_id)[0]
     invitation_video = request.build_absolute_uri(project_user_details.video.url)
-    user_invitation = UserInvitation.objects.filter(project_user_id=project_user_id, status="Pending")[0]
+    user_invitation = UserInvitation.objects.filter(project_id=project_id, user_id=inviter_user_id, status="Pending")[0]
 
     invitation_message = user_invitation.invitation_message
     project_invitation = {"user_name": user_name, "message": invitation_message, "video": invitation_video,
@@ -562,7 +562,8 @@ def join_project_invitation(request):
     if len(project_user_record) > 0:
         response["status"] = "User has already joined this project"
     else:
-        project_user = ProjectUser.objects.create(project_id=project_id, user_id=user_id,
+        join_date = date.today()
+        project_user = ProjectUser.objects.create(project_id=project_id, user_id=user_id, date_joined=join_date,
                                                   invited_by=inviter_user_email, challenge_status="StartChallenge")
         project_user.save()
         project_user_id = project_user.id
@@ -570,7 +571,7 @@ def join_project_invitation(request):
         prize_given_id = find_user_prize(inviter_user_record)
         project_user_details = ProjectUserDetails.objects.create(project_user_id=project_user_id, prize_given_id=prize_given_id)
         project_user_details.save()
-        user_invitation = UserInvitation.objects.filter(project_user_id=inviter_user_record)[0]
+        user_invitation = UserInvitation.objects.filter(project_id=project_id, user_id=inviter_user_id)[0]
         user_invitation.status = "Accepted"
         user_invitation.save()
         response["status"] = "Success"
@@ -611,8 +612,10 @@ def spread_the_word(request):
         if check_existing_project(user_email, project_id):
             response["status"] = "User is already doing project"
         else:
-            if create_user_invitation(user_email, project_user_id, prize_id, message):
+            if create_user_invitation(user_email, project_id, user_id, prize_id, message):
                 response["status"] = "Successfully stored invitation"
+            else:
+                response["status"] = "User already has invitation for this project"
 
     invitee_count = len(unregistered_user_invite) + len(invited_users)
     spread_word = SpreadWord.objects.create(project_user_id=project_user_id, invitee_count=invitee_count)
@@ -693,18 +696,21 @@ def find_user_prize(project_user_id):
     return prize_given_id
 
 
-def create_user_invitation(email, project_user_id, prize_id, message):
+def create_user_invitation(email, project_id, user_id, prize_id, message):
     invited_user = check_user(email)
     if invited_user:
         invited_user_id = invited_user.id
         invitation_date = date.today()
-        user_invitation = UserInvitation.objects.create(project_user_id=project_user_id, friend_id=invited_user_id,
-                                                        status="Pending",
-                                                        invitation_message=message,
-                                                        prize_given_id=prize_id,
-                                                        invitation_date=invitation_date)
-        user_invitation.save()
-        return True
+        invitation_record = UserInvitation.objects.filter(project_id=project_id, friend_id=invited_user_id)
+        if invitation_record:
+            return False
+        else:
+            user_invitation = UserInvitation.objects.create(project_id=project_id, user_id=user_id, friend_id=invited_user_id,
+                                                            status="Pending", invitation_message=message,
+                                                            prize_given_id=prize_id,
+                                                            invitation_date=invitation_date)
+            user_invitation.save()
+            return True
     else:
         return False
 
@@ -723,7 +729,7 @@ def check_user(email):
 
 def check_existing_project(email, project_id):
     user_id = User.objects.get(email=email).id
-    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]
+    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)
     if project_user_record:
         return True
     else:
