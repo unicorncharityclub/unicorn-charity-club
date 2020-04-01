@@ -69,7 +69,7 @@ class CollapseComponent extends React.Component {
             {this.state.completedProjects          
             .map((elem, index) => (
                   <Col>
-                    <Image className="completedproject" key = {index} src={elem} roundedCircle />
+                    <Image className="completedproject" key = {index} src={elem} />
                   </Col>                  
               ))}                                        
             </Row>
