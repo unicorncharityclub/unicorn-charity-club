@@ -200,34 +200,40 @@ def update_user_account_details(request, user_id):
         return False
 
 
-class UserProfileMixin(object):
-    def get_child_profile_details(self, user_id):
-        try:
-            return ChildProfileSerializer(ChildProfile.objects.get(user_id=user_id)).data
-        except ChildProfile.DoesNotExist:
-            raise Http404
-
-
 class UserChildProfileMixin(object):
-    def get_profile_details(self, user_id):
+    def get(self, request, user_id):
         try:
-            return ProfileSerializer(Profile.objects.get(user_id=user_id)).data
+            data = ChildProfileSerializer(ChildProfile.objects.get(user_id=user_id)).data
+            result = {}
+            result.update({"school": data["school"], "school_grade": data["school_grade"]})
+            return result
+        except ChildProfile.DoesNotExist:
+            return ""
+
+
+class UserProfileMixin(UserChildProfileMixin, object):
+    def get(self, request, user_id):
+        try:
+            result = ProfileSerializer(Profile.objects.get(user_id=user_id)).data
+            result.update(super(UserProfileMixin, self).get(request, user_id))
+            if result["profile_pic"] is not None:
+                result["profile_pic"] = request.build_absolute_uri(result["profile_pic"])
+            else:
+                result["profile_pic"] = ""
+            return result
         except Profile.DoesNotExist:
             raise Http404
 
 
-class ProfileDetail(UserDetailsMixin, UserProfileMixin, UserChildProfileMixin, APIView):
+class ProfileDetail(UserDetailsMixin, UserProfileMixin, APIView):
     def get(self, request, user_email):
-        data = {}
+        result = {}
         # 1. Get user data from accounts table
         user_data = self.get_user_details(user_email)
         user_id = user_data["id"]
         del user_data["id"]
-        data.update(user_data)
+        result.update(user_data)
 
-        # 2. Get child profile details
-        if get_user_type(user_data["email"]) == "Child":
-            data.update(self.get_child_profile_details(user_id))
-        # 3. Get user data from profile
-        data.update(self.get_profile_details(user_id))
-        return Response(data)
+        # 2. Get user profile data from profile table
+        result.update(super(ProfileDetail, self).get(request, user_id))
+        return Response(result)
