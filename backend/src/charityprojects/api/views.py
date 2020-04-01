@@ -79,7 +79,7 @@ def get_active_project_details(request, user_email):
         active_charity_project_list = []
         if len(project_user_list) > 0:
             for project_user in project_user_list:
-                if project_user.project_status == "PlanningPhase3":
+                if "Challenge" in project_user.challenge_status:
                     project_id = project_user.project_id
                     project = CharityProjects.objects.get(pk=project_id)
                     project_name = project.name
@@ -533,7 +533,7 @@ def fetch_project_invitation_details(request):
     project_user_id = project_user_record.id
     project_user_details = ProjectUserDetails.objects.filter(project_user_id=project_user_id)[0]
     invitation_video = request.build_absolute_uri(project_user_details.video.url)
-    user_invitation = UserInvitation.objects.filter(project_id=project_id, user_id=user_id, status="Pending")[0]
+    user_invitation = UserInvitation.objects.filter(project_id=project_id, user_id=inviter_user_id, status="Pending")[0]
 
     invitation_message = user_invitation.invitation_message
     project_invitation = {"user_name": user_name, "message": invitation_message, "video": invitation_video,
@@ -562,7 +562,8 @@ def join_project_invitation(request):
     if len(project_user_record) > 0:
         response["status"] = "User has already joined this project"
     else:
-        project_user = ProjectUser.objects.create(project_id=project_id, user_id=user_id,
+        join_date = date.today()
+        project_user = ProjectUser.objects.create(project_id=project_id, user_id=user_id, date_joined=join_date,
                                                   invited_by=inviter_user_email, challenge_status="StartChallenge")
         project_user.save()
         project_user_id = project_user.id
