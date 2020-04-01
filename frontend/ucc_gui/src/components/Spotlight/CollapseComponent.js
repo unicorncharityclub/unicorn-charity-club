@@ -49,13 +49,44 @@ class CollapseComponent extends React.Component {
                 </td>
               </tr>                            
             </tbody>
-          </table>   
-          <hr/>
+          </table>             
         </div>   
     );
   }
 
+  renderCompletedProject () {
+      return (
+        <div>This is Completed Projects Component </div>
+      );
+  }
 
+  renderTreasureTrove () {
+    return (
+      <div>This is Treasure Trove Component </div>
+    );
+}
+
+  renderContent (title) {
+    if (title === "My Social Impact"){
+        return (
+          <div>
+            {this.renderSocialImpactDetails()} 
+          </div>
+          );
+      }else if (title === "Completed Projects") {
+        return (
+          <div>
+            {this.renderCompletedProject()} 
+          </div>          
+        );          
+      }else{
+        return(
+          <div>
+              {this.renderTreasureTrove()} 
+          </div>          
+        );                
+      }      
+  }
 
   render() {
   return (
@@ -68,10 +99,11 @@ class CollapseComponent extends React.Component {
         </div>
           {this.state.open ? 
           (
-            <div className="content">                        
-              {this.renderSocialImpactDetails()}            
-            </div>) : <hr/>}
-      
+            <div className="content">    
+              {/* render inside content */}
+              { this.renderContent(this.props.title) }              
+              <hr className="horizontal"/>                         
+            </div>) : <hr/>}            
         </div>
       );
     }

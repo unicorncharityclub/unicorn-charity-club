@@ -21,6 +21,10 @@
     justify-content: space-around
 }
 
+.horizontal {
+    width: 110%;   
+}
+
 table {
     table-layout: fixed ;
     width: 100% ;
@@ -31,7 +35,8 @@ table {
   }
 
 .icon-down {
-    padding-left: 70%;
+    float: right;
+    padding-right: 5%;
     font-size: large;
 }
 
@@ -55,7 +60,8 @@ table {
     }
 
     .icon-down {
-        padding-left: 25%;
+        float: right;
+        padding-right: 5%;
         font-size: large;
     }
     
