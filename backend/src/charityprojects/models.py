@@ -83,7 +83,8 @@ class LearnNewSkill(models.Model):
 
 class UserInvitation(models.Model):
     objects = None
-    project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE)
+    project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     friend_id = models.IntegerField(blank=True)
     status = models.CharField(max_length=255, blank=True, null=True)
     prize_given = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
@@ -91,7 +92,7 @@ class UserInvitation(models.Model):
     invitation_date = models.DateField(null=True, blank=True) #should not be empty
 
     def __str__(self):
-        return '{} {} {} {} {} {}'.format(self.project_user, self.friend_id, self.status, self.prize_given,
+        return '{} {} {} {} {} {}'.format(self.project, self.user, self.friend_id, self.status, self.prize_given,
                                           self.invitation_message, self.invitation_date)
 
 
@@ -145,3 +146,20 @@ class SpreadWord(models.Model):
 
     def __str__(self):
         return '{} {}'.format(self.project_user, self.invitee_count)
+
+
+class GiveDonation(models.Model):
+    objects = None
+    project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
+    organisation_name = models.CharField(max_length=100, blank=True)
+    organisation_address = models.CharField(max_length=100, blank=True)
+    organisation_city = models.CharField(max_length=50, blank=True)
+    organisation_state = models.CharField(max_length=50, blank=True)
+    organisation_website = models.CharField(max_length=200, blank=True)
+    donation_details = models.TextField(blank=True, null=True)
+    donation_exp = models.FileField(upload_to='upload/video/volunteer_exp', null=True, blank=True)
+
+    def __str__(self):
+        return '{} {} {} {} {} {} {} {}'.format(self.project_user, self.organisation_name, self.organisation_address,
+                                                self.organisation_city, self.organisation_state,
+                                                self.organisation_website, self.donation_details, self.donation_exp)
