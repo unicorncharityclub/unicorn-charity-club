@@ -1,0 +1,88 @@
+
+.profileTitle {
+    color: #2BB9B7;  
+}
+
+  /* collapse */
+  .header{
+    color: #2BB9B7;  
+    cursor: pointer; 
+    height: 100%;           
+}
+
+.content{        
+    padding: 0%;    
+    cursor: pointer;        
+    font-family: verdana;
+    font-size: 14px;
+    padding-right: 10%;   
+    left: 0%;
+    width: 100%;
+    justify-content: space-around
+}
+
+table {
+    table-layout: fixed ;
+    width: 100% ;
+  }
+  td {
+    text-align: center;  
+    width: 25% ;
+  }
+
+.icon-down {
+    padding-left: 70%;
+    font-size: large;
+}
+
+.statistics {
+    color: #e7088a;
+    font-size: 400%;
+}
+
+.statistics_titles {
+    font-size: 120%;
+    color: gray;
+}
+
+
+@media only screen and (max-width: 40em){
+    .header{
+        color: #2BB9B7;  
+        cursor: pointer;    
+        background: white;
+        height: 100%;           
+    }
+
+    .icon-down {
+        padding-left: 25%;
+        font-size: large;
+    }
+    
+    .collapse_title {                
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .content{            
+        cursor: pointer;        
+        font-family: verdana;
+        padding-left: 0%;
+        padding-right: 10%;        
+        left: 0%;
+        width: 100%;
+        justify-content: space-around
+    }
+
+    .statistics {
+        color: #e7088a;
+        font-size: 200%;
+    }
+
+    .statistics_titles{
+        font-size: 100%;
+        color: gray;
+    }
+    
+}
+
