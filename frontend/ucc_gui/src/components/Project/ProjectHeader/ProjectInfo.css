@@ -3,7 +3,7 @@
     position: relative;
     width: 90%;
     /*display: flex;*/
-    flex-flow: row;
+    /*flex-flow: row;*/
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
@@ -43,9 +43,21 @@
     text-align: center;
 }
 
+.project-header-content{
+    float: right;
+    position: relative;
+    justify-content: right;
+    width: 80%;
+}
+
+.desktop-content-header {
+    width: 20%;
+}
+
 .adventure-project {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     margin: 3%;
 }
 
@@ -94,6 +106,10 @@
     }
 
     .desktop-content {
+        display: none;
+    }
+
+    .desktop-content-header {
         display: none;
     }
 
