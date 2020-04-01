@@ -1,7 +1,7 @@
 import string
 import random
 from accounts.api.serializers import AccountUpdateSerializer
-from accounts.api.views import UserDetail, UserDetailsMixin
+from accounts.api.views import UserDetailsMixin
 from accounts.models import User
 from django.http import JsonResponse
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -215,7 +215,7 @@ class UserProfileMixin(UserChildProfileMixin, object):
     def get(self, request, user_id):
         try:
             result = ProfileSerializer(Profile.objects.get(user_id=user_id)).data
-            result.update(super(UserProfileMixin, self).get(request, user_id))
+            result.update(super().get(request, user_id))
             if result["profile_pic"] is not None:
                 result["profile_pic"] = request.build_absolute_uri(result["profile_pic"])
             else:
@@ -228,12 +228,5 @@ class UserProfileMixin(UserChildProfileMixin, object):
 class ProfileDetail(UserDetailsMixin, UserProfileMixin, APIView):
     def get(self, request, user_email):
         result = {}
-        # 1. Get user data from accounts table
-        user_data = self.get_user_details(user_email)
-        user_id = user_data["id"]
-        del user_data["id"]
-        result.update(user_data)
-
-        # 2. Get user profile data from profile table
-        result.update(super(ProfileDetail, self).get(request, user_id))
+        result.update(super().get(request, user_email))
         return Response(result)

@@ -88,13 +88,12 @@ def login_user(request):
 
 
 class UserDetailsMixin(object):
-    def get_user_details(self, user_email):
+    def get(self, request, user_email):
         try:
-            return AccountDetailsSerializer(User.objects.get(email=user_email)).data
+            result = AccountDetailsSerializer(User.objects.get(email=user_email)).data
+            user_id = result["id"]
+            del result["id"]
+            result.update(super().get(request, user_id))
+            return result
         except User.DoesNotExist:
             raise Http404
-
-
-class UserDetail(UserDetailsMixin, APIView):
-    def get(self, request, user_email, format=None):
-        return Response(self.get_user_details(user_email))

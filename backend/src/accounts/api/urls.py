@@ -8,5 +8,4 @@ from .views import (
 urlpatterns = [
     path('register', register_user_view),
     path('login', login_user),
-    path('user_test/<str:user_email>/', views.UserDetail.as_view()),
 ]
