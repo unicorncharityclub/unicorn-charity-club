@@ -90,7 +90,7 @@ def get_active_project_details(request, user_email):
                     challenge_status = project_user.challenge_status
                     project_info = {"project_id": project_id, "project_name": project_name, "project_badge": project_badge,
                                     "project_banner": project_banner, "project_mission": project_mission,
-                                    "project_join_dateq": joined_date, "challenge_status": challenge_status}
+                                    "project_join_date": joined_date, "challenge_status": challenge_status}
                     active_charity_project_list.append(project_info)
             response['active_project_list'] = active_charity_project_list
             response['status'] = "Success"
