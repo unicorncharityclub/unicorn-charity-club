@@ -1,7 +1,11 @@
 import string
 import random
+
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
+
 from accounts.api.serializers import AccountUpdateSerializer
-from accounts.api.views import UserDetailsMixin
+from accounts.api.views import UserAccountMixin
 from accounts.models import User
 from django.http import JsonResponse
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -210,6 +214,14 @@ class UserChildProfileMixin(object):
         except ChildProfile.DoesNotExist:
             return ""
 
+    def put(self, request, user_id):
+        try:
+            serializer = ChildProfileSerializer(ChildProfile.objects.get(user_id=user_id), data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+        except ChildProfile.DoesNotExist:
+            return
+
 
 class UserProfileMixin(UserChildProfileMixin, object):
     def get(self, request, user_id):
@@ -224,9 +236,23 @@ class UserProfileMixin(UserChildProfileMixin, object):
         except Profile.DoesNotExist:
             raise Http404
 
+    @method_decorator(csrf_protect)
+    def put(self, request, user_id):
+        try:
+            serializer = ProfileSerializer(Profile.objects.get(user=user_id), data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+        except Profile.DoesNotExist:
+            raise Http404
 
-class ProfileDetail(UserDetailsMixin, UserProfileMixin, APIView):
+
+class ProfileDetail(UserAccountMixin, UserProfileMixin, APIView):
     def get(self, request, user_email):
         result = {}
         result.update(super().get(request, user_email))
         return Response(result)
+
+    @method_decorator(csrf_protect)
+    def put(self, request, user_email):
+        super().put(request, user_email)
+        return Response({'status': 'Success'})

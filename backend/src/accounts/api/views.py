@@ -1,16 +1,15 @@
 from django.db import DatabaseError
-from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib.auth.hashers import make_password, check_password
 from profile.models import ChildProfile, Profile
-from .serializers import AccountDetailsSerializer
+from .serializers import AccountDetailsSerializer, AccountUpdateSerializer
 from ..models import User
 import json
 from django.http import JsonResponse
 from django.contrib.auth import login
 import django.middleware.csrf
-from rest_framework.views import APIView
 from django.http import Http404
-from rest_framework.response import Response
 
 @csrf_exempt
 def register_user_view(request):
@@ -87,7 +86,7 @@ def login_user(request):
     return JsonResponse(response)
 
 
-class UserDetailsMixin(object):
+class UserAccountMixin(object):
     def get(self, request, user_email):
         try:
             result = AccountDetailsSerializer(User.objects.get(email=user_email)).data
@@ -95,5 +94,16 @@ class UserDetailsMixin(object):
             del result["id"]
             result.update(super().get(request, user_id))
             return result
+        except User.DoesNotExist:
+            raise Http404
+
+    @method_decorator(csrf_protect)
+    def put(self, request, user_email):
+        try:
+            user_model = User.objects.get(email=user_email)
+            serializer = AccountUpdateSerializer(user_model, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                super().put(request, user_model.id)
         except User.DoesNotExist:
             raise Http404
