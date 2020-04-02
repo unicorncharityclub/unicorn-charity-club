@@ -632,8 +632,6 @@ def donation(request):
         store_donation_details(request)
     elif request.method == "GET":
         fetch_donation_details(request)
-    elif request.method == "PUT":
-        update_donation_details(request)
     else:
         return JsonResponse(response)
 
@@ -642,10 +640,17 @@ def store_donation_details(request):
     user_email_id = request.data["user_email"]
     user_id = User.objects.get(email=user_email_id).id
     project_id = request.data["project_id"]
+    action_type = request.data["action_type"]
+    if action_type == "Done":
+        create_donation_record(request, user_id, project_id)
+        update_challenge_status(user_id, project_id, "Challenge3Complete")
+    elif action_type == "Save":
+        update_donation_details(request)
+
+
+def create_donation_record(request, user_id, project_id):
     project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
     project_user_id = project_user_record.id
-    project_user_record.challenge_status = "Challenge3Complete"
-    project_user_record.save()
     give_donation_data = {"pu_id": project_user_id, "organisation_name": request.data["organisation_name"],
                           "organisation_address": request.data["organisation_address"],
                           "organisation_city": request.data["organisation_city"],
@@ -659,6 +664,12 @@ def store_donation_details(request):
         return Response(donation_serializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response(donation_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def update_challenge_status(user_id, project_id,  challenge_status):
+    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
+    project_user_record.challenge_status = challenge_status
+    project_user_record.save()
 
 
 def fetch_donation_details(request):
@@ -688,6 +699,8 @@ def update_donation_details(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        create_donation_record(request, user_id, project_id)
 
 
 def find_user_prize(project_user_id):

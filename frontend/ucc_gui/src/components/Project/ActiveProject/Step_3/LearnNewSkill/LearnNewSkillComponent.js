@@ -29,20 +29,20 @@ class LearnNewSkillComponent extends React.Component {
                 <div className="mobile-content">
                     <ProgressStepper currentStep="3"/>
                     <ProjectBanner image={this.props.projectBanner}/>
-                    <ProjectInfo project_name={this.props.projectName} project_badge={this.props.projectBadge}
-                                 project_join_date={this.props.projectJoinDate}
-                                 challenge_status={this.props.challengeStatus}
+                    <ProjectInfo projectName={this.props.projectName} projectBadge={this.props.projectBadge}
+                                 projectJoinDate={this.props.projectJoinDate}
+                                 challengeStatus={this.props.challengeStatus}
                     />
                 </div>
                 <div className="adventure-project">
-                    <div className="desktop-content">
-                        <ProjectInfo project_name={this.props.projectName} project_badge={this.props.projectBadge}
-                                     project_join_date={this.props.projectJoinDate}
-                                     challenge_status={this.props.challengeStatus}
-                                     project_mission={this.props.projectMission}
+                    <div className="desktop-content-header">
+                        <ProjectInfo projectName={this.props.projectName} projectBadge={this.props.projectBadge}
+                                     projectJoinDate={this.props.projectJoinDate}
+                                     challengeStatus={this.props.challengeStatus}
+                                     projectMission={this.props.projectMission}
                         />
                     </div>
-                    <div>
+                    <div className="project-header-content">
                         <div className="desktop-content">
                             <div className="project-banner">
                                 <ProjectBanner image={this.props.projectBanner}/>

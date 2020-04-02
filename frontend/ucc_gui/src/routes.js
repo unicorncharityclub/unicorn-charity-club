@@ -24,7 +24,7 @@ import Mobile_toolbar from "./containers/Template/Header/Mobile/Mobile_toolbar";
 import VolunteerTime from "./containers/Projects/ActiveProject/Step_3/VolunteerTime/VolunteerTime";
 import SpreadTheWord from "./containers/Projects/ActiveProject/Step_3/SpreadTheWord/SpreadTheWord";
 import GiveADonation from "./containers/Projects/ActiveProject/Step_3/GiveADonation/GiveADonation";
-
+import ProjectComplete from "./containers/Projects/ActiveProject/ProjectComplete/ProjectComplete";
 
 class BaseRouter extends React.Component {
     render() {
@@ -51,6 +51,7 @@ class BaseRouter extends React.Component {
               <Route exact path='/Projects/:id/InviteFriends' component={StartProjectStepThree} />              
               <Route exact path='/Projects/:id/SpreadTheWord' component={SpreadTheWord} />
               <Route exact path='/Projects/:id/GiveADonation' component={GiveADonation} />
+                <Route exact path='/Projects/:id/Congratulations' component={ProjectComplete} />
               <Route exact path='/AddChild' component={AddChild}/>
               <Route exact path="/Mobile_toolbar" component={Mobile_toolbar}/>
             </div>
