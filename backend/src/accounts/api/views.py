@@ -86,7 +86,7 @@ def login_user(request):
     return JsonResponse(response)
 
 
-class UserAccountMixin(object):
+class UserAccountEmailMixin(object):
     def get(self, request, user_email):
         try:
             result = AccountDetailsSerializer(User.objects.get(email=user_email)).data
@@ -105,5 +105,16 @@ class UserAccountMixin(object):
             if serializer.is_valid():
                 serializer.save()
                 super().put(request, user_model.id)
+        except User.DoesNotExist:
+            raise Http404
+
+
+class UserAccountIdMixin(object):
+    def get(self, request, user_id):
+        try:
+            result = AccountDetailsSerializer(User.objects.get(pk=user_id)).data
+            del result["id"]
+            result.update(super().get(request, user_id))
+            return result
         except User.DoesNotExist:
             raise Http404

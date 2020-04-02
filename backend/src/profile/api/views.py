@@ -1,11 +1,8 @@
 import string
 import random
-
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
-
-from accounts.api.serializers import AccountUpdateSerializer
-from accounts.api.views import UserAccountMixin
+from accounts.api.views import UserAccountEmailMixin, UserAccountIdMixin
 from accounts.models import User
 from django.http import JsonResponse
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -19,22 +16,9 @@ from rest_framework.response import Response
 
 child_email_id_extension = "@ucc_child_user.com"
 
-
-@api_view(['GET', 'PUT'])
-@parser_classes([MultiPartParser, FormParser])
-def account_details(request, user_email):
-    response = {'status': "Success"}
-    if request.method == 'GET':
-        get_user_details(request, response, user_email)
-    elif request.method == 'PUT':
-        put_user_details(request, response, user_email)
-    return JsonResponse(response)
-
-
 '''
 Child Account API Methods
 '''
-
 
 # Method is used to create a new child detail
 @api_view(['POST'])
@@ -70,30 +54,6 @@ def add_child_details(request, user_email):
     return JsonResponse(response)
 
 
-# Method is used to get the list of children's
-def get_child_list(request, user_email):
-    response = {'status': "Success"}
-    user = User.objects.get(email=user_email)
-    childrens = ChildProfile.objects.filter(parent_id=user.id)
-    child_list = []
-
-    for child in childrens:
-        child_id = child.user_id
-        child_user_details = User.objects.get(pk=child_id)  # get child user table details to fetch the name
-        profile_details = Profile.objects.get(user_id=child_id)  # get child account info to get the profile pic
-
-        child_details = {}
-        child_details['name'] = child_user_details.first_name + " " + child_user_details.last_name
-        if profile_details.profile_pic:
-            child_details['photo'] = request.build_absolute_uri(profile_details.profile_pic.url)
-        else:
-            child_details['photo'] = ''
-        child_details['email'] = child_user_details.email
-        child_list.append(child_details)
-        response['child_list'] = child_list
-    return JsonResponse(response)
-
-
 '''
 Common Functions
 '''
@@ -116,26 +76,6 @@ def get_user_type(user_email_id):
         return "Child"
     else:
         return "Parent"
-
-
-def put_user_details(request, response, user_email):
-    try:
-        user = User.objects.get(email=user_email)  # get details of user by emailid
-        user_id = user.id
-        if (update_user_account_details(request, user_id) and
-                update_user_profile_details(request, user_id) and
-                update_only_child_details(request, user_id)):
-            response['status'] = "Success"
-        else:
-            response['status'] = "Issue In Updating Child Details"
-    except ValueError:
-        response['status'] = "Invalid Request"
-    except:
-        response['status'] = "Issue In Request"
-
-
-def get_user_details(request, response, user_email):
-    pass
 
 
 def update_user_profile_details(request, user_id):
@@ -172,44 +112,14 @@ def set_only_child_details(request, child_user_id, parent_user_id):
         return False
 
 
-def update_only_child_details(request, child_user_id):
-    child_details_object = ChildProfile.objects.get(user_id=child_user_id)
-    if child_details_object:
-        child_details = {}
-        add_if_exist_in_request(request, child_details, 'school')
-        add_if_exist_in_request(request, child_details, 'school_grade')
-
-        child_details_serializer = ChildProfileSerializer(child_details_object, data=child_details)
-        if child_details_serializer.is_valid():
-            child_details_serializer.save()
-            return True
-        else:
-            return False
-    else:
-        return True
-
-
-def update_user_account_details(request, user_id):
-    user_details = {}
-    add_if_exist_in_request(request, user_details, 'first_name')
-    add_if_exist_in_request(request, user_details, 'last_name')
-    add_if_exist_in_request(request, user_details, 'dob')
-    add_if_exist_in_request(request, user_details, 'gender')
-    child_user_object = User.objects.get(pk=user_id)
-    child_user_serializer = AccountUpdateSerializer(child_user_object, data=user_details)
-    if child_user_serializer.is_valid():
-        child_user_serializer.save()
-        return True
-    else:
-        return False
-
-
-class UserChildProfileMixin(object):
+# Methods on the child model
+class ChildProfileMixin(object):
     def get(self, request, user_id):
         try:
             data = ChildProfileSerializer(ChildProfile.objects.get(user_id=user_id)).data
             result = {}
             result.update({"school": data["school"], "school_grade": data["school_grade"]})
+            result.update(super().get(request, user_id))
             return result
         except ChildProfile.DoesNotExist:
             return ""
@@ -223,11 +133,11 @@ class UserChildProfileMixin(object):
             return
 
 
-class UserProfileMixin(UserChildProfileMixin, object):
+# Methods on the profile model
+class ParentProfileMixin(object):
     def get(self, request, user_id):
         try:
             result = ProfileSerializer(Profile.objects.get(user_id=user_id)).data
-            result.update(super().get(request, user_id))
             if result["profile_pic"] is not None:
                 result["profile_pic"] = request.build_absolute_uri(result["profile_pic"])
             else:
@@ -242,11 +152,35 @@ class UserProfileMixin(UserChildProfileMixin, object):
             serializer = ProfileSerializer(Profile.objects.get(user=user_id), data=request.data)
             if serializer.is_valid():
                 serializer.save()
+                super().post(request, user_id)
         except Profile.DoesNotExist:
             raise Http404
 
 
-class ProfileDetail(UserAccountMixin, UserProfileMixin, APIView):
+class ProfileMixin(ChildProfileMixin, ParentProfileMixin, object):
+    def get(self, request, user_id):
+        result = {}
+        result.update(super().get(request, user_id))
+        return result
+
+    @method_decorator(csrf_protect)
+    def put(self, request, user_id):
+        super().put(request, user_id)
+
+
+class ChildrenListMixin(UserAccountIdMixin, ParentProfileMixin, object):
+    def get(self, request, user_id):
+        children = ChildProfile.objects.filter(parent_id=user_id)
+        child_list = []
+        for child in children:
+            print(child.user_id)
+            data = super().get(request, child.user_id)
+            child_list.append(data)
+        result = {'child_list': child_list}
+        return result
+
+
+class ProfileDetailView(UserAccountEmailMixin, ProfileMixin, APIView):
     def get(self, request, user_email):
         result = {}
         result.update(super().get(request, user_email))
@@ -256,3 +190,13 @@ class ProfileDetail(UserAccountMixin, UserProfileMixin, APIView):
     def put(self, request, user_email):
         super().put(request, user_email)
         return Response({'status': 'Success'})
+
+
+class ChildrenListView(ChildrenListMixin, APIView):
+    def get(self, request, user_email):
+        try:
+            user_id = User.objects.get(email=user_email).id
+            result = super().get(request, user_id)
+        except User.DoesNotExist:
+            raise Http404
+        return Response(result)
