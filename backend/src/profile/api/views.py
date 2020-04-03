@@ -1,5 +1,7 @@
 import string
 import random
+
+from braces import views
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from accounts.api.views import UserAccountEmailMixin, UserAccountIdMixin
@@ -122,15 +124,19 @@ class ChildProfileMixin(object):
             result.update(super().get(request, user_id))
             return result
         except ChildProfile.DoesNotExist:
-            return ""
+            result = {}
+            result.update(super().get(request, user_id))
+            return result
 
+    @method_decorator(csrf_protect)
     def put(self, request, user_id):
         try:
             serializer = ChildProfileSerializer(ChildProfile.objects.get(user_id=user_id), data=request.data)
             if serializer.is_valid():
                 serializer.save()
         except ChildProfile.DoesNotExist:
-            return
+            pass
+        super().put(request, user_id)
 
 
 # Methods on the profile model
@@ -152,7 +158,6 @@ class ParentProfileMixin(object):
             serializer = ProfileSerializer(Profile.objects.get(user=user_id), data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                super().post(request, user_id)
         except Profile.DoesNotExist:
             raise Http404
 
@@ -173,7 +178,6 @@ class ChildrenListMixin(UserAccountIdMixin, ParentProfileMixin, object):
         children = ChildProfile.objects.filter(parent_id=user_id)
         child_list = []
         for child in children:
-            print(child.user_id)
             data = super().get(request, child.user_id)
             child_list.append(data)
         result = {'child_list': child_list}

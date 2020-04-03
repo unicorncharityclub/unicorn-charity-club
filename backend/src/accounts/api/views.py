@@ -2,37 +2,19 @@ from django.db import DatabaseError
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib.auth.hashers import make_password, check_password
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from braces import views
+
 from profile.models import ChildProfile, Profile
-from .serializers import AccountDetailsSerializer, AccountUpdateSerializer
+from .serializers import AccountDetailsSerializer, AccountUpdateSerializer, AccountSerializer
 from ..models import User
 import json
 from django.http import JsonResponse
 from django.contrib.auth import login
 import django.middleware.csrf
 from django.http import Http404
-
-@csrf_exempt
-def register_user_view(request):
-    response = {'status': "Invalid Request"}
-    if request.method == 'POST':
-        try:
-            json_data = json.loads(request.body)
-            first_name = json_data["first_name"]
-            last_name = json_data["last_name"]
-            email = json_data["email"]
-            password = json_data["password"]
-            dob = json_data["dob"]
-            hashed_password = make_password(password)
-            user = User.objects.create(first_name=first_name, last_name=last_name, email=email,
-                                       password=hashed_password,
-                                       dob=dob)
-            user.save()
-            response['status'] = "Success"
-        except ValueError:
-            response['status'] = "Invalid Request"
-        except DatabaseError:
-            response['status'] = "User Already Exists"
-    return JsonResponse(response)
 
 
 @csrf_exempt
@@ -105,6 +87,8 @@ class UserAccountEmailMixin(object):
             if serializer.is_valid():
                 serializer.save()
                 super().put(request, user_model.id)
+            else:
+                print(serializer.error_messages)
         except User.DoesNotExist:
             raise Http404
 
@@ -118,3 +102,29 @@ class UserAccountIdMixin(object):
             return result
         except User.DoesNotExist:
             raise Http404
+
+
+class UserRegistrationMixin(object):
+    def post(self, request):
+        data = {"status": "Success"}
+        try:
+            first_name = request.data["first_name"]
+            last_name = request.data["last_name"]
+            email = request.data["email"]
+            password = request.data["password"]
+            dob = request.data["dob"]
+            hashed_password = make_password(password)
+            user = User.objects.create(first_name=first_name, last_name=last_name, email=email,
+                                       password=hashed_password,
+                                       dob=dob)
+            user.save()
+        except ValueError:
+            data['status'] = "Invalid Request"
+        except DatabaseError:
+            data['status'] = "User Already Exists"
+        return data
+
+
+class UserRegistrationView(UserRegistrationMixin, APIView):
+    def post(self, request):
+        return Response(super().post(request))
