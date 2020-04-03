@@ -1,5 +1,6 @@
 import React from "react";
 import "./MySpotlight.css";
+import "../ProjectCommon.css"
 import ProfileInfo from "../../components/Spotlight/ProfileInfo";
 import ProfileDetails from "../../components/Spotlight/ProfileDetails";
 import SocialImpact from "../../components/Spotlight/SocialImpact";
