@@ -32,7 +32,8 @@ class LearnNewSkill extends React.Component {
             projectBadge: '',
             projectMission: '',
             //project_join_date: '',
-            challengeStatus: ''
+            challengeStatus: '',
+            projectCategory: ''
         }
     };
 
@@ -47,6 +48,7 @@ class LearnNewSkill extends React.Component {
                             projectBanner: res.data.active_project_list[i].project_banner,
                             projectBadge: res.data.active_project_list[i].project_badge,
                             projectMission: res.data.active_project_list[i].project_mission,
+                            projectCategory: res.data.active_project_list[i].project_category,
                             projectJoinDate: res.data.active_project_list[i].project_join_date,
                             challengeStatus: res.data.active_project_list[i].challenge_status
                         });
@@ -81,12 +83,11 @@ class LearnNewSkill extends React.Component {
         try {
             formData.append('new_skill', this.state.newSkill);
             formData.append('description', this.state.description);
-            if (this.state.final_video) {
+            if (this.state.finalVideo) {
                 formData.append('video', this.state.finalVideo, this.state.finalVideo.name);
             }
             formData.append('project_id', this.state.projectId);
-            //formData.append('email', 'bhawanaprasadmail@gmail.com');
-            formData.append('email', cookie.load('user_emailid'));
+            formData.append('email', cookie.load('user_email'));
         } catch (err) {
             console.log(err)
         }
@@ -117,6 +118,7 @@ class LearnNewSkill extends React.Component {
                     projectBadge={this.state.projectBadge}
                     projectName={this.state.projectName}
                     projectMission={this.state.projectMission}
+                    projectCategory={this.state.projectCategory}
                     projectJoinDate={this.state.projectJoinDate}
                     challengeStatus={this.state.challengeStatus}
                     defaultIfEmpty={this.defaultIfEmpty.bind(this)}

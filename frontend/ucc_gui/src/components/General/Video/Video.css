@@ -1,8 +1,10 @@
 .project-video {
-    width: 80%;
+    width: 100%;
     margin: 10px 5px 5px 10px;
-    text-align: center;
-    align-content: center;
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .project-video-upload {
@@ -31,12 +33,31 @@
     vertical-align: top;
     margin: 20px;
     border: solid;
+    width: 600px !important;
+    height:400px !important;
 }
 
 .upload-video {
-    width: 25%;
-    margin: 5px 5px 0px 10px;
+    width: 100%;
+    margin: 0px 0px 0px 0px;
     color: #3b9f9d;
     position: relative;
     vertical-align: center;
+}
+
+.video-text{
+    padding: 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 520px) {
+    .video-upload-preview {
+    width: 300px !important;
+    height:200px !important;
+}
+    .project-video-preview {
+    line-height: 10rem;
+}
 }
