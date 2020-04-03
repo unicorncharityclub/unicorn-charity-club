@@ -1,0 +1,188 @@
+
+.profileTitle {
+    color: #2BB9B7;  
+}
+
+  /* collapse */
+  .header{
+    color: #2BB9B7;  
+    cursor: pointer; 
+    height: 100%;           
+}
+
+.content{        
+    padding: 0%;    
+    cursor: pointer;        
+    font-family: verdana;
+    font-size: 14px;
+    padding-right: 10%;   
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.horizontal {
+    width: 110%;   
+}
+
+table {
+    table-layout: fixed ;
+    width: 100% ;
+  }
+  td {
+    text-align: center;  
+    width: 25% ;
+  }
+
+.icon-down {
+    float: right;
+    padding-right: 5%;
+    font-size: large;
+}
+
+.statistics {
+    color: #e7088a;
+    font-size: 400%;
+}
+
+.statistics_titles {
+    font-size: 120%;
+    color: gray;
+}
+
+
+/* Completed Project */
+.completedproject {
+    width: 8.5em;
+    height:8.5em;     
+    border-radius: 50%;   
+}
+
+.row {
+    width: 100%;
+}
+
+.col {
+    padding-left: 5%;
+    padding-right: 5%;
+
+}
+
+.profilePic {
+    width : 12rem;
+    height : 12rem;
+    border-radius: 50%;
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto; 
+    
+    padding:1%;
+    border: 1px;
+    background-color: white;    
+
+    position: absolute;
+    top: 70%;
+    left: 40%;
+}
+
+.banner {
+    position: relative;
+}
+
+
+.profileDetails {
+    padding-top: 12%;
+    padding-bottom: 4%;
+    text-align: center;
+}
+
+
+@media only screen and (max-width: 40em){
+    .header{
+        color: #2BB9B7;  
+        cursor: pointer;    
+        background: white;
+        height: 100%;           
+    }
+
+    .icon-down {
+        float: right;
+        padding-right: 5%;
+        font-size: large;
+    }
+    
+    .collapse_title {                
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .content{            
+        cursor: pointer;        
+        font-family: verdana;
+        padding-left: 0%;
+        padding-right: 10%;        
+        left: 0%;
+        width: 100%;
+        justify-content: space-around
+    }
+
+    .statistics {
+        color: #e7088a;
+        font-size: 200%;
+    }
+
+    .statistics_titles{
+        font-size: 100%;
+        color: gray;
+    }
+
+    .row {
+        width: 100%;
+    }
+    
+    .col {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .completedproject {
+        width: 150%;
+        height:150%;
+        padding: 4%;            
+        border: 1px;
+        background-color: gray;
+    }
+
+
+    .profilePic {
+        width : 10rem;
+        height : 10rem;
+        border-radius: 50%;
+    
+        display: block;
+        margin-left: auto;
+        margin-right: auto; 
+        
+        padding:2%;
+        border: 1px;
+        background-color: white;    
+    
+        position: absolute;
+        top: 70%;
+        left: 25%;
+    }
+    
+    .banner {
+        position: relative;
+    }
+
+    .profileDetails {
+        padding-top: 19%;
+        padding-bottom: 4%;
+        text-align: center;
+    }
+    
+}
+

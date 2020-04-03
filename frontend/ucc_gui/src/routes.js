@@ -23,6 +23,7 @@ import DevelopNewHabit from "./containers/Projects/ActiveProject/Step_3/DevelopN
 import Mobile_toolbar from "./containers/Template/Header/Mobile/Mobile_toolbar";
 import VolunteerTime from "./containers/Projects/ActiveProject/Step_3/VolunteerTime/VolunteerTime";
 import SpreadTheWord from "./containers/Projects/ActiveProject/Step_3/SpreadTheWord/SpreadTheWord";
+import SpotlightHome from "./containers/Spotlight/SpotlightHome";
 import GiveADonation from "./containers/Projects/ActiveProject/Step_3/GiveADonation/GiveADonation";
 import ProjectComplete from "./containers/Projects/ActiveProject/ProjectComplete/ProjectComplete";
 
@@ -54,6 +55,7 @@ class BaseRouter extends React.Component {
                 <Route exact path='/Projects/:id/Congratulations' component={ProjectComplete} />
               <Route exact path='/AddChild' component={AddChild}/>
               <Route exact path="/Mobile_toolbar" component={Mobile_toolbar}/>
+              <Route exact path="/Spotlight" component={SpotlightHome}/>
             </div>
           );
         default:
