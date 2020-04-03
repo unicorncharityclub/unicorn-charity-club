@@ -705,6 +705,31 @@ def update_donation_details(request):
         create_donation_record(request, user_id, project_id)
 
 
+def fetch_completed_projects(request, user_email):
+    response = {'status': "Invalid Request"}
+    user_id = User.objects.get(email=user_email).id
+    project_user_list = ProjectUser.objects.filter(user_id=user_id)
+    completed_project_list = []
+    if len(project_user_list) > 0:
+        for project_user in project_user_list:
+            if project_user.challenge_status and project_user.challenge_status == "UnlockedPrize":
+                project_id = project_user.project_id
+                project = CharityProjects.objects.get(pk=project_id)
+                pu_id = project_user.id
+                project_badge = request.build_absolute_uri(project.badge.url)
+                prize_id = find_user_prize(pu_id)
+                prize = Prize.objects.get(pk=prize_id)
+                prize_image = request.build_absolute_uri(prize.image.url)
+                project_details = {"project_id": project_id, "badge": project_badge, "prize": prize_image}
+                completed_project_list.append(project_details)
+        response["completed_projects"] = completed_project_list
+        response["status"] = "Success"
+    else:
+        response["status"] = "User has no completed projects"
+
+    return JsonResponse(response)
+
+
 def find_user_prize(project_user_id):
     project_user_details = ProjectUserDetails.objects.get(project_user_id=project_user_id)
     prize_given_id = project_user_details.prize_given_id
