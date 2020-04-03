@@ -4,4 +4,8 @@
     .SpotlightPage {
         padding-bottom: 50%;
     }
+
+    .content-wrapper {
+        padding-bottom: 20%;
+    }
 }

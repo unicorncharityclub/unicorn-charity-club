@@ -6,9 +6,16 @@ import CollapseComponent from "./CollapseComponent";
 class SocialImpact extends React.Component {
   render() {
     return (
-        <div>          
-          <CollapseComponent title = "My Social Impact"/>              
+      <div>
+        <div className = "content_spotlightInfo_vertical">          
+          <CollapseComponent isVertical = {true} title = "My Social Impact"/>              
         </div>
+
+        <div className = "content_spotlightInfo">          
+          <CollapseComponent  title = "My Social Impact"/>              
+        </div>
+
+      </div>
     );
   }
 }
