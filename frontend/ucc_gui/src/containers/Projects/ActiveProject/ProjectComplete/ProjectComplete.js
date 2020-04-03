@@ -1,40 +1,35 @@
 import React from "react";
-import DevelopNewHabitComponent
-    from "../../../../../components/Project/ActiveProject/Step_3/DevelopNewHabit/DevelopNewHabitComponent";
-import {Container} from "@material-ui/core";
 import * as cookie from "react-cookies";
-import AxiosConfig from "../../../../../axiosConfig";
+import AxiosConfig from "../../../../axiosConfig";
+import ProjectCompleteComponent
+    from "../../../../components/Project/ActiveProject/ProjectComplete/ProjectCompleteComponent";
 
 /**
- * @description Saves and fetches all the information of the Challenge 3 Develop new habit
- * @class DevelopNewHabit
- * @implements DevelopNewHabitComponent
+ * @description Displays the prize earned by a user after completion of a project.
+ * @class ProjectComplete
+ * @implements ProjectCompleteComponent
  * @extends React.Component
- * @type {DevelopNewHabit}
- * @example <DevelopNewHabit />
+ * @type {ProjectComplete}
+ * @example <ProjectComplete />
  * pre-condition: all the imports
- * post-condition: saves all the information of the Develop new habit page
+ * post-condition: saves the prize earned by the user.
  * @param null
- * @returns {DevelopNewHabit}
+ * @returns {ProjectComplete}
  */
 
-class DevelopNewHabit extends React.Component {
+class ProjectComplete extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            newHabit: '',
-            description: '',
-            video: '',
-            finalVideo: '',
             projectId: this.props.match.params.id,
             projectName: '',
             projectBanner: '',
             projectBadge: '',
-            projectMission: '',
             //project_join_date: '',
             challengeStatus: '',
-            projectCategory: ''
+            projectMission: '',
+            image: ''
         }
     };
 
@@ -49,7 +44,6 @@ class DevelopNewHabit extends React.Component {
                             projectBanner: res.data.active_project_list[i].project_banner,
                             projectBadge: res.data.active_project_list[i].project_badge,
                             projectMission: res.data.active_project_list[i].project_mission,
-                            projectCategory: res.data.active_project_list[i].project_category,
                             projectJoinDate: res.data.active_project_list[i].project_join_date,
                             challengeStatus: res.data.active_project_list[i].challenge_status
                         });
@@ -59,43 +53,19 @@ class DevelopNewHabit extends React.Component {
             }).catch(error => console.log(error))
     };
 
-    defaultIfEmpty(value) {
-        return value === "" ? "" : value;
-    }
-
-    changeHandler(event) {
-        this.setState({
-            ...this.state,
-            [event.target.name]: event.target.value
-        })
-    };
-
-    videoHandler(event) {
-        this.setState({
-            video: URL.createObjectURL(event.target.files[0]),
-            finalVideo: event.target.files[0]
-        });
-    };
-
-
     saveHandler(event, requestType) {
         //event.preventDefault();
         let formData = new FormData();
         try {
-            formData.append('new_habit', this.state.newHabit);
-            formData.append('description', this.state.description);
-            if (this.state.finalVideo) {
-                formData.append('video', this.state.finalVideo, this.state.finalVideo.name);
-            }
+            formData.append('prize', this.state.image);
             formData.append('project_id', this.state.projectId);
-            formData.append('email', cookie.load('user_email'));
         } catch (err) {
             console.log(err)
         }
 
         switch (requestType) {
             case 'post':
-                return AxiosConfig.post('charityproject/DevelopNewHabit', formData,
+                return AxiosConfig.post('charityproject/', formData,
                     {
                         headers: {
                             'content-type': 'multipart/form-data'
@@ -111,23 +81,18 @@ class DevelopNewHabit extends React.Component {
     render() {
         return (
             <div>
-                <DevelopNewHabitComponent newHabit={this.state.newHabit}
-                                          description={this.state.description}
-                                          video={this.state.video}
-                                          projectBanner={this.state.projectBanner}
+                <ProjectCompleteComponent projectBanner={this.state.projectBanner}
                                           projectBadge={this.state.projectBadge}
                                           projectName={this.state.projectName}
                                           projectJoinDate={this.state.projectJoinDate}
                                           challengeStatus={this.state.challengeStatus}
                                           projectMission={this.state.projectMission}
-                                          projectCategory={this.state.projectCategory}
-                                          defaultIfEmpty={this.defaultIfEmpty.bind(this)}
-                                          changeHandler={this.changeHandler.bind(this)}
-                                          videoHandler={this.videoHandler.bind(this)}
+                                          image={this.state.image}
                                           saveHandler={this.saveHandler.bind(this)}/>
+
             </div>
         )
     }
 }
 
-export default DevelopNewHabit;
+export default ProjectComplete;
