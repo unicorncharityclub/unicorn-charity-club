@@ -168,7 +168,8 @@ table {
     width: 50%;
 }
 
-@media (min-width:1200px and max-width: 1600px) { 
+
+@media (min-width:1200px) and (max-width: 1600px){ 
     
     .content_spotlightInfo_vertical {
         width: 25%;
