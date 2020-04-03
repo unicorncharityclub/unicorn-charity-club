@@ -53,12 +53,13 @@ class ChildProfileMixin(object):
 
     def post(self, request, child_user_id, parent_user_id):
         try:
-
-            child_profile = ChildProfile.objects.create(school=request.data["school"],
-                                                        school_grade=request.data["school_grade"],
-                                                        user_id=child_user_id,
-                                                        parent_id=parent_user_id,)
-            child_profile.save()
+            data = {"user": child_user_id, "parent": parent_user_id,
+                    "school": request.data["school"], "school_grade": request.data["school_grade"]}
+            serializer = ChildProfileSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                raise Http404
         except Exception:
             raise Http404
 

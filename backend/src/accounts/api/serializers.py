@@ -8,6 +8,7 @@ class AccountSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
+
 class AccountDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
