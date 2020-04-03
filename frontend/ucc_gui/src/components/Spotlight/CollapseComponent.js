@@ -115,25 +115,100 @@ class CollapseComponent extends React.Component {
       }      
   }
 
+  renderContentVertical () {
+    return (  
+      <div>                   
+          <div className="center_vertical_content">    
+            <p className="statistics">
+                4
+            </p>
+            <p className="statistics_titles">
+              Total Projects
+            </p>
+
+            <p className="statistics">
+              798
+            </p>
+            <p className="statistics_titles" >
+              Total People Reached
+            </p>
+
+            <p className="statistics">
+              122
+            </p>
+            <p className="statistics_titles">
+              Total Volunteer Hours
+            </p>
+
+            <p className="statistics">
+              $829
+            </p>
+            <p className="statistics_titles">
+              Total Funds Raised
+            </p>
+        </div>   
+      </div>
+      
+    );
+  }
+
+
   render() {
-  return (
-      <div>
-        <div onClick={(e)=>this.togglePanel(e)} className="header">
-            <h3>             
-              <span className="collapse_title">{this.props.title}</span>
-              <span class='icon-down'>&#709;</span>
-            </h3>             
-        </div>
-          {this.state.open ? 
-          (
-            <div className="content">    
-              {/* render inside content */}
-              { this.renderContent(this.props.title) } 
-              <br/>             
-              <hr className="horizontal"/>                         
-            </div>) : <hr/>}
-        </div>
-      );
+    
+    if (this.props.isVertical){      
+      return (
+        <div className="content_section vertical">
+
+          <div> 
+              {/* profile pic details here */}
+              <Image className="profile_pic_vertical" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg" />
+          </div> 
+
+          <div className ="profileDetails_vertical">
+            <h3>Name</h3>
+            <h6>Age</h6>
+            <h6>City, State</h6>
+          </div>
+
+          <hr className = "hr_vertical"/>
+          <div onClick={(e)=>this.togglePanel(e)} className="header">
+              <p>             
+                <span className="collapse_title">{this.props.title}</span>
+                <span class='icon-down'>&#709;</span>
+              </p>             
+          </div>                      
+              <div className="content">                    
+                { this.renderContentVertical() } 
+                <br/>                             
+              </div>          
+          </div>
+        );
+    }else if (!this.props.isVertical){
+      // horizontal
+      console.log(this.props.title)
+      return (
+        <div className="content_section">
+          <div onClick={(e)=>this.togglePanel(e)} className="header">
+              <h3>             
+                <span className="collapse_title">{this.props.title}</span>
+                <span class='icon-down'>&#709;</span>
+              </h3>             
+          </div>
+          
+            {this.state.open ? 
+            (
+              <div className="content">    
+                {/* render inside content */}
+                { this.renderContent(this.props.title) } 
+                <br/>             
+                <hr className="horizontal"/>                         
+              </div>) : <hr/>}
+          
+          </div>
+        );
+
+    }
+  
     }
   }
 
