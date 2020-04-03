@@ -86,10 +86,12 @@ def get_active_project_details(request, user_email):
                     project_badge = request.build_absolute_uri(project.badge.url)
                     project_banner = request.build_absolute_uri(project.banner.url)
                     project_mission = project.mission
+                    project_category = project.category
                     joined_date = project_user.date_joined
                     challenge_status = project_user.challenge_status
                     project_info = {"project_id": project_id, "project_name": project_name, "project_badge": project_badge,
                                     "project_banner": project_banner, "project_mission": project_mission,
+                                    "project_category": project_category,
                                     "project_join_date": joined_date, "challenge_status": challenge_status}
                     active_charity_project_list.append(project_info)
             response['active_project_list'] = active_charity_project_list

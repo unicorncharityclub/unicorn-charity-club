@@ -31,28 +31,32 @@ class DevelopNewHabit extends React.Component {
             projectName: '',
             projectBanner: '',
             projectBadge: '',
+            projectMission: '',
             //project_join_date: '',
-            challengeStatus: ''
+            challengeStatus: '',
+            projectCategory: ''
         }
     };
 
-    componentDidMount () {
+    componentDidMount() {
         AxiosConfig.get(`charityproject/activeProjectList/${cookie.load('user_email')}`)
-      .then(res => {
-          for(let i=0; i < res.data.active_project_list.length; i++) {
-              if(res.data.active_project_list[i].project_id === parseInt(this.state.projectId)) {
-                  console.log("inside");
-                  this.setState({
-                      projectName: res.data.active_project_list[i].project_name,
-                      projectBanner: res.data.active_project_list[i].project_banner,
-                      projectNadge: res.data.active_project_list[i].project_badge,
-                      projectJoinDate: res.data.active_project_list[i].project_join_date,
-                      challengeStatus: res.data.active_project_list[i].challenge_status
-                  });
-              }
-          }
-              console.log(res.data);
-      }).catch(error => console.log(error))
+            .then(res => {
+                for (let i = 0; i < res.data.active_project_list.length; i++) {
+                    if (res.data.active_project_list[i].project_id === parseInt(this.state.projectId)) {
+                        console.log("inside");
+                        this.setState({
+                            projectName: res.data.active_project_list[i].project_name,
+                            projectBanner: res.data.active_project_list[i].project_banner,
+                            projectBadge: res.data.active_project_list[i].project_badge,
+                            projectMission: res.data.active_project_list[i].project_mission,
+                            projectCategory: res.data.active_project_list[i].project_category,
+                            projectJoinDate: res.data.active_project_list[i].project_join_date,
+                            challengeStatus: res.data.active_project_list[i].challenge_status
+                        });
+                    }
+                }
+                console.log(res.data);
+            }).catch(error => console.log(error))
     };
 
     defaultIfEmpty(value) {
@@ -80,11 +84,10 @@ class DevelopNewHabit extends React.Component {
         try {
             formData.append('new_habit', this.state.newHabit);
             formData.append('description', this.state.description);
-            if (this.state.final_video) {
+            if (this.state.finalVideo) {
                 formData.append('video', this.state.finalVideo, this.state.finalVideo.name);
             }
             formData.append('project_id', this.state.projectId);
-            //formData.append('email', 'bhawanaprasadmail@gmail.com');
             formData.append('email', cookie.load('user_email'));
         } catch (err) {
             console.log(err)
@@ -108,20 +111,20 @@ class DevelopNewHabit extends React.Component {
     render() {
         return (
             <div>
-                <Container>
-                    <DevelopNewHabitComponent newHabit={this.state.newHabit}
-                                              description={this.state.description}
-                                              video={this.state.video}
-                                              projectBanner={this.state.projectBanner}
-                                              projectBadge={this.state.projectBadge}
-                                              projectName={this.state.projectName}
-                                              projectJoinDate={this.state.projectJoinDate}
-                                              challengeStatus={this.state.challengeStatus}
-                                              defaultIfEmpty={this.defaultIfEmpty.bind(this)}
-                                              changeHandler={this.changeHandler.bind(this)}
-                                              videoHandler={this.videoHandler.bind(this)}
-                                              saveHandler={this.saveHandler.bind(this)}/>
-                </Container>
+                <DevelopNewHabitComponent newHabit={this.state.newHabit}
+                                          description={this.state.description}
+                                          video={this.state.video}
+                                          projectBanner={this.state.projectBanner}
+                                          projectBadge={this.state.projectBadge}
+                                          projectName={this.state.projectName}
+                                          projectJoinDate={this.state.projectJoinDate}
+                                          challengeStatus={this.state.challengeStatus}
+                                          projectMission={this.state.projectMission}
+                                          projectCategory={this.state.projectCategory}
+                                          defaultIfEmpty={this.defaultIfEmpty.bind(this)}
+                                          changeHandler={this.changeHandler.bind(this)}
+                                          videoHandler={this.videoHandler.bind(this)}
+                                          saveHandler={this.saveHandler.bind(this)}/>
             </div>
         )
     }
