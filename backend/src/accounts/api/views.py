@@ -2,10 +2,8 @@ from django.db import DatabaseError
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib.auth.hashers import make_password, check_password
-from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from braces import views
 
 from profile.models import ChildProfile, Profile
 from .serializers import AccountDetailsSerializer, AccountUpdateSerializer, AccountSerializer
@@ -105,12 +103,12 @@ class UserAccountIdMixin(object):
 
 
 class UserRegistrationMixin(object):
-    def post(self, request):
+    def post(self, request, user_email):
         data = {"status": "Success"}
         try:
             first_name = request.data["first_name"]
             last_name = request.data["last_name"]
-            email = request.data["email"]
+            email = user_email
             password = request.data["password"]
             dob = request.data["dob"]
             hashed_password = make_password(password)
@@ -127,4 +125,4 @@ class UserRegistrationMixin(object):
 
 class UserRegistrationView(UserRegistrationMixin, APIView):
     def post(self, request):
-        return Response(super().post(request))
+        return Response(super().post(request, request.data["email"]))
