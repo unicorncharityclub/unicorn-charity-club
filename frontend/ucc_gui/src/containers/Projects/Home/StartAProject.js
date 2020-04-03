@@ -6,6 +6,7 @@ import AxiosConfig from '../../../axiosConfig'
 import ActiveProjectInfo from "../../../components/Project/Home/ActiveProjectHomeInfo/ActiveProjectInfo";
 import cookie from "react-cookies";
 import {Container} from "@material-ui/core";
+import VerticalSpotlightDetails from '../../../components/Spotlight/VerticalSpotlightDetails';
 
 
 class ProjectsHome extends React.Component {
@@ -115,6 +116,9 @@ class ProjectsHome extends React.Component {
     return (
       <div>
         <Container>
+        {/* put here the vertical component for spotlight */}
+        <VerticalSpotlightDetails isSpotlightPage = {false}/>
+
         <div className = "content_section">
           <div className="textHeader">
               Invitations
