@@ -1,10 +1,11 @@
 import React from "react";
 import "./Spotlight_Common.css";
+import "../../containers/ProjectCommon.css";
 
 class ProfileDetails extends React.Component {
   render() {
     return (
-        <div>
+        <div className="content_section">
             <h4 className="profileTitle">About Me</h4> 
             <p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
@@ -36,7 +37,7 @@ class ProfileDetails extends React.Component {
               <li>Milk</li>
             </ul>
 
-            <hr/>
+            <hr className="horizontal"/>
         </div>
     );
   }
