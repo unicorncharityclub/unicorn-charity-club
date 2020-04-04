@@ -33,28 +33,39 @@ class LearnNewSkill extends React.Component {
             projectMission: '',
             //project_join_date: '',
             challengeStatus: '',
-            projectCategory: ''
+            projectCategory: '',
+            challenge_present: false
         }
     };
 
     componentDidMount() {
-        AxiosConfig.get(`charityproject/activeProjectList/${cookie.load('user_email')}`)
-            .then(res => {
-                for (let i = 0; i < res.data.active_project_list.length; i++) {
-                    if (res.data.active_project_list[i].project_id === parseInt(this.state.projectId)) {
-                        console.log("inside");
+        Promise.all([
+        AxiosConfig.get(`charityproject/activeProjectList/${cookie.load('user_email')}`),
+        AxiosConfig.get(`charityproject/LearnNewSkill/${this.state.projectId}/${cookie.load('user_email')}`)])
+            .then(([res1, res2]) => {
+                for (let i = 0; i < res1.data.active_project_list.length; i++) {
+                    if (res1.data.active_project_list[i].project_id === parseInt(this.state.projectId)) {
                         this.setState({
-                            projectName: res.data.active_project_list[i].project_name,
-                            projectBanner: res.data.active_project_list[i].project_banner,
-                            projectBadge: res.data.active_project_list[i].project_badge,
-                            projectMission: res.data.active_project_list[i].project_mission,
-                            projectCategory: res.data.active_project_list[i].project_category,
-                            projectJoinDate: res.data.active_project_list[i].project_join_date,
-                            challengeStatus: res.data.active_project_list[i].challenge_status
+                            projectName: res1.data.active_project_list[i].project_name,
+                            projectBanner: res1.data.active_project_list[i].project_banner,
+                            projectBadge: res1.data.active_project_list[i].project_badge,
+                            projectMission: res1.data.active_project_list[i].project_mission,
+                            projectCategory: res1.data.active_project_list[i].project_category,
+                            projectJoinDate: res1.data.active_project_list[i].project_join_date,
+                            challengeStatus: res1.data.active_project_list[i].challenge_status
                         });
                     }
                 }
-                console.log(res.data);
+                if(res2.data) {
+                    this.setState({
+                        newSkill: res2.data.new_skill,
+                        description: res2.data.description,
+                        video: res2.data.video,
+                        challenge_present: true
+                    });
+                    console.log(this.state.challenge_present);
+                }
+                console.log(res1.data);
             }).catch(error => console.log(error))
     };
 
