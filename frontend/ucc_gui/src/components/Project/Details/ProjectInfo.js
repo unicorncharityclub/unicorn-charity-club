@@ -49,7 +49,16 @@ class ProjectInfo extends React.Component {
                     className="start_project_info_badge_image"
                     roundedCircle/>
                         </td>
-                      </tr>
+                      </tr> <br/>
+
+                    <div className="dottedLine">
+                    <tr>
+                        <td valign="top">
+                          <hr/>
+                        </td>
+                    </tr>
+                    </div>
+
                       <tr>
                         <td>
                           <TextBlackHeading message={this.state.projectName} />
@@ -115,6 +124,8 @@ class ProjectInfo extends React.Component {
                     className="start_project_info_badge_image"
                     roundedCircle
                   />
+
+
                 </div>
                 <div className="start_project_info_text">
                   <table>
