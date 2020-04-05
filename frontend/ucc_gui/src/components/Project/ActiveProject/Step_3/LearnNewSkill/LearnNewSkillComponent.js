@@ -82,8 +82,8 @@ class LearnNewSkillComponent extends React.Component {
                                    onChange={this.props.videoHandler.bind(this)}/>
                             <div className="navigate-save">
                                 <TwoButtonLayout button1Text="SAVE" button2Text="DONE"
-                                                 button1Click={(event) => this.props.saveHandler(event, 'post')}
-                                                 button2Click={(event) => this.props.saveHandler(event, 'post')}/>
+                                                 button1Click={(event) => this.props.saveHandler(event, 'save')}
+                                                 button2Click={(event) => this.props.saveHandler(event, 'done')}/>
                             </div>
                         </div>
                     </div>
