@@ -33,8 +33,7 @@ class LearnNewSkill extends React.Component {
             projectMission: '',
             //project_join_date: '',
             challengeStatus: '',
-            projectCategory: '',
-            challenge_present: false
+            projectCategory: ''
         }
     };
 
@@ -60,8 +59,7 @@ class LearnNewSkill extends React.Component {
                     this.setState({
                         newSkill: res2.data.new_skill,
                         description: res2.data.description,
-                        video: res2.data.video,
-                        challenge_present: true
+                        video: res2.data.video
                     });
                     console.log(this.state.challenge_present);
                 }
