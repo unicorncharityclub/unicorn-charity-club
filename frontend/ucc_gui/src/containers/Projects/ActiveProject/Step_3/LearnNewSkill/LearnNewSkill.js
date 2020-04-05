@@ -40,8 +40,8 @@ class LearnNewSkill extends React.Component {
 
     componentDidMount() {
         Promise.all([
-        AxiosConfig.get(`charityproject/activeProjectList/${cookie.load('user_email')}`),
-        AxiosConfig.get(`charityproject/LearnNewSkill/${this.state.projectId}/${cookie.load('user_email')}`)])
+            AxiosConfig.get(`charityproject/activeProjectList/${cookie.load('user_email')}`),
+            AxiosConfig.get(`charityproject/LearnNewSkill/${this.state.projectId}/${cookie.load('user_email')}`)])
             .then(([res1, res2]) => {
                 for (let i = 0; i < res1.data.active_project_list.length; i++) {
                     if (res1.data.active_project_list[i].project_id === parseInt(this.state.projectId)) {
@@ -56,7 +56,7 @@ class LearnNewSkill extends React.Component {
                         });
                     }
                 }
-                if(res2.data) {
+                if (res2.data) {
                     this.setState({
                         newSkill: res2.data.new_skill,
                         description: res2.data.description,
@@ -88,7 +88,7 @@ class LearnNewSkill extends React.Component {
     };
 
 
-    saveHandler(event, requestType) {
+    saveHandler(event, save_option) {
         //event.preventDefault();
         let formData = new FormData();
         try {
@@ -99,23 +99,21 @@ class LearnNewSkill extends React.Component {
             }
             formData.append('project_id', this.state.projectId);
             formData.append('email', cookie.load('user_email'));
+            formData.append('save_option', save_option);
         } catch (err) {
             console.log(err)
         }
+        return AxiosConfig.post('charityproject/LearnNewSkill', formData,
+            {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(error => console.log(error))
 
-        switch (requestType) {
-            case 'post':
-                return AxiosConfig.post('charityproject/LearnNewSkill', formData,
-                    {
-                        headers: {
-                            'content-type': 'multipart/form-data'
-                        }
-                    })
-                    .then(res => {
-                        console.log(res)
-                    })
-                    .catch(error => console.log(error))
-        }
     };
 
     render() {

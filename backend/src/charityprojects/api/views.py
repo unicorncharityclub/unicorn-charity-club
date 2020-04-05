@@ -232,19 +232,19 @@ def challenge_learn_new_skill(request):
         new_skill_list['video'] = request.data['video']
     project_id = request.data["project_id"]
     project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # from project user table get id
-    print(project_user_record)
     if project_user_record:
         project_user_id = project_user_record.id
-        print(project_user_id)
         new_skill_list['project_user'] = project_user_id
-        project_user_record.challenge_status = "Challenge3Complete"
-        project_user_record.save()
-    data_serializer = LearnNewSkillSerializer(data=new_skill_list)
-    if data_serializer.is_valid():
-        data_serializer.save()
-        return Response(data_serializer.data, status=status.HTTP_201_CREATED)
-    else:
-        return Response(data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if 'done' in request.data['save_option']:
+            project_user_record.challenge_status = "Challenge3Complete"
+            project_user_record.save()
+        challenge_skill = LearnNewSkill.objects.filter(project_user_id=project_user_id).first()
+        data_serializer = LearnNewSkillSerializer(challenge_skill, data=new_skill_list)
+        if data_serializer.is_valid():
+            data_serializer.save()
+            return Response(data_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return JsonResponse(response)
 
 
