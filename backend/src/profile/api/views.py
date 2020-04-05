@@ -4,6 +4,8 @@ import random
 from django.contrib.auth.hashers import make_password
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
+
+from accounts.api.serializers import AccountDetailsSerializer
 from accounts.api.views import UserAccountEmailMixin, UserAccountIdMixin
 from accounts.models import User
 from .serializers import ProfileSerializer, ChildProfileSerializer
@@ -109,9 +111,16 @@ class ChildrenListMixin(UserAccountIdMixin, ParentProfileMixin, object):
         return result
 
 
-class ProfileDetailView(UserAccountEmailMixin, ProfileMixin, APIView):
+#class ProfileDetailView(UserAccountEmailMixin, ProfileMixin, APIView):
+class ProfileDetailView(APIView):
     def get(self, request, user_email):
-        return Response(super().get(request, user_email))
+        user = User.objects.get(email=user_email)
+        user_serializer = AccountDetailsSerializer(user)
+
+        #serializer = ProfileSerializer(Profile.objects.get(id = User.objects.get(email=user_email).id))
+        #print(serializer.data)
+        #return Response(super().get(request, user_email))
+        return Response(user_serializer.data)
 
     @method_decorator(csrf_protect)
     def put(self, request, user_email):
@@ -156,7 +165,7 @@ class AddChildView(APIView):
             raise Http404
         except ValueError:
             raise Http404
-        except:
+        except Exception:
             raise Http404
 
         return Response({'status': 'Success'})

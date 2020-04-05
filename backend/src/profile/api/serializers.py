@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from accounts.api.serializers import AccountDetailsSerializer
 from accounts.models import User
 from ..models import Profile, ChildProfile
 

@@ -2,11 +2,12 @@ from django.db import DatabaseError
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib.auth.hashers import make_password, check_password
+from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from profile.models import ChildProfile, Profile
-from .serializers import AccountDetailsSerializer, AccountUpdateSerializer, AccountSerializer
+from .serializers import AccountDetailsSerializer
 from ..models import User
 import json
 from django.http import JsonResponse
@@ -81,7 +82,7 @@ class UserAccountEmailMixin(object):
     def put(self, request, user_email):
         try:
             user_model = User.objects.get(email=user_email)
-            serializer = AccountUpdateSerializer(user_model, data=request.data)
+            serializer = AccountDetailsSerializer(user_model, data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 super().put(request, user_model.id)
@@ -102,27 +103,17 @@ class UserAccountIdMixin(object):
             raise Http404
 
 
-class UserRegistrationMixin(object):
-    def post(self, request, user_email):
+class UserRegistrationView(generics.CreateAPIView):
+    serializer_class = AccountDetailsSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer()
         data = {"status": "Success"}
-        try:
-            first_name = request.data["first_name"]
-            last_name = request.data["last_name"]
-            email = user_email
-            password = request.data["password"]
-            dob = request.data["dob"]
-            hashed_password = make_password(password)
-            user = User.objects.create(first_name=first_name, last_name=last_name, email=email,
-                                       password=hashed_password,
-                                       dob=dob)
-            user.save()
-        except ValueError:
+        if serializer.is_valid:
+            try:
+                super().post(request)
+            except Exception:
+                data['status'] = "User Already Exist"
+        else:
             data['status'] = "Invalid Request"
-        except DatabaseError:
-            data['status'] = "User Already Exists"
-        return data
-
-
-class UserRegistrationView(UserRegistrationMixin, APIView):
-    def post(self, request):
-        return Response(super().post(request, request.data["email"]))
+        return Response(data)
