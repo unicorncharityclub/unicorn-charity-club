@@ -110,10 +110,10 @@ class LearnNewSkill extends React.Component {
                 }
             })
             .then(res => {
-                console.log(res)
+                console.log(res);
+                this.props.history.push('/Projects/');
             })
-            .catch(error => console.log(error))
-
+            .catch(error => console.log(error));
     };
 
     render() {
