@@ -21,33 +21,35 @@ class GiveADonation extends React.Component {
     }
  }
 
- onSubmit() {
+ onSubmit(event, action_type) {
      let formData = new FormData();
         try {
             formData.append('user_email', this.state.userEmail);
             formData.append('project_id', this.state.projectId);
-            formData.append(' organisation_name', this.state.name);
-            formData.append(' organisation_address', this.state.address);
-            formData.append(' organisation_city', this.state.city);
+            formData.append('organisation_name', this.state.name);
+            formData.append('organisation_address', this.state.address);
+            formData.append('organisation_city', this.state.city);
             formData.append('website', this.state.website);
-            formData.append(' organisation_state', this.state.stateName);
-            formData.append('description', this.state.description);
+            formData.append('organisation_state', this.state.stateName);
+            formData.append('details', this.state.description);
+            formData.append('action_type', action_type );
             if (this.state.finalVideo) {
                 formData.append('exp_video', this.state.finalVideo);
             }
         } catch (err) {
             console.log(err)
         }
-        AxiosConfig.defaults.withCredentials = true;
-        AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-        AxiosConfig.post('charityproject/giveDonation', formData,
-            {
+
+                AxiosConfig.defaults.withCredentials = true;
+                AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+                AxiosConfig.post('charityproject/giveDonation', formData,
+                    {
                         headers: {
                             'content-type': 'multipart/form-data'
                         }
                     })
-                .then(res => console.log(res))
-                .catch(error => console.log(error))
+                    .then(res => console.log(res))
+                    .catch(error => console.log(error))
  }
 
 defaultIfEmpty(value){
