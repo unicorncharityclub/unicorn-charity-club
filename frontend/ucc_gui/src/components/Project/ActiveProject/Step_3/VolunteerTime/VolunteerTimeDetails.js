@@ -93,11 +93,10 @@ class VolunteerTimeDetails extends React.Component {
                            type="file"
                            name="video"
                            accept="video/*"
-                           onChange={this.props.videoHandler.bind(this)}/>
-                           <div>
+                           onChange={this.props.videoHandler.bind(this)}/> <br/>
+
                     <TwoButtonLayout button1Text="SAVE" button2Text="COMPLETE PROJECT"
                            button1Click={this.props.onSubmit} button2Click={this.props.onSubmit}/>
-                           </div>
 
                   </div>
                 </form>
