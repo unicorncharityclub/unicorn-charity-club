@@ -24,7 +24,7 @@ class Address extends React.Component {
                 <form>
                         <div className="project-form-address">
                         <br/>
-                              <TextBlackSubHeading message = "1. Local Organization"/> <br/>
+                              <TextBlackSubHeading message = "1. Charitable Organization"/> <br/>
                               <Input type="text"
                                     name="name"
                                      placeholder="Name"
