@@ -1,12 +1,8 @@
 from django.urls import path
 from accounts.api import views
 
-from .views import (
-     login_user
-)
-
 urlpatterns = [
-    #path('register', register_user_view),
     path('register', views.UserRegistrationView.as_view()),
-    path('login', login_user),
+    path('login', views.UserLoginView.as_view()),
+    path('addchild/<str:user_email>', views.AddChildView.as_view()),
 ]

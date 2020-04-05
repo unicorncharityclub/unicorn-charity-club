@@ -1,6 +1,6 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
-from ..models import User
+from accounts.models import User
 
 
 class AccountDetailsSerializer(serializers.ModelSerializer):
@@ -25,3 +25,4 @@ class AccountDetailsSerializer(serializers.ModelSerializer):
         result.pop('is_staff')
         result.update({"full_name": result["first_name"] + " " + result["last_name"]})
         return result
+
