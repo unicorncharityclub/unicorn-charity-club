@@ -24,6 +24,18 @@
     padding: 0%;    
     cursor: pointer;        
     font-family: verdana;
+    /* font-size: 14px; */
+    /* padding-right: 10%;    */
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.content_vertical {
+    padding: 0%;    
+    cursor: pointer;        
+    font-family: verdana;
     font-size: 14px;
     /* padding-right: 10%;    */
     left: 0%;
@@ -54,6 +66,10 @@ table {
 
 .icon-down-vertical {
     display: none;
+}
+
+.collapse_title {
+    float: left;
 }
 
 .hr_vertical {
@@ -168,11 +184,17 @@ table {
     width: 50%;
 }
 
+.vertical_project {
+    float: left;
+    width: 18%;
+}
+
+
 
 @media (min-width:1200px) and (max-width: 1600px){ 
     
     .content_spotlightInfo_vertical {
-        width: 25%;
+        width: 40%;
         float: left;
         position: absolute;
         padding-top: 1.7%;
@@ -181,6 +203,12 @@ table {
     .vertical {
         float: left;
         width: 33%;
+    }
+
+    
+    .vertical_project { 
+        float: left;
+        width: 18%;
     }
 
     .profile_pic_vertical {
@@ -212,12 +240,12 @@ table {
 
     .vertical {
         float: left;
-        width: 33%;
+        width: 36%;
     }
 
     .profile_pic_vertical {
-        width : 9vw;
-        height : 9vw;
+        width : 12vw;
+        height : 12vw;
         border-radius: 50%;
     
         display: block;
@@ -286,7 +314,9 @@ table {
     
     .collapse_title {                
         overflow: hidden;
-        white-space: nowrap;
+        white-space: nowrap;  
+        float: left;    
+        padding-bottom: 15px;  
     }
 
     
@@ -366,13 +396,17 @@ table {
     }
 
     .content_section {
-        margin-bottom: 0px;
+        margin-bottom: -4px;
     }
 
     .profileInfo {
         padding-bottom: 4%;
         padding-top: 0%;
         width:100%;        
+    }
+
+    .vertical_project {
+       display: none;
     }
 
 }
