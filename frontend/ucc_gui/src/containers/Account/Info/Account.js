@@ -121,7 +121,7 @@ class Account extends React.Component {
                     'content-type': 'multipart/form-data'
                 }
             })
-            .then(res => console.log(res))
+            .then()
             .catch(error => console.log(error));
   }
 

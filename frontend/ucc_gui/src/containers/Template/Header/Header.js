@@ -17,12 +17,12 @@ class Header extends React.Component {
      super(props);
      this.userList = cookie.load('user_list');
      this.userEmail = cookie.load('user_email');
-     this.state = {email: "", name: "", photo: ""};
+     this.state = {email: "", fullName: "", profilePic: ""};
      for (let i in this.userList) {
          if (this.userList[i].email === this.userEmail) {
              this.state["email"] = this.userList[i].email;
-             this.state["name"] = this.userList[i].name;
-             this.state["photo"] = this.userList[i].photo;
+             this.state["fullName"] = this.userList[i].full_name;
+             this.state["profilePic"] = this.userList[i].profile_pic;
          }
      }
  }
@@ -37,17 +37,17 @@ class Header extends React.Component {
         <header className="header">
           <div className="header__mobile-child-select">
             <div className="child-select__item">
-              {this.state.photo !== '' ? (
+              {this.state.profilePic !== '' ? (
                             <div
                                 className="child-select__avatar"
-                                style={{backgroundImage: `url(${this.state.photo})`}}
-                                alt={this.state.name}
+                                style={{backgroundImage: `url(${this.state.profilePic})`}}
+                                alt={this.state.fullName}
                             />
                         ) :
                         (<div
                                 className="child-select__avatar"
                                 style={{backgroundImage: `url(${UploadPhoto})`}}
-                                alt={this.state.name}
+                                alt={this.state.fullName}
                             />)
                     }
             </div>
@@ -72,22 +72,22 @@ class Header extends React.Component {
               <div className="child-select__item--main">
                 <div className="child-select__item">
 
-                    {this.state.photo !== '' ? (
+                    {this.state.profilePic !== '' ? (
                             <div
                                 className="child-select__avatar"
-                                style={{backgroundImage: `url(${this.state.photo})`}}
-                                alt={this.state.name}
+                                style={{backgroundImage: `url(${this.state.profilePic})`}}
+                                alt={this.state.fullName}
                             />
                         ) :
                         (<div
                                 className="child-select__avatar"
                                 style={{backgroundImage: `url(${UploadPhoto})`}}
-                                alt={this.state.name}
+                                alt={this.state.fullName}
                             />)
                     }
                   <div className="child-select__info">
                     <div className="child-select__name">
-                      {this.state.name}<span className="dropdown-icon"/>
+                      {this.state.fullName}<span className="dropdown-icon"/>
                     </div>
                   </div>
                 </div>

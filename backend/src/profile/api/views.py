@@ -11,6 +11,8 @@ from profile.models import Profile, ChildProfile
 
 
 class ChildrenListMixin(object):
+    request = None
+
     def get(self, request, *args, **kwargs):
         try:
             child_list = []
@@ -20,7 +22,7 @@ class ChildrenListMixin(object):
                 children = ChildProfile.objects.filter(parent_id=parent_id)
                 for child in children:
                     profile = Profile.objects.get(user_id=child.user_id)
-                    profile_serializer = ProfileSerializer(profile, context={'request': request})
+                    profile_serializer = ProfileSerializer(profile, context={'request': self.request})
                     child_data = AccountDetailsSerializer(User.objects.get(id=child.user_id)).data
                     child_data.update(profile_serializer.data)
                     child_list.append(child_data)
@@ -54,13 +56,15 @@ class ProfileDetailView(APIView):
             # Updating user account details
             user = User.objects.get(email=user_email)
             user_id = user.id
-            user_serializer = AccountDetailsSerializer(user, data=request)
+            user_serializer = AccountDetailsSerializer(user, data=request.data)
             if user_serializer.is_valid():
                 user_serializer.save()
+            else:
+                print(user_serializer.errors)
 
             # Updating user profile details
             profile = Profile.objects.get(id=user_id)
-            profile_serializer = ProfileSerializer(profile, data=request)
+            profile_serializer = ProfileSerializer(profile, data=request.data)
             if profile_serializer.is_valid():
                 profile_serializer.save()
 
@@ -68,10 +72,10 @@ class ProfileDetailView(APIView):
             child_profile = ChildProfile.objects.filter(user_id=user_id)
             if child_profile:
                 child_profile = child_profile[0]
-                child_profile_serializer = ChildProfileSerializer(child_profile, data=request)
+                child_profile_serializer = ChildProfileSerializer(child_profile, data=request.data)
                 if child_profile_serializer.is_valid():
                     child_profile_serializer.save()
-            return Response({'status': 'Success'}, status=status.HTTP_202_ACCEPTED)
+            return Response({'status': 'Success'}, status=status.HTTP_200_OK)
         except (Profile.DoesNotExist, Profile.DoesNotExist, ChildProfile.DoesNotExist):
             return Response(status=status.HTTP_404_NOT_FOUND)
 

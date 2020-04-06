@@ -20,13 +20,14 @@ class ProfileSerializer(serializers.ModelSerializer):
                   'support', 'user')
         read_only_fields = ['user']
 
-    def to_representation(self, obj):
-        result = super(ProfileSerializer, self).to_representation(obj)
-        request = self.context.get('request')
-        if request:
+    @property
+    def data(self):
+        result = super().data
+        request_here = self.context.get('request')
+        if request_here:
             profile_pic = result.pop('profile_pic')
             if profile_pic:
-                profile_pic = request.build_absolute_uri(profile_pic)
+                profile_pic = request_here.build_absolute_uri(profile_pic)
                 result.update({"profile_pic": profile_pic})
             else:
                 result.update({"profile_pic": ""})
@@ -42,8 +43,9 @@ class ChildProfileSerializer(serializers.ModelSerializer):
         model = ChildProfile
         fields = ('school', 'school_grade', 'parent', 'user')
 
-    def to_representation(self, obj):
-        result = super(ChildProfileSerializer, self).to_representation(obj)
+    @property
+    def data(self):
+        result = super().data
         result.pop('parent')
         result.pop('user')
         return result

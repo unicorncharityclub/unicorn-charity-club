@@ -25,7 +25,7 @@ def random_string(string_length=10):
 class UserRegisterMixin(object):
     def post(self, data, *args, **kwargs):
         response_data = {"status": "Success"}
-        serializer = AccountDetailsSerializer(data=data)
+        serializer = AccountDetailsSerializer(data=data, context={'password': data['password']})
         serializer.is_valid()
         if serializer.is_valid:
             try:
@@ -54,7 +54,6 @@ class UserLoginView(ChildrenListMixin, APIView):
                 parent_user_data.update(AccountDetailsSerializer(user).data)
                 user_details_list.append(parent_user_data)
                 kwargs.update({"user_email": user.email})
-
                 # Calling parent function and adding child details
                 children_data = super().get(self, request, *args, **kwargs).data["child_list"]
                 for child in children_data:
@@ -86,9 +85,11 @@ class AddChildView(UserRegisterMixin, APIView):
                 child_user_id = User.objects.get(email=child_user_email).id
                 # Updating user profile details
                 profile = Profile.objects.get(id=child_user_id)
-                profile_serializer = ProfileSerializer(profile, data=request)
+                profile_serializer = ProfileSerializer(profile, data=request.data)
                 if profile_serializer.is_valid():
                     profile_serializer.save()
+                else:
+                    print(profile_serializer.errors)
 
                 # Creating child profile
                 data = {"user": child_user_id, "parent": parent_user_id,
