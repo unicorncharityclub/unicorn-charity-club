@@ -3,7 +3,7 @@ from datetime import date
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation,\
-    SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit
+    SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit, VolunteerTime
 from django.http import JsonResponse
 from accounts.models import User
 from profile.models import ChildProfile
@@ -729,6 +729,30 @@ def fetch_completed_projects(request, user_email):
     else:
         response["status"] = "User has no completed projects"
 
+    return JsonResponse(response)
+
+
+def spotlight_stats(request, user_email):
+    response = {'status': "Invalid Request"}
+    total_volunteer_hours = 0
+    total_fund_raised = 0
+    user_id = User.objects.get(email=user_email).id
+    user_invitations = UserInvitation.objects.filter(user_id=user_id)
+    total_people_reached = len(user_invitations)
+    project_user_list = ProjectUser.objects.filter(user_id=user_id)
+    total_projects = len(project_user_list)
+    if total_projects > 0:
+        for project_user in project_user_list:
+            pu_id = project_user.id
+            volunteer_adv = VolunteerTime.objects.filter(project_user_id=pu_id)
+            if volunteer_adv:
+                total_volunteer_hours = total_volunteer_hours + volunteer_adv.volunteer_hours
+    # fund raised will be done after user story for adventure fun raise
+    response["total_projects"] = total_projects
+    response["people_reached"] = total_people_reached
+    response["volunteer_hours"] = total_volunteer_hours
+    response["funds_raised"] = total_fund_raised
+    response["status"] = "Success"
     return JsonResponse(response)
 
 
