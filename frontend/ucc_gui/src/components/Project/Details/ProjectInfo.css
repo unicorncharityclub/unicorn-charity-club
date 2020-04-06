@@ -34,6 +34,10 @@
     max-height: 100%;
 }
 
+.dottedLine {
+    border-top: 9px dashed #e7088a;
+}
+
 @media screen and (max-width: 720px){
 
     .start_project_info_badge_image

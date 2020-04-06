@@ -69,6 +69,7 @@ class ProjectUserDetails(models.Model):
 
 
 class LearnNewSkill(models.Model):
+    objects = None
     new_skill = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     video = models.FileField(upload_to='upload/video/challenge_video', null=True)
@@ -83,7 +84,8 @@ class LearnNewSkill(models.Model):
 
 class UserInvitation(models.Model):
     objects = None
-    project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE)
+    project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     friend_id = models.IntegerField(blank=True)
     status = models.CharField(max_length=255, blank=True, null=True)
     prize_given = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
@@ -91,7 +93,7 @@ class UserInvitation(models.Model):
     invitation_date = models.DateField(null=True, blank=True) #should not be empty
 
     def __str__(self):
-        return '{} {} {} {} {} {}'.format(self.project_user, self.friend_id, self.status, self.prize_given,
+        return '{} {} {} {} {} {}'.format(self.project, self.user, self.friend_id, self.status, self.prize_given,
                                           self.invitation_message, self.invitation_date)
 
 

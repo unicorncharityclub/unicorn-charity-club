@@ -1,0 +1,11 @@
+
+
+@media only screen and (max-width: 40em){
+    .SpotlightPage {
+        padding-bottom: 50%;
+    }
+
+    .content-wrapper {
+        padding-bottom: 20%;
+    }
+}

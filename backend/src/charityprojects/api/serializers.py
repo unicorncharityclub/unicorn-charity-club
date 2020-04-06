@@ -13,7 +13,7 @@ class ProjectUserSerializer(serializers.ModelSerializer):
 class LearnNewSkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = LearnNewSkill
-        fields = ('project_user_id', 'new_skill', 'description', 'video')
+        fields = ('new_skill', 'description', 'video', 'project_user')
 
 
 class VolunteerTimeSerializer(serializers.ModelSerializer):
@@ -25,7 +25,7 @@ class VolunteerTimeSerializer(serializers.ModelSerializer):
 class DevelopNewHabitSerializer(serializers.ModelSerializer):
     class Meta:
         model = DevelopNewHabit
-        fields = ('project_user_id', 'new_habit', 'description', 'video')
+        fields = ('new_habit', 'description', 'video', 'project_user')
 
 
 class GiveDonationSerializer(serializers.ModelSerializer):

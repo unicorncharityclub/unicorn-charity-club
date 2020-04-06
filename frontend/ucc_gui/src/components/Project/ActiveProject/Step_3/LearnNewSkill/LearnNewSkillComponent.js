@@ -5,6 +5,7 @@ import Video from "../../../../General/Video/Video";
 import ProgressStepper from "../../../ProgressStepper";
 import ProjectBanner from "../../../ProjectBanner";
 import ProjectInfo from "../../../ProjectHeader/ProjectInfo";
+import TwoButtonLayout from "../../../../General/TwoButtonLayout";
 
 /**
  * @description Creates a form displaying all the information of the Challenge 3 Learn new skill
@@ -29,24 +30,28 @@ class LearnNewSkillComponent extends React.Component {
                 <div className="mobile-content">
                     <ProgressStepper currentStep="3"/>
                     <ProjectBanner image={this.props.projectBanner}/>
-                    <ProjectInfo project_name={this.props.projectName} project_badge={this.props.projectBadge}
-                                 project_join_date={this.props.projectJoinDate}
-                                 challenge_status={this.props.challengeStatus}
+                    <ProjectInfo projectName={this.props.projectName} projectBadge={this.props.projectBadge}
+                                 projectCategory={this.props.projectCategory}
+                                 projectJoinDate={this.props.projectJoinDate}
+                                 challengeStatus={this.props.challengeStatus}
                     />
                 </div>
                 <div className="adventure-project">
-                    <div className="desktop-content">
-                        <ProjectInfo project_name={this.props.projectName} project_badge={this.props.projectBadge}
-                                     project_join_date={this.props.projectJoinDate}
-                                     challenge_status={this.props.challengeStatus}
-                                     project_mission={this.props.projectMission}
+                    <div className="desktop-content-header">
+                        <ProjectInfo projectName={this.props.projectName} projectBadge={this.props.projectBadge}
+                                     projectCategory={this.props.projectCategory}
+                                     projectJoinDate={this.props.projectJoinDate}
+                                     challengeStatus={this.props.challengeStatus}
+                                     projectMission={this.props.projectMission}
                         />
                     </div>
-                    <div>
+                    <div className="project-header-content">
                         <div className="desktop-content">
-                            <div className="project-banner">
-                                <ProjectBanner image={this.props.projectBanner}/>
-                            </div>
+                            {(this.props.projectBanner) ?
+                                <div className="project-banner">
+                                    <ProjectBanner image={this.props.projectBanner}/>
+                                </div> : ''
+                            }
                             <ProgressStepper currentStep="3"/>
                         </div>
                         <div className="project-content">
@@ -76,11 +81,9 @@ class LearnNewSkillComponent extends React.Component {
                                    accept="video/*"
                                    onChange={this.props.videoHandler.bind(this)}/>
                             <div className="navigate-save">
-                                {/*<label htmlFor="save">Save</label>*/}
-                                <Button className="save-button" id="save" variant="contained" type="submit"
-                                        onClick={(event) => this.props.saveHandler(event, 'post')}>SAVE</Button>
-                                <Button className="done-button" id="done" variant="contained" type="submit"
-                                        onClick={(event) => this.props.saveHandler(event, 'post')}>DONE</Button>
+                                <TwoButtonLayout button1Text="SAVE" button2Text="DONE"
+                                                 button1Click={(event) => this.props.saveHandler(event, 'save')}
+                                                 button2Click={(event) => this.props.saveHandler(event, 'done')}/>
                             </div>
                         </div>
                     </div>

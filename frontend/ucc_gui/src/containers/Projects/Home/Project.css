@@ -24,3 +24,9 @@
   font-size: 20pt;
   font-weight: bold;
 }
+
+.MuiContainer-root {
+  padding-top: 2%;
+}
+
+

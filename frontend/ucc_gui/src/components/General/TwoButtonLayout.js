@@ -15,7 +15,8 @@ class TwoButtonLayout extends React.Component {
                 </Button>
                 <Button className="two_button_right_button"
                         disabled={this.props.disabled}
-                        variant="success" size="lg" onClick={this.props.button2Click}>
+                        variant="success"
+                        size="lg" onClick={this.props.button2Click}>
                     <b><TextWhite message={this.props.button2Text+ " "}/></b>
                 </Button>
             </div>

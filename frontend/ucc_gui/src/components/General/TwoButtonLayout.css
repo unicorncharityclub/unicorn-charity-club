@@ -1,6 +1,6 @@
 .two_button_div{
-    width:80%;
-    margin-left: 25%;
+    width:70%;
+    margin-left: 43%;
     margin-bottom: 10px;
     align-text: center;
     justify-content: center;
@@ -8,20 +8,24 @@
 
 .two_button_left_button
 {
-    border-radius : 50px 0px 0px 50px;
+    border-radius : 15px 0px 0px 15px;
     background-color:white;
-    border:2px solid;
+    border:1px solid #2BB9B7;
     border-right: 0;
+    font-size: 0.8em;
     width : 40%;
 }
 
+
 .two_button_right_button
 {
-    border-radius : 0px 50px 50px 0px;
-    border:2px solid black;
+    border-radius : 0px 15px 15px 0px;
+    border:1px solid #2BB9B7;
     width : 40%;
+    font-size: 0.8em;
     background-color: #2BB9B7;
 }
+
 
 @media screen and (max-width: 920px){
   .two_button_div{
@@ -65,17 +69,17 @@
 
     .two_button_left_button
     {
-        border-radius : 50px 0px 0px 50px;
+        border-radius : 15px 0px 0px 15px;
         background-color:white;
-        border:2px solid;
+        border:1px solid #2BB9B7;
         border-right: 0;
         width : 40%;
     }
 
     .two_button_right_button
     {
-        border-radius : 0px 50px 50px 0px;
-        border:2px solid black;
+        border-radius : 0px 15px 15px 0px;
+        border:1px solid #2BB9B7;
         width : 40%;
         background-color: #2BB9B7;
     }

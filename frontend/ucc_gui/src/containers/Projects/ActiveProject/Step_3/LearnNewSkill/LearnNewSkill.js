@@ -32,27 +32,38 @@ class LearnNewSkill extends React.Component {
             projectBadge: '',
             projectMission: '',
             //project_join_date: '',
-            challengeStatus: ''
+            challengeStatus: '',
+            projectCategory: ''
         }
     };
 
     componentDidMount() {
-        AxiosConfig.get(`charityproject/activeProjectList/${cookie.load('user_email')}`)
-            .then(res => {
-                for (let i = 0; i < res.data.active_project_list.length; i++) {
-                    if (res.data.active_project_list[i].project_id === parseInt(this.state.projectId)) {
-                        console.log("inside");
+        Promise.all([
+            AxiosConfig.get(`charityproject/activeProjectList/${cookie.load('user_email')}`),
+            AxiosConfig.get(`charityproject/LearnNewSkill/${this.state.projectId}/${cookie.load('user_email')}`)])
+            .then(([res1, res2]) => {
+                for (let i = 0; i < res1.data.active_project_list.length; i++) {
+                    if (res1.data.active_project_list[i].project_id === parseInt(this.state.projectId)) {
                         this.setState({
-                            projectName: res.data.active_project_list[i].project_name,
-                            projectBanner: res.data.active_project_list[i].project_banner,
-                            projectBadge: res.data.active_project_list[i].project_badge,
-                            projectMission: res.data.active_project_list[i].project_mission,
-                            projectJoinDate: res.data.active_project_list[i].project_join_date,
-                            challengeStatus: res.data.active_project_list[i].challenge_status
+                            projectName: res1.data.active_project_list[i].project_name,
+                            projectBanner: res1.data.active_project_list[i].project_banner,
+                            projectBadge: res1.data.active_project_list[i].project_badge,
+                            projectMission: res1.data.active_project_list[i].project_mission,
+                            projectCategory: res1.data.active_project_list[i].project_category,
+                            projectJoinDate: res1.data.active_project_list[i].project_join_date,
+                            challengeStatus: res1.data.active_project_list[i].challenge_status
                         });
                     }
                 }
-                console.log(res.data);
+                if (res2.data) {
+                    this.setState({
+                        newSkill: res2.data.new_skill,
+                        description: res2.data.description,
+                        video: res2.data.video
+                    });
+                    console.log(this.state.challenge_present);
+                }
+                console.log(res1.data);
             }).catch(error => console.log(error))
     };
 
@@ -75,35 +86,32 @@ class LearnNewSkill extends React.Component {
     };
 
 
-    saveHandler(event, requestType) {
+    saveHandler(event, save_option) {
         //event.preventDefault();
         let formData = new FormData();
         try {
             formData.append('new_skill', this.state.newSkill);
             formData.append('description', this.state.description);
-            if (this.state.final_video) {
+            if (this.state.finalVideo) {
                 formData.append('video', this.state.finalVideo, this.state.finalVideo.name);
             }
             formData.append('project_id', this.state.projectId);
-            //formData.append('email', 'bhawanaprasadmail@gmail.com');
-            formData.append('email', cookie.load('user_emailid'));
+            formData.append('email', cookie.load('user_email'));
+            formData.append('save_option', save_option);
         } catch (err) {
             console.log(err)
         }
-
-        switch (requestType) {
-            case 'post':
-                return AxiosConfig.post('charityproject/LearnNewSkill', formData,
-                    {
-                        headers: {
-                            'content-type': 'multipart/form-data'
-                        }
-                    })
-                    .then(res => {
-                        console.log(res)
-                    })
-                    .catch(error => console.log(error))
-        }
+        return AxiosConfig.post('charityproject/LearnNewSkill', formData,
+            {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            })
+            .then(res => {
+                console.log(res);
+                this.props.history.push('/Projects/');
+            })
+            .catch(error => console.log(error));
     };
 
     render() {
@@ -117,6 +125,7 @@ class LearnNewSkill extends React.Component {
                     projectBadge={this.state.projectBadge}
                     projectName={this.state.projectName}
                     projectMission={this.state.projectMission}
+                    projectCategory={this.state.projectCategory}
                     projectJoinDate={this.state.projectJoinDate}
                     challengeStatus={this.state.challengeStatus}
                     defaultIfEmpty={this.defaultIfEmpty.bind(this)}

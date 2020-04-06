@@ -21,6 +21,7 @@ class ProjectInfo extends React.Component {
                     </p>
                     <p>
                         <label className="project-name">{this.props.projectName}</label>
+                        <label>Category: {this.props.projectCategory}</label>
                         <label>Date Joined: {this.props.projectJoinDate}</label>
                         <label>Status: {status}</label>
                         {(this.props.projectMission) ?
