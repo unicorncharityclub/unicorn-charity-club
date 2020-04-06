@@ -38,7 +38,6 @@ class ProjectComplete extends React.Component {
             .then(res => {
                 for (let i = 0; i < res.data.active_project_list.length; i++) {
                     if (res.data.active_project_list[i].project_id === parseInt(this.state.projectId)) {
-                        console.log("inside");
                         this.setState({
                             projectName: res.data.active_project_list[i].project_name,
                             projectBanner: res.data.active_project_list[i].project_banner,
