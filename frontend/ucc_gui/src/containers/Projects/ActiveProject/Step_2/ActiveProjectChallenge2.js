@@ -19,8 +19,6 @@ class ActiveProjectChallenge2 extends React.Component {
         } catch (err) {
             console.log(err)
         }
-        AxiosConfig.defaults.withCredentials = true;
-        AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
         AxiosConfig.put('charityproject/update/Challenge2', formData,
                 {
                         headers: {

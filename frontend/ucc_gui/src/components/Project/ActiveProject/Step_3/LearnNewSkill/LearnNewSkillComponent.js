@@ -1,6 +1,5 @@
 import React from 'react';
 import "../../../../../containers/Projects/ActiveProject/Step_3/LearnNewSkill/LearnNewSkill.css";
-import Button from "react-bootstrap/Button";
 import Video from "../../../../General/Video/Video";
 import ProgressStepper from "../../../ProgressStepper";
 import ProjectBanner from "../../../ProjectBanner";

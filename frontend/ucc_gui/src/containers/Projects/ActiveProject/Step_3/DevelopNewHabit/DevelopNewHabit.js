@@ -1,7 +1,6 @@
 import React from "react";
 import DevelopNewHabitComponent
     from "../../../../../components/Project/ActiveProject/Step_3/DevelopNewHabit/DevelopNewHabitComponent";
-import {Container} from "@material-ui/core";
 import * as cookie from "react-cookies";
 import AxiosConfig from "../../../../../axiosConfig";
 

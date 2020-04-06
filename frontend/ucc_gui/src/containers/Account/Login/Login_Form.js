@@ -41,7 +41,6 @@ class Login_Form extends React.Component {
   }
 
   handleValidateUser(obj, event) {
-    AxiosConfig.defaults.withCredentials = true;
     AxiosConfig
       .post(`account/login`, this.state)
       .then(function(response) {

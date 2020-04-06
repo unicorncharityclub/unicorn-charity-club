@@ -39,11 +39,10 @@ class ProfileDetailView(APIView):
 
     @method_decorator(csrf_protect)
     def get(self, request, user_email):
-        print(request.data)
-        print(request.session)
         result = {}
         try:
             # Getting user account details
+            print(request.user)
             user = User.objects.get(email=user_email)
             user_id = user.id
             user_serializer = AccountDetailsSerializer(user)

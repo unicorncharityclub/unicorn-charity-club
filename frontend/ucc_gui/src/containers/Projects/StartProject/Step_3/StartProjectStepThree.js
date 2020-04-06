@@ -108,8 +108,6 @@ class StartProjectStepThree extends React.Component {
         this.state.unregisteredUser[i]["email_address"].trim()
       );
     }
-    AxiosConfig.defaults.withCredentials = true;
-    AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
     AxiosConfig
       .post(`charityproject/unregisteredInvitation`, {
         user_email: this.state.userEmail,
@@ -130,8 +128,6 @@ class StartProjectStepThree extends React.Component {
     for (const friends of this.state.selectedFriends.values()) {
       friendsEmail.push(friends["user_email"]);
     }
-    AxiosConfig.defaults.withCredentials = true;
-    AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
     AxiosConfig
       .post(`charityproject/userInvitation`, {
         user_email: this.state.userEmail,
