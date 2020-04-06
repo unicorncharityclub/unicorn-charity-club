@@ -41,6 +41,8 @@ class Account extends React.Component {
 
     componentDidMount() {
         const user_email = cookie.load('user_email');
+        AxiosConfig.defaults.withCredentials = true;
+        AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
         AxiosConfig.get(`profile/${user_email}`)
             .then(res => {
                     this.setState({

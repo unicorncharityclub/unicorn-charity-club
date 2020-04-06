@@ -1,6 +1,8 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from rest_framework import status
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -32,7 +34,13 @@ class ChildrenListMixin(object):
 
 
 class ProfileDetailView(APIView):
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+
+    @method_decorator(csrf_protect)
     def get(self, request, user_email):
+        print(request.data)
+        print(request.session)
         result = {}
         try:
             # Getting user account details

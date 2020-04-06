@@ -1,9 +1,13 @@
 import string
 import random
 
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth import login
 import django.middleware.csrf
+from django.contrib.auth import authenticate
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -43,25 +47,34 @@ class UserRegistrationView(UserRegisterMixin, APIView):
 
 
 class UserLoginView(ChildrenListMixin, APIView):
+    authentication_classes = (SessionAuthentication, )
+
     def post(self, request, *args, **kwargs):
         try:
             response = {'status': "Invalid Request"}
             user_details_list = []
-            user = User.objects.get(email=request.data["email"], is_active=True)
-            if check_password(request.data["password"], user.password):
-                profile_serializer = ProfileSerializer(Profile.objects.get(id=user.id), context={'request': request})
-                parent_user_data = profile_serializer.data
-                parent_user_data.update(AccountDetailsSerializer(user).data)
-                user_details_list.append(parent_user_data)
-                kwargs.update({"user_email": user.email})
-                # Calling parent function and adding child details
-                children_data = super().get(self, request, *args, **kwargs).data["child_list"]
-                for child in children_data:
-                    user_details_list.append(child)
+            user = authenticate(username=request.data["email"], password=request.data["password"])
+            if not user:
+                response['status'] = "Incorrect email or password."
+                return Response(response, status=status.HTTP_200_OK)
+
+            if not user.is_active:
+                response['status'] = "User is disabled."
+                return Response(response, status=status.HTTP_200_OK)
+
+            login(request, user)
+            profile_serializer = ProfileSerializer(Profile.objects.get(id=user.id), context={'request': request})
+            parent_user_data = profile_serializer.data
+            parent_user_data.update(AccountDetailsSerializer(user).data)
+            user_details_list.append(parent_user_data)
+            kwargs.update({"user_email": user.email})
+            # Calling parent function and adding child details
+            children_data = super().get(self, request, *args, **kwargs).data["child_list"]
+            for child in children_data:
+                user_details_list.append(child)
 
             response['status'] = "Success"
             response['user_list'] = user_details_list
-            response['token'] = django.middleware.csrf.get_token(request)
             return Response(response, status=status.HTTP_200_OK)
         except Exception:
             return Response(status=status.HTTP_404_NOT_FOUND)

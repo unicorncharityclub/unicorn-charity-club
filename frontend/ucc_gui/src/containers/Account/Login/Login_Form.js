@@ -41,6 +41,7 @@ class Login_Form extends React.Component {
   }
 
   handleValidateUser(obj, event) {
+    AxiosConfig.defaults.withCredentials = true;
     AxiosConfig
       .post(`account/login`, this.state)
       .then(function(response) {
@@ -56,11 +57,9 @@ class Login_Form extends React.Component {
     let response_status = response.data["status"];
     if (response_status === "Success") {
       let userList = response.data["user_list"];
-      let token = response.data["token"];
-
       cookie.save('user_email', userList[0]["email"]);
       cookie.save('user_list', userList);
-      cookie.save('XSRF-TOKEN', token);
+      let token = "test";
       this.props.dispatch({ type: "LOGIN_SUCCESS", userList:userList, token:token});
     }
     else {
