@@ -15,6 +15,7 @@ class Profile(models.Model):
                 message="Phone number must be entered in the format: '+1xxxxxxxxxx'. Phone number should be 10 digits.")
     mobile = models.CharField(validators=[phone_regex], max_length=17, blank=True)
     profile_pic = models.ImageField(upload_to='upload/image/profile_picture', blank=True)
+    cover_pic = models.ImageField(upload_to='upload/image/coverPic', blank=True)
     about_me = models.TextField(blank=True)
     favorite_thing = models.TextField(blank=True)
     dream = models.TextField(blank=True)
