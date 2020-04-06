@@ -43,7 +43,6 @@ class Toolbar extends Component {
   render() {
     return (
         <div className="child-select__dropdown-menu-wrapper">
-
         {
             this.state.otherUsers !== '' ? (
                 this.state.otherUsers
@@ -54,21 +53,21 @@ class Toolbar extends Component {
             onClick={this.onUpdateUser.bind(this, elem.email)}
           >
             <div className="child-select__profile">
-              {elem.photo !== '' ? (
+              {elem.profile_pic !== '' ? (
                             <div
                                 className="child-select__avatar"
-                                style={{backgroundImage: `url(${elem.photo})`}}
-                                alt={elem.name}
+                                style={{backgroundImage: `url(${elem.profile_pic})`}}
+                                alt={elem.full_name}
                             />
                         ) :
                         (<div
                                 className="child-select__avatar"
                                 style={{backgroundImage: `url(${UploadPhoto})`}}
-                                alt={elem.name}
+                                alt={elem.full_name}
                             />)
                     }
               <div className="child-select__info">
-                <div className="child-select__name">{elem.name}</div>
+                <div className="child-select__name">{elem.full_name}</div>
               </div>
             </div>
           </a>

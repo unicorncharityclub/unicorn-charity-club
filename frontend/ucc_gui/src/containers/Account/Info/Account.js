@@ -52,7 +52,7 @@ class Account extends React.Component {
                         profilePic: res.data.profile_pic,
                         dob: res.data.dob,
                         gender: res.data.gender,
-                        aboutMe: res.data.aboutme,
+                        aboutMe: res.data.about_me,
                         favoriteThing: res.data.favorite_thing,
                         dream: res.data.dream,
                         superPowers: res.data.super_powers,
@@ -121,7 +121,7 @@ class Account extends React.Component {
                     'content-type': 'multipart/form-data'
                 }
             })
-            .then(res => console.log(res))
+            .then()
             .catch(error => console.log(error));
   }
 
