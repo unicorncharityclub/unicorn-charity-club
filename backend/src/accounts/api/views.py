@@ -1,8 +1,9 @@
 import string
 import random
 
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth import authenticate
+from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from rest_framework import status
@@ -98,6 +99,7 @@ class AddChildView(UserRegisterMixin, APIView):
                               'dob': request.POST['dob'], 'email': child_user_email, 'password': random_password}
 
                 super().post(child_data)
+
                 child_user_id = User.objects.get(email=child_user_email).id
                 # Updating user profile details
                 profile = Profile.objects.get(id=child_user_id)
@@ -168,3 +170,12 @@ class UserSwitchAccountView(APIView):
                 return Response(status=status.HTTP_404_NOT_FOUND)
         except Exception:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class UserExitView(APIView):
+
+    def post(self, request):
+        response = HttpResponse('Cookies Deleted')
+        response.delete_cookie("sessionid", path="/")
+        response.delete_cookie("XSRF-TOKEN", path="/")
+        return response

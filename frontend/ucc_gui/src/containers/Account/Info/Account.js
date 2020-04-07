@@ -41,7 +41,7 @@ class Account extends React.Component {
 
     componentDidMount() {
         const user_email = cookie.load('user_email');
-        AxiosConfig.get(`profile/${user_email}`)
+        AxiosConfig.get('profile/view_profile')
             .then(res => {
                     this.setState({
                         email: res.data.email,
@@ -113,7 +113,7 @@ class Account extends React.Component {
           console.log(err);
         }
 
-        return AxiosConfig.put(`profile/${this.state.email}`, form_data,
+        return AxiosConfig.put('profile/view_profile', form_data,
             {
                 headers: {
                     'content-type': 'multipart/form-data'

@@ -38,7 +38,7 @@ class ProfileDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
     @method_decorator(csrf_protect)
-    def get(self, request, user_email):
+    def get(self, request):
         result = {}
         try:
             # Getting user account details
@@ -57,10 +57,10 @@ class ProfileDetailView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     @method_decorator(csrf_protect)
-    def put(self, request, user_email):
+    def put(self, request):
         try:
             # Updating user account details
-            user = User.objects.get(email=user_email)
+            user = request.user
             user_id = user.id
             user_serializer = AccountDetailsSerializer(user, data=request.data)
             if user_serializer.is_valid():

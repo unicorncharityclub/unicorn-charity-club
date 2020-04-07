@@ -3,6 +3,7 @@ import SettingIcon from "../../../../image/settings.png";
 import "./Settings.css";
 import { connect } from 'react-redux';
 import cookie from 'react-cookies'
+import AxiosConfig from "../../../../axiosConfig";
 
 class Settings extends Component {
   constructor(props) {
@@ -11,10 +12,10 @@ class Settings extends Component {
   }
   logout() {
       let empty = "";
-      cookie.save('user_email', empty);
-      cookie.save('XSRF-TOKEN', empty);
-      cookie.save('user_list', empty);
-      this.props.dispatch({ type: "LOGOUT_SUCCESS", userList:empty, token:empty});
+        cookie.remove('user_email');
+        cookie.remove('XSRF-TOKEN');
+        cookie.remove('user_list');
+        this.props.dispatch({ type: "LOGOUT_SUCCESS", userList:empty, token:empty});
   }
   render() {
     return (

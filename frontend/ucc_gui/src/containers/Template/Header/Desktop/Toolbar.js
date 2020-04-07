@@ -46,7 +46,7 @@ class Toolbar extends Component {
      let form_data = new FormData();
      form_data.append("email", email);
      let prop = this.props;
-     return AxiosConfig.post(`account/switch/`, form_data,
+     return AxiosConfig.post(`account/switch`, form_data,
             {
                 headers: {
                     'content-type': 'multipart/form-data'
@@ -89,9 +89,7 @@ class Toolbar extends Component {
           </a>
           ))
             ):('')
-
             }
-
 
           <a
             className="child-select__item child-select__item--dropdown child-select__item--add-child"
