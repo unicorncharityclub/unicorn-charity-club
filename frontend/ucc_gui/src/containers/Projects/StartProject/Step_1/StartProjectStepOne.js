@@ -47,8 +47,6 @@ class StartProjectStepOne extends React.Component {
             form_data.append('email', this.state.userEmail);
             form_data.append('project_video', this.state.userProjectVideo, this.state.userProjectVideo.name);
 
-        AxiosConfig.defaults.withCredentials = true;
-        AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
         AxiosConfig.put(`charityproject/invitationVideo`, form_data,
         {
             headers: {

@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 
 import Account from "./containers/Account/Info/Account.js";
 import Login from "./containers/Account/Login/Login";
+import Logout from "./containers/Account/Logout/Logout";
 import Register from "./containers/Account/Register/Register";
 import Payment from "./containers/Template/Menu/Payment/Payment";
 import Terms_and_Conditions from "./containers/Template/Menu/Terms_and_Conditions/Terms_and_Conditions";
@@ -56,6 +57,7 @@ class BaseRouter extends React.Component {
               <Route exact path='/AddChild' component={AddChild}/>
               <Route exact path="/Mobile_toolbar" component={Mobile_toolbar}/>
               <Route exact path="/Spotlight" component={SpotlightHome}/>
+              <Route exact path="/Logout" component={Logout} />
             </div>
           );
         default:
@@ -64,6 +66,7 @@ class BaseRouter extends React.Component {
             <div>
               <Route exact path="/" render={(props) => <Login {...props} appState={this.props.appState} />}  />
               <Route exact path="/register" component={Register} />
+              <Route exact path="/Logout" component={Logout} />
             </div>
           );
       }

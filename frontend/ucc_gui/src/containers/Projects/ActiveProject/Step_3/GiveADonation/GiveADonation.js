@@ -40,8 +40,6 @@ class GiveADonation extends React.Component {
             console.log(err)
         }
 
-                AxiosConfig.defaults.withCredentials = true;
-                AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
                 AxiosConfig.post('charityproject/giveDonation', formData,
                     {
                         headers: {

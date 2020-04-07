@@ -131,8 +131,6 @@
   export const fetchFriendsDataHelper = function(obj, searchType, searchValue, offset, searchMoreFlag) {
     if(searchType==='email')
     {
-      AxiosConfig.defaults.withCredentials = true;
-      AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
       AxiosConfig
         .post(`charityproject/friendByEmail`,
             {
@@ -147,8 +145,6 @@
         });
     }
     else {
-      AxiosConfig.defaults.withCredentials = true;
-      AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
       AxiosConfig
         .post(`charityproject/search`,
             {

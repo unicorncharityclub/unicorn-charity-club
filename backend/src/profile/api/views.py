@@ -1,6 +1,8 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from rest_framework import status
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -32,11 +34,15 @@ class ChildrenListMixin(object):
 
 
 class ProfileDetailView(APIView):
-    def get(self, request, user_email):
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+
+    @method_decorator(csrf_protect)
+    def get(self, request):
         result = {}
         try:
             # Getting user account details
-            user = User.objects.get(email=user_email)
+            user = request.user
             user_id = user.id
             user_serializer = AccountDetailsSerializer(user)
             result.update(user_serializer.data)
@@ -51,10 +57,10 @@ class ProfileDetailView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     @method_decorator(csrf_protect)
-    def put(self, request, user_email):
+    def put(self, request):
         try:
             # Updating user account details
-            user = User.objects.get(email=user_email)
+            user = request.user
             user_id = user.id
             user_serializer = AccountDetailsSerializer(user, data=request.data)
             if user_serializer.is_valid():
