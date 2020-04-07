@@ -16,7 +16,7 @@ def get_child_profile(user):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('address', 'mobile', 'profile_pic', 'about_me', 'favorite_thing', 'dream', 'super_powers',
+        fields = ('address', 'mobile', 'profile_pic', 'cover_pic', 'about_me', 'favorite_thing', 'dream', 'super_powers',
                   'support', 'user')
         read_only_fields = ['user']
 
@@ -26,11 +26,17 @@ class ProfileSerializer(serializers.ModelSerializer):
         request_here = self.context.get('request')
         if request_here:
             profile_pic = result.pop('profile_pic')
+            cover_pic = result.pop('cover_pic')
             if profile_pic:
                 profile_pic = request_here.build_absolute_uri(profile_pic)
                 result.update({"profile_pic": profile_pic})
             else:
                 result.update({"profile_pic": ""})
+            if cover_pic:
+                cover_pic = request_here.build_absolute_uri(cover_pic)
+                result.update({"cover_pic": cover_pic})
+            else:
+                result.update({"cover_pic": ""})
             result.update(get_child_profile(result.pop('user')))
         return result
 
