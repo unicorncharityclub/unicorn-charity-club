@@ -113,7 +113,6 @@ class Account extends React.Component {
           console.log(err);
         }
 
-        AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
         return AxiosConfig.put(`profile/${this.state.email}`, form_data,
             {
                 headers: {

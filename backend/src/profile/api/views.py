@@ -1,7 +1,7 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from rest_framework import status
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -42,8 +42,7 @@ class ProfileDetailView(APIView):
         result = {}
         try:
             # Getting user account details
-            print(request.user)
-            user = User.objects.get(email=user_email)
+            user = request.user
             user_id = user.id
             user_serializer = AccountDetailsSerializer(user)
             result.update(user_serializer.data)
