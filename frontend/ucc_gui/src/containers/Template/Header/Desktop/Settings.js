@@ -2,21 +2,13 @@ import React, { Component } from "react";
 import SettingIcon from "../../../../image/settings.png";
 import "./Settings.css";
 import { connect } from 'react-redux';
-import cookie from 'react-cookies'
-import AxiosConfig from "../../../../axiosConfig";
 
 class Settings extends Component {
   constructor(props) {
     super(props);
-    this.logout = this.logout.bind(this);
   }
-  logout() {
-      let empty = "";
-        cookie.remove('user_email');
-        cookie.remove('XSRF-TOKEN');
-        cookie.remove('user_list');
-        this.props.dispatch({ type: "LOGOUT_SUCCESS", userList:empty, token:empty});
-  }
+
+
   render() {
     return (
       <div className="header__settings">
@@ -36,7 +28,7 @@ class Settings extends Component {
                   <a href="/Security_and_Privacy" >
                         <div className="settings-dropdown__item">Security&nbsp;and&nbsp;Privacy</div>
                   </a>
-                   <a href="/" onClick={this.logout} className="logout-link">
+                   <a href="/Logout" className="logout-link">
                         <div className="settings-dropdown__item">Logout</div>
                     </a>
               </div>
