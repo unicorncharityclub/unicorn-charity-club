@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from ..models import ProjectUserDetails
-from ..models import LearnNewSkill, DevelopNewHabit, GiveDonation
+from ..models import LearnNewSkill, DevelopNewHabit, GiveDonation, Fundraise
 from ..models import VolunteerTime
 
 
@@ -31,4 +31,10 @@ class DevelopNewHabitSerializer(serializers.ModelSerializer):
 class GiveDonationSerializer(serializers.ModelSerializer):
     class Meta:
         model = GiveDonation
+        fields = '__all__'
+
+
+class FundraiserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Fundraise
         fields = '__all__'

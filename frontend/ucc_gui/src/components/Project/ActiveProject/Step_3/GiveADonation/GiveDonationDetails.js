@@ -1,8 +1,6 @@
 import React from 'react';
 import TextBlueHeading from "../../../../General/Text/TextBlueHeading";
-import TextBlack from "../../../../General/Text/TextBlack";
 import TextArea from "../../../../General/Form/TextArea"
-import Input from  "../../../../../components/General/Form/Input"
 import ProjectInfo from "../../../Details/ProjectInfo";
 import "../../../../../containers/ProjectCommon.css"
 import AxiosConfig from "../../../../../axiosConfig";

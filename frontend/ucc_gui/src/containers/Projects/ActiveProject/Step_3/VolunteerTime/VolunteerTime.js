@@ -40,8 +40,6 @@ class VolunteerTime extends React.Component {
         } catch (err) {
             console.log(err)
         }
-        AxiosConfig.defaults.withCredentials = true;
-        AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
         AxiosConfig.post('charityproject/volunteerTime', formData,
             {
                         headers: {
