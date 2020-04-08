@@ -5,6 +5,7 @@ import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
 import AxiosConfig from '../../../axiosConfig'
 import ActiveProjectInfo from "../../../components/Project/Home/ActiveProjectHomeInfo/ActiveProjectInfo";
 import cookie from "react-cookies";
+import "./Project.css";
 import {Container} from "@material-ui/core";
 import VerticalSpotlightDetails from '../../../components/Spotlight/VerticalSpotlightDetails';
 
@@ -119,7 +120,7 @@ class ProjectsHome extends React.Component {
         {/* put here the vertical component for spotlight */}
         <VerticalSpotlightDetails isSpotlightPage = {false}/>
 
-        <div className = "content_section">
+        <div className = "content_section_box">
           <div className="textHeader">
               Invitations
           </div>
@@ -134,7 +135,7 @@ class ProjectsHome extends React.Component {
 
         {/* <div className="blackDivider"></div> */}
         
-        <div className = "content_section">
+        <div className = "content_section_box">
           <div className="textHeader">
               Planning
           </div>
@@ -148,7 +149,7 @@ class ProjectsHome extends React.Component {
         <br/>
         {/* <div className="blackDivider"></div> */}
         
-        <div className = "content_section">
+        <div className = "content_section_box">
           <div className="textHeader">
               Active
           </div>
@@ -162,7 +163,7 @@ class ProjectsHome extends React.Component {
         <br/>
         {/* <div className="blackDivider"></div> */}
 
-        <div className = "content_section">
+        <div className = "content_section_box">
           <div className="textHeader">
               Start a Project
           </div>

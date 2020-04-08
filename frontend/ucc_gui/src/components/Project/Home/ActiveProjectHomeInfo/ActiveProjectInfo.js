@@ -73,7 +73,6 @@ renderList (type) {
 
 }
 
-
     render() {
       return (
         <div>

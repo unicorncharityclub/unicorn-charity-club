@@ -3,22 +3,43 @@ import "./Spotlight_Common.css";
 import Image from 'react-bootstrap/Image';
 import { Container, Row, Col } from 'reactstrap';
 import VerticalSpotlightDetails from './VerticalSpotlightDetails';
+import AxiosConfig from '../../axiosConfig';
 
 class CollapseComponent extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       open: true,
-      completedProjects : [
+      treasure_list : [
         'https://cdn.pixabay.com/photo/2016/10/18/21/22/california-1751455_1280.jpg',
         'https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197_1280.jpg',
         'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
         'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg'
-      ]
+      ],
+      completed_projects : []      
     }
 
     this.togglePanel = this.togglePanel.bind(this);
   }
+
+  componentDidMount(){
+    this.fetchCompletedProjectList(this);    
+  }
+
+  fetchCompletedProjectList (obj) {
+    const user_email = this.state.user_email;
+    AxiosConfig.get(`charityproject/completedProjects/${user_email}`)
+    .then(function(response) {obj.setCompletedProjectList(response);})
+    .catch(function(error) {console.log(error);});
+ }
+
+ setCompletedProjectList (response) {
+      let completed_projects = response.data['completed_projects'];      
+      this.setState(prevState => ({
+        completed_projects : completed_projects
+    }));
+ }
+ 
 
   togglePanel(e){
     this.setState({open: !this.state.open})
@@ -67,12 +88,14 @@ class CollapseComponent extends React.Component {
       return (
         <div>
             <Row>
-            {this.state.completedProjects          
-            .map((elem, index) => (
+            {            
+            this.state.completed_projects && this.state.completed_projects.length > 0?(
+              this.state.completed_projects          
+              .map((elem, index) => (
                   <Col>
-                    <Image className="completedproject" key = {index} src={elem} />
+                    <Image className="completedproject" key = {index} src={elem.project_details.badge} />
                   </Col>                  
-              ))}                                        
+              )) ):(<span>No Completed Projects available</span>) }                                        
             </Row>
         </div>
       );
@@ -83,7 +106,7 @@ class CollapseComponent extends React.Component {
       <div>
         <br/>                
           <Row>
-          {this.state.completedProjects          
+          {this.state.treasure_list          
           .map((elem, index) => (
                 <Col>
                   <Image className="completedproject" key = {index} src={elem} rounded />

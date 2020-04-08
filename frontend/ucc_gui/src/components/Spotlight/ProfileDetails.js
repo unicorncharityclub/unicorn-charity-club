@@ -23,7 +23,7 @@ class ProfileDetails extends React.Component {
 
   fetchProfileDetails (obj) {
     const user_email = this.state.user_email;
-    AxiosConfig.get(`profile/${user_email}`)
+    AxiosConfig.get(`profile/view_profile`)
     .then(function(response) {obj.setProfileDetails(response);})
     .catch(function(error) {console.log(error);});
  }
@@ -31,6 +31,7 @@ class ProfileDetails extends React.Component {
 
 
  setProfileDetails(response) {
+  //console.log(response);
   let about_me = response.data['about_me'];
   let favorite_thing = response.data['favorite_thing'];
   let dream = response.data['dream'];

@@ -136,8 +136,9 @@ table {
     padding-right: 2%; 
 }
 
-.content_section hr {
-    /* visibility: hidden; */
+.content_section {
+    float: right;
+    margin-bottom: 1.5%;
 }
 
 

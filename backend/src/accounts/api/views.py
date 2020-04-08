@@ -78,7 +78,8 @@ class UserLoginView(ChildrenListMixin, APIView):
             response['status'] = "Success"
             response['user_list'] = user_details_list
             return Response(response, status=status.HTTP_200_OK)
-        except Exception:
+        except Exception as e:
+            print(e)
             return Response(status=status.HTTP_404_NOT_FOUND)
 
 
