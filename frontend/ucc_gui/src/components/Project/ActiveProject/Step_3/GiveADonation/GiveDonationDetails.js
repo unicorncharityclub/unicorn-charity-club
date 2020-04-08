@@ -1,8 +1,6 @@
 import React from 'react';
 import TextBlueHeading from "../../../../General/Text/TextBlueHeading";
-import TextBlack from "../../../../General/Text/TextBlack";
 import TextArea from "../../../../General/Form/TextArea"
-import Input from  "../../../../../components/General/Form/Input"
 import ProjectInfo from "../../../Details/ProjectInfo";
 import "../../../../../containers/ProjectCommon.css"
 import AxiosConfig from "../../../../../axiosConfig";
@@ -85,9 +83,10 @@ class VolunteerTimeDetails extends React.Component {
                            name="video"
                            accept="video/*"
                            onChange={this.props.videoHandler.bind(this)}/>
-                           <div>
+                           <div> <br/>
                     <TwoButtonLayout button1Text="SAVE" button2Text="COMPLETE PROJECT"
-                           button1Click={this.props.onSubmit} button2Click={this.props.onSubmit}/>
+                           button1Click={(event) => this.props.onSubmit(event, 'Save')}
+                                     button2Click={(event) => this.props.onSubmit(event, 'Done')}/>
                            </div>
 
                   </div>

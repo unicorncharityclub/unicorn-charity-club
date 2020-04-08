@@ -79,11 +79,10 @@ class AddChild extends React.Component {
       console.log(err);
     }
 
-    AxiosConfig.defaults.withCredentials = true;
-    AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
+
     const user_email = cookie.load("user_email");
     return AxiosConfig
-      .post(`profile/addchild/${user_email}`, form_data, {
+      .post(`account/addchild/${user_email}`, form_data, {
         headers: {
           "content-type": "multipart/form-data"
         }

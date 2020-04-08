@@ -32,8 +32,8 @@ class Children extends React.Component{
                             {this.props.data ?
                                 (this.props.data.map(item => (
                                 <div className="menu__item" key={item.email}>
-                                    <img className="profile-picture-list" src={item.photo || UploadPhoto} alt="Child name"/>
-                                    <a onClick={this.onUpdateUser.bind(this, item.email)}> {item.name} </a>
+                                    <img className="profile-picture-list" src={item.profile_pic || UploadPhoto} alt="Child name"/>
+                                    <a onClick={this.onUpdateUser.bind(this, item.email)}> {item.first_name + " " + item.last_name} </a>
                                 </div>
                             ))):''}
                             <div className="menu__item">

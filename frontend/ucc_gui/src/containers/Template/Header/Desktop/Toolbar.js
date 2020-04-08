@@ -4,6 +4,7 @@ import "../Header.css";
 import "./Toolbar.css";
 import cookie from "react-cookies";
 import UploadPhoto from "../../../../site_media/Images/Default-profile-picture.png";
+import AxiosConfig from "../../../../axiosConfig";
 
 /**
  * @description Creates the toolbar section in the header with
@@ -36,14 +37,28 @@ class Toolbar extends Component {
 
  onUpdateUser(email)
  {
-     cookie.save('user_email', email);
-     this.props.onUpdateUser();
+     function updateUserState(prop, response) {
+         console.log(response);
+        cookie.save('user_email', email);
+        prop.onUpdateUser();
+     }
+
+     let form_data = new FormData();
+     form_data.append("email", email);
+     let prop = this.props;
+     return AxiosConfig.post(`account/switch`, form_data,
+            {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            })
+            .then(function(response){updateUserState(prop, response)})
+            .catch(error => console.log(error));
  }
 
   render() {
     return (
         <div className="child-select__dropdown-menu-wrapper">
-
         {
             this.state.otherUsers !== '' ? (
                 this.state.otherUsers
@@ -54,29 +69,27 @@ class Toolbar extends Component {
             onClick={this.onUpdateUser.bind(this, elem.email)}
           >
             <div className="child-select__profile">
-              {elem.photo !== '' ? (
+              {elem.profile_pic !== '' ? (
                             <div
                                 className="child-select__avatar"
-                                style={{backgroundImage: `url(${elem.photo})`}}
-                                alt={elem.name}
+                                style={{backgroundImage: `url(${elem.profile_pic})`}}
+                                alt={elem.full_name}
                             />
                         ) :
                         (<div
                                 className="child-select__avatar"
                                 style={{backgroundImage: `url(${UploadPhoto})`}}
-                                alt={elem.name}
+                                alt={elem.full_name}
                             />)
                     }
               <div className="child-select__info">
-                <div className="child-select__name">{elem.name}</div>
+                <div className="child-select__name">{elem.full_name}</div>
               </div>
             </div>
           </a>
           ))
             ):('')
-
             }
-
 
           <a
             className="child-select__item child-select__item--dropdown child-select__item--add-child"

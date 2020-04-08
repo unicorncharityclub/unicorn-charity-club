@@ -68,8 +68,6 @@ class StartProjectStepTwo extends React.Component {
         
         // if the prize is selected
         if (this.state.photoSelectedId){
-            AxiosConfig.defaults.withCredentials = true;
-            AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
             AxiosConfig.put(`charityproject/projectPrize`, {
                 "project_id" : this.props.match.params.id,
                 "user_email" : cookie.load('user_email'),
