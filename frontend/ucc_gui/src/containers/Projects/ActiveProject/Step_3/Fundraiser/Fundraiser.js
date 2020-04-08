@@ -10,6 +10,7 @@ class Fundraiser extends React.Component {
     this.state = {
         projectId: this.props.match.params.id,
         userEmail: cookie.load('user_email'),
+        hours : '',
         description :'',
         video :'',
         finalVideo :'',
@@ -31,6 +32,7 @@ class Fundraiser extends React.Component {
             formData.append('organisation_city', this.state.city);
             formData.append('website', this.state.website);
             formData.append('organisation_state', this.state.stateName);
+            formData.append('hours', this.state.hours);
             formData.append('details', this.state.description);
             formData.append('action_type', action_type );
             if (this.state.finalVideo) {
@@ -40,7 +42,7 @@ class Fundraiser extends React.Component {
             console.log(err)
         }
 
-                AxiosConfig.post('charityproject/giveDonation', formData,
+                AxiosConfig.post('charityproject/fundraiser', formData,
                     {
                         headers: {
                             'content-type': 'multipart/form-data'
@@ -82,7 +84,8 @@ defaultIfEmpty(value){
                         defaultIfEmpty = {this.defaultIfEmpty.bind(this)}
                         onSubmit = {this.onSubmit.bind(this)}
                         videoHandler={this.videoHandler.bind(this)}
-                        video = {this.state.video}/>
+                        video = {this.state.video}
+                        hours = {this.state.hours}/>
                     </Container>
                   </div>
         )
