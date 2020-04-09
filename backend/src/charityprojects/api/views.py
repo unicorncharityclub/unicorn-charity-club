@@ -4,9 +4,10 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.views import APIView
-
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation,\
     SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit, VolunteerTime, Fundraise
+from prize.models import Prize
+
 from django.http import JsonResponse
 from accounts.models import User
 from profile.models import ChildProfile
@@ -389,18 +390,13 @@ def unregistered_invitation(request):
     return JsonResponse(response)
 
 
-@api_view(['POST'])
-@parser_classes([MultiPartParser, FormParser])
-def create_volunteer_adventure(request):
-    user_email_id = request.data["user_email"]
-    user_id = User.objects.get(email=user_email_id).id
-    project_id = request.data["project_id"]
+def create_volunteer_adventure(request, user_id, project_id):
     project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
     project_user_id = project_user_record.id
     if project_user_record:
         project_user_record.challenge_status = "Challenge3Complete"
         project_user_record.save()
-    volunteer_time_update_data = {"pu_id": project_user_id, "organisation_name": request.data["organisation_name"],
+    volunteer_time_update_data = {"project_user_id": project_user_id, "organisation_name": request.data["organisation_name"],
                                   "organisation_address": request.data["organisation_address"],
                                   "organisation_city": request.data["organisation_city"],
                                   "organisation_state": request.data["organisation_state"],
@@ -413,6 +409,61 @@ def create_volunteer_adventure(request):
         volunteer_serializer.save()
         return Response(volunteer_serializer.data, status=status.HTTP_201_CREATED)
     return Response(volunteer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST', 'GET'])
+@parser_classes([MultiPartParser, FormParser])
+def volunteer_time(request):
+    response = {'status': "Invalid Request"}
+    if request.method == "POST":
+        store_volunteer_details(request)
+    elif request.method == "GET":
+        fetch_volunteer_details(request)
+    else:
+        return JsonResponse(response)
+
+
+def store_volunteer_details(request):
+    user_email_id = request.data["user_email"]
+    user_id = User.objects.get(email=user_email_id).id
+    project_id = request.data["project_id"]
+    action_type = request.data["action_type"]
+    if action_type == "Done":
+        create_volunteer_adventure(request, user_id, project_id)
+        update_challenge_status(user_id, project_id, "Challenge3Complete")
+    elif action_type == "Save":
+        update_volunteer_details(request)
+
+
+def fetch_volunteer_details(request):
+    user_email_id = request.GET["user_email"]
+    user_id = User.objects.get(email=user_email_id).id
+    project_id = request.GET["project_id"]
+    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
+    project_user_id = project_user_record.id
+    volunteer_record = VolunteerTime.objects.get(project_user_id=project_user_id)
+    if volunteer_record:
+        serializer = VolunteerTimeSerializer(volunteer_record)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+def update_volunteer_details(request):
+    user_email_id = request.data["user_email"]
+    user_id = User.objects.get(email=user_email_id).id
+    project_id = request.data["project_id"]
+    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
+    project_user_id = project_user_record.id
+    volunteer_record = VolunteerTime.objects.get(project_user_id=project_user_id)
+    if volunteer_record:
+        serializer = VolunteerTimeSerializer(volunteer_record, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        create_volunteer_adventure(request, user_id, project_id)
 
 
 def fetch_project_planning_status(request, user_email):
@@ -636,7 +687,7 @@ def store_donation_details(request):
 def create_donation_record(request, user_id, project_id):
     project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
     project_user_id = project_user_record.id
-    give_donation_data = {"pu_id": project_user_id, "organisation_name": request.data["organisation_name"],
+    give_donation_data = {"project_user_id": project_user_id, "organisation_name": request.data["organisation_name"],
                           "organisation_address": request.data["organisation_address"],
                           "organisation_city": request.data["organisation_city"],
                           "organisation_state": request.data["organisation_state"],
@@ -715,7 +766,7 @@ def store_fundraiser_details(request):
 def create_fundraiser_record(request, user_id, project_id):
     project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
     project_user_id = project_user_record.id
-    fundraiser_data = {"pu_id": project_user_id, "organisation_name": request.data["organisation_name"],
+    fundraiser_data = {"project_user_id": project_user_id, "organisation_name": request.data["organisation_name"],
                        "organisation_address": request.data["organisation_address"],
                        "organisation_city": request.data["organisation_city"],
                        "organisation_state": request.data["organisation_state"],
@@ -745,7 +796,7 @@ def update_fundraiser_record(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
-        create_donation_record(request, user_id, project_id)
+        create_fundraiser_record(request, user_id, project_id)
 
 
 def fetch_fundraiser(request):
@@ -802,7 +853,10 @@ def spotlight_stats(request, user_email):
             volunteer_adv = VolunteerTime.objects.filter(project_user_id=pu_id)
             if volunteer_adv:
                 total_volunteer_hours = total_volunteer_hours + volunteer_adv.volunteer_hours
-    # fund raised will be done after user story for adventure fun raise
+            fundraiser = Fundraise.objects.filter(project_user_id=pu_id)
+            if fundraiser:
+                total_fund_raised = total_fund_raised + fundraiser.fundraise_amount
+
     response["total_projects"] = total_projects
     response["people_reached"] = total_people_reached
     response["volunteer_hours"] = total_volunteer_hours
@@ -875,4 +929,101 @@ def get_challenge_learn_new_skill(request, project_id, user_email):
                     response['video'] = request.build_absolute_uri(challenge_skill.video.url)
                 else:
                     response['video'] = ''
+    return JsonResponse(response)
+
+
+@api_view(['GET'])
+@parser_classes([MultiPartParser, FormParser])
+def unlock_prize(request, project_id, user_email):
+    response = {'status': "Success"}
+    if request.method == 'GET':
+        user_id = User.objects.get(email=user_email).id
+        project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id).first()
+        if project_user_record:
+            pu_id = project_user_record.id
+            project_user_details_record = ProjectUserDetails.objects.filter(project_user_id=pu_id).first()
+            if project_user_details_record:
+                prize_id = project_user_details_record.prize_given_id
+                prize_details = Prize.objects.filter(id=prize_id).first()
+                if prize_details:
+                    response['image'] = request.build_absolute_uri(prize_details.image.url)
+            adventure_id = project_user_record.adventure_id
+            response['adventure_id'] = adventure_id
+            if adventure_id == 1:
+                invitees = []
+                challenge_spread_word = SpreadWord.objects.filter(project_user_id=pu_id).first()
+                if challenge_spread_word:
+                    spread_word_pu_id = challenge_spread_word.project_user_id
+                    unregister_invitation = UnregisterInvitation.objects.filter(project_user_id=spread_word_pu_id).values()
+                    if unregister_invitation:
+                        for item in unregister_invitation:
+                            invitees.append(item['unregister_user_emailId'])
+                    if spread_word_pu_id == pu_id:
+                        registered_invitation = UserInvitation.objects.filter(project_id=project_id, user_id=user_id).values()
+                        if registered_invitation:
+                            for item in registered_invitation:
+                                user = User.objects.get(id=item['friend_id'])
+                                invitees.append(user.email)
+                    response['invitees'] = invitees
+                    if project_user_details_record.video:
+                        response['video'] = request.build_absolute_uri(project_user_details_record.video.url)
+                    else:
+                        response['video'] = ''
+            elif adventure_id == 2:
+                challenge_skill = LearnNewSkill.objects.filter(project_user_id=pu_id).first()
+                if challenge_skill:
+                    response['new_skill'] = challenge_skill.new_skill
+                    response['description'] = challenge_skill.description
+                    if challenge_skill.video:
+                        response['video'] = request.build_absolute_uri(challenge_skill.video.url)
+                    else:
+                        response['video'] = ''
+            elif adventure_id == 3:
+                challenge_develop_habit = DevelopNewHabit.objects.filter(project_user_id=pu_id).first()
+                if challenge_develop_habit:
+                    response['new_habit'] = challenge_develop_habit.new_habit
+                    response['description'] = challenge_develop_habit.description
+                    if challenge_develop_habit.video:
+                        response['video'] = request.build_absolute_uri(challenge_develop_habit.video.url)
+                    else:
+                        response['video'] = ''
+            elif adventure_id == 4:
+                challenge_voluteer_time = VolunteerTime.objects.filter(project_user_id=pu_id).first()
+                if challenge_voluteer_time:
+                    response['organisation_name'] = challenge_voluteer_time.organisation_name
+                    response['organisation_address'] = challenge_voluteer_time.organisation_address
+                    response['organisation_city'] = challenge_voluteer_time.organisation_city
+                    response['organisation_state'] = challenge_voluteer_time.organisation_state
+                    response['organisation_website'] = challenge_voluteer_time.organisation_website
+                    response['volunteer_hours'] = challenge_voluteer_time.volunteer_hours
+                    response['volunteer_work_description'] = challenge_voluteer_time.volunteer_work_description
+                    if challenge_voluteer_time.volunteer_exp:
+                        response['video'] = request.build_absolute_uri(challenge_voluteer_time.volunteer_exp.url)
+                    else:
+                        response['video'] = ''
+            elif adventure_id == 5:
+                challenge_give_donation = GiveDonation.objects.filter(project_user_id=pu_id).first()
+                if challenge_give_donation:
+                    response['organisation_name'] = challenge_give_donation.organisation_name
+                    response['organisation_address'] = challenge_give_donation.organisation_address
+                    response['organisation_city'] = challenge_give_donation.organisation_city
+                    response['organisation_state'] = challenge_give_donation.organisation_state
+                    response['organisation_website'] = challenge_give_donation.organisation_website
+                    if challenge_give_donation.donation_exp:
+                        response['video'] = request.build_absolute_uri(challenge_give_donation.volunteer_exp.url)
+                    else:
+                        response['video'] = ''
+            elif adventure_id == 6:
+                challenge_fundraise = Fundraise.objects.filter(project_user_id=pu_id).first()
+                if challenge_fundraise:
+                    response['organisation_name'] = challenge_fundraise.organisation_name
+                    response['organisation_address'] = challenge_fundraise.organisation_address
+                    response['organisation_city'] = challenge_fundraise.organisation_city
+                    response['organisation_state'] = challenge_fundraise.organisation_state
+                    response['organisation_website'] = challenge_fundraise.organisation_website
+                    response['fundraise_details'] = challenge_fundraise.fundraise_details
+                    if challenge_fundraise.fundraise_exp:
+                        response['video'] = request.build_absolute_uri(challenge_fundraise.fundraise_exp.url)
+                    else:
+                        response['video'] = ''
     return JsonResponse(response)

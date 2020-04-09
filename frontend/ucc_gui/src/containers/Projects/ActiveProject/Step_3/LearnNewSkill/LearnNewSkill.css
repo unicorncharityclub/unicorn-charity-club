@@ -30,6 +30,14 @@
     padding-top: calc(2rem + 1px);
 }
 
+.project-form-inner img {
+    border: 1px solid;
+    display: block;
+    height: 300px;
+    width: 400px;
+    margin: 20px auto 30px;
+}
+
 .project-form input {
     display: block;
     margin-left: 20px;
@@ -63,7 +71,7 @@
 .navigate-save {
     width: 100%;
     margin: 70px 10px 10px 10px;
-    text-align: center;
+    /*text-align: center;*/
     justify-content: flex-end;
 }
 

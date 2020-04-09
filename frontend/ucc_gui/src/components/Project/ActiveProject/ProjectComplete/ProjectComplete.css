@@ -1,0 +1,45 @@
+.challenge-form {
+    float: left;
+    position: relative;
+    width: 100%;
+    display: block;
+    flex-flow: row;
+    padding-top: 5px;
+}
+
+.challenge-form-inner label {
+    padding-top: 0;
+    padding-bottom: calc(0.7rem + 1px);
+    margin-bottom: 0;
+    font-size: inherit;
+    line-height: 1.5rem;
+    float: left;
+    color: #000;
+    width: 100%;
+}
+
+.statement {
+    padding-top: 0;
+    padding-bottom: 0 !important;
+    margin-bottom: 0;
+    font-size: inherit;
+    line-height: 1.5rem;
+    float: left;
+    color: #000;
+    width: 100%;
+}
+
+.challenge-form-inner img {
+    border: 1px solid;
+    display: block;
+    height: 300px;
+    width: 400px;
+    margin: 20px auto 30px;
+}
+
+@media only screen and (max-width: 520px) {
+    .challenge-form label {
+        line-height: 1rem;
+    }
+}
+
