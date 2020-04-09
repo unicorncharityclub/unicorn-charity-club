@@ -15,8 +15,6 @@ class ProjectDetails extends React.Component {
     {
         const projectId = this.props.match.params.id;
 
-        AxiosConfig.defaults.withCredentials = true;
-        AxiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
         AxiosConfig.post('charityproject/start',
             {"project_id":projectId,
                     "user_email": this.state.userEmail},

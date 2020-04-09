@@ -4,6 +4,7 @@ import "../Header.css";
 import "./Toolbar.css";
 import cookie from "react-cookies";
 import UploadPhoto from "../../../../site_media/Images/Default-profile-picture.png";
+import AxiosConfig from "../../../../axiosConfig";
 
 /**
  * @description Creates the toolbar section in the header with
@@ -36,8 +37,23 @@ class Toolbar extends Component {
 
  onUpdateUser(email)
  {
-     cookie.save('user_email', email);
-     this.props.onUpdateUser();
+     function updateUserState(prop, response) {
+         console.log(response);
+        cookie.save('user_email', email);
+        prop.onUpdateUser();
+     }
+
+     let form_data = new FormData();
+     form_data.append("email", email);
+     let prop = this.props;
+     return AxiosConfig.post(`account/switch`, form_data,
+            {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            })
+            .then(function(response){updateUserState(prop, response)})
+            .catch(error => console.log(error));
  }
 
   render() {
@@ -73,9 +89,7 @@ class Toolbar extends Component {
           </a>
           ))
             ):('')
-
             }
-
 
           <a
             className="child-select__item child-select__item--dropdown child-select__item--add-child"

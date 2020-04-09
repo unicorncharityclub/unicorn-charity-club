@@ -4,6 +4,7 @@ import Navbar from "../../Navbar/Navbar";
 import "./Mobile_toolbar.css";
 import {connect} from "react-redux";
 import cookie from "react-cookies";
+import AxiosConfig from "../../../../axiosConfig";
 
 /**
  * @description Creates the a menu toolbar for mobile version
@@ -26,13 +27,6 @@ class Mobile_toolbar extends Component {
     this.setState = { isMenuOpen: false };
   }
 
-  logout() {
-      let empty = "";
-      cookie.save('user_email', empty);
-      cookie.save('XSRF-TOKEN', empty);
-      cookie.save('user_list', empty);
-      this.props.dispatch({ type: "LOGOUT_SUCCESS", userList:empty, token:empty});
-  }
 
   render() {
     return (
@@ -80,7 +74,7 @@ class Mobile_toolbar extends Component {
                       </div>
 
                       <div className="mobile-toolbar-menu__item">
-                        <a href="/" onClick={this.logout} className="logout-link">
+                        <a href="/Logout" onClick={this.logout} className="logout-link">
                           Logout
                         </a>
                       </div>

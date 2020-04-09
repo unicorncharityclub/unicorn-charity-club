@@ -10,10 +10,13 @@ class AccountDetailsSerializer(serializers.ModelSerializer):
         read_only_fields = ['password', 'is_active', 'is_staff']
 
     def create(self, validated_data):
+        password = self.context.get('password', None)
+        if password is None:
+            return None
         user = User.objects.create(first_name=validated_data['first_name'],
                                    last_name=validated_data['last_name'],
                                    email=validated_data['email'],
-                                   password=make_password(self.context.get('password', None)),
+                                   password=password,
                                    dob=validated_data['dob'])
         user.save()
         return user

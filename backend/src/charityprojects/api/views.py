@@ -5,12 +5,13 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, UserInvitation, UnregisterInvitation,\
     SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit, VolunteerTime, Fundraise
 from prize.models import Prize
+
 from django.http import JsonResponse
 from accounts.models import User
 from profile.models import ChildProfile
 from profile.models import Profile
 from .serializers import ProjectUserSerializer, LearnNewSkillSerializer, VolunteerTimeSerializer,\
-    DevelopNewHabitSerializer, GiveDonationSerializer
+    DevelopNewHabitSerializer, GiveDonationSerializer, FundraiserSerializer
 from rest_framework import status
 from rest_framework.response import Response
 import re
@@ -708,6 +709,80 @@ def update_donation_details(request):
         create_donation_record(request, user_id, project_id)
 
 
+@api_view(['POST', 'GET'])
+@parser_classes([MultiPartParser, FormParser])
+def fundraiser(request):
+    response = {'status': "Invalid Request"}
+    if request.method == "POST":
+        store_fundraiser_details(request)
+    elif request.method == "GET":
+        fetch_fundraiser(request)
+    else:
+        return JsonResponse(response)
+
+
+def store_fundraiser_details(request):
+    user_email_id = request.data["user_email"]
+    user_id = User.objects.get(email=user_email_id).id
+    project_id = request.data["project_id"]
+    action_type = request.data["action_type"]
+    if action_type == "Done":
+        create_fundraiser_record(request, user_id, project_id)
+        update_challenge_status(user_id, project_id, "Challenge3Complete")
+    elif action_type == "Save":
+        update_fundraiser_record(request)
+
+
+def create_fundraiser_record(request, user_id, project_id):
+    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
+    project_user_id = project_user_record.id
+    fundraiser_data = {"pu_id": project_user_id, "organisation_name": request.data["organisation_name"],
+                       "organisation_address": request.data["organisation_address"],
+                       "organisation_city": request.data["organisation_city"],
+                       "organisation_state": request.data["organisation_state"],
+                       "organisation_website": request.data["website"],
+                       "fundraise_details": request.data["details"],
+                       "fundraise_amount": request.data["amount"],
+                       "fundraise_exp": request.data["exp_video"]}
+    fundraiser_serializer = FundraiserSerializer(data=fundraiser_data)
+    if fundraiser_serializer.is_valid():
+        fundraiser_serializer.save()
+        return Response(fundraiser_serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(fundraiser_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def update_fundraiser_record(request):
+    user_email_id = request.data["user_email"]
+    user_id = User.objects.get(email=user_email_id).id
+    project_id = request.data["project_id"]
+    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
+    project_user_id = project_user_record.id
+    fundraiser_record = Fundraise.objects.get(project_user_id=project_user_id)
+    if fundraiser_record:
+        serializer = FundraiserSerializer(fundraiser_record, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        create_donation_record(request, user_id, project_id)
+
+
+def fetch_fundraiser(request):
+    user_email_id = request.GET["user_email"]
+    user_id = User.objects.get(email=user_email_id).id
+    project_id = request.GET["project_id"]
+    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
+    project_user_id = project_user_record.id
+    fundraiser = Fundraise.objects.get(project_user_id=project_user_id)
+    if fundraiser:
+        serializer = FundraiserSerializer(fundraiser)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
 def fetch_completed_projects(request, user_email):
     response = {'status': "Invalid Request"}
     user_id = User.objects.get(email=user_email).id
@@ -730,6 +805,30 @@ def fetch_completed_projects(request, user_email):
     else:
         response["status"] = "User has no completed projects"
 
+    return JsonResponse(response)
+
+
+def spotlight_stats(request, user_email):
+    response = {'status': "Invalid Request"}
+    total_volunteer_hours = 0
+    total_fund_raised = 0
+    user_id = User.objects.get(email=user_email).id
+    user_invitations = UserInvitation.objects.filter(user_id=user_id)
+    total_people_reached = len(user_invitations)
+    project_user_list = ProjectUser.objects.filter(user_id=user_id)
+    total_projects = len(project_user_list)
+    if total_projects > 0:
+        for project_user in project_user_list:
+            pu_id = project_user.id
+            volunteer_adv = VolunteerTime.objects.filter(project_user_id=pu_id)
+            if volunteer_adv:
+                total_volunteer_hours = total_volunteer_hours + volunteer_adv.volunteer_hours
+    # fund raised will be done after user story for adventure fun raise
+    response["total_projects"] = total_projects
+    response["people_reached"] = total_people_reached
+    response["volunteer_hours"] = total_volunteer_hours
+    response["funds_raised"] = total_fund_raised
+    response["status"] = "Success"
     return JsonResponse(response)
 
 
