@@ -1,31 +1,60 @@
 import React from "react";
 import Image from 'react-bootstrap/Image';
 import AxiosConfig from '../../axiosConfig';
+import cookie from "react-cookies";
 
 class ProfileInfo extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-        profile_pic : 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
+        profile_pic : 'http://127.0.0.1:8000/media/upload/image/project_badge/Default_Logo.png',
         cover_pic : 'https://cdn.pixabay.com/photo/2016/10/18/21/22/california-1751455_1280.jpg',
         dob : '',
         full_name : '',
-        address : '',        
+        address : '',  
+        total_projects  : '',
+        people_reached  : '',
+        volunteer_hours  : '',
+        funds_raised  : '',
+        user_email: cookie.load('user_email')      
     }
  }
 
   componentDidMount(){
     this.fetchProfileInfo(this);    
+    this.fetchSpotlightStats(this); 
   }
 
   fetchProfileInfo (obj) {    
-    AxiosConfig.get(`profile/view_profile`)
-    .then(function(response) {obj.setProfileInfo(response);})
-    .catch(function(error) {console.log(error);});
+      AxiosConfig.get(`profile/view_profile`)
+      .then(function(response) {obj.setProfileInfo(response);})
+      .catch(function(error) {console.log(error);});
   }
 
-  setProfileInfo (response) {         
+  fetchSpotlightStats (obj) {
+      const user_email = this.state.user_email;
+      AxiosConfig.get(`charityproject/socialImpact/${user_email}/`)
+      .then(function(response) {obj.setSpotlightStats(response);})
+      .catch(function(error) {console.log(error);});
+  }
+
+  setSpotlightStats (response) {      
+      let total_projects = response.data['total_projects'];  
+      let people_reached = response.data['people_reached'];  
+      let volunteer_hours = response.data['volunteer_hours'];  
+      let funds_raised = response.data['funds_raised'];
+      this.setState(prevState => ({
+          total_projects  : total_projects,
+          people_reached  : people_reached,
+          volunteer_hours  : volunteer_hours,
+          funds_raised  : funds_raised
+      }));   
+
+  }
+
+  setProfileInfo (response) {     
+    console.log(response)    
       let dob = response.data['dob'];
       let full_name = response.data['full_name'];
       let address = response.data['address'];
@@ -44,28 +73,28 @@ class ProfileInfo extends React.Component {
         <div>                   
             <div className="center_vertical_content">    
               <p className="statistics">
-                  4
+                  {this.state.total_projects}
               </p>
               <p className="statistics_titles">
                 Total Projects
               </p>
   
               <p className="statistics">
-                798
+                {this.state.people_reached}
               </p>
               <p className="statistics_titles" >
                 Total People Reached
               </p>
   
               <p className="statistics">
-                122
+                {this.state.volunteer_hours}
               </p>
               <p className="statistics_titles">
                 Total Volunteer Hours
               </p>
   
               <p className="statistics">
-                $829
+                  ${this.state.funds_raised}
               </p>
               <p className="statistics_titles">
                 Total Funds Raised
@@ -123,15 +152,14 @@ class ProfileInfo extends React.Component {
       return (
           <div className="content_section vertical_project">
 
-            <div> 
-                {/* profile pic details here */}
-                <Image className="profile_pic_vertical" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg" />
+            <div>                 
+                <Image className="profile_pic_vertical" src={this.state.profile_pic} />
             </div> 
 
             <div className ="profileDetails_vertical">
-              <h3>Name</h3>
-              <h6>Age</h6>
-              <h6>City, State</h6>
+              <h3>{this.state.full_name}</h3>
+              <h6>Age : {this.getAge(this.state.dob)}</h6>
+              <h6>{this.state.address}</h6>
             </div>
 
             <hr className = "hr_vertical"/>

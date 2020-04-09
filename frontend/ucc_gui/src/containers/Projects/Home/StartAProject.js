@@ -127,8 +127,9 @@ class ProjectsHome extends React.Component {
 
           <div>                             
               {this.state.invitationsList && this.state.invitationsList.length > 0?
-                (  <ActiveProjectInfo projectList={this.state.invitationsList} listType = {"Invitation"}/>):(<div/>)}
+                (  <ActiveProjectInfo projectList={this.state.invitationsList} listType = {"Invitation"}/>):(<span className = "message">Invitations not available</span>)}
           </div>
+          <hr className="horizontal_line"/>
         </div>
         
         <br/>
@@ -142,8 +143,9 @@ class ProjectsHome extends React.Component {
 
           <div>                     
           {this.state.plannedProjectsList && this.state.plannedProjectsList.length > 0?
-                    (  <ActiveProjectInfo projectList={this.state.plannedProjectsList} listType = {"Planning"}/>):(<div/>)}
+                    (  <ActiveProjectInfo projectList={this.state.plannedProjectsList} listType = {"Planning"}/>):(<span className = "message">Projects not available</span>)}
           </div>
+          <hr className="horizontal_line"/>
         </div>
         
         <br/>
@@ -156,8 +158,9 @@ class ProjectsHome extends React.Component {
 
           <div> 
             {this.state.activeProjectsList && this.state.activeProjectsList.length > 0?
-                    (  <ActiveProjectInfo projectList={this.state.activeProjectsList} listType = {"Active"}/>):(<div/>)}
+                    (  <ActiveProjectInfo projectList={this.state.activeProjectsList} listType = {"Active"}/>):(<span className = "message">Projects not available</span>)}
           </div>
+          <hr className="horizontal_line"/>
         </div>
 
         <br/>

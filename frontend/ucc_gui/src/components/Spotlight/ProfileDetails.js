@@ -21,8 +21,7 @@ class ProfileDetails extends React.Component {
     this.fetchProfileDetails(this);    
   }
 
-  fetchProfileDetails (obj) {
-    const user_email = this.state.user_email;
+  fetchProfileDetails (obj) {    
     AxiosConfig.get(`profile/view_profile`)
     .then(function(response) {obj.setProfileDetails(response);})
     .catch(function(error) {console.log(error);});

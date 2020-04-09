@@ -4,6 +4,7 @@ import Image from 'react-bootstrap/Image';
 import { Container, Row, Col } from 'reactstrap';
 import VerticalSpotlightDetails from './VerticalSpotlightDetails';
 import AxiosConfig from '../../axiosConfig';
+import cookie from "react-cookies";
 
 class CollapseComponent extends React.Component {
   constructor(props){
@@ -16,14 +17,20 @@ class CollapseComponent extends React.Component {
         'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
         'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg'
       ],
-      completed_projects : []      
+      completed_projects : []  ,
+      total_projects  : '',
+      people_reached  : '',
+      volunteer_hours  : '',
+      funds_raised  : '',
+      user_email : cookie.load('user_email')    
     }
 
     this.togglePanel = this.togglePanel.bind(this);
   }
 
   componentDidMount(){
-    this.fetchCompletedProjectList(this);    
+    this.fetchCompletedProjectList(this);  
+    this.fetchSpotlightStats(this);  
   }
 
   fetchCompletedProjectList (obj) {
@@ -33,12 +40,33 @@ class CollapseComponent extends React.Component {
     .catch(function(error) {console.log(error);});
  }
 
- setCompletedProjectList (response) {
-      let completed_projects = response.data['completed_projects'];      
-      this.setState(prevState => ({
-        completed_projects : completed_projects
-    }));
- }
+  setCompletedProjectList (response) {
+        let completed_projects = response.data['completed_projects'];      
+        this.setState(prevState => ({
+          completed_projects : completed_projects
+      }));
+  }
+
+  fetchSpotlightStats (obj) {
+    const user_email = this.state.user_email;
+    AxiosConfig.get(`charityproject/socialImpact/${user_email}/`)
+    .then(function(response) {obj.setSpotlightStats(response);})
+    .catch(function(error) {console.log(error);});
+  }
+
+  setSpotlightStats (response) {    
+    let total_projects = response.data['total_projects'];  
+    let people_reached = response.data['people_reached'];  
+    let volunteer_hours = response.data['volunteer_hours'];  
+    let funds_raised = response.data['funds_raised'];
+    this.setState(prevState => ({
+        total_projects  : total_projects,
+        people_reached  : people_reached,
+        volunteer_hours  : volunteer_hours,
+        funds_raised  : funds_raised
+    }));   
+
+  }
  
 
   togglePanel(e){
@@ -52,16 +80,16 @@ class CollapseComponent extends React.Component {
             <tbody>
             <tr className="statistics">
                 <td>
-                  4
+                  {this.state.total_projects}
                 </td>
                 <td>
-                  798
+                  {this.state.people_reached}
                 </td>
                 <td>
-                  122
+                  {this.state.volunteer_hours}
                 </td>
                 <td>
-                  $829
+                  ${this.state.funds_raised}
                 </td>
               </tr>  
               <tr className="statistics_titles">
