@@ -22,7 +22,7 @@ class VolunteerTime extends React.Component {
     }
  }
 
- onSubmit() {
+ onSubmit(event, action_type) {
      let formData = new FormData();
         try {
             formData.append('user_email', this.state.userEmail);
@@ -34,6 +34,7 @@ class VolunteerTime extends React.Component {
             formData.append('organisation_state', this.state.stateName);
             formData.append('hours', this.state.hours);
             formData.append('description', this.state.description);
+            formData.append('action_type', action_type );
             if (this.state.finalVideo) {
                 formData.append('exp_video', this.state.finalVideo);
             }
