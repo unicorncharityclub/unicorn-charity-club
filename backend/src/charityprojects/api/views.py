@@ -1,8 +1,11 @@
 import json
 from datetime import date
+
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view, parser_classes
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import RetrieveAPIView, ListAPIView
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation,\
     SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit, VolunteerTime, Fundraise
@@ -22,6 +25,16 @@ import re
 # The primary key for the Charity Projects is passed from URL.py
 # Based on the PK and the serializer mentioned the data is returned in JSON format
 class CharityProjectDetailsView(RetrieveAPIView):
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+    model = CharityProjects
+    serializer_class = CharityProjectSerializer
+    queryset = CharityProjects.objects.all()
+
+
+class CharityProjectListView(ListAPIView):
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
     model = CharityProjects
     serializer_class = CharityProjectSerializer
     queryset = CharityProjects.objects.all()
@@ -34,22 +47,6 @@ def all_project_list(request):
     for project in projects:
         project_list.append(project.name)
         response['project_list'] = project_list
-    return JsonResponse(response)
-
-
-def all_project_info_list(request):
-    response = {'status': "Success"}
-    projects = CharityProjects.objects.all()
-    project_list = []
-    for project in projects:
-        each_project = {"project_id": project.id, "project_name": project.name, "project_goal": project.goal,
-                        "project_mission": project.mission,
-                        "project_video": request.build_absolute_uri(project.video_name),
-                        "project_category": project.category,
-                        "project_badge": request.build_absolute_uri(project.badge.url),
-                        "project_tags": project.tags, "project_banner": request.build_absolute_uri(project.banner.url)}
-        project_list.append(each_project)
-    response['project_list'] = project_list
     return JsonResponse(response)
 
 
