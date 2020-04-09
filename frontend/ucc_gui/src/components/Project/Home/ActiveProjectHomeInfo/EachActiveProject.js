@@ -21,11 +21,11 @@ class EachActiveProject extends React.Component {
 
     componentDidMount () {               
         const projectId = this.props.projectId;                    
-        AxiosConfig.get(`charityproject/${projectId}`)
+        AxiosConfig.get(`charityproject/${projectId}/`)
       .then(res => {
               this.setState({                  
-                  projectName : res.data["project_name"],
-                  projectBanner : res.data["project_banner"]                 
+                  projectName : res.data["name"],
+                  projectBanner : res.data["banner"]
               });
       }).catch(error => console.log(error))
 

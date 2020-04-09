@@ -64,14 +64,14 @@ class StartProjectStepOne extends React.Component {
 
     componentDidMount () {
         const projectId = this.props.match.params.id;
-        AxiosConfig.get(`charityproject/${projectId}`)
+        AxiosConfig.get(`charityproject/${projectId}/`)
       .then(res => {
               this.setState({
-                  projectName : res.data["project_name"],
-                  projectBanner : res.data["project_banner"],
-                  projectBadge : res.data["project_badge"],
-                  projectCategory: res.data["project_category"],
-                  projectMission: res.data["project_mission"],
+                  projectName : res.data["name"],
+                  projectBanner : res.data["banner"],
+                  projectBadge : res.data["badge"],
+                  projectCategory: res.data["category"],
+                  projectMission: res.data["mission"],
               });
           console.log(res.data)
       }).catch(error => console.log(error))

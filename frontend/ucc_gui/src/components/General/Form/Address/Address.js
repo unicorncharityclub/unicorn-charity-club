@@ -15,7 +15,7 @@ class Address extends React.Component {
 
 
  componentDidMount () {
-        AxiosConfig.get(`charityproject/${this.state.projectId}`)
+        AxiosConfig.get(`charityproject/${this.state.projectId}/`)
     }
 
     render() {

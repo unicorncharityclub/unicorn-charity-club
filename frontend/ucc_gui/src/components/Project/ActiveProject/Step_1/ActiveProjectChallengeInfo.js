@@ -21,13 +21,13 @@ class ActiveProjectChallengeInfo extends React.Component {
 
     componentDidMount () {
     // get axios function here 
-        AxiosConfig.get(`charityproject/${this.state.projectId}`)
+        AxiosConfig.get(`charityproject/${this.state.projectId}/`)
         .then(res => {
                 this.setState({                  
-                  projectName : res.data.project_name,
-                  projectBadge : res.data.project_badge,
-                  projectMission : res.data.project_mission,
-                  projectCategory :res.data.project_category 
+                  projectName : res.data.name,
+                  projectBadge : res.data.badge,
+                  projectMission : res.data.mission,
+                  projectCategory :res.data.category
                 });
         }).catch(error => console.log(error))
     }

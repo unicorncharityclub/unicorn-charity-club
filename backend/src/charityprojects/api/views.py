@@ -1,48 +1,29 @@
 import json
 from datetime import date
 from rest_framework.decorators import api_view, parser_classes
+from rest_framework.generics import RetrieveAPIView
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.views import APIView
+
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation,\
     SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit, VolunteerTime, Fundraise
 from django.http import JsonResponse
 from accounts.models import User
 from profile.models import ChildProfile
 from profile.models import Profile
-from .serializers import ProjectUserSerializer, LearnNewSkillSerializer, VolunteerTimeSerializer,\
-    DevelopNewHabitSerializer, GiveDonationSerializer, FundraiserSerializer
+from .serializers import ProjectUserSerializer, LearnNewSkillSerializer, VolunteerTimeSerializer, \
+    DevelopNewHabitSerializer, GiveDonationSerializer, FundraiserSerializer, CharityProjectSerializer
 from rest_framework import status
 from rest_framework.response import Response
 import re
 
 
-def charity_project_details(request, project_id):
-    response = {'status': "Invalid Request"}
-    project = CharityProjects.objects.get(pk=project_id)
-    if request.method == "GET":
-        try:
-            if project:
-                response['status'] = "Success"
-                response["project_name"] = project.name
-                response["project_goal"] = project.goal
-                response["project_mission"] = project.mission
-                if project.video_name:
-                    response["project_video_name"] = project.video_name
-                    response["project_video"] = request.build_absolute_uri(project.video.url)
-                else:
-                    response["project_video_name"] = ""
-                    response["project_video"] = ""
-
-                response["project_category"] = project.category
-                response["project_tags"] = project.tags
-                response["project_badge"] = request.build_absolute_uri(project.badge.url)
-                response["project_banner"] = ""
-                if project.banner:
-                    response["project_banner"] = request.build_absolute_uri(project.banner.url)
-            else:
-                response['status'] = "Wrong project id"
-        except ValueError:
-            response['status'] = "Invalid Request"
-    return JsonResponse(response)
+# The primary key for the Charity Projects is passed from URL.py
+# Based on the PK and the serializer mentioned the data is returned in JSON format
+class CharityProjectDetailsView(RetrieveAPIView):
+    model = CharityProjects
+    serializer_class = CharityProjectSerializer
+    queryset = CharityProjects.objects.all()
 
 
 def all_project_list(request):

@@ -1,4 +1,4 @@
-from .views import charity_project_details, all_project_list, project_category, all_project_info_list, start_project, \
+from .views import all_project_list, project_category, all_project_info_list, start_project, \
     update_project_invitation_video_details, update_project_prize, update_project_challenge_status_explore, \
     challenge_learn_new_skill, update_project_challenge_status_ideation, update_user_invitation,\
     get_friend_list, search_friends, get_active_project_details, unregistered_invitation,\
@@ -8,9 +8,11 @@ from .views import charity_project_details, all_project_list, project_category, 
 
 from rest_framework.routers import DefaultRouter
 from django.urls import path
+from charityprojects.api import views
+
 
 urlpatterns = [
-    path('<int:project_id>', charity_project_details),
+    path('<int:pk>/', views.CharityProjectDetailsView.as_view()),
     path('', all_project_list),
     path('all_project_info_list', all_project_info_list),
     path('category', project_category),

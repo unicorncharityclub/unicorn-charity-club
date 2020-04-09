@@ -1,7 +1,6 @@
 from rest_framework import serializers
-from ..models import ProjectUserDetails
-from ..models import LearnNewSkill, DevelopNewHabit, GiveDonation, Fundraise
-from ..models import VolunteerTime
+from charityprojects.models import CharityProjects, VolunteerTime, ProjectUserDetails, LearnNewSkill, \
+                                    DevelopNewHabit, GiveDonation, Fundraise
 
 
 class ProjectUserSerializer(serializers.ModelSerializer):
@@ -38,3 +37,38 @@ class FundraiserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fundraise
         fields = '__all__'
+
+
+class CharityProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CharityProjects
+        fields = '__all__'
+        read_only_fields = ['id']
+
+    @property
+    def data(self):
+        result = super().data
+        request_here = self.context.get('request')
+        if request_here:
+            video = result.pop('video')
+            badge = result.pop('badge')
+            banner = result.pop('banner')
+
+            if video:
+                video = request_here.build_absolute_uri(video)
+                result.update({"video": video})
+            else:
+                result.update({"video": ""})
+
+            if badge:
+                badge = request_here.build_absolute_uri(badge)
+                result.update({"badge": badge})
+            else:
+                result.update({"badge": ""})
+
+            if banner:
+                banner = request_here.build_absolute_uri(banner)
+                result.update({"banner": banner})
+            else:
+                result.update({"banner": ""})
+        return result
