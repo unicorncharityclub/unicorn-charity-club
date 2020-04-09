@@ -5,16 +5,16 @@ import TextArea from "../../../../General/Form/TextArea"
 import Input from  "../../../../../components/General/Form/Input"
 import ProjectInfo from "../../../Details/ProjectInfo";
 import "../../../../../containers/ProjectCommon.css"
+import "../../../../../containers/Projects/ActiveProject/Step_3/VolunteerTime/VolunteerTime.css"
 import AxiosConfig from "../../../../../axiosConfig";
 import ProgressStepper from "../../../ProgressStepper";
 import ProjectBanner from "../../../ProjectBanner";
-import "../../../../../containers/Projects/ActiveProject/Step_3/VolunteerTime/VolunteerTime.css"
 import Address from "../../../../General/Form/Address/Address";
 import Video from "../../../../General/Video/Video"
 import TwoButtonLayout from "../../../../General/TwoButtonLayout";
 import TextBlackSubHeading from "../../../../General/Text/TextBlackSubHeading";
 
-class VolunteerTimeDetails extends React.Component {
+class FundraiserDetails extends React.Component {
     constructor(props) {
     super(props);
     this.state = {
@@ -64,28 +64,28 @@ class VolunteerTimeDetails extends React.Component {
                 <TextBlueHeading message="Challenge 3: Adventure"/>
                       <br/>
                       <br/>
-                        <TextBlackSubHeading message = "VOLUNTEER TIME"/>
+                        <TextBlackSubHeading message = "FUNDRAISE"/>
                         <br/>
-                        <TextBlackSubHeading message = "Volunteer time at a local organization that supports the mission of the project."/>
+                        <TextBlackSubHeading message = "Fundraise money for a local organization that supports the mission of the project."/>
                         <div className="project-form-inner">
                             <Address
                                 changeHandler = {this.props.changeHandler}/>
-                            <TextBlackSubHeading message ="2. How much time did you volunteer?"/> <br/>
+                            <TextBlackSubHeading message ="2. How much money did you raise in your fundraiser?"/> <br/>
 
                             <div className="form_control">
-                            <Input type="number" name="hours" value={this.props.hours}
+                            <Input type="number" name="dollars" value={this.props.dollars}
                                    handleChange={this.props.handleNumbers.bind(this)}/>
-                                    <label><TextBlack message="Hours"/></label>
+                                    <label><TextBlack message="Dollars"/></label>
                                 <br/>
 
                         </div>
 
-                            <TextBlackSubHeading message = "3. Describe what you did to volunteer your time."/><br/>
+                            <TextBlackSubHeading message = "3. Describe what you did in your fundraiser."/><br/>
                               <TextArea name="description" rows={3} cols={80}
                                      value={this.props.defaultIfEmpty(this.props.description)}
                                      handleChange={this.props.changeHandler.bind(this)} /><br/>
 
-                                     <TextBlackSubHeading message="3. Share a video or photo that celebrates your volunteer experience."/>
+                                     <TextBlackSubHeading message="3. Share a video or photo that celebrates your fundraising experience."/>
                           </div>
                     <br/>
                     <Video src={this.props.video}
@@ -107,4 +107,4 @@ class VolunteerTimeDetails extends React.Component {
 }
 
 
-export default VolunteerTimeDetails;
+export default FundraiserDetails;

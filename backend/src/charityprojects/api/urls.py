@@ -1,8 +1,8 @@
 from .views import charity_project_details, all_project_list, project_category, all_project_info_list, start_project, \
     update_project_invitation_video_details, update_project_prize, update_project_challenge_status_explore, \
-    challenge_learn_new_skill, update_project_challenge_status_ideation, update_user_invitation, \
-    get_friend_list, search_friends, get_active_project_details, unregistered_invitation, \
-    fetch_project_planning_status, create_volunteer_adventure, challenge_develop_new_habit, get_project_invitations, \
+    challenge_learn_new_skill, update_project_challenge_status_ideation, update_user_invitation,\
+    get_friend_list, search_friends, get_active_project_details, unregistered_invitation,\
+    fetch_project_planning_status, volunteer_time, challenge_develop_new_habit, get_project_invitations,\
     fetch_project_invitation_details, join_project_invitation, spread_the_word, donation, fetch_completed_projects, \
     get_challenge_learn_new_skill, spotlight_stats, fundraiser, unlock_prize
 
@@ -24,7 +24,7 @@ urlpatterns = [
     path('update/Challenge1', update_project_challenge_status_explore),
     path('update/Challenge2', update_project_challenge_status_ideation),
     path('LearnNewSkill', challenge_learn_new_skill),
-    path('volunteerTime', create_volunteer_adventure),
+    path('volunteerTime', volunteer_time),
     path('spreadWord', spread_the_word),
     path('giveDonation', donation),
     path('fundraiser', fundraiser),
