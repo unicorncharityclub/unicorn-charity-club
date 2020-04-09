@@ -128,6 +128,7 @@ class VolunteerTime(models.Model):
 
 
 class DevelopNewHabit(models.Model):
+    objects = None
     new_habit = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     video = models.FileField(upload_to='upload/video/challenge_video', null=True)

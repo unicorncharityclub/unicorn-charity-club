@@ -5,11 +5,18 @@ import ProgressStepper from "../../ProgressStepper";
 import ProjectBanner from "../../ProjectBanner";
 import ProjectInfo from "../../ProjectHeader/ProjectInfo";
 import Project_logo from "../../../../site_media/default-images/project_default.jpg";
+import SpreadTheWordSummary from "./SpreadTheWordSummary";
+import LearnNewSkillSummary from "./LearnNewSkillSummary";
+import DevelopNewHabitSummary from "./DevelopNewHabitSummary";
+import VolunteerTimeSummary from "./VolunteerTimeSummary";
+import GiveADonationSummary from "./GiveADonationSummary";
+import FundraiseSummary from "./FundraiseSummary";
 
 /**
  * @description Displays the prize earned by a user after completion of the project.
  * @class ProjectCompleteComponent
- * @implements ProgressStepper, ProjectBanner, ProjectInfo
+ * @implements ProgressStepper, ProjectBanner, ProjectInfo, SpreadTheWordSummary, LearnNewSkillSummary,
+ * DevelopNewHabitSummary, GiveADonationSummary, FundraiseSummary
  * @extends React.Component
  * @type {ProjectCompleteComponent}
  * @example <ProjectCompleteComponent />
@@ -20,7 +27,6 @@ import Project_logo from "../../../../site_media/default-images/project_default.
  */
 
 class ProjectCompleteComponent extends React.Component {
-
 
     render() {
         return (
@@ -51,6 +57,51 @@ class ProjectCompleteComponent extends React.Component {
                                     <img src={this.props.image || Project_logo} alt="Avatar"/>
                                 </div>
                             </div>
+                            <div className="challenge-name">
+                                <label>MISSION ACCOMPLISHED</label>
+                            </div>
+                            <label className="project-name">{this.props.projectName}</label>
+                            <label>{this.props.projectMission}</label>
+                            <label className="project-name">Accomplishments</label>
+                            {
+                                (this.props.adventureId === 1) ? <SpreadTheWordSummary invitees={this.props.invitees}
+                                                                                       video={this.props.video}/>
+                                    : (this.props.adventureId === 2) ?
+                                    <LearnNewSkillSummary newSkill={this.props.newSkill}
+                                                          description={this.props.description}
+                                                          video={this.props.video}/>
+                                    : (this.props.adventureId === 3) ?
+                                        <DevelopNewHabitSummary newHabit={this.props.newHabit}
+                                                                description={this.props.description}
+                                                                video={this.props.video}/>
+                                        : (this.props.adventureId === 4) ?
+                                            <VolunteerTimeSummary name={this.props.organisationName}
+                                                                  address={this.props.organisationAddress}
+                                                                  city={this.props.organisationCity}
+                                                                  state={this.props.organisationState}
+                                                                  website={this.props.organisationWebsite}
+                                                                  hours={this.props.volunteerHours}
+                                                                  description={this.props.description}
+                                                                  video={this.props.video}/>
+                                            : (this.props.adventureId === 5) ?
+                                                <GiveADonationSummary name={this.props.organisationName}
+                                                                      address={this.props.organisationAddress}
+                                                                      city={this.props.organisationCity}
+                                                                      state={this.props.organisationState}
+                                                                      website={this.props.organisationWebsite}
+                                                                      description={this.props.description}
+                                                                      video={this.props.video}/>
+                                                : (this.props.adventureId === 6) ?
+                                                    <FundraiseSummary name={this.props.organisationName}
+                                                                      address={this.props.organisationAddress}
+                                                                      city={this.props.organisationCity}
+                                                                      state={this.props.organisationState}
+                                                                      website={this.props.organisationWebsite}
+                                                                      description={this.props.description}
+                                                                      video={this.props.video}/> :
+                                                    ''
+
+                            }
                             <div className="navigate-done">
                                 <Button className="done" id="done" variant="contained" type="submit"
                                         onClick={(event) => this.props.saveHandler(event, 'post')}>DONE</Button>
