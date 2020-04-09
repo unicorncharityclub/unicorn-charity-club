@@ -5,6 +5,7 @@ import { Container, Row, Col } from 'reactstrap';
 import VerticalSpotlightDetails from './VerticalSpotlightDetails';
 import AxiosConfig from '../../axiosConfig';
 import cookie from "react-cookies";
+import ProjectCard from "./ProjectCard";
 
 class CollapseComponent extends React.Component {
   constructor(props){
@@ -17,7 +18,11 @@ class CollapseComponent extends React.Component {
         'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
         'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg'
       ],
-      completed_projects : []  ,
+      completed_projects : [{project_details : {project_id: 1, badge: 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg', prize: 'https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197_1280.jpg'}}, 
+                            {project_details : {project_id: 2, badge: 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg', prize: 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg'}},
+                            {project_details : {project_id: 3, badge: 'https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197_1280.jpg', prize: 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg'}}, 
+                            {project_details : {project_id: 4, badge: 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg', prize: 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg'}},
+                            ] ,
       total_projects  : '',
       people_reached  : '',
       volunteer_hours  : '',
@@ -42,9 +47,9 @@ class CollapseComponent extends React.Component {
 
   setCompletedProjectList (response) {
         let completed_projects = response.data['completed_projects'];      
-        this.setState(prevState => ({
-          completed_projects : completed_projects
-      }));
+      //   this.setState(prevState => ({
+      //     completed_projects : completed_projects
+      // }));
   }
 
   fetchSpotlightStats (obj) {
@@ -112,34 +117,38 @@ class CollapseComponent extends React.Component {
     );
   }
 
+  projectSelectedHandler (value) {
+      window.open('Projects/'+value+"/Congratulations","_self");
+  }
+
   renderCompletedProject () {
       return (
-        <div>
-            <Row>
+        <Row>            
             {            
             this.state.completed_projects && this.state.completed_projects.length > 0?(
               this.state.completed_projects          
               .map((elem, index) => (
                   <Col>
-                    <Image className="completedproject" key = {index} src={elem.project_details.badge} />
+                    <ProjectCard className="completedproject" imageSrc={elem.project_details.badge} imageId={elem.project_details.project_id} onClick={this.projectSelectedHandler.bind(this)} />
+                    {/* <ProjectCard imageSrc={elem.project_details.badge} imageId={elem.project_details.project_id} onClick={this.projectSelectedHandler.bind(this)} /> */}
                   </Col>                  
-              )) ):(<span>No Completed Projects available</span>) }                                        
-            </Row>
-        </div>
+              )) ):(<span>No Completed Projects available</span>) }                                                    
+        </Row>
       );
   }
 
   renderTreasureTrove () {
     return (
       <div>
-        <br/>                
+        <br/>            
           <Row>
-          {this.state.treasure_list          
-          .map((elem, index) => (
-                <Col>
-                  <Image className="completedproject" key = {index} src={elem} rounded />
-                </Col>                  
-            ))}                                        
+          {this.state.completed_projects && this.state.completed_projects.length > 0?(
+              this.state.completed_projects                    
+              .map((elem, index) => (
+                    <Col>
+                      <Image className="completedproject" key = {index} src={elem.project_details.prize} rounded />
+                    </Col>                  
+                )) ):(<span>No Treasure Trove available</span>) }                                        
           </Row>        
       </div>
     );
