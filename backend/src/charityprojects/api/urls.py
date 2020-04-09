@@ -1,10 +1,10 @@
 from .views import charity_project_details, all_project_list, project_category, all_project_info_list, start_project, \
     update_project_invitation_video_details, update_project_prize, update_project_challenge_status_explore, \
-    challenge_learn_new_skill, update_project_challenge_status_ideation, update_user_invitation,\
-    get_friend_list, search_friends, get_active_project_details, unregistered_invitation,\
-    fetch_project_planning_status, create_volunteer_adventure, challenge_develop_new_habit, get_project_invitations,\
+    challenge_learn_new_skill, update_project_challenge_status_ideation, update_user_invitation, \
+    get_friend_list, search_friends, get_active_project_details, unregistered_invitation, \
+    fetch_project_planning_status, create_volunteer_adventure, challenge_develop_new_habit, get_project_invitations, \
     fetch_project_invitation_details, join_project_invitation, spread_the_word, donation, fetch_completed_projects, \
-    get_challenge_learn_new_skill
+    get_challenge_learn_new_skill, unlock_prize
 
 from rest_framework.routers import DefaultRouter
 from django.urls import path
@@ -35,4 +35,5 @@ urlpatterns = [
     path('unregisteredInvitation', unregistered_invitation),
     path('DevelopNewHabit', challenge_develop_new_habit),
     path('LearnNewSkill/<int:project_id>/<str:user_email>/', get_challenge_learn_new_skill),
+    path('Congratulations/<int:project_id>/<str:user_email>/', unlock_prize),
 ]

@@ -15,7 +15,8 @@ import FundraiseSummary from "./FundraiseSummary";
 /**
  * @description Displays the prize earned by a user after completion of the project.
  * @class ProjectCompleteComponent
- * @implements ProgressStepper, ProjectBanner, ProjectInfo
+ * @implements ProgressStepper, ProjectBanner, ProjectInfo, SpreadTheWordSummary, LearnNewSkillSummary,
+ * DevelopNewHabitSummary, GiveADonationSummary, FundraiseSummary
  * @extends React.Component
  * @type {ProjectCompleteComponent}
  * @example <ProjectCompleteComponent />
@@ -28,47 +29,6 @@ import FundraiseSummary from "./FundraiseSummary";
 class ProjectCompleteComponent extends React.Component {
 
     render() {
-
-        const adventureId = this.props.adventureId;
-        let summary;
-        if (adventureId === 1) {
-            summary = <SpreadTheWordSummary video={this.props.video}/>
-        } else if (adventureId === 2) {
-            summary = <LearnNewSkillSummary newSkill={this.props.newSkill}
-                                            description={this.props.description}
-                                            video={this.props.video}/>
-        } else if (adventureId === 3){
-            summary = <DevelopNewHabitSummary newHabit={this.props.newHabit}
-                                                    description={this.props.description}
-                                                    video={this.props.video}/>
-        } else if (adventureId === 4){
-            summary = <VolunteerTimeSummary name={this.props.name}
-                                                  address={this.props.address}
-                                                  city={this.props.city}
-                                                  state={this.props.state}
-                                                  website={this.props.website}
-                                                  hours={this.props.hours}
-                                                  description={this.props.description}
-                                                  video={this.props.video}/>
-        } else if (adventureId === 5){
-            summary = <GiveADonationSummary name={this.props.name}
-                                                  address={this.props.address}
-                                                  city={this.props.city}
-                                                  state={this.props.state}
-                                                  website={this.props.website}
-                                                  description={this.props.description}
-                                                  video={this.props.video}/>
-        } else if(adventureId === 6){
-            summary = <FundraiseSummary name={this.props.name}
-                                              address={this.props.address}
-                                              city={this.props.city}
-                                              state={this.props.state}
-                                              website={this.props.website}
-                                              hours={this.props.hours}
-                                              description={this.props.description}
-                                              video={this.props.video}/>
-        }
-
         return (
             <div className="form-wrapper">
                 <div className="adventure-project">
@@ -103,7 +63,45 @@ class ProjectCompleteComponent extends React.Component {
                             <label className="project-name">{this.props.projectName}</label>
                             <label>{this.props.projectMission}</label>
                             <label className="project-name">Accomplishments</label>
-                            <summary/>
+                            {
+                                (this.props.adventureId === 1) ? <SpreadTheWordSummary invitees={this.props.invitees}
+                                                                                       video={this.props.video}/>
+                                    : (this.props.adventureId === 2) ?
+                                    <LearnNewSkillSummary newSkill={this.props.newSkill}
+                                                          description={this.props.description}
+                                                          video={this.props.video}/>
+                                    : (this.props.adventureId === 3) ?
+                                        <DevelopNewHabitSummary newHabit={this.props.newHabit}
+                                                                description={this.props.description}
+                                                                video={this.props.video}/>
+                                        : (this.props.adventureId === 4) ?
+                                            <VolunteerTimeSummary name={this.props.organisationName}
+                                                                  address={this.props.organisationAddress}
+                                                                  city={this.props.organisationCity}
+                                                                  state={this.props.organisationState}
+                                                                  website={this.props.organisationWebsite}
+                                                                  hours={this.props.volunteerHours}
+                                                                  description={this.props.description}
+                                                                  video={this.props.video}/>
+                                            : (this.props.adventureId === 5) ?
+                                                <GiveADonationSummary name={this.props.organisationName}
+                                                                      address={this.props.organisationAddress}
+                                                                      city={this.props.organisationCity}
+                                                                      state={this.props.organisationState}
+                                                                      website={this.props.organisationWebsite}
+                                                                      description={this.props.description}
+                                                                      video={this.props.video}/>
+                                                : (this.props.adventureId === 6) ?
+                                                    <FundraiseSummary name={this.props.organisationName}
+                                                                      address={this.props.organisationAddress}
+                                                                      city={this.props.organisationCity}
+                                                                      state={this.props.organisationState}
+                                                                      website={this.props.organisationWebsite}
+                                                                      description={this.props.description}
+                                                                      video={this.props.video}/> :
+                                                    ''
+
+                            }
                             <div className="navigate-done">
                                 <Button className="done" id="done" variant="contained" type="submit"
                                         onClick={(event) => this.props.saveHandler(event, 'post')}>DONE</Button>

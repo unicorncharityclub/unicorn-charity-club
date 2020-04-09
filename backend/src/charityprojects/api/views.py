@@ -2,8 +2,9 @@ import json
 from datetime import date
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
-from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation,\
-    SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit
+from ..models import CharityProjects, ProjectUser, ProjectUserDetails, UserInvitation, UnregisterInvitation,\
+    SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit, VolunteerTime, Fundraise
+from prize.models import Prize
 from django.http import JsonResponse
 from accounts.models import User
 from profile.models import ChildProfile
@@ -796,4 +797,101 @@ def get_challenge_learn_new_skill(request, project_id, user_email):
                     response['video'] = request.build_absolute_uri(challenge_skill.video.url)
                 else:
                     response['video'] = ''
+    return JsonResponse(response)
+
+
+@api_view(['GET'])
+@parser_classes([MultiPartParser, FormParser])
+def unlock_prize(request, project_id, user_email):
+    response = {'status': "Success"}
+    if request.method == 'GET':
+        user_id = User.objects.get(email=user_email).id
+        project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id).first()
+        if project_user_record:
+            pu_id = project_user_record.id
+            project_user_details_record = ProjectUserDetails.objects.filter(project_user_id=pu_id).first()
+            if project_user_details_record:
+                prize_id = project_user_details_record.prize_given_id
+                prize_details = Prize.objects.filter(id=prize_id).first()
+                if prize_details:
+                    response['image'] = request.build_absolute_uri(prize_details.image.url)
+            adventure_id = project_user_record.adventure_id
+            response['adventure_id'] = adventure_id
+            if adventure_id == 1:
+                invitees = []
+                challenge_spread_word = SpreadWord.objects.filter(project_user_id=pu_id).first()
+                if challenge_spread_word:
+                    spread_word_pu_id = challenge_spread_word.project_user_id
+                    unregister_invitation = UnregisterInvitation.objects.filter(project_user_id=spread_word_pu_id).values()
+                    if unregister_invitation:
+                        for item in unregister_invitation:
+                            invitees.append(item['unregister_user_emailId'])
+                    if spread_word_pu_id == pu_id:
+                        registered_invitation = UserInvitation.objects.filter(project_id=project_id, user_id=user_id).values()
+                        if registered_invitation:
+                            for item in registered_invitation:
+                                user = User.objects.get(id=item['friend_id'])
+                                invitees.append(user.email)
+                    response['invitees'] = invitees
+                    if project_user_details_record.video:
+                        response['video'] = request.build_absolute_uri(project_user_details_record.video.url)
+                    else:
+                        response['video'] = ''
+            elif adventure_id == 2:
+                challenge_skill = LearnNewSkill.objects.filter(project_user_id=pu_id).first()
+                if challenge_skill:
+                    response['new_skill'] = challenge_skill.new_skill
+                    response['description'] = challenge_skill.description
+                    if challenge_skill.video:
+                        response['video'] = request.build_absolute_uri(challenge_skill.video.url)
+                    else:
+                        response['video'] = ''
+            elif adventure_id == 3:
+                challenge_develop_habit = DevelopNewHabit.objects.filter(project_user_id=pu_id).first()
+                if challenge_develop_habit:
+                    response['new_habit'] = challenge_develop_habit.new_habit
+                    response['description'] = challenge_develop_habit.description
+                    if challenge_develop_habit.video:
+                        response['video'] = request.build_absolute_uri(challenge_develop_habit.video.url)
+                    else:
+                        response['video'] = ''
+            elif adventure_id == 4:
+                challenge_voluteer_time = VolunteerTime.objects.filter(project_user_id=pu_id).first()
+                if challenge_voluteer_time:
+                    response['organisation_name'] = challenge_voluteer_time.organisation_name
+                    response['organisation_address'] = challenge_voluteer_time.organisation_address
+                    response['organisation_city'] = challenge_voluteer_time.organisation_city
+                    response['organisation_state'] = challenge_voluteer_time.organisation_state
+                    response['organisation_website'] = challenge_voluteer_time.organisation_website
+                    response['volunteer_hours'] = challenge_voluteer_time.volunteer_hours
+                    response['volunteer_work_description'] = challenge_voluteer_time.volunteer_work_description
+                    if challenge_voluteer_time.volunteer_exp:
+                        response['video'] = request.build_absolute_uri(challenge_voluteer_time.volunteer_exp.url)
+                    else:
+                        response['video'] = ''
+            elif adventure_id == 5:
+                challenge_give_donation = GiveDonation.objects.filter(project_user_id=pu_id).first()
+                if challenge_give_donation:
+                    response['organisation_name'] = challenge_give_donation.organisation_name
+                    response['organisation_address'] = challenge_give_donation.organisation_address
+                    response['organisation_city'] = challenge_give_donation.organisation_city
+                    response['organisation_state'] = challenge_give_donation.organisation_state
+                    response['organisation_website'] = challenge_give_donation.organisation_website
+                    if challenge_give_donation.donation_exp:
+                        response['video'] = request.build_absolute_uri(challenge_give_donation.volunteer_exp.url)
+                    else:
+                        response['video'] = ''
+            elif adventure_id == 6:
+                challenge_fundraise = Fundraise.objects.filter(project_user_id=pu_id).first()
+                if challenge_fundraise:
+                    response['organisation_name'] = challenge_fundraise.organisation_name
+                    response['organisation_address'] = challenge_fundraise.organisation_address
+                    response['organisation_city'] = challenge_fundraise.organisation_city
+                    response['organisation_state'] = challenge_fundraise.organisation_state
+                    response['organisation_website'] = challenge_fundraise.organisation_website
+                    response['fundraise_details'] = challenge_fundraise.fundraise_details
+                    if challenge_fundraise.fundraise_exp:
+                        response['video'] = request.build_absolute_uri(challenge_fundraise.fundraise_exp.url)
+                    else:
+                        response['video'] = ''
     return JsonResponse(response)
