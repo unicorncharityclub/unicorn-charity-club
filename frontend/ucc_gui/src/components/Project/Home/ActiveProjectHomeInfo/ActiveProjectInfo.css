@@ -19,7 +19,7 @@
     border-radius: 10px;
     border-style:solid;
     margin: 10px;
-    margin-left: 10px;
+    margin-left: 1.5%;
     height:100%
 }
 
@@ -76,8 +76,8 @@
 .ActiveProjectInfo_Badge
 {
     
-    height: 13vw;
-    width : 13vw;
+    height: 10vw;
+    width : 10vw;
     margin-top: 3%;
     margin-left: 3%;
     float:left
@@ -104,6 +104,27 @@
 .horizontal_line
 {
     display: none;
+}
+
+
+
+@media screen and (max-device-width: 1700px){
+    .content_section_box {
+
+        margin-bottom: 1%;
+        margin-left: 1%;
+        width : 80%;
+        border-radius: 10px;
+        float: left;
+        border: 1px solid;
+        padding: 10px;
+    
+    }
+
+    .ActiveProjectInfo_Text {
+        width: 70%;
+        float: left;
+    }
 }
 
 
