@@ -60,6 +60,15 @@ defaultIfEmpty(value){
         })
     };
 
+    handleNumbers = (event) =>{
+        const re = /^[0-9\b]+$/;
+        if (event.target.value === '' || re.test(event.target.value)) {
+       this.setState({
+           [event.target.name]:event.target.value
+        })
+    }
+    };
+
     videoHandler = (event) =>{
         this.setState({
             video: URL.createObjectURL(event.target.files[0]),
@@ -82,8 +91,9 @@ defaultIfEmpty(value){
                         description = {this.state.description}
                         defaultIfEmpty = {this.defaultIfEmpty.bind(this)}
                         onSubmit = {this.onSubmit.bind(this)}
-                        videoHandler={this.videoHandler.bind(this)}
-                        video = {this.state.video}/>
+                        videoHandler = {this.videoHandler.bind(this)}
+                        video = {this.state.video}
+                        handleNumbers = {this.handleNumbers.bind(this)}/>
                     </Container>
                   </div>
         )

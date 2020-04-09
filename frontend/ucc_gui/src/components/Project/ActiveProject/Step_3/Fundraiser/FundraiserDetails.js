@@ -73,8 +73,8 @@ class FundraiserDetails extends React.Component {
                             <TextBlackSubHeading message ="2. How much money did you raise in your fundraiser?"/> <br/>
 
                             <div className="form_control">
-                            <Input type="number" name="hours" value={this.props.hours}
-                                   handleChange={this.props.changeHandler}/>
+                            <Input type="number" name="dollars" value={this.props.dollars}
+                                   handleChange={this.props.handleNumbers.bind(this)}/>
                                     <label><TextBlack message="Dollars"/></label>
                                 <br/>
 
@@ -96,7 +96,7 @@ class FundraiserDetails extends React.Component {
                            onChange={this.props.videoHandler.bind(this)}/> <br/>
 
                     <TwoButtonLayout button1Text="SAVE" button2Text="COMPLETE PROJECT"
-                           button1Click={this.props.onSubmit} button2Click={(event) => this.props.onSubmit(event, 'Done')}/>
+                           button1Click={(event) => this.props.onSubmit(event, 'Save')} button2Click={(event) => this.props.onSubmit(event, 'Done')}/>
 
                   </div>
                 </form>

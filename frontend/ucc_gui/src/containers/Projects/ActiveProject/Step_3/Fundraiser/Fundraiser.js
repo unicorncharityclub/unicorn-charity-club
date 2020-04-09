@@ -3,6 +3,8 @@ import FundraiserDetails from "../../../../../components/Project/ActiveProject/S
 import {Container} from "@material-ui/core";
 import cookie from "react-cookies";
 import AxiosConfig from "../../../../../axiosConfig";
+import VolunteerTimeDetails
+    from "../../../../../components/Project/ActiveProject/Step_3/VolunteerTime/VolunteerTimeDetails";
 
 class Fundraiser extends React.Component {
     constructor(props) {
@@ -10,7 +12,7 @@ class Fundraiser extends React.Component {
     this.state = {
         projectId: this.props.match.params.id,
         userEmail: cookie.load('user_email'),
-        hours : '',
+        dollars : '',
         description :'',
         video :'',
         finalVideo :'',
@@ -32,7 +34,7 @@ class Fundraiser extends React.Component {
             formData.append('organisation_city', this.state.city);
             formData.append('website', this.state.website);
             formData.append('organisation_state', this.state.stateName);
-            formData.append('hours', this.state.hours);
+            formData.append('amount', this.state.dollars);
             formData.append('details', this.state.description);
             formData.append('action_type', action_type );
             if (this.state.finalVideo) {
@@ -62,6 +64,15 @@ defaultIfEmpty(value){
         })
     };
 
+    handleNumbers = (event) =>{
+        const re = /^[0-9\b]+$/;
+        if (event.target.value === '' || re.test(event.target.value)) {
+       this.setState({
+           [event.target.name]:event.target.value
+        })
+    }
+    };
+
     videoHandler = (event) =>{
         this.setState({
             video: URL.createObjectURL(event.target.files[0]),
@@ -85,7 +96,8 @@ defaultIfEmpty(value){
                         onSubmit = {this.onSubmit.bind(this)}
                         videoHandler={this.videoHandler.bind(this)}
                         video = {this.state.video}
-                        hours = {this.state.hours}/>
+                        dollars = {this.state.dollars}
+                        handleNumbers = {this.handleNumbers.bind(this)}/>
                     </Container>
                   </div>
         )

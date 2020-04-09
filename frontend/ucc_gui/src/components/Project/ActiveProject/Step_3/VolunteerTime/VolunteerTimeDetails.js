@@ -74,7 +74,7 @@ class VolunteerTimeDetails extends React.Component {
 
                             <div className="form_control">
                             <Input type="number" name="hours" value={this.props.hours}
-                                   handleChange={this.props.changeHandler}/>
+                                   handleChange={this.props.handleNumbers.bind(this)}/>
                                     <label><TextBlack message="Hours"/></label>
                                 <br/>
 
