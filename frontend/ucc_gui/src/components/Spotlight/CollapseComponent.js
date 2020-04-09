@@ -11,18 +11,8 @@ class CollapseComponent extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      open: true,
-      treasure_list : [
-        'https://cdn.pixabay.com/photo/2016/10/18/21/22/california-1751455_1280.jpg',
-        'https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197_1280.jpg',
-        'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
-        'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg'
-      ],
-      completed_projects : [{project_details : {project_id: 1, badge: 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg', prize: 'https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197_1280.jpg'}}, 
-                            {project_details : {project_id: 2, badge: 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg', prize: 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg'}},
-                            {project_details : {project_id: 3, badge: 'https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197_1280.jpg', prize: 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg'}}, 
-                            {project_details : {project_id: 4, badge: 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg', prize: 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg'}},
-                            ] ,
+      open: true,     
+      completed_projects : [] ,
       total_projects  : '',
       people_reached  : '',
       volunteer_hours  : '',
@@ -47,9 +37,9 @@ class CollapseComponent extends React.Component {
 
   setCompletedProjectList (response) {
         let completed_projects = response.data['completed_projects'];      
-      //   this.setState(prevState => ({
-      //     completed_projects : completed_projects
-      // }));
+        this.setState(prevState => ({
+          completed_projects : completed_projects
+      }));
   }
 
   fetchSpotlightStats (obj) {
