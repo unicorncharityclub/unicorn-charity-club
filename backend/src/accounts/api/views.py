@@ -85,36 +85,33 @@ class UserLoginView(ChildrenListMixin, APIView):
 class AddChildView(UserRegisterMixin, APIView):
     def post(self, request, *args, **kwargs):
         try:
-            if 'user_email' in kwargs:
-                user_email = kwargs.get('user_email', None)
-                parent_user = User.objects.get(email=user_email)
-                parent_user_id = parent_user.id
-                child_name = request.data['first_name']
-                child_name = child_name.replace(" ", "")
-                child_user_email = parent_user.email.split("@")[0] + "." + child_name + "." \
-                                   + random_string(10) + child_email_id_extension
-                random_password = random_string(20)
+            parent_user = request.user
+            parent_user_id = parent_user.id
+            child_name = request.data['first_name']
+            child_name = child_name.replace(" ", "")
+            child_user_email = parent_user.email.split("@")[0] + "." + child_name + "." \
+                               + random_string(10) + child_email_id_extension
+            random_password = random_string(20)
 
-                child_data = {'first_name': request.POST['first_name'], 'last_name': request.POST['last_name'],
-                              'dob': request.POST['dob'], 'email': child_user_email, 'password': random_password}
+            child_data = {'first_name': request.POST['first_name'], 'last_name': request.POST['last_name'],
+                          'dob': request.POST['dob'], 'email': child_user_email, 'password': random_password}
 
-                super().post(child_data)
+            super().post(child_data)
 
-                child_user_id = User.objects.get(email=child_user_email).id
-                # Updating user profile details
-                profile = Profile.objects.get(id=child_user_id)
-                profile_serializer = ProfileSerializer(profile, data=request.data)
-                if profile_serializer.is_valid():
-                    profile_serializer.save()
+            child_user_id = User.objects.get(email=child_user_email).id
+            # Updating user profile details
+            profile = Profile.objects.get(id=child_user_id)
+            profile_serializer = ProfileSerializer(profile, data=request.data)
+            if profile_serializer.is_valid():
+                profile_serializer.save()
 
-                # Creating child profile
-                data = {"user": child_user_id, "parent": parent_user_id,
-                        "school": request.data["school"], "school_grade": request.data["school_grade"]}
-                serializer = ChildProfileSerializer(data=data)
-                if serializer.is_valid():
-                    serializer.save()
-            else:
-                return Response(status=status.HTTP_404_NOT_FOUND)
+            # Creating child profile
+            data = {"user": child_user_id, "parent": parent_user_id,
+                    "school": request.data["school"], "school_grade": request.data["school_grade"]}
+            serializer = ChildProfileSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+
         except (User.DoesNotExist, Exception):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -164,7 +161,6 @@ class UserSwitchAccountView(APIView):
             if self.validate_relation(request.user, switch_to_user):
                 login(request, switch_to_user)
                 response['status'] = "Success"
-                print(switch_to_user)
                 return Response(response, status=status.HTTP_200_OK)
             else:
                 return Response(status=status.HTTP_404_NOT_FOUND)

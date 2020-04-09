@@ -3,8 +3,6 @@ import ArrowBackward from "../../../../image/arrow-backward.png";
 import Navbar from "../../Navbar/Navbar";
 import "./Mobile_toolbar.css";
 import {connect} from "react-redux";
-import cookie from "react-cookies";
-import AxiosConfig from "../../../../axiosConfig";
 
 /**
  * @description Creates the a menu toolbar for mobile version
