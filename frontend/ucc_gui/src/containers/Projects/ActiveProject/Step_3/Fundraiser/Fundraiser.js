@@ -37,9 +37,7 @@ class Fundraiser extends React.Component {
             formData.append('amount', this.state.dollars);
             formData.append('details', this.state.description);
             formData.append('action_type', action_type );
-            if (this.state.finalVideo) {
-                formData.append('exp_video', this.state.finalVideo);
-            }
+            formData.append('exp_video', this.state.finalVideo);
         } catch (err) {
             console.log(err)
         }
