@@ -891,12 +891,14 @@ def spotlight_stats(request, user_email):
     if total_projects > 0:
         for project_user in project_user_list:
             pu_id = project_user.id
-            volunteer_adv = VolunteerTime.objects.filter(project_user_id=pu_id)
-            if volunteer_adv:
-                total_volunteer_hours = total_volunteer_hours + volunteer_adv.volunteer_hours
-            fundraiser = Fundraise.objects.filter(project_user_id=pu_id)
-            if fundraiser:
-                total_fund_raised = total_fund_raised + fundraiser.fundraise_amount
+            if VolunteerTime.objects.filter(project_user_id=pu_id).exists():
+                volunteer_adv = VolunteerTime.objects.get(project_user_id=pu_id)
+                if volunteer_adv:
+                    total_volunteer_hours = total_volunteer_hours + volunteer_adv.volunteer_hours
+            if Fundraise.objects.filter(project_user_id=pu_id).exists():
+                fundraiser = Fundraise.objects.get(project_user_id=pu_id)
+                if fundraiser:
+                    total_fund_raised = total_fund_raised + fundraiser.fundraise_amount
 
     response["total_projects"] = total_projects
     response["people_reached"] = total_people_reached
