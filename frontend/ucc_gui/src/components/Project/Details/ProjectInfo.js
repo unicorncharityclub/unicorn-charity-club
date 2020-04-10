@@ -19,14 +19,14 @@ class ProjectInfo extends React.Component {
 
   componentDidMount() {
     AxiosConfig
-      .get(`charityproject/${this.state.projectId}`)
+      .get(`charityproject/${this.state.projectId}/`)
       .then((res) => {
         this.setState({
-          projectName: res.data.project_name,
-          projectCategory: res.data.project_category,
-          projectTags: res.data.project_tags,
-          projectBadge: res.data.project_badge,
-          projectMission: res.data.project_mission,
+          projectName: res.data.name,
+          projectCategory: res.data.category,
+          projectTags: res.data.tags,
+          projectBadge: res.data.badge,
+          projectMission: res.data.mission,
         });
       })
       .catch((error) => console.log(error));

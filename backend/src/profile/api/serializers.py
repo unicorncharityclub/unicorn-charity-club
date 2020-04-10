@@ -37,6 +37,8 @@ class ProfileSerializer(serializers.ModelSerializer):
                 result.update({"cover_pic": cover_pic})
             else:
                 result.update({"cover_pic": ""})
+
+            # passing the user details to the child serializer to fetch children of parent user
             result.update(get_child_profile(result.pop('user')))
         return result
 

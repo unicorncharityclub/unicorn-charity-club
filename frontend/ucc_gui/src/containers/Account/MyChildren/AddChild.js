@@ -82,7 +82,7 @@ class AddChild extends React.Component {
 
     const user_email = cookie.load("user_email");
     return AxiosConfig
-      .post(`account/addchild/${user_email}`, form_data, {
+      .post('account/addchild/', form_data, {
         headers: {
           "content-type": "multipart/form-data"
         }

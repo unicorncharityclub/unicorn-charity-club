@@ -168,7 +168,7 @@ class RegisterForm extends React.Component {
 
 
     AxiosConfig
-      .post(`account/register`, form_data)
+      .post(`account/register/`, form_data)
       .then(function(response) {
         status = response.data["status"];
         obj.updateResponseStatus(status);

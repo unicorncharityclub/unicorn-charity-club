@@ -11,7 +11,7 @@ constructor(props) {
     componentDidMount() {
     const props = this.props;
       AxiosConfig
-      .post(`account/exit`, this.state)
+      .post(`account/exit/`, this.state)
       .then(function(response) {
           let empty = "";
         cookie.remove('user_email');

@@ -5,6 +5,7 @@ import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
 import AxiosConfig from '../../../axiosConfig'
 import ActiveProjectInfo from "../../../components/Project/Home/ActiveProjectHomeInfo/ActiveProjectInfo";
 import cookie from "react-cookies";
+import "./Project.css";
 import {Container} from "@material-ui/core";
 import VerticalSpotlightDetails from '../../../components/Spotlight/VerticalSpotlightDetails';
 
@@ -65,7 +66,7 @@ class ProjectsHome extends React.Component {
     }
 
     fetchProjectDetails(obj) {
-        AxiosConfig.get(`charityproject/all_project_info_list`)
+        AxiosConfig.get('charityproject/all_projects/')
             .then(function(response) {obj.setProjectDetails(response);})
             .catch(function(error) {console.log(error);});
     }
@@ -102,7 +103,7 @@ class ProjectsHome extends React.Component {
 
     setProjectDetails(response) {
         this.setState(prevState => ({
-            projectsList: response.data["project_list"]
+            projectsList: response.data
         }));        
     }
 
@@ -119,50 +120,53 @@ class ProjectsHome extends React.Component {
         {/* put here the vertical component for spotlight */}
         <VerticalSpotlightDetails isSpotlightPage = {false}/>
 
-        <div className = "content_section">
+        <div className = "content_section_box">
           <div className="textHeader">
               Invitations
           </div>
 
           <div>                             
               {this.state.invitationsList && this.state.invitationsList.length > 0?
-                (  <ActiveProjectInfo projectList={this.state.invitationsList} listType = {"Invitation"}/>):(<div/>)}
+                (  <ActiveProjectInfo projectList={this.state.invitationsList} listType = {"Invitation"}/>):(<span className = "message">Invitations not available</span>)}
           </div>
+          <hr className="horizontal_line"/>
         </div>
         
         <br/>
 
         {/* <div className="blackDivider"></div> */}
         
-        <div className = "content_section">
+        <div className = "content_section_box">
           <div className="textHeader">
               Planning
           </div>
 
           <div>                     
           {this.state.plannedProjectsList && this.state.plannedProjectsList.length > 0?
-                    (  <ActiveProjectInfo projectList={this.state.plannedProjectsList} listType = {"Planning"}/>):(<div/>)}
+                    (  <ActiveProjectInfo projectList={this.state.plannedProjectsList} listType = {"Planning"}/>):(<span className = "message">Projects not available</span>)}
           </div>
+          <hr className="horizontal_line"/>
         </div>
         
         <br/>
         {/* <div className="blackDivider"></div> */}
         
-        <div className = "content_section">
+        <div className = "content_section_box">
           <div className="textHeader">
               Active
           </div>
 
           <div> 
             {this.state.activeProjectsList && this.state.activeProjectsList.length > 0?
-                    (  <ActiveProjectInfo projectList={this.state.activeProjectsList} listType = {"Active"}/>):(<div/>)}
+                    (  <ActiveProjectInfo projectList={this.state.activeProjectsList} listType = {"Active"}/>):(<span className = "message">Projects not available</span>)}
           </div>
+          <hr className="horizontal_line"/>
         </div>
 
         <br/>
         {/* <div className="blackDivider"></div> */}
 
-        <div className = "content_section">
+        <div className = "content_section_box">
           <div className="textHeader">
               Start a Project
           </div>
@@ -177,7 +181,7 @@ class ProjectsHome extends React.Component {
           </div>
 
           <div>
-              {this.state.projectsList[0].project_banner?
+              {this.state.projectsList[0].banner?
                   (<ProjectGrid projectData={this.state.projectsList} category={this.state.selectedCategory} />):(<div/>)}
           </div>
 

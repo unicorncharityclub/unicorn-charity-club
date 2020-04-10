@@ -61,10 +61,10 @@ class ProjectInvitation extends React.Component {
     getProjectBanner () {
         const projectId = this.props.match.params.id;
 
-        AxiosConfig.get(`/charityproject/${projectId}`)
+        AxiosConfig.get(`/charityproject/${projectId}/`)
         .then(res => {
                 this.setState({                  
-                    projectBanner: res.data["project_banner"]
+                    projectBanner: res.data["banner"]
                 });
             //console.log(res);
         }).catch(error => console.log(error))

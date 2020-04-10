@@ -1,5 +1,6 @@
 import React from 'react';
 import { Stepper } from 'react-form-stepper';
+
 class ProgressStepper extends React.Component {
     render() {
         return (

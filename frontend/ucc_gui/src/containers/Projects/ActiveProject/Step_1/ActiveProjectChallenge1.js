@@ -21,14 +21,14 @@ class ActiveProjectChallenge1 extends React.Component {
      }
 
      componentDidMount () {        
-        AxiosConfig.get(`charityproject/${this.state.projectID}`)
+        AxiosConfig.get(`charityproject/${this.state.projectID}/`)
       .then(res => {
               this.setState({
-                  projectName : res.data["project_name"],
-                  projectBanner : res.data["project_banner"],
-                  projectVideo: res.data["project_video"],
+                  projectName : res.data["name"],
+                  projectBanner : res.data["banner"],
+                  projectVideo: res.data["video"],
                   projectVideoName: res.data["project_video_name"],
-                  projectMission : res.data["project_mission"]
+                  projectMission : res.data["mission"]
               });
           console.log(res.data)
       }).catch(error => console.log(error))

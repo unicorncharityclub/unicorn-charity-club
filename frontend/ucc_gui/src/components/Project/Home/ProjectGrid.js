@@ -15,10 +15,10 @@ class ProjectGrid extends React.Component {
               style={{paddingLeft: "20px", paddingRight: "20px", paddingTop: "20px"}}>
 
           {this.props.projectData
-          .filter(elem => elem.project_category.startsWith(this.props.category))
+          .filter(elem => elem.category.startsWith(this.props.category))
           .map(elem => (
                    <Grid item xs={12} sm={6} md={6} key={this.props.projectData.indexOf(elem)} >
-                   <ImgMediaCard imageSrc={elem.project_banner} imageId={elem.project_id} onClick={this.projectSelectedHandler.bind(this)} />
+                   <ImgMediaCard imageSrc={elem.banner} imageId={elem.id} onClick={this.projectSelectedHandler.bind(this)} />
             </Grid>
           ))}
         </Grid>
