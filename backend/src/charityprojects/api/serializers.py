@@ -19,7 +19,9 @@ class LearnNewSkillSerializer(serializers.ModelSerializer):
 class VolunteerTimeSerializer(serializers.ModelSerializer):
     class Meta:
         model = VolunteerTime
-        fields = '__all__'
+        fields = ('project_user', 'organisation_name', 'organisation_address',
+                  'organisation_city', 'organisation_state', 'organisation_website',
+                  'volunteer_hours', 'volunteer_work_description', 'volunteer_exp')
 
 
 class DevelopNewHabitSerializer(serializers.ModelSerializer):
@@ -31,10 +33,14 @@ class DevelopNewHabitSerializer(serializers.ModelSerializer):
 class GiveDonationSerializer(serializers.ModelSerializer):
     class Meta:
         model = GiveDonation
-        fields = '__all__'
+        fields = ('project_user', 'organisation_name', 'organisation_address',
+                  'organisation_city', 'organisation_state', 'organisation_website',
+                  'donation_details', 'donation_exp')
 
 
 class FundraiserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fundraise
-        fields = '__all__'
+        fields = ('project_user', 'organisation_name', 'organisation_address',
+                  'organisation_city', 'organisation_state', 'organisation_website',
+                  'fundraise_details', 'fundraise_amount', 'fundraise_exp')

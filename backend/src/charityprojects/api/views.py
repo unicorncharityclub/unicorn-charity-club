@@ -416,7 +416,7 @@ def create_volunteer_adventure(request, user_id, project_id):
     if project_user_record:
         project_user_record.challenge_status = "Challenge3Complete"
         project_user_record.save()
-    volunteer_time_update_data = {"project_user_id": project_user_id, "organisation_name": request.data["organisation_name"],
+    volunteer_time_update_data = {"project_user": project_user_id, "organisation_name": request.data["organisation_name"],
                                   "organisation_address": request.data["organisation_address"],
                                   "organisation_city": request.data["organisation_city"],
                                   "organisation_state": request.data["organisation_state"],
@@ -428,7 +428,7 @@ def create_volunteer_adventure(request, user_id, project_id):
     if volunteer_serializer.is_valid():
         volunteer_serializer.save()
         return Response(volunteer_serializer.data, status=status.HTTP_201_CREATED)
-    return Response(volunteer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #return Response(volunteer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST', 'GET'])
@@ -439,8 +439,7 @@ def volunteer_time(request):
         store_volunteer_details(request)
     elif request.method == "GET":
         fetch_volunteer_details(request)
-    else:
-        return JsonResponse(response)
+    return Response(status=status.HTTP_200_OK)
 
 
 def store_volunteer_details(request):
@@ -475,9 +474,18 @@ def update_volunteer_details(request):
     project_id = request.data["project_id"]
     project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
     project_user_id = project_user_record.id
-    volunteer_record = VolunteerTime.objects.get(project_user_id=project_user_id)
+    volunteer_record = VolunteerTime.objects.filter(project_user_id=project_user_id)[0]
+    volunteer_time_update_data = {"project_user": project_user_id,
+                                  "organisation_name": request.data["organisation_name"],
+                                  "organisation_address": request.data["organisation_address"],
+                                  "organisation_city": request.data["organisation_city"],
+                                  "organisation_state": request.data["organisation_state"],
+                                  "organisation_website": request.data["website"],
+                                  "volunteer_hours": request.data["hours"],
+                                  "volunteer_work_description": request.data["description"],
+                                  "volunteer_exp": request.data["exp_video"]}
     if volunteer_record:
-        serializer = VolunteerTimeSerializer(volunteer_record, data=request.data)
+        serializer = VolunteerTimeSerializer(volunteer_record, data=volunteer_time_update_data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -683,13 +691,12 @@ def spread_the_word(request):
 @api_view(['POST', 'GET', 'PUT'])
 @parser_classes([MultiPartParser, FormParser])
 def donation(request):
-    response = {'status': "Invalid Request"}
+    response = {'status': "Success"}
     if request.method == "POST":
         store_donation_details(request)
     elif request.method == "GET":
         fetch_donation_details(request)
-    else:
-        return JsonResponse(response)
+    return JsonResponse(response)
 
 
 def store_donation_details(request):
@@ -707,7 +714,7 @@ def store_donation_details(request):
 def create_donation_record(request, user_id, project_id):
     project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
     project_user_id = project_user_record.id
-    give_donation_data = {"project_user_id": project_user_id, "organisation_name": request.data["organisation_name"],
+    give_donation_data = {"project_user": project_user_id, "organisation_name": request.data["organisation_name"],
                           "organisation_address": request.data["organisation_address"],
                           "organisation_city": request.data["organisation_city"],
                           "organisation_state": request.data["organisation_state"],
@@ -749,8 +756,15 @@ def update_donation_details(request):
     project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
     project_user_id = project_user_record.id
     donation_record = GiveDonation.objects.get(project_user_id=project_user_id)
+    give_donation_update_data = {"project_user": project_user_id, "organisation_name": request.data["organisation_name"],
+                                 "organisation_address": request.data["organisation_address"],
+                                 "organisation_city": request.data["organisation_city"],
+                                 "organisation_state": request.data["organisation_state"],
+                                 "organisation_website": request.data["website"],
+                                 "donation_details": request.data["details"],
+                                 "donation_exp": request.data["exp_video"]}
     if donation_record:
-        serializer = GiveDonationSerializer(donation_record, data=request.data)
+        serializer = GiveDonationSerializer(donation_record, data=give_donation_update_data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -762,13 +776,12 @@ def update_donation_details(request):
 @api_view(['POST', 'GET'])
 @parser_classes([MultiPartParser, FormParser])
 def fundraiser(request):
-    response = {'status': "Invalid Request"}
+    response = {'status': "Success"}
     if request.method == "POST":
         store_fundraiser_details(request)
     elif request.method == "GET":
         fetch_fundraiser(request)
-    else:
-        return JsonResponse(response)
+    return JsonResponse(response)
 
 
 def store_fundraiser_details(request):
@@ -786,7 +799,7 @@ def store_fundraiser_details(request):
 def create_fundraiser_record(request, user_id, project_id):
     project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
     project_user_id = project_user_record.id
-    fundraiser_data = {"project_user_id": project_user_id, "organisation_name": request.data["organisation_name"],
+    fundraiser_data = {"project_user": project_user_id, "organisation_name": request.data["organisation_name"],
                        "organisation_address": request.data["organisation_address"],
                        "organisation_city": request.data["organisation_city"],
                        "organisation_state": request.data["organisation_state"],
@@ -809,8 +822,16 @@ def update_fundraiser_record(request):
     project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]  # ideally only one entry should be there
     project_user_id = project_user_record.id
     fundraiser_record = Fundraise.objects.get(project_user_id=project_user_id)
+    fundraiser_data = {"project_user": project_user_id, "organisation_name": request.data["organisation_name"],
+                       "organisation_address": request.data["organisation_address"],
+                       "organisation_city": request.data["organisation_city"],
+                       "organisation_state": request.data["organisation_state"],
+                       "organisation_website": request.data["website"],
+                       "fundraise_details": request.data["details"],
+                       "fundraise_amount": request.data["amount"],
+                       "fundraise_exp": request.data["exp_video"]}
     if fundraiser_record:
-        serializer = FundraiserSerializer(fundraiser_record, data=request.data)
+        serializer = FundraiserSerializer(fundraiser_record, data=fundraiser_data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
