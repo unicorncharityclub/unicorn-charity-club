@@ -27,9 +27,10 @@ class SpreadTheWordSummary extends React.Component {
                     <label className="statement">I reached my project goal of spreading the word by inviting the
                         following friends to the
                         project:</label>
-                    {this.props.invitees.map(item => (
-                        <label className="statement">{item}</label>
-                    ))}
+                    {(this.props.invitees) ?
+                        (this.props.invitees.map(item => (
+                            <label className="statement">{item}</label>
+                        ))) : ''}
                     <div className="project-video-preview" style={{width: this.props.width}}>{
                         (this.props.video) ?
                             <div style={{width: this.props.width}}>
