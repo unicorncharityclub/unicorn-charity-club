@@ -90,4 +90,3 @@ class ProjectUserSerializer(serializers.ModelSerializer):
         model = ProjectUser
         fields = '__all__'
         read_only_fields = ['id']
-        

@@ -23,9 +23,11 @@ from rest_framework.response import Response
 import re
 
 
-# The primary key for the Charity Projects is passed from URL.py
-# Based on the PK and the serializer mentioned the data is returned in JSON format
 class CharityProjectDetailsView(RetrieveAPIView):
+    """
+    The primary key for the Charity Projects is passed from URL.py
+    Based on the PK and the serializer mentioned the data is returned in JSON format
+    """
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
     model = CharityProjects
@@ -34,6 +36,11 @@ class CharityProjectDetailsView(RetrieveAPIView):
 
 
 class CharityProjectListView(ListAPIView):
+    """
+    The ListAPIView will use the model and the serializer provided.
+    Based on the queryset it will return all the result from the DB
+    Currently no pagination is in place
+    """
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
     model = CharityProjects
@@ -46,6 +53,9 @@ class CharityProjectCategory(ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
+        """
+        :return: From the model the distinct category will be retrieved and returned in JSON
+        """
         result = {'category_list': list(
             CharityProjects.objects.order_by('category').values_list('category', flat=True).distinct())}
         return Response(result, status=status.HTTP_200_OK)
@@ -58,7 +68,12 @@ class CharityProjectStartProject(CreateAPIView):
     serializer_class = ProjectUserSerializer
 
     def perform_create(self, serializer):
-        print("called")
+        """
+        Step 1 - check if the charity project is already on going. If yes return message
+        Step 2 - else it will use the CreateAPIView and create the entry in ProjectUser table
+        :param serializer:
+        :return:
+        """
         project_id = int(self.request.data['project_id'])
         user_id = int(self.request.user.id)
         queryset = ProjectUser.objects.filter(project_id=project_id, user_id=user_id) \
@@ -68,6 +83,12 @@ class CharityProjectStartProject(CreateAPIView):
         serializer.save(user_id=user_id, project_id=project_id,invited_by="", project_status="PlanningStarted")
 
     def post(self, request, *args, **kwargs):
+        """
+        Step 1 - Create entry in the ProjectUser table
+        Step 2 - In successful step 1 - Create entry in ProjectUserDetails table
+        :param request: will contain the project_id which needs to be started
+        :return: json response containing status of successful or existing project status
+        """
         result = {}
         try:
             result["status"] = "Success"
