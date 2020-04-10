@@ -23,6 +23,8 @@ class GiveADonation extends React.Component {
 
  onSubmit(event, action_type) {
      let formData = new FormData();
+     console.log(this.state.name)
+     console.log(this.state.finalVideo)
         try {
             formData.append('user_email', this.state.userEmail);
             formData.append('project_id', this.state.projectId);
@@ -33,9 +35,7 @@ class GiveADonation extends React.Component {
             formData.append('organisation_state', this.state.stateName);
             formData.append('details', this.state.description);
             formData.append('action_type', action_type );
-            if (this.state.finalVideo) {
-                formData.append('exp_video', this.state.finalVideo);
-            }
+            formData.append('exp_video', this.state.finalVideo);
         } catch (err) {
             console.log(err)
         }
