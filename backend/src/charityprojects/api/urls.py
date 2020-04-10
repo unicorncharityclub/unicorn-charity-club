@@ -1,4 +1,4 @@
-from .views import all_project_list, project_category, start_project, \
+from .views import all_project_list,  \
     update_project_invitation_video_details, update_project_prize, update_project_challenge_status_explore, \
     challenge_learn_new_skill, update_project_challenge_status_ideation, update_user_invitation,\
     get_friend_list, search_friends, get_active_project_details, unregistered_invitation,\
@@ -15,8 +15,8 @@ urlpatterns = [
     path('<int:pk>/', views.CharityProjectDetailsView.as_view()),
     path('', all_project_list),
     path('all_projects/', views.CharityProjectListView.as_view()),
-    path('category', project_category),
-    path('start', start_project),
+    path('category/', views.CharityProjectCategory.as_view()),
+    path('start/', views.CharityProjectStartProject.as_view()),
     path('plannedProjects/<str:user_email>/', fetch_project_planning_status),
     path('invitationVideo', update_project_invitation_video_details),
     path('projectPrize', update_project_prize),

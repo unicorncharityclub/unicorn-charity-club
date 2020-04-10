@@ -1,9 +1,11 @@
 from rest_framework import serializers
+
+from accounts.models import User
 from charityprojects.models import CharityProjects, VolunteerTime, ProjectUserDetails, LearnNewSkill, \
-                                    DevelopNewHabit, GiveDonation, Fundraise
+    DevelopNewHabit, GiveDonation, Fundraise, ProjectUser
 
 
-class ProjectUserSerializer(serializers.ModelSerializer):
+class ProjectUserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectUserDetails
         fields = ('project_user_id', 'video')
@@ -72,3 +74,21 @@ class CharityProjectSerializer(serializers.ModelSerializer):
             else:
                 result.update({"banner": ""})
         return result
+
+
+class ProjectUserSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(many=False, read_only=False, queryset=User.objects.all())
+    project = serializers.PrimaryKeyRelatedField(many=False, read_only=False, queryset=CharityProjects.objects.all())
+
+    class Meta:
+        model = ProjectUser
+        fields = '__all__'
+        read_only_fields = ['id']
+
+    def create(self, validated_data):
+        project_user = ProjectUser.objects.create(project=validated_data['project'],
+                                                  user=validated_data['user'],
+                                                  invited_by="", project_status="PlanningStarted")
+
+        project_user.save()
+        return project_user

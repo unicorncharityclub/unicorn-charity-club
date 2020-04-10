@@ -5,7 +5,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth import authenticate
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -29,7 +29,6 @@ def random_string(string_length=10):
 
 class UserRegisterMixin(object):
     def post(self, data, *args, **kwargs):
-
         response_data = {"status": "Success"}
         serializer = AccountDetailsSerializer(data=data, context={'password': data['password']})
         serializer.is_valid()
@@ -51,6 +50,7 @@ class UserRegistrationView(UserRegisterMixin, APIView):
 class UserLoginView(ChildrenListMixin, APIView):
     authentication_classes = (SessionAuthentication,)
 
+    @method_decorator(csrf_exempt)
     def post(self, request, *args, **kwargs):
         try:
             response = {'status': "Invalid Request"}

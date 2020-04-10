@@ -14,11 +14,9 @@ class ProjectDetails extends React.Component {
     onSubmit()
     {
         const projectId = this.props.match.params.id;
-
-        AxiosConfig.post('charityproject/start',
-            {"project_id":projectId,
-                    "user_email": this.state.userEmail},
-                )
+        let form_data = new FormData();
+        form_data.append("project_id", this.props.match.params.id);
+        AxiosConfig.post('charityproject/start/',form_data)
                 .then(res => this.props.history.push(`/Projects/${projectId}/StartNewProject`))
                 .catch(error => console.log(error))
     }
