@@ -15,7 +15,8 @@ class EachActiveProject extends React.Component {
     this.state = {      
         projectId : this.props.projectId,        
         projectName : '',
-        projectJoinDate : '03/04/2020',          
+        projectJoinDate : '',  
+        project_badge : 'http://127.0.0.1:8000/media/upload/image/project_badge/Default_Logo.png'        
     }
  }
 
@@ -23,7 +24,7 @@ class EachActiveProject extends React.Component {
         const projectId = this.props.projectId;                    
         AxiosConfig.get(`charityproject/${projectId}/`)
       .then(res => {
-              this.setState({                  
+              this.setState({
                   projectName : res.data["name"],
                   projectBanner : res.data["banner"]
               });
@@ -73,7 +74,7 @@ class EachActiveProject extends React.Component {
             if("PlanningPhase1" === status) {
                 return (
                     <div className = "stepperWidth">
-                        <ProgressStepper currentStep={0}/>
+                        <ProgressStepper  currentStep={0}/>
                     </div>
                 );
               } else if ("PlanningPhase2" === status){
@@ -101,7 +102,7 @@ class EachActiveProject extends React.Component {
               if("Challenge1Complete" === status) {
                 return (
                     <div className = "stepperWidth">
-                        <ProgressStepper currentStep={0}/>
+                        <ProgressStepper className = "stepperWidth" currentStep={0}/>
                     </div>
                 );
               } else if ("Challenge2Complete" === status){
@@ -224,10 +225,10 @@ class EachActiveProject extends React.Component {
     render() {
       return(
         <div>                          
-            <div className="ActiveProjectInfo_Badge" style={{width: "117px", height : "117px"}}>                        
-                <Image src={this.state.ProjectBanner}  style={{width: "100%", height: "100%"}} roundedCircle/>
+            <div className="ActiveProjectInfo_Badge">                  
+                <Image src={this.state.project_badge}  style={{width: "80%", height: "80%"}} roundedCircle/>                
             </div>
-            <div className="ActiveProjectInfo_Text" >
+            <div className="ActiveProjectInfo_Text" >             
                 <table >
                     <tbody>
                     <tr className = "row">
@@ -241,7 +242,7 @@ class EachActiveProject extends React.Component {
                     </td>                            
                 </tr>                                                                                                    
                 </tbody>                    
-            </table>
+            </table>            
             </div>      
         </div>                  
     

@@ -44,6 +44,7 @@
     justify-content: space-between;
 }
 
+
 .horizontal {
     width: 110%;  
     visibility: hidden; 
@@ -120,24 +121,24 @@ table {
 
 /* Completed Project */
 .completedproject {
-    width: 8.5em;
-    height:8.5em;     
-    border-radius: 50%;   
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;    
 }
 
 .row {
     width: 100%;
-    padding: 3%;
+    padding: 2%;
     margin: 0%;
 }
 
 .col {
-    padding-left: 2%; 
-    padding-right: 2%; 
+    padding: 2%; 
 }
 
-.content_section hr {
-    /* visibility: hidden; */
+.content_section {
+    float: right;
+    margin-bottom: 1.5%;
 }
 
 
@@ -224,7 +225,6 @@ table {
         border: 1px;
         background-color: white;       
     }
-
 
   }
 
@@ -344,22 +344,23 @@ table {
         color: gray;
     }
 
-    .row {
+    .row {        
         width: 100%;
+        padding: 2%;
+        margin: 0%;
     }
     
     .col {
         padding-left: 5%;
         padding-right: 5%;
     }
-
-    .completedproject {
-        width: 150%;
-        height:150%;
+    
+    /* .completedproject {
+        width: 100%;
+        height: auto;         
         padding: 3%;            
         border: 2px;
-        background-color: gray;
-    }
+    } */
 
 
     .profilePic {
