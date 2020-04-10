@@ -30,14 +30,6 @@
     padding-top: calc(2rem + 1px);
 }
 
-.project-form-inner img {
-    border: 1px solid;
-    display: block;
-    height: 300px;
-    width: 400px;
-    margin: 20px auto 30px;
-}
-
 .project-form input {
     display: block;
     margin-left: 20px;
@@ -66,6 +58,18 @@
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.congratulations-form-inner img {
+    border: 1px solid;
+    display: block;
+    height: 300px;
+    width: 400px;
+    margin: 20px auto 30px;
+}
+
+.congratulations-form-inner label {
+    padding-bottom: calc(0.75rem + 1px);
 }
 
 .navigate-save {
@@ -117,15 +121,31 @@
 }
 
 /*.navigate-save button:hover {*/
-    /*background: #3b9f9d;*/
+/*background: #3b9f9d;*/
 /*}*/
 
 @media only screen and (max-width: 520px) {
     .challenge-name {
-    font-size: 1.2rem;
-}
+        font-size: 1.2rem;
+    }
+
     .project-form label {
-    line-height: 1rem;
-}
+        line-height: 1rem;
+    }
+
+    .project-form {
+        padding-top: 10px;
+    }
+
+    .congratulations-form-inner img {
+        height: 200px;
+        width: 300px;
+        margin: 20px auto 30px;
+    }
+
+    .congratulation-message {
+        padding: 5px;
+    }
+
 }
 

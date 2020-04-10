@@ -34,10 +34,10 @@ class StartProjectStepTwo extends React.Component {
 
     fetchProjectBanner(){
         const project_id = this.props.match.params.id;
-        AxiosConfig.get(`charityproject/${project_id}`)
+        AxiosConfig.get(`charityproject/${project_id}/`)
         .then(res => {
               this.setState({                  
-                  projectBanner : res.data["project_banner"]
+                  projectBanner : res.data["banner"]
               });
         //   console.log(res.data)
         }).catch(error => console.log(error))

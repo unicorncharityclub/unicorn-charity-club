@@ -88,6 +88,7 @@
         flex-flow: row;
         display: table;
         margin-bottom: 3%;
+        margin-top: 3%;
     }
 
     .project-header p {
@@ -135,6 +136,7 @@
         border: none;
         margin: 0;
         position: relative;
+        padding: 10px;
     }
 
     .project-header-content {

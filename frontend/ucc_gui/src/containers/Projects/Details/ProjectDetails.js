@@ -14,11 +14,9 @@ class ProjectDetails extends React.Component {
     onSubmit()
     {
         const projectId = this.props.match.params.id;
-
-        AxiosConfig.post('charityproject/start',
-            {"project_id":projectId,
-                    "user_email": this.state.userEmail},
-                )
+        let form_data = new FormData();
+        form_data.append("project_id", this.props.match.params.id);
+        AxiosConfig.post('charityproject/start/',form_data)
                 .then(res => this.props.history.push(`/Projects/${projectId}/StartNewProject`))
                 .catch(error => console.log(error))
     }
@@ -38,15 +36,15 @@ class ProjectDetails extends React.Component {
 
     componentDidMount () {
       const projectId = this.props.match.params.id;
-      AxiosConfig.get(`charityproject/${projectId}`)
+      AxiosConfig.get(`charityproject/${projectId}/`)
       .then(res => {
               this.setState({                  
-                  projectMission : res.data.project_mission,
-                  projectName: res.data.project_name,
-                  projectBanner : res.data.project_banner,
-                  projectGoal : res.data.project_goal,
+                  projectMission : res.data.mission,
+                  projectName: res.data.name,
+                  projectBanner : res.data.banner,
+                  projectGoal : res.data.goal,
                   projectVideoName : res.data.project_video_name,
-                  projectVideo : res.data.project_video
+                  projectVideo : res.data.video
               });
       }).catch(error => console.log(error))
     }

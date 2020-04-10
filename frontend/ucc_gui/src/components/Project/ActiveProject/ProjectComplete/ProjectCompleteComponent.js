@@ -31,6 +31,15 @@ class ProjectCompleteComponent extends React.Component {
     render() {
         return (
             <div className="form-wrapper">
+                <div className="mobile-content">
+                    <ProgressStepper currentStep="3"/>
+                    <ProjectBanner image={this.props.projectBanner}/>
+                    <ProjectInfo projectName={this.props.projectName} projectBadge={this.props.projectBadge}
+                                 projectCategory={this.props.projectCategory}
+                                 projectJoinDate={this.props.projectJoinDate}
+                                 challengeStatus={this.props.challengeStatus}
+                    />
+                </div>
                 <div className="adventure-project">
                     <div className="desktop-content-header">
                         <ProjectInfo projectName={this.props.projectName} projectBadge={this.props.projectBadge}
@@ -41,9 +50,11 @@ class ProjectCompleteComponent extends React.Component {
                     </div>
                     <div className="project-header-content">
                         <div className="desktop-content">
-                            <div className="project-banner">
-                                <ProjectBanner image={this.props.projectBanner}/>
-                            </div>
+                            {(this.props.projectBanner) ?
+                                <div className="project-banner">
+                                    <ProjectBanner image={this.props.projectBanner}/>
+                                </div> : ''
+                            }
                             <ProgressStepper currentStep="3"/>
                         </div>
                         <div className="project-content">
@@ -51,7 +62,7 @@ class ProjectCompleteComponent extends React.Component {
                                 <label>CONGRATULATIONS!</label>
                             </div>
                             <div className="project-form">
-                                <div className="project-form-inner">
+                                <div className="congratulations-form-inner">
                                     <label>You have completed your project goal and have unlocked the project gift.
                                         Thank you for helping me make a big difference in the world today!</label>
                                     <img src={this.props.image || Project_logo} alt="Avatar"/>
