@@ -50,6 +50,28 @@ class CharityProjectCategory(ListAPIView):
         return Response(result, status=status.HTTP_200_OK)
 
 
+class CharityProjectStartProject(APIView):
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        project_id = request.data['project_id']
+        user_id = request.user.id
+        result = {'status': "Error"}
+        project_user_records = ProjectUser.objects.filter(project_id=project_id, user_id=user_id) \
+            .exclude(challenge_status="Completed")
+        if len(project_user_records) > 0:
+            result['status'] = "Project already in progress"
+        else:
+            data = {"project": project_id, "user": user_id}
+            serializer = ProjectUserSerializer(data=data)
+            serializer.is_valid()
+            if serializer.is_valid:
+                serializer.save()
+                result['status'] = "Success"
+        return Response(result, status=status.HTTP_200_OK)
+
+
 def all_project_list(request):
     response = {'status': "Success"}
     project_list = []
@@ -89,28 +111,6 @@ def get_active_project_details(request, user_email):
         else:
             response["status"] = "User has no active projects"
     return JsonResponse(response)
-
-
-class CharityProjectStartProject(APIView):
-    authentication_classes = [SessionAuthentication, ]
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        project_id = request.data['project_id']
-        user_id = request.user.id
-        result = {'status': "Error"}
-        project_user_records = ProjectUser.objects.filter(project_id=project_id, user_id=user_id) \
-            .exclude(challenge_status="Completed")
-        if len(project_user_records) > 0:
-            result['status'] = "Project already in progress"
-        else:
-            data = {"project": project_id, "user": user_id}
-            serializer = ProjectUserSerializer(data=data)
-            serializer.is_valid()
-            if serializer.is_valid:
-                serializer.save()
-                result['status'] = "Success"
-        return Response(result, status=status.HTTP_200_OK)
 
 
 @api_view(['PUT'])
