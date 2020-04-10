@@ -3,7 +3,8 @@ from datetime import date
 
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view, parser_classes
-from rest_framework.generics import RetrieveAPIView, ListAPIView
+from rest_framework.exceptions import ValidationError
+from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -50,26 +51,32 @@ class CharityProjectCategory(ListAPIView):
         return Response(result, status=status.HTTP_200_OK)
 
 
-class CharityProjectStartProject(APIView):
+class CharityProjectStartProject(CreateAPIView):
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
+    model = ProjectUser
+    serializer_class = ProjectUserSerializer
+
+    def perform_create(self, serializer):
+        print("called")
+        project_id = int(self.request.data['project_id'])
+        user_id = int(self.request.user.id)
+        queryset = ProjectUser.objects.filter(project_id=project_id, user_id=user_id) \
+            .exclude(challenge_status="Completed")
+        if queryset.exists():
+            raise ValidationError('Project already in progress')
+        serializer.save(user_id=user_id, project_id=project_id,invited_by="", project_status="PlanningStarted")
 
     def post(self, request, *args, **kwargs):
-        project_id = request.data['project_id']
-        user_id = request.user.id
-        result = {'status': "Error"}
-        project_user_records = ProjectUser.objects.filter(project_id=project_id, user_id=user_id) \
-            .exclude(challenge_status="Completed")
-        if len(project_user_records) > 0:
-            result['status'] = "Project already in progress"
-        else:
-            data = {"project": project_id, "user": user_id}
-            serializer = ProjectUserSerializer(data=data)
-            serializer.is_valid()
-            if serializer.is_valid:
-                serializer.save()
-                result['status'] = "Success"
-        return Response(result, status=status.HTTP_200_OK)
+        result = {}
+        try:
+            result["status"] = "Success"
+            charity_project = super().post(request, *args, **kwargs)
+            ProjectUserDetails.objects.create(project_user_id=charity_project.data['id']).save()
+            return Response(result, status=status.HTTP_200_OK)
+        except ValidationError:
+            result["status"] = "Project already in progress"
+            return Response(result, status=status.HTTP_400_BAD_REQUEST)
 
 
 def all_project_list(request):

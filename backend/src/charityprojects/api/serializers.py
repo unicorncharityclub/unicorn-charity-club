@@ -77,18 +77,10 @@ class CharityProjectSerializer(serializers.ModelSerializer):
 
 
 class ProjectUserSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(many=False, read_only=False, queryset=User.objects.all())
-    project = serializers.PrimaryKeyRelatedField(many=False, read_only=False, queryset=CharityProjects.objects.all())
+    user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    project = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
     class Meta:
         model = ProjectUser
         fields = '__all__'
         read_only_fields = ['id']
-
-    def create(self, validated_data):
-        project_user = ProjectUser.objects.create(project=validated_data['project'],
-                                                  user=validated_data['user'],
-                                                  invited_by="", project_status="PlanningStarted")
-
-        project_user.save()
-        return project_user
