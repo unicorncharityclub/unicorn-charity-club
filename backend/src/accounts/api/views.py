@@ -3,6 +3,7 @@ import random
 
 from django.contrib.auth import login, logout
 from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
@@ -30,7 +31,7 @@ def random_string(string_length=10):
 class UserRegisterMixin(object):
     def post(self, data, *args, **kwargs):
         response_data = {"status": "Success"}
-        serializer = AccountDetailsSerializer(data=data, context={'password': data['password']})
+        serializer = AccountDetailsSerializer(data=data, context={'password': make_password(data['password'])})
         serializer.is_valid()
         if serializer.is_valid:
             try:
