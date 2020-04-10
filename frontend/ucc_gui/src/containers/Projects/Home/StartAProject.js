@@ -66,7 +66,7 @@ class ProjectsHome extends React.Component {
     }
 
     fetchProjectDetails(obj) {
-        AxiosConfig.get(`charityproject/all_project_info_list`)
+        AxiosConfig.get('charityproject/all_projects/')
             .then(function(response) {obj.setProjectDetails(response);})
             .catch(function(error) {console.log(error);});
     }
@@ -103,7 +103,7 @@ class ProjectsHome extends React.Component {
 
     setProjectDetails(response) {
         this.setState(prevState => ({
-            projectsList: response.data["project_list"]
+            projectsList: response.data
         }));        
     }
 
@@ -181,7 +181,7 @@ class ProjectsHome extends React.Component {
           </div>
 
           <div>
-              {this.state.projectsList[0].project_banner?
+              {this.state.projectsList[0].banner?
                   (<ProjectGrid projectData={this.state.projectsList} category={this.state.selectedCategory} />):(<div/>)}
           </div>
 

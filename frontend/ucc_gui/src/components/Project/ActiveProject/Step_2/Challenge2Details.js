@@ -28,10 +28,10 @@ class ProjectContent extends React.Component {
 
 
     componentDidMount () {
-        AxiosConfig.get(`charityproject/${this.state.projectId}`)
+        AxiosConfig.get(`charityproject/${this.state.projectId}/`)
       .then(res => {
               this.setState({
-                  projectBanner : res.data.project_banner,
+                  projectBanner : res.data.banner,
               });
       }).catch(error => console.log(error))
     }

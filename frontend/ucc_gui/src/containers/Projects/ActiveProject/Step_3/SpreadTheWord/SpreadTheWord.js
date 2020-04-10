@@ -48,12 +48,12 @@ class SpreadTheWord extends React.Component {
 
     componentDidMount () {
         console.log(this.props.id)
-        AxiosConfig.get(`charityproject/${this.state.projectId}`)
+        AxiosConfig.get(`charityproject/${this.state.projectId}/`)
       .then(res => {
               this.setState({
-                  projectName : res.data.project_name,
-                  projectBanner : res.data.project_banner,
-                  projectBadge: res.data.project_badge
+                  projectName : res.data.name,
+                  projectBanner : res.data.banner,
+                  projectBadge: res.data.badge
               });
       }).catch(error => console.log(error))
     }

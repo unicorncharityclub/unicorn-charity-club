@@ -10,7 +10,6 @@ import cookie from "react-cookies";
 import UploadPhoto from "../../../site_media/Images/Default-profile-picture.png";
 import "./Header.css";
 
-
 class Header extends React.Component {
 
  constructor(props) {

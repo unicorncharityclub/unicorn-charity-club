@@ -46,11 +46,11 @@ class StartProjectStepThree extends React.Component {
   componentDidMount() {
     const project_id = this.props.match.params.id;
     AxiosConfig
-      .get(`charityproject/${project_id}`)
+      .get(`charityproject/${project_id}/`)
       .then((res) => {
         this.setState({
-          projectName: res.data["project_name"],
-          projectBanner: res.data["project_banner"],
+          projectName: res.data["name"],
+          projectBanner: res.data["banner"],
         });
       })
       .catch((error) => console.log(error));

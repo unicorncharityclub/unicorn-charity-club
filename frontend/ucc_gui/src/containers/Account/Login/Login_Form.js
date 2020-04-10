@@ -42,7 +42,7 @@ class Login_Form extends React.Component {
 
   handleValidateUser(obj, event) {
     AxiosConfig
-      .post(`account/login`, this.state)
+      .post(`account/login/`, this.state)
       .then(function(response) {
         obj.updateResponseStatus(response);
       })
