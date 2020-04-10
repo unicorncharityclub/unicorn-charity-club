@@ -28,8 +28,8 @@ renderList (type) {
                         projectDate = {elem.project_start_date}
                       /> 
                     </div>
-                  </div>
-              ))}                    
+                  </div>            
+              ))}                                             
         </div>
       );
     }else if ("Active" === type){
@@ -46,8 +46,8 @@ renderList (type) {
                       projectDate = {elem.project_join_date}
                     /> 
                   </div>
-                </div>
-            ))}                
+                </div>                
+            ))} 
         </div>
       );
     }else if ("Invitation" === type){
@@ -66,19 +66,18 @@ renderList (type) {
                     /> 
                   </div>
                 </div>
-            ))}                
+            ))}                            
         </div>
       );
     }
 
 }
 
-
     render() {
       return (
         <div>
           {console.log(this.props)}
-          {this.renderList(this.props.listType)}
+          {this.renderList(this.props.listType)}              
         </div>        
       )        
     }
