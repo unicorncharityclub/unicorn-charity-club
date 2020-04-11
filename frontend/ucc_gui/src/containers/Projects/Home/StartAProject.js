@@ -2,10 +2,12 @@ import React from "react";
 import { Select } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import ProjectGrid from "../../../components/Project/Home/ProjectGrid";
-import axiosConfig from '../../../axiosConfig'
+import AxiosConfig from '../../../axiosConfig'
 import ActiveProjectInfo from "../../../components/Project/Home/ActiveProjectHomeInfo/ActiveProjectInfo";
 import cookie from "react-cookies";
+import "./Project.css";
 import {Container} from "@material-ui/core";
+import VerticalSpotlightDetails from '../../../components/Spotlight/VerticalSpotlightDetails';
 
 
 class ProjectsHome extends React.Component {
@@ -24,7 +26,7 @@ class ProjectsHome extends React.Component {
           activeProjectsList : [],
           plannedProjectsList : [],
           invitationsList : [],
-          UserEmailId: cookie.load('user_emailid')
+          userEmail: cookie.load('user_email')
       }
    }
 
@@ -37,34 +39,34 @@ class ProjectsHome extends React.Component {
    }
 
    fetchInvitaionsList (obj) {
-      const user_emailid = this.state.UserEmailId;      
-      axiosConfig.get(`charityproject/invitations/${user_emailid}`)
+      const userEmail = this.state.userEmail;
+      AxiosConfig.get(`charityproject/invitations/${userEmail}`)
       .then(function(response) {obj.setInvitationsList(response);})
       .catch(function(error) {console.log(error);});
    }
 
    fetchActiveProjectsList(obj) {
-      const user_emailid = this.state.UserEmailId;      
-      axiosConfig.get(`charityproject/activeProjectList/${user_emailid}`)
+      const userEmail = this.state.userEmail;
+      AxiosConfig.get(`charityproject/activeProjectList/${userEmail}`)
       .then(function(response) {obj.setActiveProjectsList(response);})
       .catch(function(error) {console.log(error);});
    }
 
   fetchPlannedProjectsList(obj) {
-        const user_emailid = this.state.UserEmailId;      
-        axiosConfig.get(`charityproject/plannedProjects/${user_emailid}`)
+        const userEmail = this.state.userEmail;
+        AxiosConfig.get(`charityproject/plannedProjects/${userEmail}`)
         .then(function(response) {obj.setPlannedProjectsList(response);})
         .catch(function(error) {console.log(error);});
     }
 
     fetchListOfProjectCategory(obj) {
-        axiosConfig.get(`charityproject/category`)
+        AxiosConfig.get(`charityproject/category`)
             .then(function(response) {obj.setCategoryList(response);})
             .catch(function(error) {console.log(error);});
     }
 
     fetchProjectDetails(obj) {
-        axiosConfig.get(`charityproject/all_project_info_list`)
+        AxiosConfig.get('charityproject/all_projects/')
             .then(function(response) {obj.setProjectDetails(response);})
             .catch(function(error) {console.log(error);});
     }
@@ -101,7 +103,7 @@ class ProjectsHome extends React.Component {
 
     setProjectDetails(response) {
         this.setState(prevState => ({
-            projectsList: response.data["project_list"]
+            projectsList: response.data
         }));        
     }
 
@@ -115,50 +117,56 @@ class ProjectsHome extends React.Component {
     return (
       <div>
         <Container>
-        <div className = "content_section">
+        {/* put here the vertical component for spotlight */}
+        <VerticalSpotlightDetails isSpotlightPage = {false}/>
+
+        <div className = "content_section_box">
           <div className="textHeader">
               Invitations
           </div>
 
           <div>                             
               {this.state.invitationsList && this.state.invitationsList.length > 0?
-                (  <ActiveProjectInfo projectList={this.state.invitationsList} list_type = {"Invitation"}/>):(<div/>)} 
+                (  <ActiveProjectInfo projectList={this.state.invitationsList} listType = {"Invitation"}/>):(<span className = "message">Invitations not available</span>)}
           </div>
+          <hr className="horizontal_line"/>
         </div>
         
         <br/>
 
         {/* <div className="blackDivider"></div> */}
         
-        <div className = "content_section">
+        <div className = "content_section_box">
           <div className="textHeader">
               Planning
           </div>
 
           <div>                     
           {this.state.plannedProjectsList && this.state.plannedProjectsList.length > 0?
-                    (  <ActiveProjectInfo projectList={this.state.plannedProjectsList} list_type = {"Planning"}/>):(<div/>)}            
+                    (  <ActiveProjectInfo projectList={this.state.plannedProjectsList} listType = {"Planning"}/>):(<span className = "message">Projects not available</span>)}
           </div>
+          <hr className="horizontal_line"/>
         </div>
         
         <br/>
         {/* <div className="blackDivider"></div> */}
         
-        <div className = "content_section">
+        <div className = "content_section_box">
           <div className="textHeader">
               Active
           </div>
 
           <div> 
             {this.state.activeProjectsList && this.state.activeProjectsList.length > 0?
-                    (  <ActiveProjectInfo projectList={this.state.activeProjectsList} list_type = {"Active"}/>):(<div/>)}                 
+                    (  <ActiveProjectInfo projectList={this.state.activeProjectsList} listType = {"Active"}/>):(<span className = "message">Projects not available</span>)}
           </div>
+          <hr className="horizontal_line"/>
         </div>
 
         <br/>
         {/* <div className="blackDivider"></div> */}
 
-        <div className = "content_section">
+        <div className = "content_section_box">
           <div className="textHeader">
               Start a Project
           </div>
@@ -173,7 +181,7 @@ class ProjectsHome extends React.Component {
           </div>
 
           <div>
-              {this.state.projectsList[0].project_banner?
+              {this.state.projectsList[0].banner?
                   (<ProjectGrid projectData={this.state.projectsList} category={this.state.selectedCategory} />):(<div/>)}
           </div>
 

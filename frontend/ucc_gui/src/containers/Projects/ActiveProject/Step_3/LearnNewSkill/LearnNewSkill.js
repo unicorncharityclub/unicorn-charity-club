@@ -1,8 +1,7 @@
 import React from "react";
 import LearnNewSkillComponent
     from "../../../../../components/Project/ActiveProject/Step_3/LearnNewSkill/LearnNewSkillComponent";
-import {Container} from "@material-ui/core";
-import axiosConfig from "../../../../../axiosConfig";
+import AxiosConfig from "../../../../../axiosConfig";
 import * as cookie from "react-cookies";
 
 /**
@@ -23,37 +22,48 @@ class LearnNewSkill extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            new_skill: '',
+            newSkill: '',
             description: '',
             video: '',
-            final_video: '',
-            project_Id: this.props.match.params.id,
-            project_name: '',
-            project_banner: '',
-            project_badge: '',
-            project_mission: '',
+            finalVideo: '',
+            projectId: this.props.match.params.id,
+            projectName: '',
+            projectBanner: '',
+            projectBadge: '',
+            projectMission: '',
             //project_join_date: '',
-            challenge_status: ''
+            challengeStatus: '',
+            projectCategory: ''
         }
     };
 
     componentDidMount() {
-        axiosConfig.get(`charityproject/activeProjectList/${cookie.load('user_emailid')}`)
-            .then(res => {
-                for (let i = 0; i < res.data.active_project_list.length; i++) {
-                    if (res.data.active_project_list[i].project_id === parseInt(this.state.project_Id)) {
-                        console.log("inside");
+        Promise.all([
+            AxiosConfig.get(`charityproject/activeProjectList/${cookie.load('user_email')}`),
+            AxiosConfig.get(`charityproject/LearnNewSkill/${this.state.projectId}/${cookie.load('user_email')}`)])
+            .then(([res1, res2]) => {
+                for (let i = 0; i < res1.data.active_project_list.length; i++) {
+                    if (res1.data.active_project_list[i].project_id === parseInt(this.state.projectId)) {
                         this.setState({
-                            project_name: res.data.active_project_list[i].project_name,
-                            project_banner: res.data.active_project_list[i].project_banner,
-                            project_badge: res.data.active_project_list[i].project_badge,
-                            project_mission: res.data.active_project_list[i].project_mission,
-                            project_join_date: res.data.active_project_list[i].project_join_date,
-                            challenge_status: res.data.active_project_list[i].challenge_status
+                            projectName: res1.data.active_project_list[i].project_name,
+                            projectBanner: res1.data.active_project_list[i].project_banner,
+                            projectBadge: res1.data.active_project_list[i].project_badge,
+                            projectMission: res1.data.active_project_list[i].project_mission,
+                            projectCategory: res1.data.active_project_list[i].project_category,
+                            projectJoinDate: res1.data.active_project_list[i].project_join_date,
+                            challengeStatus: res1.data.active_project_list[i].challenge_status
                         });
                     }
                 }
-                console.log(res.data);
+                if (res2.data) {
+                    this.setState({
+                        newSkill: res2.data.new_skill,
+                        description: res2.data.description,
+                        video: res2.data.video
+                    });
+                    console.log(this.state.challenge_present);
+                }
+                console.log(res1.data);
             }).catch(error => console.log(error))
     };
 
@@ -71,55 +81,53 @@ class LearnNewSkill extends React.Component {
     videoHandler(event) {
         this.setState({
             video: URL.createObjectURL(event.target.files[0]),
-            final_video: event.target.files[0]
+            finalVideo: event.target.files[0]
         });
     };
 
 
-    saveHandler(event, requestType) {
+    saveHandler(event, save_option) {
         //event.preventDefault();
-        let form_data = new FormData();
+        let formData = new FormData();
         try {
-            form_data.append('newSkill', this.state.new_skill);
-            form_data.append('description', this.state.description);
-            if (this.state.final_video) {
-                form_data.append('video', this.state.final_video, this.state.final_video.name);
+            formData.append('new_skill', this.state.newSkill);
+            formData.append('description', this.state.description);
+            if (this.state.finalVideo) {
+                formData.append('video', this.state.finalVideo, this.state.finalVideo.name);
             }
-            form_data.append('projectId', this.state.project_Id);
-            //form_data.append('email', 'bhawanaprasadmail@gmail.com');
-            form_data.append('email', cookie.load('user_emailid'));
+            formData.append('project_id', this.state.projectId);
+            formData.append('email', cookie.load('user_email'));
+            formData.append('save_option', save_option);
         } catch (err) {
             console.log(err)
         }
-
-        switch (requestType) {
-            case 'post':
-                return axiosConfig.post('charityproject/LearnNewSkill', form_data,
-                    {
-                        headers: {
-                            'content-type': 'multipart/form-data'
-                        }
-                    })
-                    .then(res => {
-                        console.log(res)
-                    })
-                    .catch(error => console.log(error))
-        }
+        return AxiosConfig.post('charityproject/LearnNewSkill', formData,
+            {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            })
+            .then(res => {
+                console.log(res);
+                this.props.history.push('/Projects/');
+            })
+            .catch(error => console.log(error));
     };
 
     render() {
         return (
             <div>
                 <LearnNewSkillComponent
-                    new_skill={this.state.new_skill}
+                    newSkill={this.state.newSkill}
                     description={this.state.description}
                     video={this.state.video}
-                    project_banner={this.state.project_banner}
-                    project_badge={this.state.project_badge}
-                    project_name={this.state.project_name}
-                    project_mission={this.state.project_mission}
-                    project_join_date={this.state.project_join_date}
-                    challenge_status={this.state.challenge_status}
+                    projectBanner={this.state.projectBanner}
+                    projectBadge={this.state.projectBadge}
+                    projectName={this.state.projectName}
+                    projectMission={this.state.projectMission}
+                    projectCategory={this.state.projectCategory}
+                    projectJoinDate={this.state.projectJoinDate}
+                    challengeStatus={this.state.challengeStatus}
                     defaultIfEmpty={this.defaultIfEmpty.bind(this)}
                     changeHandler={this.changeHandler.bind(this)}
                     videoHandler={this.videoHandler.bind(this)}

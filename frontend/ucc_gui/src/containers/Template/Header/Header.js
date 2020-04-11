@@ -1,28 +1,27 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Settings from "./Desktop/Settings";
-import Mobile_logo from "../../../image/Logo-mobile.png";
+import MobileLogo from "../../../image/Logo-mobile.png";
 import DesktopLogo from "../../../site_media/Logo_Horizontal_No_Tagline.png";
-import Mobile_menu_icon from "../../../site_media/Images/mobile_menu_icon.png";
+import MobileMenuIcon from "../../../site_media/Images/mobile_menu_icon.png";
 import Toolbar from "./Desktop/Toolbar";
-import Arrow_forward from "../../../image/arrow-forward.png";
+import ArrowForward from "../../../image/arrow-forward.png";
 import cookie from "react-cookies";
-import Upload_photo from "../../../site_media/Images/Default-profile-picture.png";
+import UploadPhoto from "../../../site_media/Images/Default-profile-picture.png";
 import "./Header.css";
-
 
 class Header extends React.Component {
 
  constructor(props) {
      super(props);
-     this.user_list = cookie.load('user_list');
-     this.user_emailid = cookie.load('user_emailid');
-     this.state = {email: "", name: "", photo: ""};
-     for (let i in this.user_list) {
-         if (this.user_list[i].email === this.user_emailid) {
-             this.state["email"] = this.user_list[i].email;
-             this.state["name"] = this.user_list[i].name;
-             this.state["photo"] = this.user_list[i].photo;
+     this.userList = cookie.load('user_list');
+     this.userEmail = cookie.load('user_email');
+     this.state = {email: "", fullName: "", profilePic: ""};
+     for (let i in this.userList) {
+         if (this.userList[i].email === this.userEmail) {
+             this.state["email"] = this.userList[i].email;
+             this.state["fullName"] = this.userList[i].full_name;
+             this.state["profilePic"] = this.userList[i].profile_pic;
          }
      }
  }
@@ -37,17 +36,17 @@ class Header extends React.Component {
         <header className="header">
           <div className="header__mobile-child-select">
             <div className="child-select__item">
-              {this.state.photo !== '' ? (
+              {this.state.profilePic !== '' ? (
                             <div
                                 className="child-select__avatar"
-                                style={{backgroundImage: `url(${this.state.photo})`}}
-                                alt={this.state.name}
+                                style={{backgroundImage: `url(${this.state.profilePic})`}}
+                                alt={this.state.fullName}
                             />
                         ) :
                         (<div
                                 className="child-select__avatar"
-                                style={{backgroundImage: `url(${Upload_photo})`}}
-                                alt={this.state.name}
+                                style={{backgroundImage: `url(${UploadPhoto})`}}
+                                alt={this.state.fullName}
                             />)
                     }
             </div>
@@ -60,7 +59,7 @@ class Header extends React.Component {
                 alt="Unicorn Charity Club"
               />
               <img
-                src={Mobile_logo}
+                src={MobileLogo}
                 className="header__logo-mobile"
                 alt="Unicorn Charity Club"
               />
@@ -72,22 +71,22 @@ class Header extends React.Component {
               <div className="child-select__item--main">
                 <div className="child-select__item">
 
-                    {this.state.photo !== '' ? (
+                    {this.state.profilePic !== '' ? (
                             <div
                                 className="child-select__avatar"
-                                style={{backgroundImage: `url(${this.state.photo})`}}
-                                alt={this.state.name}
+                                style={{backgroundImage: `url(${this.state.profilePic})`}}
+                                alt={this.state.fullName}
                             />
                         ) :
                         (<div
                                 className="child-select__avatar"
-                                style={{backgroundImage: `url(${Upload_photo})`}}
-                                alt={this.state.name}
+                                style={{backgroundImage: `url(${UploadPhoto})`}}
+                                alt={this.state.fullName}
                             />)
                     }
                   <div className="child-select__info">
                     <div className="child-select__name">
-                      {this.state.name}<span className="dropdown-icon"/>
+                      {this.state.fullName}<span className="dropdown-icon"/>
                     </div>
                   </div>
                 </div>
@@ -104,7 +103,7 @@ class Header extends React.Component {
                           alt="Unicorn Charity Club"
                         />
                         <img
-                          src={Mobile_logo}
+                          src={MobileLogo}
                           className="header__logo-mobile logo-popup"
                           alt="Unicorn Charity Club"
                         />
@@ -113,7 +112,7 @@ class Header extends React.Component {
                       <div className="header-menu-mobile">
                         <img
                           className="return-button"
-                          src={Arrow_forward}
+                          src={ArrowForward}
                           alt="Forward Arrow"
                         />
                       </div>
@@ -133,7 +132,7 @@ class Header extends React.Component {
 
           <NavLink to={"/Mobile_toolbar"}>
             <div className="header__mobile-toolbar">
-              <img src={Mobile_menu_icon} alt="Mobile Menu Icon" />
+              <img src={MobileMenuIcon} alt="Mobile Menu Icon" />
             </div>
           </NavLink>
         </header>

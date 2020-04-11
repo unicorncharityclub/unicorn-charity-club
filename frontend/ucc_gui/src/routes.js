@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 
 import Account from "./containers/Account/Info/Account.js";
 import Login from "./containers/Account/Login/Login";
+import Logout from "./containers/Account/Logout/Logout";
 import Register from "./containers/Account/Register/Register";
 import Payment from "./containers/Template/Menu/Payment/Payment";
 import Terms_and_Conditions from "./containers/Template/Menu/Terms_and_Conditions/Terms_and_Conditions";
@@ -23,7 +24,10 @@ import DevelopNewHabit from "./containers/Projects/ActiveProject/Step_3/DevelopN
 import Mobile_toolbar from "./containers/Template/Header/Mobile/Mobile_toolbar";
 import VolunteerTime from "./containers/Projects/ActiveProject/Step_3/VolunteerTime/VolunteerTime";
 import SpreadTheWord from "./containers/Projects/ActiveProject/Step_3/SpreadTheWord/SpreadTheWord";
-
+import SpotlightHome from "./containers/Spotlight/SpotlightHome";
+import GiveADonation from "./containers/Projects/ActiveProject/Step_3/GiveADonation/GiveADonation";
+import Fundraiser from "./containers/Projects/ActiveProject/Step_3/Fundraiser/Fundraiser";
+import ProjectComplete from "./containers/Projects/ActiveProject/ProjectComplete/ProjectComplete";
 
 class BaseRouter extends React.Component {
     render() {
@@ -39,7 +43,7 @@ class BaseRouter extends React.Component {
               <Route exact path='/MyChildrenList' component={ChildrenList} />
               <Route exact path='/Projects/' component={ProjectsHome} />
               <Route exact path='/Projects/:id' component={ProjectDetails} />
-              <Route exact path='/Projects/:id/ProjectInvitation/:inviter_email' component={ProjectInvitation} />
+              <Route exact path='/Projects/:id/ProjectInvitation/:inviterEmail' component={ProjectInvitation} />
               <Route exact path='/Projects/:id/ActiveProjectChallenge1' component={ActiveProjectChallenge1} />
               <Route exact path='/Projects/:id/ActiveProjectChallenge2' component={ActiveProjectChallenge2} />
               <Route exact path='/Projects/:id/LearnNewSkill' component={LearnNewSkill} />
@@ -49,8 +53,13 @@ class BaseRouter extends React.Component {
               <Route exact path='/Projects/:id/StartProjectStepTwo' component={StartProjectStepTwo} />
               <Route exact path='/Projects/:id/InviteFriends' component={StartProjectStepThree} />              
               <Route exact path='/Projects/:id/SpreadTheWord' component={SpreadTheWord} />
+              <Route exact path='/Projects/:id/GiveADonation' component={GiveADonation} />
+              <Route exact path='/Projects/:id/Fundraise' component={Fundraiser} />
+                <Route exact path='/Projects/:id/Congratulations' component={ProjectComplete} />
               <Route exact path='/AddChild' component={AddChild}/>
               <Route exact path="/Mobile_toolbar" component={Mobile_toolbar}/>
+              <Route exact path="/Spotlight" component={SpotlightHome}/>
+              <Route exact path="/Logout" component={Logout} />
             </div>
           );
         default:
@@ -59,6 +68,7 @@ class BaseRouter extends React.Component {
             <div>
               <Route exact path="/" render={(props) => <Login {...props} appState={this.props.appState} />}  />
               <Route exact path="/register" component={Register} />
+              <Route exact path="/Logout" component={Logout} />
             </div>
           );
       }

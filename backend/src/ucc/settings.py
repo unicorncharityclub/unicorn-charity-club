@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'myaccount',
+    'profile',
     'prize',
     'corsheaders',
     'rest_framework',
@@ -143,10 +143,15 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
     ]
 }
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-CSRF_COOKIE_NAME = "XSRF-TOKEN"
+eCSRF_COOKIE_NAME = "XSRF-TOKEN"
+REST_SESSION_LOGIN = False
 
 AUTH_USER_MODEL = 'accounts.User'
+SESSION_COOKIE_SECURE = False

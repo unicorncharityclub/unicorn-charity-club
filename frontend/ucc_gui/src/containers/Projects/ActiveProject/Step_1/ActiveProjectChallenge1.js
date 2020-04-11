@@ -1,10 +1,9 @@
 import React from "react";
-import ActiveProjectChallengeInfo from "../../../../components/Project/ActiveProject/Step_1/ActiveProjectChallengeInfo";
 import Button from "react-bootstrap/Button";
 import "./ActiveProjectChallenge1.css";
 import ProgressStepper from "../../../../components/Project/ProgressStepper";
 import ProjectBanner from "../../../../components/Project/ProjectBanner";
-import axiosConfig from '../../../../axiosConfig'
+import AxiosConfig from '../../../../axiosConfig'
 import { Player } from 'video-react';
 import ProjectInfo from "../../../../components/Project/Details/ProjectInfo";
 
@@ -12,24 +11,24 @@ class ActiveProjectChallenge1 extends React.Component {
     constructor(props) {
         super(props);    
         this.state = {
-            ProjectID : this.props.match.params.id,
-            ProjectName : '',
-            ProjectBanner : '',
-            ProjectVideoName : '',
-            ProjectVideo : '',
-            ProjectMission : ''                        
+            projectID : this.props.match.params.id,
+            projectName : '',
+            projectBanner : '',
+            projectVideoName : '',
+            projectVideo : '',
+            projectMission : ''
         }
      }
 
      componentDidMount () {        
-        axiosConfig.get(`charityproject/${this.state.ProjectID}`)
+        AxiosConfig.get(`charityproject/${this.state.projectID}/`)
       .then(res => {
               this.setState({
-                  ProjectName : res.data["project_name"],
-                  ProjectBanner : res.data["project_banner"],                  
-                  ProjectVideo: res.data["project_video"],
-                  ProjectVideoName: res.data["project_video_name"],
-                  ProjectMission : res.data["project_mission"]
+                  projectName : res.data["name"],
+                  projectBanner : res.data["banner"],
+                  projectVideo: res.data["video"],
+                  projectVideoName: res.data["project_video_name"],
+                  projectMission : res.data["mission"]
               });
           console.log(res.data)
       }).catch(error => console.log(error))
@@ -48,18 +47,18 @@ class ActiveProjectChallenge1 extends React.Component {
                         <ProgressStepper currentStep="0" />
                     </div>
                     <div className="banner_common">
-                        <ProjectBanner image={this.state.ProjectBanner}  />
+                        <ProjectBanner image={this.state.projectBanner}  />
                     </div>
                 </div>
 
                 <div className="content_project_info_vertical">
-                    <ProjectInfo vertical={true} id = {this.state.ProjectID}/>                    
+                    <ProjectInfo vertical={true} id = {this.state.projectID}/>
                 </div>
                         
                 
                 <div className="content_section">
                     <div className="content_project_info">
-                        <ProjectInfo vertical={false} id = {this.state.ProjectID}/>  
+                        <ProjectInfo vertical={false} id = {this.state.projectID}/>
                     </div>
                     
                     <br/>
@@ -73,19 +72,19 @@ class ActiveProjectChallenge1 extends React.Component {
                         <div>                            
                             <Player
                             playsInline                      
-                            src={this.state.ProjectVideo}
+                            src={this.state.projectVideo}
                             />
                         </div>
 
                         <br/>
                         <div className="insideContent">                    
-                            {this.state.ProjectMission}
+                            {this.state.projectMission}
                         </div>    
                                        
                 </div>
                 
                 <div className="insideContent1">                    
-                    {this.state.ProjectMission}
+                    {this.state.projectMission}
                 </div>
                                 
                 

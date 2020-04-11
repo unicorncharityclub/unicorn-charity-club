@@ -7,9 +7,9 @@ class ActiveProjectInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      ProjectId : this.props.projectId,     
-      ProjectName : '',
-      ProjectJoinDate : '' 
+      projectId : this.props.projectId,     
+      projectName : '',
+      projectJoinDate : '' 
     }
  }
 
@@ -23,13 +23,13 @@ renderList (type) {
                     <div className="ProjectInfo_Container">    
                       <EachActiveProject 
                         key={index} projectId={elem.project_id} 
-                        project_status = {elem.planning_status} 
+                        projectStatus = {elem.planning_status}
                         type = {type}
-                        project_date = {elem.project_start_date}
+                        projectDate = {elem.project_start_date}
                       /> 
                     </div>
-                  </div>
-              ))}                    
+                  </div>            
+              ))}                                             
         </div>
       );
     }else if ("Active" === type){
@@ -41,13 +41,13 @@ renderList (type) {
                   <div className="ProjectInfo_Container">    
                     <EachActiveProject 
                       key={index} projectId={elem.project_id} 
-                      project_status = {elem.challenge_status} 
+                      projectStatus = {elem.challenge_status}
                       type = {type} 
-                      project_date = {elem.project_join_date}
+                      projectDate = {elem.project_join_date}
                     /> 
                   </div>
-                </div>
-            ))}                
+                </div>                
+            ))} 
         </div>
       );
     }else if ("Invitation" === type){
@@ -60,25 +60,24 @@ renderList (type) {
                     <EachActiveProject 
                       key={index} projectId={elem.project_id}                        
                       type = {type}                       
-                      project_date = {elem.invitation_date}
-                      inviter_name = {elem.inviter_user_name}
-                      inviter_email = {elem.inviter_user_email}                      
+                      projectDate = {elem.invitation_date}
+                      inviterName = {elem.inviter_user_name}
+                      inviterEmail = {elem.inviter_user_email}
                     /> 
                   </div>
                 </div>
-            ))}                
+            ))}                            
         </div>
       );
     }
 
 }
 
-
     render() {
       return (
         <div>
           {console.log(this.props)}
-          {this.renderList(this.props.list_type)}              
+          {this.renderList(this.props.listType)}              
         </div>        
       )        
     }

@@ -4,8 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import TextBlueHeading from "../../../General/Text/TextBlueHeading";
 import TextBlack from "../../../General/Text/TextBlack";
 import "../../../../containers/ProjectCommon.css"
-import axiosConfig from "../../../../axiosConfig";
-import TextBlackHeading from "../../../General/Text/TextBlackHeading";
+import AxiosConfig from "../../../../axiosConfig";
 import ProgressStepper from "../../ProgressStepper";
 import ProjectBanner from "../../ProjectBanner";
 import ProjectInfo from "../../Details/ProjectInfo";
@@ -17,22 +16,22 @@ class ProjectContent extends React.Component {
     constructor(props) {
     super(props);
     this.state = {
-        Project_id: this.props.id,
-        ProjectName : '',
-        ProjectBanner : '',
-        ProjectBadge : '',
-        ProjectJoinDate :'',
-        ProjectChallengeStatus: '',
+        projectId: this.props.id,
+        projectName : '',
+        projectBanner : '',
+        projectBadge : '',
+        projectJoinDate :'',
+        projectChallengeStatus: '',
         selectedOption: '',
     }
  }
 
 
     componentDidMount () {
-        axiosConfig.get(`charityproject/${this.state.Project_id}`)
+        AxiosConfig.get(`charityproject/${this.state.projectId}/`)
       .then(res => {
               this.setState({
-                  ProjectBanner : res.data.project_banner,
+                  projectBanner : res.data.banner,
               });
       }).catch(error => console.log(error))
     }
@@ -46,15 +45,15 @@ class ProjectContent extends React.Component {
                     <ProgressStepper currentStep="1" />
                     </div>
                     <div className="banner_common">
-                    <ProjectBanner image={this.state.ProjectBanner}  />
+                    <ProjectBanner image={this.state.projectBanner}  />
                     </div>
                     </div>
                     <div className="content_project_info_vertical">
-                    <ProjectInfo vertical={true} id={this.state.Project_id} />
+                    <ProjectInfo vertical={true} id={this.state.projectId} />
                     </div>
                     <div className="content_section">
                     <div className="content_project_info">
-                    <ProjectInfo id={this.state.Project_id} />
+                    <ProjectInfo id={this.state.projectId} />
                     </div>
                     <TextBlueHeading message="Challenge 2: Ideation"/>
                       <br/>
@@ -69,23 +68,23 @@ class ProjectContent extends React.Component {
                             <br/>
 
                             <input name="Options" type="radio" value="2" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                            <label for="Option2"> <TextBlack message = "Learn a new skill that supports the mission"/></label><br/>
+                            <label htmlFor="Option2"> <TextBlack message = "Learn a new skill that supports the mission"/></label><br/>
                             <br/>
 
                             <input name="Options" type="radio" value="3" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                            <label for="Option3"> <TextBlack message = "Develop a new habit that supports the mission"/></label><br/>
+                            <label htmlFor="Option3"> <TextBlack message = "Develop a new habit that supports the mission"/></label><br/>
                             <br/>
 
                             <input name="Options" type="radio" value="4" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                            <label for="Option4"> <TextBlack message = "Volunteer time at a local organization"/></label><br/>
+                            <label htmlFor="Option4"> <TextBlack message = "Volunteer time at a local organization"/></label><br/>
                             <br/>
 
                             <input name="Options" type="radio" value="5" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                            <label for="Option5"> <TextBlack message = "Give a donation to support the mission"/></label><br/>
+                            <label htmlFor="Option5"> <TextBlack message = "Give a donation to support the mission"/></label><br/>
                             <br/>
 
                             <input name="Options" type="radio" value="6" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                            <label for="Option6"> <TextBlack message = "Fundraise money to support the mission"/></label><br/>
+                            <label htmlFor="Option6"> <TextBlack message = "Fundraise money to support the mission"/></label><br/>
                             <br/>
                         </div>
                         </ul>

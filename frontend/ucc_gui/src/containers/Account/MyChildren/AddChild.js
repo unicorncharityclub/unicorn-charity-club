@@ -2,7 +2,7 @@ import React from "react";
 import "../Info/Account.css";
 import "./MyChildren.css";
 import ProfileForm from "../../../components/Account/ProfileForm";
-import axiosConfig from "../../../axiosConfig";
+import AxiosConfig from "../../../axiosConfig";
 import cookie from "react-cookies";
 
 /**
@@ -21,20 +21,20 @@ class AddChild extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      first_name: "",
-      last_name: "",
+      firstName: "",
+      lastName: "",
       mobile: "",
       address: "",
-      profile_pic: "",
+      profilePic: "",
       dob: "",
       gender: "",
-      aboutme: "",
-      favorite_thing: "",
+      aboutMe: "",
+      favoriteThing: "",
       dream: "",
-      super_powers: "",
+      superPowers: "",
       support: "",
       school: "-",
-      school_grade: ""
+      schoolGrade: ""
     };
   }
 
@@ -48,7 +48,7 @@ class AddChild extends React.Component {
 
   onImageChange(event) {
     this.setState({
-      profile_pic: URL.createObjectURL(event.target.files[0]),
+      profilePic: URL.createObjectURL(event.target.files[0]),
       finalImage: event.target.files[0]
     });
   }
@@ -57,21 +57,21 @@ class AddChild extends React.Component {
     event.preventDefault();
     let form_data = new FormData();
     try {
-      form_data.append("first_name", this.state.first_name);
-      form_data.append("last_name", this.state.last_name);
+      form_data.append("first_name", this.state.firstName);
+      form_data.append("last_name", this.state.lastName);
       form_data.append("dob", this.state.dob);
       form_data.append("gender", this.state.gender);
-      form_data.append("Address", this.state.address);
-      form_data.append("Aboutme", this.state.aboutme);
-      form_data.append("FavoriteThing", this.state.favorite_thing);
-      form_data.append("Dream", this.state.dream);
-      form_data.append("SuperPowers", this.state.super_powers);
-      form_data.append("Support", this.state.support);
-      form_data.append("School", this.state.school);
-      form_data.append("SchoolGrade", this.state.school_grade);
+      form_data.append("address", this.state.address);
+      form_data.append("about_me", this.state.aboutMe);
+      form_data.append("favorite_thing", this.state.favoriteThing);
+      form_data.append("dream", this.state.dream);
+      form_data.append("super_powers", this.state.superPowers);
+      form_data.append("support", this.state.support);
+      form_data.append("school", this.state.school);
+      form_data.append("school_grade", this.state.schoolGrade);
       if (this.state.finalImage)
         form_data.append(
-          "ProfilePic",
+          "profile_pic",
           this.state.finalImage,
           this.state.finalImage.name
         );
@@ -79,11 +79,10 @@ class AddChild extends React.Component {
       console.log(err);
     }
 
-    axiosConfig.defaults.withCredentials = true;
-    axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-    const user_emailid = cookie.load("user_emailid");
-    return axiosConfig
-      .post(`myaccount/addchild/${user_emailid}`, form_data, {
+
+    const user_email = cookie.load("user_email");
+    return AxiosConfig
+      .post('account/addchild/', form_data, {
         headers: {
           "content-type": "multipart/form-data"
         }
@@ -96,19 +95,19 @@ class AddChild extends React.Component {
     return (
       <div>
         <ProfileForm
-          first_name={this.state.first_name}
-          last_name={this.state.last_name}
+          firstName={this.state.firstName}
+          lastName={this.state.lastName}
           address={this.state.address}
           dob={this.state.dob}
           gender={this.state.gender}
-          aboutme={this.state.aboutme}
-          favorite_thing={this.state.favorite_thing}
+          aboutMe={this.state.aboutMe}
+          favoriteThing={this.state.favoriteThing}
           dream={this.state.dream}
-          super_powers={this.state.super_powers}
+          superPowers={this.state.superPowers}
           support={this.state.support}
-          profile_pic={this.state.profile_pic}
+          profilePic={this.state.profilePic}
           school={this.state.school}
-          school_grade={this.state.school_grade}
+          schoolGrade={this.state.schoolGrade}
           onDataChange={this.onDataChange.bind(this)}
           onImageChange={this.onImageChange.bind(this)}
           onSaveClicked={this.onSaveClicked.bind(this)}

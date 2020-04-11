@@ -1,6 +1,6 @@
 import React from "react";
 import cookie from 'react-cookies'
-import axiosConfig from '../../../axiosConfig'
+import AxiosConfig from '../../../axiosConfig'
 
 /** @import CSS styles */
 import "./Account.css";
@@ -23,39 +23,39 @@ import ProfileForm from "../../../components/Account/ProfileForm";
 class Account extends React.Component {
     state = {
         email: '',
-        first_name: '',
-        last_name: '',
+        firstName: '',
+        lastName: '',
         mobile: '',
         address: '',
-        profile_pic: '',
+        profilePic: '',
         dob: '',
         gender: '',
-        aboutme: '',
-        favorite_thing: '',
+        aboutMe: '',
+        favoriteThing: '',
         dream: '',
-        super_powers: '',
+        superPowers: '',
         support: '',
         school: '',
-        school_grade: '',
+        schoolGrade: '',
     };
 
     componentDidMount() {
-        const user_emailid = cookie.load('user_emailid');
-        axiosConfig.get(`myaccount/${user_emailid}`)
+        const user_email = cookie.load('user_email');
+        AxiosConfig.get('profile/view_profile')
             .then(res => {
                     this.setState({
                         email: res.data.email,
-                        first_name: res.data.first_name,
-                        last_name: res.data.last_name,
+                        firstName: res.data.first_name,
+                        lastName: res.data.last_name,
                         mobile: res.data.mobile,
                         address: res.data.address,
-                        profile_pic: res.data.profile_pic,
+                        profilePic: res.data.profile_pic,
                         dob: res.data.dob,
                         gender: res.data.gender,
-                        aboutme: res.data.aboutme,
-                        favorite_thing: res.data.favorite_thing,
+                        aboutMe: res.data.about_me,
+                        favoriteThing: res.data.favorite_thing,
                         dream: res.data.dream,
-                        super_powers: res.data.super_powers,
+                        superPowers: res.data.super_powers,
                         support: res.data.support,
                     }
                     );
@@ -64,7 +64,7 @@ class Account extends React.Component {
                     {
                         this.setState({
                             school: res.data.school,
-                            school_grade: res.data.school_grade,
+                            schoolGrade: res.data.school_grade,
                         });
                     }
             }).catch(error => console.log(error))
@@ -80,7 +80,7 @@ class Account extends React.Component {
 
     onImageChange(event){
     this.setState({
-        profile_pic: URL.createObjectURL(event.target.files[0]),
+        profilePic: URL.createObjectURL(event.target.files[0]),
         finalImage: event.target.files[0]
     });
     }
@@ -90,21 +90,21 @@ class Account extends React.Component {
         let form_data = new FormData();
         try {
             form_data.append("email", this.state.email);
-          form_data.append("first_name", this.state.first_name);
-          form_data.append("last_name", this.state.last_name);
+          form_data.append("first_name", this.state.firstName);
+          form_data.append("last_name", this.state.lastName);
           form_data.append("dob", this.state.dob);
           form_data.append("gender", this.state.gender);
-          form_data.append("Address", this.state.address);
-          form_data.append("Aboutme", this.state.aboutme);
-          form_data.append("FavoriteThing", this.state.favorite_thing);
-          form_data.append("Dream", this.state.dream);
-          form_data.append("SuperPowers", this.state.super_powers);
-          form_data.append("Support", this.state.support);
-          form_data.append("School", this.state.school);
-          form_data.append("SchoolGrade", this.state.school_grade);
+          form_data.append("address", this.state.address);
+          form_data.append("about_me", this.state.aboutMe);
+          form_data.append("favorite_thing", this.state.favoriteThing);
+          form_data.append("dream", this.state.dream);
+          form_data.append("super_powers", this.state.superPowers);
+          form_data.append("support", this.state.support);
+          form_data.append("school", this.state.school);
+          form_data.append("school_grade", this.state.schoolGrade);
           if (this.state.finalImage)
             form_data.append(
-              "ProfilePic",
+              "profile_pic",
               this.state.finalImage,
               this.state.finalImage.name
             );
@@ -113,17 +113,14 @@ class Account extends React.Component {
           console.log(err);
         }
 
-        axiosConfig.defaults.withCredentials = true;
-        axiosConfig.defaults.xsrfHeaderName = "X-CSRFToken";
-        return axiosConfig.put(`myaccount/${this.state.email}`, form_data,
+        return AxiosConfig.put('profile/view_profile', form_data,
             {
                 headers: {
                     'content-type': 'multipart/form-data'
                 }
             })
-            .then(res => console.log(res))
+            .then()
             .catch(error => console.log(error));
-
   }
 
   render() {
@@ -132,19 +129,19 @@ class Account extends React.Component {
 
                 <ProfileForm
                      email={this.state.email}
-                     first_name={this.state.first_name}
-                     last_name={this.state.last_name}
+                     firstName={this.state.firstName}
+                     lastName={this.state.lastName}
                      address={this.state.address}
                      dob={this.state.dob}
                      gender={this.state.gender}
-                     aboutme={this.state.aboutme}
-                     favorite_thing={this.state.favorite_thing}
+                     aboutMe={this.state.aboutMe}
+                     favoriteThing={this.state.favoriteThing}
                      dream={this.state.dream}
-                     super_powers={this.state.super_powers}
+                     superPowers={this.state.superPowers}
                      support={this.state.support}
-                     profile_pic={this.state.profile_pic}
+                     profilePic={this.state.profilePic}
                      school={this.state.school}
-                     school_grade={this.state.school_grade}
+                     schoolGrade={this.state.schoolGrade}
                      onDataChange={this.onDataChange.bind(this)}
                      onImageChange={this.onImageChange.bind(this)}
                      onSaveClicked={this.onSaveClicked.bind(this)}

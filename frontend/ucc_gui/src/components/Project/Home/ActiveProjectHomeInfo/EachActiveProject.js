@@ -1,6 +1,6 @@
 
 import React from "react";
-import axiosConfig from '../../../../axiosConfig'
+import AxiosConfig from '../../../../axiosConfig'
 import "./ActiveProjectInfo.css";
 import Image from "react-bootstrap/Image";
 import TextBlackHeading from "../../../General/Text/TextBlackHeading";
@@ -13,19 +13,20 @@ class EachActiveProject extends React.Component {
   constructor(props) {
     super(props);    
     this.state = {      
-        Project_id : this.props.projectId,        
-        ProjectName : '',
-        ProjectJoinDate : '03/04/2020',          
+        projectId : this.props.projectId,        
+        projectName : '',
+        projectJoinDate : '',  
+        project_badge : 'http://127.0.0.1:8000/media/upload/image/project_badge/Default_Logo.png'        
     }
  }
 
     componentDidMount () {               
-        const Project_id = this.props.projectId;                    
-        axiosConfig.get(`charityproject/${Project_id}`)
+        const projectId = this.props.projectId;                    
+        AxiosConfig.get(`charityproject/${projectId}/`)
       .then(res => {
-              this.setState({                  
-                  ProjectName : res.data["project_name"],
-                  ProjectBanner : res.data["project_banner"]                 
+              this.setState({
+                  projectName : res.data["name"],
+                  projectBanner : res.data["banner"]
               });
       }).catch(error => console.log(error))
 
@@ -54,7 +55,7 @@ class EachActiveProject extends React.Component {
             );
         }else if (date !== null && type === "Invitation") {
             // if date is for Invitation
-            msg = "By "+ this.props.inviter_name + " on : ";
+            msg = "By "+ this.props.inviterName + " on : ";
             date = this.reverseDate(date);
             return (
                 <TextBlack message={msg + date}/> 
@@ -73,7 +74,7 @@ class EachActiveProject extends React.Component {
             if("PlanningPhase1" === status) {
                 return (
                     <div className = "stepperWidth">
-                        <ProgressStepper currentStep={0}/>
+                        <ProgressStepper  currentStep={0}/>
                     </div>
                 );
               } else if ("PlanningPhase2" === status){
@@ -101,7 +102,7 @@ class EachActiveProject extends React.Component {
               if("Challenge1Complete" === status) {
                 return (
                     <div className = "stepperWidth">
-                        <ProgressStepper currentStep={0}/>
+                        <ProgressStepper className = "stepperWidth" currentStep={0}/>
                     </div>
                 );
               } else if ("Challenge2Complete" === status){
@@ -131,63 +132,63 @@ class EachActiveProject extends React.Component {
         if(type === "Planning") {
             if("PlanningPhase1" === status) {
                 return (
-                    <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/StartNewProject'}>
-                        <TextBlackHeading message={this.state.ProjectName}/>
+                    <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/StartNewProject'}>
+                        <TextBlackHeading message={this.state.projectName}/>
                     </a>
                 );
               } else if ("PlanningPhase2" === status){
                 return (
-                    <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/StartProjectStepTwo'}>
-                        <TextBlackHeading message={this.state.ProjectName}/>
+                    <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/StartProjectStepTwo'}>
+                        <TextBlackHeading message={this.state.projectName}/>
                     </a>
                 );
               }else if ("PlanningPhase3" === status){
                 return (
-                    <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/InviteFriends'}>
-                        <TextBlackHeading message={this.state.ProjectName}/>
+                    <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/InviteFriends'}>
+                        <TextBlackHeading message={this.state.projectName}/>
                     </a>
                 );
               }else{
                   // if the status is planningStart                             
                 return (
-                    <a className = "projectName" href = {'/Projects/'+ this.state.Project_id}>
-                        <TextBlackHeading message={this.state.ProjectName}/>
+                    <a className = "projectName" href = {'/Projects/'+ this.state.projectId}>
+                        <TextBlackHeading message={this.state.projectName}/>
                     </a>
                 );
               }          
           }else if (type === "Active"){                     
             if("Challenge1Complete" === status) {
               return (
-                <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/ActiveProjectChallenge2'}>
-                    <TextBlackHeading message={this.state.ProjectName}/>
+                <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/ActiveProjectChallenge2'}>
+                    <TextBlackHeading message={this.state.projectName}/>
                 </a>
               );
             } else if ("Challenge2Complete" === status){
               return (                  
-                <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/SpreadTheWord'}>
-                    <TextBlackHeading message={this.state.ProjectName}/>
+                <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/SpreadTheWord'}>
+                    <TextBlackHeading message={this.state.projectName}/>
                 </a>
               );
             }else if ("Challenge3Complete" === status){
               return (
-                <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/LearnNewSkill'}>
-                    <TextBlackHeading message={this.state.ProjectName}/>
+                <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/LearnNewSkill'}>
+                    <TextBlackHeading message={this.state.projectName}/>
                 </a>
               );
             }else{
                 // if the status is startChallenge             
                 // as challenge1 is not completed yet
                 return (
-                    <a className = "projectName" href = {'/Projects/'+ this.state.Project_id +'/ActiveProjectChallenge1'}>
-                        <TextBlackHeading message={this.state.ProjectName}/>
+                    <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/ActiveProjectChallenge1'}>
+                        <TextBlackHeading message={this.state.projectName}/>
                     </a>
                   );
             } 
         }else{
             // if Invitation
             return (
-                <a className = "projectName" href = {`/Projects/${this.props.projectId}/ProjectInvitation/${this.props.inviter_email}`}>
-                    <TextBlackHeading message={this.state.ProjectName}/>
+                <a className = "projectName" href = {`/Projects/${this.props.projectId}/ProjectInvitation/${this.props.inviterEmail}`}>
+                    <TextBlackHeading message={this.state.projectName}/>
                 </a>
               );
         }
@@ -197,7 +198,7 @@ class EachActiveProject extends React.Component {
     buttonHandler() {
         // on button click action
         var projectID = this.props.projectId;
-        var email = this.props.inviter_email;        
+        var email = this.props.inviterEmail;        
         window.open(`/Projects/${projectID}/ProjectInvitation/${email}`,"_self");
     }
 
@@ -212,7 +213,7 @@ class EachActiveProject extends React.Component {
             return (
                 // this is for planning or Active
                 <div>
-                    {this.renderProgressStepper(this.props.project_status, this.props.type)}    
+                    {this.renderProgressStepper(this.props.projectStatus, this.props.type)}    
                 </div>            
           ); 
             
@@ -224,24 +225,24 @@ class EachActiveProject extends React.Component {
     render() {
       return(
         <div>                          
-            <div className="ActiveProjectInfo_Badge" style={{width: "117px", height : "117px"}}>                        
-                <Image src={this.state.ProjectBanner}  style={{width: "100%", height: "100%"}} roundedCircle/>
+            <div className="ActiveProjectInfo_Badge">                  
+                <Image src={this.state.project_badge}  style={{width: "80%", height: "80%"}} roundedCircle/>                
             </div>
-            <div className="ActiveProjectInfo_Text" >
+            <div className="ActiveProjectInfo_Text" >             
                 <table >
                     <tbody>
                     <tr className = "row">
                     <td className="firstCell" colSpan={2}>
-                        {this.renderOnClick(this.props.project_status, this.props.type)}                                                                            
+                        {this.renderOnClick(this.props.projectStatus, this.props.type)}                                                                            
                         <br /> <br/>
-                        {this.renderdate(this.props.project_date, this.props.type)}                                                 
+                        {this.renderdate(this.props.projectDate, this.props.type)}                                                 
                     </td>                                  
                     <td className = "stepperspace">
                         {this.renderProgressStepperOrButton(this.props.type)}                 
                     </td>                            
                 </tr>                                                                                                    
                 </tbody>                    
-            </table>
+            </table>            
             </div>      
         </div>                  
     

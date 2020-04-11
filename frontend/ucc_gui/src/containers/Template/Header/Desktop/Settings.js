@@ -1,26 +1,19 @@
 import React, { Component } from "react";
-import Setting_icon from "../../../../image/settings.png";
+import SettingIcon from "../../../../image/settings.png";
 import "./Settings.css";
 import { connect } from 'react-redux';
-import cookie from 'react-cookies'
 
 class Settings extends Component {
   constructor(props) {
     super(props);
-    this.logout = this.logout.bind(this);
   }
-  logout() {
-      let empty = "";
-      cookie.save('user_emailid', empty);
-      cookie.save('XSRF-TOKEN', empty);
-      cookie.save('user_list', empty);
-      this.props.dispatch({ type: "LOGOUT_SUCCESS", user_list:empty, token:empty});
-  }
+
+
   render() {
     return (
       <div className="header__settings">
         <div className="setting-icon">
-          <img src={Setting_icon} alt="settings" />
+          <img src={SettingIcon} alt="settings" />
 
               <div className="settings-dropdown">
                   <a href="/Account" >
@@ -35,7 +28,7 @@ class Settings extends Component {
                   <a href="/Security_and_Privacy" >
                         <div className="settings-dropdown__item">Security&nbsp;and&nbsp;Privacy</div>
                   </a>
-                   <a href="/" onClick={this.logout} className="logout-link">
+                   <a href="/Logout" className="logout-link">
                         <div className="settings-dropdown__item">Logout</div>
                     </a>
               </div>

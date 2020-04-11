@@ -1,0 +1,414 @@
+
+.profileTitle {
+    color: #2BB9B7;  
+}
+
+  /* collapse */
+  .header{
+    color: #2BB9B7;  
+    cursor: pointer; 
+    height: 100%;  
+    
+    font-size: 117%;
+    font-weight: bold;
+    text-align: center; 
+    
+}
+
+.center_vertical_content {
+    text-align: center;
+}
+
+
+.content{        
+    padding: 0%;    
+    cursor: pointer;        
+    font-family: verdana;
+    /* font-size: 14px; */
+    /* padding-right: 10%;    */
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.content_vertical {
+    padding: 0%;    
+    cursor: pointer;        
+    font-family: verdana;
+    font-size: 14px;
+    /* padding-right: 10%;    */
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+}
+
+
+.horizontal {
+    width: 110%;  
+    visibility: hidden; 
+}
+
+table {
+    table-layout: fixed ;
+    width: 100% ;
+  }
+  td {
+    text-align: center;  
+    width: 25% ;
+  }
+
+.icon-down {
+    float: right;
+    padding-right: 5%;
+    font-size: large;
+}
+
+.icon-down-vertical {
+    display: none;
+}
+
+.collapse_title {
+    float: left;
+}
+
+.hr_vertical {
+    visibility: visible;
+    border-top: 4.2px dashed #e7088a;
+}
+
+.profile_pic_vertical {
+    width : 9vw;
+    height : 9vw;
+    border-radius: 50%;
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto; 
+    
+    padding:6%;
+    border: 1px;
+    background-color: white;       
+}
+
+.profileDetails_vertical {
+    /* padding-top: 19%; */
+    padding-bottom: 4%;
+    text-align: center;
+    display: block;
+}
+
+
+.profileDetails_vertical h3{
+    color: #2BB9B7;
+    padding-top: 4%;
+    padding-bottom: 9%;
+}
+
+
+
+.statistics {
+    color: #e7088a;
+    font-size: 300%;
+}
+
+.statistics_titles {
+    font-size: 120%;
+    color: gray;
+}
+
+
+/* Completed Project */
+.completedproject {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;    
+}
+
+.row {
+    width: 100%;
+    padding: 2%;
+    margin: 0%;
+}
+
+.col {
+    padding: 2%; 
+}
+
+.content_section {
+    float: right;
+    margin-bottom: 1.5%;
+}
+
+
+.profilePic {
+    display: none;
+}
+
+.banner {
+    position: relative;
+}
+
+.profileInfo {
+    padding-bottom: 2%;
+    padding-top: 2%;
+    width:80%;
+    float: right;
+}
+
+
+.profileDetails {
+    display: none;    
+}
+
+
+.content_spotlightInfo_vertical {    
+    width:20%;
+    float:left;    
+    
+    position: absolute;
+    bottom: auto;
+    padding-top: 1%;
+}
+
+.content_spotlightInfo {
+    display: block;
+}
+
+.content_spotlightInfo {
+    display: none;
+}
+
+.vertical {
+    float: left;
+    width: 50%;
+}
+
+.vertical_project {
+    float: left;
+    width: 18%;
+}
+
+
+
+@media (min-width:1200px) and (max-width: 1600px){ 
+    
+    .content_spotlightInfo_vertical {
+        width: 40%;
+        float: left;
+        position: absolute;
+        padding-top: 1.7%;
+    }
+
+    .vertical {
+        float: left;
+        width: 33%;
+    }
+
+    
+    .vertical_project { 
+        float: left;
+        width: 18%;
+    }
+
+    .profile_pic_vertical {
+        width : 9vw;
+        height : 9vw;
+        border-radius: 50%;
+    
+        display: block;
+        margin-left: auto;
+        margin-right: auto; 
+        
+        padding:6%;
+        border: 1px;
+        background-color: white;       
+    }
+
+  }
+
+
+@media (max-width: 1200px) { 
+    
+    .content_spotlightInfo_vertical {
+        width: 44%;
+        float: left;
+        position: absolute;
+        padding-top: 1.7%;
+    }
+
+    .vertical {
+        float: left;
+        width: 36%;
+    }
+
+    .profile_pic_vertical {
+        width : 12vw;
+        height : 12vw;
+        border-radius: 50%;
+    
+        display: block;
+        margin-left: auto;
+        margin-right: auto; 
+        
+        padding:6%;
+        border: 1px;
+        background-color: white;       
+    }
+
+
+  }
+
+  @media (max-width: 600px) { 
+    
+    .content_spotlightInfo_vertical {
+        width: 33%;
+        float: left;
+        position: absolute;
+        padding-top: 1%;
+    }
+
+    .profile_pic_vertical {
+        width : 7vw;
+        height : 7vw;
+        border-radius: 50%;
+    
+        display: block;
+        margin-left: auto;
+        margin-right: auto; 
+        
+        padding:6%;
+        border: 1px;
+        background-color: white;       
+    }
+
+  }
+
+
+@media only screen and (max-width: 40em){
+    .child-select__item  {
+        display: none;
+    }
+    .content_spotlightInfo_vertical{
+        display: none;
+    }
+    
+    .content_spotlightInfo {
+        display: block;
+    }
+    
+    .header{
+        color: #2BB9B7;  
+        cursor: pointer;    
+        background: white;
+        height: 100%;      
+        text-align: center;     
+    }
+
+    .icon-down {
+        float: right;
+        padding-right: 5%;
+        font-size: large;
+    }
+    
+    .collapse_title {                
+        overflow: hidden;
+        white-space: nowrap;  
+        float: left;    
+        padding-bottom: 15px;  
+    }
+
+    
+    .title_vertical {
+        font-size: 0.2rem;        
+    }
+
+    .content{            
+        cursor: pointer;        
+        font-family: verdana;
+        padding-left: 0%;
+        padding-right: 10%;        
+        left: 0%;
+        width: 100%;
+        justify-content: space-around
+    }
+
+    .statistics {
+        color: #e7088a;
+        font-size: 200%;
+    }
+
+    .statistics_titles{
+        font-size: 100%;
+        color: gray;
+    }
+
+    .row {        
+        width: 100%;
+        padding: 2%;
+        margin: 0%;
+    }
+    
+    .col {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+    
+    /* .completedproject {
+        width: 100%;
+        height: auto;         
+        padding: 3%;            
+        border: 2px;
+    } */
+
+
+    .profilePic {
+        width : 10rem;
+        height : 10rem;
+        border-radius: 50%;
+    
+        display: block;
+        margin-left: auto;
+        margin-right: auto; 
+        
+        padding:2%;
+        border: 1px;
+        background-color: white;    
+    
+        position: absolute;
+        top: 70%;
+        left: 25%;
+    }
+    
+    .banner {
+        position: relative;
+    }
+
+    .profileDetails {
+        padding-top: 19%;
+        padding-bottom: 4%;
+        text-align: center;
+        display: block;
+    }
+
+    .content_section hr {
+        visibility: visible;
+    }
+
+    .content_section {
+        margin-bottom: -4px;
+    }
+
+    .profileInfo {
+        padding-bottom: 4%;
+        padding-top: 0%;
+        width:100%;        
+    }
+
+    .vertical_project {
+       display: none;
+    }
+
+}
+

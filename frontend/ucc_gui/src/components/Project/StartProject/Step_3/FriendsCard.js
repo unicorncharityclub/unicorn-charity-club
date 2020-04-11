@@ -5,7 +5,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
-import Upload_photo from "../../../../image/Default-profile-picture.png";
+import UploadPhoto from "../../../../image/Default-profile-picture.png";
 import "../../../../containers/ProjectCommon.css"
 
 class ImgMediaCard extends React.Component {
@@ -27,7 +27,7 @@ class ImgMediaCard extends React.Component {
                         className="friends_search_card"
                         style={{objectFit: "contain"}}
                         component="img"
-                        image={this.props.imageSrc?this.props.imageSrc:Upload_photo}
+                        image={this.props.imageSrc?this.props.imageSrc:UploadPhoto}
                         alt="Charity Project"
 
                     />

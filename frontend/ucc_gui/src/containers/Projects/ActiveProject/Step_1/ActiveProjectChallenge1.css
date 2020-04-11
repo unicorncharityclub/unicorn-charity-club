@@ -1,106 +1,26 @@
-.buttonDiv {
-    float: right;
-    margin-right: 100px;
-}
-
-.doneButton {
-    border-radius : 0.5rem;
-    width : 200px;
-    color: white;
-    background-color: #2BB9B7;  
-    margin: 10%;       
-}
-
-.doneButton:hover {
-    background-color: turquoise;    
-}
-
-.exploreLink {
-    float: left;
-    padding-left: 10px;
-}
-
-.content_section {
-    float: right;
-}
-
 .inside-content {
     float: left;
-    width : 100%;        
+    width : 100%;
 }
 
-.insideContent1 {
-    visibility : hidden;
-}
-
-.text_black {
-    text-align: center;
-}
-
-.text_black_heading {
-    text-align: center;
-}
-
-.textHeader {
-    width: 100%;
-    margin: auto;
-}
-
-.content_section {
-    margin-bottom: 10px;
-}
-
-.start_project_info_main_div{
-    border-radius: 10px;
-    border: 1px solid;
-    margin-right:10px;
-    height:100%
-}
-
-.content_project_info_vertical {
-    /* margin-top : 25px; */
-    margin-bottom : 0px;
-}
 
 @media screen and (max-width: 640px) {
-    .textHeader {
-        font-size: large;
-        padding: 0px;
-        padding-bottom: 10px;
-    }
 
     .insideContent {
         padding-right: 10px;
         padding-left: 0px;
     }
 
-    .banner_common
-    {
-        height: 70%;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-    }
 }
 
 
 @media screen and (max-width: 480px) {
-    .textHeader {
-        font-size: large;
-    }
 
     .insideContent {
         padding-right: 10px;
         padding-left: 0px;
     }
 
-    .banner_common
-    {
-        height: 70%;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-    }
 
 }
 

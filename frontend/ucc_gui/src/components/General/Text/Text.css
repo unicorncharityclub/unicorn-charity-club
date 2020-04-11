@@ -1,55 +1,56 @@
 .text_black_heading{
     color:black;
-    font-size: 2em;
-    font-family: monospace;
+    font-size: 1.5em;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+
 }
 
 .text_black_subheading{
     color:black;
-    font-size: 1.5em;
-    font-family: monospace;
+    font-size: 1.2em;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_black{
     color:black;
-    font-size: 1.2em;
-    font-family: monospace;
+    font-size: 1.0em;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_blue_heading{
     color:#2BB9B7;
     font-size: 2em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_blue_subheading{
     color:#2BB9B7;
     font-size: 1.5em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_blue{
     color:#2BB9B7;
     font-size: 1.2em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_red_heading
 {
     color:red;
     font-size: 2em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 .text_white_heading
 {
     color:white;
     font-size: 2em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 .text_white{
     color:white;
     font-size: 1.2em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 
@@ -58,112 +59,112 @@
   .text_black_heading{
     color:black;
     font-size: 1.8em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_black_subheading{
     color:black;
     font-size: 1.3em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_black{
     color:black;
     font-size: 1.0em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_blue_heading{
     color:#2BB9B7;
     font-size: 1.8em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_blue_subheading{
     color:#2BB9B7;
     font-size: 1.3em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_blue{
     color:#2BB9B7;
     font-size: 1.0em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_red_heading
 {
     color:red;
     font-size: 1.8em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_white_heading
 {
     color:white;
     font-size: 1.8em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 .text_white{
     color:white;
     font-size: 1.0em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 }
 @media screen and (max-width: 480px){
   .text_black_heading{
     color:black;
-    font-size: 1.6em;
-    font-family: monospace;
+    font-size: 1.3em;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_black_subheading{
     color:black;
     font-size: 1.1em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_black{
     color:black;
     font-size: 0.8em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_blue_heading{
     color:#2BB9B7;
     font-size: 1.6em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_blue_subheading{
     color:#2BB9B7;
     font-size: 1.1em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_blue{
     color:#2BB9B7;
     font-size: 0.8em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_red_heading
 {
     color:red;
     font-size: 1.6em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .text_white_heading
 {
     color:white;
     font-size: 1.6em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 .text_white{
     color:white;
     font-size: 0.8em;
-    font-family: monospace;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 }

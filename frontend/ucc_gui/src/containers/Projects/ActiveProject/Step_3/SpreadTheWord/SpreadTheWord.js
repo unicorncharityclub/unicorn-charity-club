@@ -1,6 +1,6 @@
 import React from "react";
 import "../../../../ProjectCommon.css"
-import axiosConfig from "../../../../../axiosConfig";
+import AxiosConfig from "../../../../../axiosConfig";
 import ProgressStepper from "../../../../../components/Project/ProgressStepper";
 import ProjectBanner from "../../../../../components/Project/ProjectBanner";
 import TextBlueHeading from "../../../../../components/General/Text/TextBlueHeading";
@@ -23,38 +23,37 @@ class SpreadTheWord extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            Project_id: this.props.match.params.id,
-            ProjectName: '',
-            ProjectBanner: '',
-            ProjectBadge: '',
-            UserEmailId: cookie.load("user_emailid"),
-              PopupSearch: false,
-              SearchType: "",
-              SearchValue: "",
-              SearchMoreAvailable: true,
-              SearchOffset: 0,
-              SelectedFriends : new Map(),
-              InviteMessage : "Hello Friends",
-              UnregisteredUser : [{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""}],
-              UnregisteredUserIssue : "",
-              SendInvitationIssue : "",
-              FriendsSearchData: [
+            projectId: this.props.match.params.id,
+            projectName: '',
+            projectBanner: '',
+            projectBadge: '',
+            userEmail: cookie.load("user_email"),
+              popupSearch: false,
+              searchType: "",
+              searchValue: "",
+              searchMoreAvailable: true,
+              searchOffset: 0,
+              selectedFriends : new Map(),
+              inviteMessage : "Hello Friends",
+              unregisteredUser : [{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""}],
+              unregisteredUserIssue : "",
+              sendInvitationIssue : "",
+              friendsSearchData: [
 
               ],
             video : "",
-            final_video : ""
+            finalVideo : ""
         }
     }
 
     componentDidMount () {
         console.log(this.props.id)
-        axiosConfig.get(`charityproject/${this.state.Project_id}`)
+        AxiosConfig.get(`charityproject/${this.state.projectId}/`)
       .then(res => {
-            console.log(res.data)
               this.setState({
-                  ProjectName : res.data.project_name,
-                  ProjectBanner : res.data.project_banner,
-                  ProjectBadge: res.data.project_badge
+                  projectName : res.data.name,
+                  projectBanner : res.data.banner,
+                  projectBadge: res.data.badge
               });
       }).catch(error => console.log(error))
     }
@@ -62,13 +61,13 @@ class SpreadTheWord extends React.Component {
     videoHandler = (event) =>{
         this.setState({
             video: URL.createObjectURL(event.target.files[0]),
-            final_video: event.target.files[0]
+            finalVideo: event.target.files[0]
         });
     };
 
   sendInviteButtonClick()
   {
-    this.setState({SendInvitationIssue: ""});
+    this.setState({sendInvitationIssue: ""});
     if(this.checkUnregisteredUsersErr()===false && this.checkInvitationMessageErr()===false) {
       //this.sendInvitationToRegisteredUsers(this);
         this.props.history.push(`/Projects`)
@@ -87,12 +86,12 @@ class SpreadTheWord extends React.Component {
   {
       if(this.state.video.length===0)
     {
-      this.setState({SendInvitationIssue: "Please upload a video for your invitees."});
+      this.setState({sendInvitationIssue: "Please upload a video for your invitees."});
       return true;
     }
-    else if(this.state.InviteMessage.length===0)
+    else if(this.state.inviteMessage.length===0)
     {
-      this.setState({SendInvitationIssue: "Enter an Invitation message to be sent to your invitee's."});
+      this.setState({sendInvitationIssue: "Enter an Invitation message to be sent to your invitee's."});
       return true;
     }
     return false;
@@ -101,13 +100,13 @@ class SpreadTheWord extends React.Component {
   checkUnregisteredUsersErr()
   {
     let errorFlag = false;
-    for(let i=0;i<this.state.UnregisteredUser.length;i++)
+    for(let i=0;i<this.state.unregisteredUser.length;i++)
     {
-      if(this.state.UnregisteredUser[i]["issue"].trim().length!==0)
+      if(this.state.unregisteredUser[i]["issue"].trim().length!==0)
       {
         errorFlag = true;
-        this.setState({UnregisteredUser: this.state.UnregisteredUser});
-        this.setState({SendInvitationIssue: "Invalid Email Id of Unregistered User."});
+        this.setState({unregisteredUser: this.state.unregisteredUser});
+        this.setState({sendInvitationIssue: "Invalid Email Id of Unregistered User."});
 
         break;
       }
@@ -131,16 +130,16 @@ class SpreadTheWord extends React.Component {
       return(
 
           <div style={{ margin: "10px", marginBottom: "150px" }}>
-              {this.state.PopupSearch ? (
+              {this.state.popupSearch ? (
           <div
             id="popup"
              className="friends-popup-window">
 
             <FriendsSearchGrid
-              friendsSearchData={this.state.FriendsSearchData}
-              searchStringType={this.state.SearchType}
-              searchStringValue={this.state.SearchValue}
-              searchMore={this.state.SearchMoreAvailable}
+              friendsSearchData={this.state.friendsSearchData}
+              searchStringType={this.state.searchType}
+              searchStringValue={this.state.searchValue}
+              searchMore={this.state.searchMoreAvailable}
               searchResultCancelClick={FriendsSearchHelper.searchResultCancelClick.bind(this)}
               searchResultMoreClick={FriendsSearchHelper.searchResultMoreClick.bind(this)}
               searchResultImageClick={FriendsSearchHelper.searchResultImageClick.bind(this)}
@@ -154,7 +153,7 @@ class SpreadTheWord extends React.Component {
                     <ProgressStepper currentStep="2" />
                 </div>
                 <div className="banner_common">
-                    <ProjectBanner image={this.state.ProjectBanner}  />
+                    <ProjectBanner image={this.state.projectBanner}  />
                 </div>
             </div>
 
@@ -192,18 +191,21 @@ class SpreadTheWord extends React.Component {
                 </div>
 
               <InviteFriends
-                  message="2. Invite family and friends to join the project."
-              searchResultHandler={FriendsSearchHelper.searchResultHandler.bind(this)}
-              disabled={this.state.PopupSearch}
+                    message="2. Invite family and friends to join the project."
+                    searchResultHandler={FriendsSearchHelper.searchResultHandler.bind(this)}
+                    disabled={this.state.popupSearch}
             />
             <br/>
-            <FriendsInvitedGrid friendsInvitedData={[...this.state.SelectedFriends.values()]} removeInviteClick={FriendsSearchHelper.removeInviteClick.bind(this)}/>
-                      <br/>
-        <div>
-          <UnregisteredFriendsInvite
+            <FriendsInvitedGrid
+                friendsInvitedData={[...this.state.selectedFriends.values()]}
+                removeInviteClick={FriendsSearchHelper.removeInviteClick.bind(this)}/>
+            <br/>
+            <div>
+
+            <UnregisteredFriendsInvite
               message="3. Send invites to unregistered users."
-              unregisteredUser={this.state.UnregisteredUser}
-                                     unregisteredUserIssue={this.state.UnregisteredUserIssue}
+              unregisteredUser={this.state.unregisteredUser}
+                                     unregisteredUserIssue={this.state.unregisteredUserIssue}
                                      unregisteredUserAddMoreClick={FriendsSearchHelper.unregisteredUserAddMore.bind(this)}
                                      unregisteredUserEmailChange={FriendsSearchHelper.unregisteredUserEmailChange.bind(this)}
                                      unregisteredUserDeleteClick={FriendsSearchHelper.unregisteredUserDeleteClick.bind(this)}
@@ -217,20 +219,16 @@ class SpreadTheWord extends React.Component {
                 <TextBlackSubHeading message="4. Invitation message to friends."/>
             </div>
             <TextArea
-                value={this.state.InviteMessage}
+                value={this.state.inviteMessage}
                 rows = {5}
                 handleChange={FriendsSearchHelper.inviteMessageChange.bind(this)}/>
         </div>
               <TwoButtonLayout button1Text="SAVE" button2Text="SEND INVITATIONS"
                            button1Click={this.saveButtonClick.bind(this)} button2Click={this.sendInviteButtonClick.bind(this)}/>
-                           <AlertMessage alertMessage={this.state.SendInvitationIssue} />
+                           <AlertMessage alertMessage={this.state.sendInvitationIssue} />
           </div>
-
-
         )
     }
 }
-
-
 
 export default SpreadTheWord;
