@@ -31,9 +31,9 @@ class FundraiserDetails extends React.Component {
         AxiosConfig.get(`charityproject/${this.state.projectId}`)
       .then(res => {
               this.setState({
-                  projectName : res.data.project_name,
-                  projectBanner : res.data.project_banner,
-                  projectBadge: res.data.project_badge,
+                  projectName : res.data.name,
+                  projectBanner : res.data.banner,
+                  projectBadge: res.data.badge,
                   projectJoinDate: res.data.project_join_date,
                   projectChallengeStatus: res.data.challenge_status
               });
