@@ -4,7 +4,7 @@ from datetime import date
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.exceptions import ValidationError
-from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView
+from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView, UpdateAPIView, get_object_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -12,7 +12,7 @@ from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, Us
     SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit, VolunteerTime, Fundraise
 from prize.models import Prize
 
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from accounts.models import User
 from profile.models import ChildProfile
 from profile.models import Profile
@@ -69,6 +69,7 @@ class CharityProjectStartProject(CreateAPIView):
 
     def perform_create(self, serializer):
         """
+        Before create method being called this overridden method will be used to pass some extra data to save method
         Step 1 - check if the charity project is already on going. If yes return message
         Step 2 - else it will use the CreateAPIView and create the entry in ProjectUser table
         :param serializer:
@@ -76,8 +77,7 @@ class CharityProjectStartProject(CreateAPIView):
         """
         project_id = int(self.request.data['project_id'])
         user_id = int(self.request.user.id)
-        queryset = ProjectUser.objects.filter(project_id=project_id, user_id=user_id) \
-            .exclude(challenge_status="Completed")
+        queryset = ProjectUser.objects.filter(project_id=project_id, user_id=user_id)
         if queryset.exists():
             raise ValidationError('Project already in progress')
         serializer.save(user_id=user_id, project_id=project_id,invited_by="", project_status="PlanningStarted")
@@ -1082,3 +1082,45 @@ def unlock_prize(request, project_id, user_email):
                     else:
                         response['video'] = ''
     return JsonResponse(response)
+
+
+class QueryByProjectUserMixin(object):
+    def __init__(self):
+        self.project_user_record = None
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        project_id = None
+        if self.request.method == 'GET':
+            project_id = self.request.GET.get('project_id')
+        elif self.request.method == 'PUT':
+            project_id = self.request.data['project_id']
+
+        project_user_record = ProjectUser.objects.filter(user_id=self.request.user.id, project_id=project_id).first()
+        if project_user_record:
+            self.project_user_record = project_user_record
+            obj = get_object_or_404(queryset, project_user_id=project_user_record.id)
+        else:
+            raise Http404("Challenge learn new skill not started")
+        return obj
+
+    def get_project_user_record(self):
+        return self.project_user_record
+
+    def set_project_user_record_status(self, status):
+        self.project_user_record.challenge_status = status
+        self.project_user_record.save()
+
+
+class ChallengeLearNewSkillDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+    model = LearnNewSkill
+    serializer_class = LearnNewSkillSerializer
+    queryset = LearnNewSkill.objects.all()
+
+    def perform_update(self, serializer):
+        super().perform_update(serializer)
+        if 'save_option' in self.request.data:
+            if 'done' in self.request.data['save_option']:
+                self.set_project_user_record_status("Challenge3Complete")

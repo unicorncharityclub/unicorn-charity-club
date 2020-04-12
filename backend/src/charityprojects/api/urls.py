@@ -25,7 +25,7 @@ urlpatterns = [
     path('search', search_friends),
     path('update/Challenge1', update_project_challenge_status_explore),
     path('update/Challenge2', update_project_challenge_status_ideation),
-    path('LearnNewSkill', challenge_learn_new_skill),
+    #path('LearnNewSkill', challenge_learn_new_skill),
     path('volunteerTime', volunteer_time),
     path('spreadWord', spread_the_word),
     path('giveDonation', donation),
@@ -38,6 +38,7 @@ urlpatterns = [
     path('joinProject', join_project_invitation),
     path('unregisteredInvitation', unregistered_invitation),
     path('DevelopNewHabit', challenge_develop_new_habit),
-    path('LearnNewSkill/<int:project_id>/<str:user_email>/', get_challenge_learn_new_skill),
+    #path('LearnNewSkill/<int:project_id>/<str:user_email>/', get_challenge_learn_new_skill),
     path('Congratulations/<int:project_id>/<str:user_email>/', unlock_prize),
+    path('LearnNewSkill/', views.ChallengeLearNewSkillDetailsView.as_view()),
 ]

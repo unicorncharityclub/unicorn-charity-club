@@ -40,7 +40,7 @@ class LearnNewSkill extends React.Component {
     componentDidMount() {
         Promise.all([
             AxiosConfig.get(`charityproject/activeProjectList/${cookie.load('user_email')}`),
-            AxiosConfig.get(`charityproject/LearnNewSkill/${this.state.projectId}/${cookie.load('user_email')}`)])
+            AxiosConfig.get('charityproject/LearnNewSkill',{params: {project_id: this.state.projectId}})])
             .then(([res1, res2]) => {
                 for (let i = 0; i < res1.data.active_project_list.length; i++) {
                     if (res1.data.active_project_list[i].project_id === parseInt(this.state.projectId)) {
@@ -101,7 +101,7 @@ class LearnNewSkill extends React.Component {
         } catch (err) {
             console.log(err)
         }
-        return AxiosConfig.post('charityproject/LearnNewSkill', formData,
+        return AxiosConfig.put('charityproject/LearnNewSkill/', formData,
             {
                 headers: {
                     'content-type': 'multipart/form-data'
