@@ -141,31 +141,6 @@ def get_active_project_details(request, user_email):
     return JsonResponse(response)
 
 
-# @api_view(['PUT'])
-# @parser_classes([MultiPartParser, FormParser])
-def update_project_prize(request):
-    response = {'status': "Invalid Request"}
-    if request.method == 'PUT':
-        json_data = json.loads(request.body)
-        user_email_id = json_data["user_email"]
-        user_id = User.objects.get(email=user_email_id).id  # get user id from email id
-        project_id = json_data["project_id"]
-        prize_id = json_data["prize_id"]
-        project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]
-        project_user_id = project_user_record.id
-        project_user_details = ProjectUserDetails.objects.filter(project_user_id=project_user_id)[0]
-
-        if project_user_details:
-            project_user_details.prize_id = Prize.objects.get(pk=prize_id)
-            project_user_details.save()
-            project_user_record.project_status = "PlanningPhase2"
-            project_user_record.save()
-            response['status'] = "Success"
-        else:
-            response['status'] = 'Wrong project user reference'
-    return JsonResponse(response)
-
-
 def update_project_challenge_status_explore(request):
     response = {'status': "Invalid Request"}
     if request.method == 'PUT':
@@ -1070,7 +1045,7 @@ class ChallengeLearNewSkillView(QueryByProjectUserMixin, RetrieveAPIView, Update
                 self.set_project_challenge_status("Challenge3Complete")
 
 
-class StartProjectStepOne(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+class StartProject(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
     model = ProjectUserDetails
@@ -1079,10 +1054,50 @@ class StartProjectStepOne(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIVie
 
     def perform_update(self, serializer):
         """
-        The method will update the ProjectUserDetails.
+        Based on the current status the update will move from Phase0 to Phase1 or from Phase1 to Phase2.
         :param serializer:
         """
-        if 'video' not in self.request.data:
-            raise Http404("Video not provided")
-        super().perform_update(serializer)
-        self.set_project_status("PlanningPhase1")
+        project_user_record = self.get_project_user_record()
+        status_to_set = None
+        project_status = project_user_record.project_status
+        # So the project is in step-0 going to step-1
+        if project_status is None or len(project_status) == 0:
+            if 'video' not in self.request.data:
+                raise Http404("Video not provided")
+            status_to_set = "PlanningPhase1"
+        # So the project is in step-1 going to step-2
+        elif project_status == "PlanningPhase1":
+            if 'prize' not in self.request.data:
+                raise Http404("Prize not provided")
+            status_to_set = "PlanningPhase2"
+
+        if status_to_set is None:
+            raise Http404("Invalid Status")
+        else:
+            super().perform_update(serializer)
+            self.set_project_status(status_to_set)
+
+
+# @api_view(['PUT'])
+# @parser_classes([MultiPartParser, FormParser])
+def update_project_prize(request):
+    response = {'status': "Invalid Request"}
+    if request.method == 'PUT':
+        json_data = json.loads(request.body)
+        user_email_id = json_data["user_email"]
+        user_id = User.objects.get(email=user_email_id).id  # get user id from email id
+        project_id = json_data["project_id"]
+        prize_id = json_data["prize_id"]
+        project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]
+        project_user_id = project_user_record.id
+        project_user_details = ProjectUserDetails.objects.filter(project_user_id=project_user_id)[0]
+
+        if project_user_details:
+            project_user_details.prize_id = Prize.objects.get(pk=prize_id)
+            project_user_details.save()
+            project_user_record.project_status = "PlanningPhase2"
+            project_user_record.save()
+            response['status'] = "Success"
+        else:
+            response['status'] = 'Wrong project user reference'
+    return JsonResponse(response)

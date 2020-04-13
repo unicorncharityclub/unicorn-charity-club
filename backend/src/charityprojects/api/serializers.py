@@ -3,11 +3,12 @@ from rest_framework import serializers
 from accounts.models import User
 from charityprojects.models import CharityProjects, VolunteerTime, ProjectUserDetails, LearnNewSkill, \
     DevelopNewHabit, GiveDonation, Fundraise, ProjectUser
+from prize.models import Prize
 
 
 class ProjectUserDetailsSerializer(serializers.ModelSerializer):
     project_user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-    prize = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    prize = serializers.PrimaryKeyRelatedField(many=False, read_only=False, queryset=Prize.objects.all())
 
     class Meta:
         model = ProjectUserDetails

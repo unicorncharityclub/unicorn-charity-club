@@ -17,7 +17,7 @@ urlpatterns = [
     path('category/', views.CharityProjectCategory.as_view()),
 
     path('start/', views.CharityProjectStartProject.as_view()),
-    path('start_project_step_one/', views.StartProjectStepOne.as_view()),
+    path('start_project/', views.StartProject.as_view()),
 
     path('plannedProjects/<str:user_email>/', fetch_project_planning_status),
     path('projectPrize', update_project_prize),
