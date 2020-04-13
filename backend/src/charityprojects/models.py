@@ -70,7 +70,7 @@ class ProjectUserDetails(models.Model):
 
 class LearnNewSkill(models.Model):
     objects = None
-    new_skill = models.CharField(max_length=255)
+    new_skill = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     video = models.FileField(upload_to='upload/video/challenge_video', null=True)
     project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)

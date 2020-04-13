@@ -12,9 +12,25 @@ class ProjectUserDetailsSerializer(serializers.ModelSerializer):
 
 
 class LearnNewSkillSerializer(serializers.ModelSerializer):
+    project_user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+
     class Meta:
         model = LearnNewSkill
         fields = ('new_skill', 'description', 'video', 'project_user')
+
+    @property
+    def data(self):
+        result = super().data
+        request_here = self.context.get('request')
+        if request_here:
+            video = result.pop('video')
+            result.pop('project_user')
+            if video:
+                video = request_here.build_absolute_uri(video)
+                result.update({"video": video})
+            else:
+                result.update({"video": ""})
+        return result
 
 
 class VolunteerTimeSerializer(serializers.ModelSerializer):
