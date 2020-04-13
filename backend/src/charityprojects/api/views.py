@@ -1095,15 +1095,10 @@ class QueryByProjectUserMixin(object):
             project_id = self.request.GET.get('project_id')
         elif self.request.method == 'PUT':
             project_id = self.request.data['project_id']
-            print(project_id)
-            print("user" + str(self.request.user.id))
         project_user_record = ProjectUser.objects.filter(user_id=self.request.user.id, project_id=project_id).first()
         if project_user_record:
-            print(project_user_record)
             self.project_user_record = project_user_record
-            print(project_user_record.id)
             obj = get_object_or_404(queryset, project_user_id=project_user_record.id)
-            print(obj)
         else:
             raise Http404("Challenge learn new skill not started")
         return obj
