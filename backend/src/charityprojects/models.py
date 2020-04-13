@@ -61,11 +61,11 @@ class ProjectUser(models.Model):
 class ProjectUserDetails(models.Model):
     objects = None
     project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
-    prize_given = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
+    prize = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
     video = models.FileField(upload_to='upload/video/invitation_video', null=True)
 
     def __str__(self):
-        return '{} {} {} '.format(self.project_user,  self.prize_given, self.video)
+        return '{} {} {} '.format(self.project_user,  self.prize, self.video)
 
 
 class LearnNewSkill(models.Model):
@@ -88,12 +88,12 @@ class UserInvitation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     friend_id = models.IntegerField(blank=True)
     status = models.CharField(max_length=255, blank=True, null=True)
-    prize_given = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
+    prize = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
     invitation_message = models.TextField(blank=True)
     invitation_date = models.DateField(null=True, blank=True) #should not be empty
 
     def __str__(self):
-        return '{} {} {} {} {} {}'.format(self.project, self.user, self.friend_id, self.status, self.prize_given,
+        return '{} {} {} {} {} {}'.format(self.project, self.user, self.friend_id, self.status, self.prize,
                                           self.invitation_message, self.invitation_date)
 
 
@@ -101,11 +101,11 @@ class UnregisterInvitation(models.Model):
     objects = None
     project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
     unregister_user_emailId = models.CharField(max_length=100, null=True)
-    prize_given = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
+    prize = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
     invitation_message = models.TextField(blank=True)
 
     def __str__(self):
-        return '{} {} {} {}'.format(self.project_user, self.unregister_user_emailId, self.prize_given, self.invitation_message)
+        return '{} {} {} {}'.format(self.project_user, self.unregister_user_emailId, self.prize, self.invitation_message)
 
 
 class VolunteerTime(models.Model):

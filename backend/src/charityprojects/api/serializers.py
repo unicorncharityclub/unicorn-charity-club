@@ -6,9 +6,26 @@ from charityprojects.models import CharityProjects, VolunteerTime, ProjectUserDe
 
 
 class ProjectUserDetailsSerializer(serializers.ModelSerializer):
+    project_user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    prize = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+
     class Meta:
         model = ProjectUserDetails
-        fields = ('project_user_id', 'video')
+        fields = ('project_user', 'video', 'prize')
+
+    @property
+    def data(self):
+        result = super().data
+        request_here = self.context.get('request')
+        if request_here:
+            video = result.pop('video')
+            result.pop('project_user')
+            if video:
+                video = request_here.build_absolute_uri(video)
+                result.update({"video": video})
+            else:
+                result.update({"video": ""})
+        return result
 
 
 class LearnNewSkillSerializer(serializers.ModelSerializer):

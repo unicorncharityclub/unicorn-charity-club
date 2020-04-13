@@ -44,10 +44,9 @@ class StartProjectStepOne extends React.Component {
          if(this.state.userProjectVideo){
              let form_data = new FormData();
             form_data.append('project_id', this.state.projectId);
-            form_data.append('email', this.state.userEmail);
-            form_data.append('project_video', this.state.userProjectVideo, this.state.userProjectVideo.name);
+            form_data.append('video', this.state.userProjectVideo, this.state.userProjectVideo.name);
 
-        AxiosConfig.put(`charityproject/invitationVideo`, form_data,
+        AxiosConfig.put(`charityproject/start_project_step_one/`, form_data,
         {
             headers: {
                 'content-type': 'multipart/form-data'
