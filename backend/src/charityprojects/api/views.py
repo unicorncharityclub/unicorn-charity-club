@@ -1095,11 +1095,15 @@ class QueryByProjectUserMixin(object):
             project_id = self.request.GET.get('project_id')
         elif self.request.method == 'PUT':
             project_id = self.request.data['project_id']
-
+            print(project_id)
+            print("user" + str(self.request.user.id))
         project_user_record = ProjectUser.objects.filter(user_id=self.request.user.id, project_id=project_id).first()
         if project_user_record:
+            print(project_user_record)
             self.project_user_record = project_user_record
+            print(project_user_record.id)
             obj = get_object_or_404(queryset, project_user_id=project_user_record.id)
+            print(obj)
         else:
             raise Http404("Challenge learn new skill not started")
         return obj
@@ -1123,4 +1127,18 @@ class ChallengeLearNewSkillDetailsView(QueryByProjectUserMixin, RetrieveAPIView,
         super().perform_update(serializer)
         if 'save_option' in self.request.data:
             if 'done' in self.request.data['save_option']:
+                self.set_project_user_record_status("Challenge3Complete")
+
+
+class ChallengeVolunteerTimeDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+    model = VolunteerTime
+    serializer_class = VolunteerTimeSerializer
+    queryset = VolunteerTime.objects.all()
+
+    def perform_update(self, serializer):
+        super().perform_update(serializer)
+        if 'action_type' in self.request.data:
+            if 'Done' in self.request.data['action_type']:
                 self.set_project_user_record_status("Challenge3Complete")
