@@ -18,11 +18,27 @@ class LearnNewSkillSerializer(serializers.ModelSerializer):
 
 
 class VolunteerTimeSerializer(serializers.ModelSerializer):
+    project_user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+
     class Meta:
         model = VolunteerTime
         fields = ('project_user', 'organisation_name', 'organisation_address',
                   'organisation_city', 'organisation_state', 'organisation_website',
-                  'volunteer_hours', 'volunteer_work_description', 'volunteer_exp')
+                  'volunteer_hours', 'volunteer_work_description', 'exp_video')
+
+    @property
+    def data(self):
+        result = super().data
+        request_here = self.context.get('request')
+        if request_here:
+            video = result.pop('exp_video')
+            result.pop('project_user')
+            if video:
+                video = request_here.build_absolute_uri(video)
+                result.update({"exp_video": video})
+            else:
+                result.update({"exp_video": ""})
+        return result
 
 
 class DevelopNewHabitSerializer(serializers.ModelSerializer):
@@ -32,19 +48,51 @@ class DevelopNewHabitSerializer(serializers.ModelSerializer):
 
 
 class GiveDonationSerializer(serializers.ModelSerializer):
+    project_user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+
     class Meta:
         model = GiveDonation
         fields = ('project_user', 'organisation_name', 'organisation_address',
                   'organisation_city', 'organisation_state', 'organisation_website',
-                  'donation_details', 'donation_exp')
+                  'donation_details', 'exp_video')
+
+    @property
+    def data(self):
+        result = super().data
+        request_here = self.context.get('request')
+        if request_here:
+            video = result.pop('exp_video')
+            result.pop('project_user')
+            if video:
+                video = request_here.build_absolute_uri(video)
+                result.update({"exp_video": video})
+            else:
+                result.update({"exp_video": ""})
+        return result
 
 
 class FundraiserSerializer(serializers.ModelSerializer):
+    project_user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+
     class Meta:
         model = Fundraise
         fields = ('project_user', 'organisation_name', 'organisation_address',
                   'organisation_city', 'organisation_state', 'organisation_website',
-                  'fundraise_details', 'fundraise_amount', 'fundraise_exp')
+                  'fundraise_details', 'fundraise_amount', 'exp_video')
+
+    @property
+    def data(self):
+        result = super().data
+        request_here = self.context.get('request')
+        if request_here:
+            video = result.pop('exp_video')
+            result.pop('project_user')
+            if video:
+                video = request_here.build_absolute_uri(video)
+                result.update({"exp_video": video})
+            else:
+                result.update({"exp_video": ""})
+        return result
 
 
 class CharityProjectSerializer(serializers.ModelSerializer):
