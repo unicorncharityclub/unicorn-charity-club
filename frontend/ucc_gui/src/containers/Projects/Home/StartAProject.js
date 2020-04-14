@@ -47,14 +47,14 @@ class ProjectsHome extends React.Component {
 
    fetchActiveProjectsList(obj) {
       const userEmail = this.state.userEmail;
-      AxiosConfig.get(`charityproject/activeProjectList/${userEmail}`)
+      AxiosConfig.get('charityproject/active_project_list/')
       .then(function(response) {obj.setActiveProjectsList(response);})
       .catch(function(error) {console.log(error);});
    }
 
   fetchPlannedProjectsList(obj) {
         const userEmail = this.state.userEmail;
-        AxiosConfig.get(`charityproject/plannedProjects/${userEmail}`)
+        AxiosConfig.get('charityproject/planning_project_list/')
         .then(function(response) {obj.setPlannedProjectsList(response);})
         .catch(function(error) {console.log(error);});
     }
@@ -80,14 +80,14 @@ class ProjectsHome extends React.Component {
     }
 
     setActiveProjectsList (response) {            
-            let activeProjectsList = response.data["active_project_list"];
+            let activeProjectsList = response.data;
             this.setState(prevState => ({
               activeProjectsList: activeProjectsList
           }));      
     }
 
     setPlannedProjectsList (response) {            
-        let plannedProjectsList = response.data["project_list"];
+        let plannedProjectsList = response.data;
         this.setState(prevState => ({
           plannedProjectsList: plannedProjectsList
       }));      

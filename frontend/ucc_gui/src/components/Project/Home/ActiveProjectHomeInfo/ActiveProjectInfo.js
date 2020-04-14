@@ -22,10 +22,10 @@ renderList (type) {
                   <div className="ProjectInfo_MainDiv" key={index} >
                     <div className="ProjectInfo_Container">    
                       <EachActiveProject 
-                        key={index} projectId={elem.project_id} 
-                        projectStatus = {elem.planning_status}
+                        key={index} projectId={elem.project.id}
+                        projectStatus = {elem.project_status}
                         type = {type}
-                        projectDate = {elem.project_start_date}
+                        projectDate = {elem.date_started}
                       /> 
                     </div>
                   </div>            
@@ -40,10 +40,10 @@ renderList (type) {
                 <div className="ProjectInfo_MainDiv" key={index} >
                   <div className="ProjectInfo_Container">    
                     <EachActiveProject 
-                      key={index} projectId={elem.project_id} 
+                      key={index} projectId={elem.project.id}
                       projectStatus = {elem.challenge_status}
                       type = {type} 
-                      projectDate = {elem.project_join_date}
+                      projectDate = {elem.date_started}
                     /> 
                   </div>
                 </div>                

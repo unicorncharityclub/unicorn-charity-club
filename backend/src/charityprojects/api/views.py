@@ -117,44 +117,43 @@ class ProjectListByStatusMixin(object):
     serializer_class = ProjectUserNestedSerializer
     queryset = ProjectUser.objects.all().prefetch_related('project')
 
-    def get_queryset(self):
-        return self.queryset.filter(user=self.request.user, challenge_status__icontains=self.filter_status)
-
 
 class ActiveProjectListView(ProjectListByStatusMixin, ListAPIView):
-    filter_status = "Challenge"
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user, challenge_status__icontains="Challenge")
 
 
-def get_active_project_details(request, user_email):
-    response = {'status': "Success"}
-    if request.method == 'GET':
-        user_id = User.objects.get(email=user_email).id
-        project_user_list = ProjectUser.objects.filter(user_id=user_id)
-        active_charity_project_list = []
-        if len(project_user_list) > 0:
-            for project_user in project_user_list:
-                if "Challenge" in project_user.challenge_status:
-                    project_id = project_user.project_id
-                    project = CharityProjects.objects.get(pk=project_id)
-                    project_name = project.name
-                    project_badge = request.build_absolute_uri(project.badge.url)
-                    project_banner = request.build_absolute_uri(project.banner.url)
-                    project_mission = project.mission
-                    project_category = project.category
-                    joined_date = project_user.date_joined
-                    challenge_status = project_user.challenge_status
-                    project_info = {"project_id": project_id, "project_name": project_name,
-                                    "project_badge": project_badge,
-                                    "project_banner": project_banner, "project_mission": project_mission,
-                                    "project_category": project_category,
-                                    "project_join_date": joined_date, "challenge_status": challenge_status}
-                    active_charity_project_list.append(project_info)
-            response['active_project_list'] = active_charity_project_list
-            response['status'] = "Success"
-        else:
-            response["status"] = "User has no active projects"
+class PlannedProjectListView(ProjectListByStatusMixin, ListAPIView):
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user, project_status__icontains="Planning")
+
+
+def get_project_invitations(request, user_email):
+    response = {'status': "Invalid Request"}
+    user_id = User.objects.get(email=user_email).id
+    invited_project_user_id_list = UserInvitation.objects.filter(friend_id=user_id, status="Pending")
+    invited_project_list = []
+    if len(invited_project_user_id_list) > 0:
+        for invitation in invited_project_user_id_list:
+            project_id = invitation.project_id
+            user_id = invitation.user_id
+            user = User.objects.get(pk=user_id)
+            project = CharityProjects.objects.get(pk=project_id)
+            project_name = project.name
+            project_badge = request.build_absolute_uri(project.badge.url)
+            inviter_name = user.get_full_name()
+            invitation_date = invitation.invitation_date
+            invitation_details = {"inviter_user_email": user.email, "inviter_user_name": inviter_name,
+                                  "project_id": project_id, "project_name": project_name,
+                                  "project_badge": project_badge,
+                                  "invitation_date": invitation_date}  # invitation date has to be updated
+            invited_project_list.append(invitation_details)
+        response["invited_project_list"] = invited_project_list
+        response["status"] = "Success"
+    else:
+        response["status"] = "User has no project invitation"
+
     return JsonResponse(response)
-
 
 def update_project_challenge_status_explore(request):
     response = {'status': "Invalid Request"}
@@ -423,32 +422,6 @@ def update_volunteer_details(request):
         create_volunteer_adventure(request, user_id, project_id)
 
 
-def fetch_project_planning_status(request, user_email):
-    response = {'status': "Invalid Request"}
-    # json_data = json.loads(request.body)
-    user_email_id = user_email
-    user_id = User.objects.get(email=user_email_id).id
-    project_user_list = ProjectUser.objects.filter(user_id=user_id)
-    planning_project_list = []
-    if len(project_user_list) > 0:
-        for project_user in project_user_list:
-            if "Challenge" not in project_user.challenge_status and project_user.project_status:
-                project_id = project_user.project_id
-                project = CharityProjects.objects.get(pk=project_id)
-                project_name = project.name
-                project_badge = request.build_absolute_uri(project.badge.url)
-                start_date = project_user.date_started
-                planning_status = project_user.project_status
-                project_info = {"project_id": project_id, "project_name": project_name, "project_badge": project_badge,
-                                "project_start_date": start_date, "planning_status": planning_status}
-                planning_project_list.append(project_info)
-        response["project_list"] = planning_project_list
-        response["status"] = "Success"
-    else:
-        response["status"] = "User has not started planning any projects"
-
-    return JsonResponse(response)
-
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
@@ -476,34 +449,6 @@ def challenge_develop_new_habit(request):
         return Response(data_serializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response(data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    return JsonResponse(response)
-
-
-def get_project_invitations(request, user_email):
-    response = {'status': "Invalid Request"}
-    user_id = User.objects.get(email=user_email).id
-    invited_project_user_id_list = UserInvitation.objects.filter(friend_id=user_id, status="Pending")
-    invited_project_list = []
-    if len(invited_project_user_id_list) > 0:
-        for invitation in invited_project_user_id_list:
-            project_id = invitation.project_id
-            user_id = invitation.user_id
-            user = User.objects.get(pk=user_id)
-            project = CharityProjects.objects.get(pk=project_id)
-            project_name = project.name
-            project_badge = request.build_absolute_uri(project.badge.url)
-            inviter_name = user.get_full_name()
-            invitation_date = invitation.invitation_date
-            invitation_details = {"inviter_user_email": user.email, "inviter_user_name": inviter_name,
-                                  "project_id": project_id, "project_name": project_name,
-                                  "project_badge": project_badge,
-                                  "invitation_date": invitation_date}  # invitation date has to be updated
-            invited_project_list.append(invitation_details)
-        response["invited_project_list"] = invited_project_list
-        response["status"] = "Success"
-    else:
-        response["status"] = "User has no project invitation"
-
     return JsonResponse(response)
 
 
