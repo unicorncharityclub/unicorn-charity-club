@@ -46,18 +46,19 @@ class ProjectComplete extends React.Component {
 
     componentDidMount() {
         Promise.all([
-            AxiosConfig.get(`charityproject/activeProjectList/${cookie.load('user_email')}`),
+            AxiosConfig.get('charityproject/active_project_list/'),
             AxiosConfig.get(`charityproject/Congratulations/${this.state.projectId}/${cookie.load('user_email')}`)])
             .then(([res1, res2]) => {
-                for (let i = 0; i < res1.data.active_project_list.length; i++) {
-                    if (res1.data.active_project_list[i].project_id === parseInt(this.state.projectId)) {
+                for (let i = 0; i < res1.data.length; i++) {
+                    if (res1.data[i].project_id === parseInt(this.state.projectId)) {
                         this.setState({
-                            projectName: res1.data.active_project_list[i].project_name,
-                            projectBanner: res1.data.active_project_list[i].project_banner,
-                            projectBadge: res1.data.active_project_list[i].project_badge,
-                            projectMission: res1.data.active_project_list[i].project_mission,
-                            projectJoinDate: res1.data.active_project_list[i].project_join_date,
-                            challengeStatus: res1.data.active_project_list[i].challenge_status
+                            projectName: res1.data[i].project.name,
+                            projectBanner: res1.data[i].project.banner,
+                            projectBadge: res1.data[i].project.badge,
+                            projectMission: res1.data[i].project.mission,
+                            projectCategory: res1.data[i].project.category,
+                            projectJoinDate: res1.data[i].date_joined,
+                            challengeStatus: res1.data[i].challenge_status
                         });
                     }
                 }

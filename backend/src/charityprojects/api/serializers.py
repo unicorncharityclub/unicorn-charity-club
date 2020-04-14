@@ -3,12 +3,30 @@ from rest_framework import serializers
 from accounts.models import User
 from charityprojects.models import CharityProjects, VolunteerTime, ProjectUserDetails, LearnNewSkill, \
     DevelopNewHabit, GiveDonation, Fundraise, ProjectUser
+from prize.models import Prize
 
 
 class ProjectUserDetailsSerializer(serializers.ModelSerializer):
+    project_user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    prize = serializers.PrimaryKeyRelatedField(many=False, read_only=False, queryset=Prize.objects.all())
+
     class Meta:
         model = ProjectUserDetails
-        fields = ('project_user_id', 'video')
+        fields = ('project_user', 'video', 'prize')
+
+    @property
+    def data(self):
+        result = super().data
+        request_here = self.context.get('request')
+        if request_here:
+            video = result.pop('video')
+            result.pop('project_user')
+            if video:
+                video = request_here.build_absolute_uri(video)
+                result.update({"video": video})
+            else:
+                result.update({"video": ""})
+        return result
 
 
 class LearnNewSkillSerializer(serializers.ModelSerializer):
@@ -154,3 +172,11 @@ class ProjectUserSerializer(serializers.ModelSerializer):
         model = ProjectUser
         fields = '__all__'
         read_only_fields = ['id']
+
+
+class ProjectUserNestedSerializer(serializers.ModelSerializer):
+    project = CharityProjectSerializer(many=False)
+
+    class Meta:
+        model = ProjectUser
+        fields = ['project','invited_by','date_joined','date_started','goal_date','adventure_id','challenge_status','project_status']
