@@ -84,7 +84,7 @@ class VolunteerTimeDetails extends React.Component {
                            accept="video/*"
                            onChange={this.props.videoHandler.bind(this)}/>
                            <div> <br/>
-                    <TwoButtonLayout button1Text="SAVE" button2Text="COMPLETE PROJECT"
+                    <TwoButtonLayout button1Text="SAVE" button2Text="DONE"
                            button1Click={(event) => this.props.onSubmit(event, 'Save')}
                                      button2Click={(event) => this.props.onSubmit(event, 'Done')}/>
                            </div>

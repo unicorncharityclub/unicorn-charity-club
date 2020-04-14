@@ -26,7 +26,6 @@ class GiveADonation extends React.Component {
      console.log(this.state.name)
      console.log(this.state.finalVideo)
         try {
-            formData.append('user_email', this.state.userEmail);
             formData.append('project_id', this.state.projectId);
             formData.append('organisation_name', this.state.name);
             formData.append('organisation_address', this.state.address);
@@ -40,7 +39,7 @@ class GiveADonation extends React.Component {
             console.log(err)
         }
 
-                AxiosConfig.post('charityproject/giveDonation', formData,
+                AxiosConfig.put('charityproject/giveDonation/', formData,
                     {
                         headers: {
                             'content-type': 'multipart/form-data'
