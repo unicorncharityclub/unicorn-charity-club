@@ -954,7 +954,6 @@ class QueryByProjectUserMixin(object):
             project_id = self.request.GET.get('project_id')
         elif self.request.method == 'PUT':
             project_id = self.request.data['project_id']
-
         project_user_record = ProjectUser.objects.filter(user_id=self.request.user.id, project_id=project_id).first()
         if project_user_record:
             self.project_user_record = project_user_record
@@ -1037,3 +1036,17 @@ class StartProject(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
         else:
             super().perform_update(serializer)
             self.set_project_status(status_to_set)
+
+
+class ChallengeVolunteerTimeDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+    model = VolunteerTime
+    serializer_class = VolunteerTimeSerializer
+    queryset = VolunteerTime.objects.all()
+
+    def perform_update(self, serializer):
+        super().perform_update(serializer)
+        if 'action_type' in self.request.data:
+            if 'Done' in self.request.data['action_type']:
+                self.set_project_user_record_status("Challenge3Complete")
