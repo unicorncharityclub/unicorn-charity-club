@@ -124,3 +124,11 @@ class ProjectUserSerializer(serializers.ModelSerializer):
         model = ProjectUser
         fields = '__all__'
         read_only_fields = ['id']
+
+
+class ProjectUserNestedSerializer(serializers.ModelSerializer):
+    project = CharityProjectSerializer(many=False)
+
+    class Meta:
+        model = ProjectUser
+        fields = ['project','invited_by','date_joined','date_started','goal_date','adventure_id','challenge_status','project_status']
