@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {BrowserRouter as Router} from "react-router-dom";
 import Navbar from "./Template/Navbar/Navbar";
 import Header from "./Template/Header/Header";
+import Footer from "./Template/Footer/Footer";
 import BaseRouter from "../routes";
 import RegisterBannerImage from "../components/Account/Register/RegisterBannerImage";
 import { connect } from 'react-redux';
@@ -31,8 +32,9 @@ class UCC_App extends Component {
             <div className="content-wrapper">
               <Header />
               <Navbar />
-              <BaseRouter userState="registered" appState={this.state}/>
+              <BaseRouter userState="registered" appState={this.state}/>              
             </div>
+            <Footer />
           </div>
         ) : (
           <div className="App">

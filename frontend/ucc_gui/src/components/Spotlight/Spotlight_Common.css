@@ -195,7 +195,7 @@ table {
 @media (min-width:1200px) and (max-width: 1600px){ 
     
     .content_spotlightInfo_vertical {
-        width: 40%;
+        width: 37%;
         float: left;
         position: absolute;
         padding-top: 1.7%;

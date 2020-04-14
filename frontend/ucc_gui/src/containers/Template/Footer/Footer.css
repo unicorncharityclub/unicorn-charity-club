@@ -1,0 +1,13 @@
+@media (min-width: 600px) {
+    .MuiContainer-root {
+        /* padding-left: 0px; */
+        /* padding-right: 0px;          */
+    }
+}
+
+.footer_container{    
+    display: flex;
+    height: 100px;
+    margin-top: 5%;
+    background-color: #fce1f3;
+}
