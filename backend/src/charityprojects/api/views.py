@@ -422,36 +422,6 @@ def update_volunteer_details(request):
         create_volunteer_adventure(request, user_id, project_id)
 
 
-
-@api_view(['POST'])
-@parser_classes([MultiPartParser, FormParser])
-def challenge_develop_new_habit(request):
-    response = {'status': "Success"}
-    new_habit_list = {}
-    user_email_id = request.data["email"]
-    user_id = User.objects.get(email=user_email_id).id
-    new_habit_list['new_habit'] = request.data['new_habit']
-    new_habit_list['description'] = request.data['description']
-    if 'video' in request.data:
-        new_habit_list['video'] = request.data['video']
-    project_id = request.data["project_id"]
-    new_habit_list['project_id'] = project_id
-    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[
-        0]  # from project user table get id
-    if project_user_record:
-        project_user_id = project_user_record.id
-        new_habit_list['project_user'] = project_user_id
-        project_user_record.challenge_status = "Challenge3Complete"
-        project_user_record.save()
-    data_serializer = DevelopNewHabitSerializer(data=new_habit_list)
-    if data_serializer.is_valid():
-        data_serializer.save()
-        return Response(data_serializer.data, status=status.HTTP_201_CREATED)
-    else:
-        return Response(data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    return JsonResponse(response)
-
-
 def fetch_project_invitation_details(request):
     response = {'status': "Invalid Request"}
     # json_data = json.loads(request.body)
@@ -996,11 +966,11 @@ class ChallengeLearNewSkillView(QueryByProjectUserMixin, RetrieveAPIView, Update
     def perform_update(self, serializer):
         """
         :param serializer:
-        The method after updating the LearnNewSkill, based on save_option, project challenge status will be updated.
+        The method after updating the LearnNewSkill, based on action_type, project challenge status will be updated.
         """
         super().perform_update(serializer)
-        if 'save_option' in self.request.data:
-            if 'done' in self.request.data['save_option']:
+        if 'action_type' in self.request.data:
+            if 'done' in self.request.data['action_type']:
                 self.set_project_challenge_status("Challenge3Complete")
 
 
@@ -1049,4 +1019,22 @@ class ChallengeVolunteerTimeDetailsView(QueryByProjectUserMixin, RetrieveAPIView
         super().perform_update(serializer)
         if 'action_type' in self.request.data:
             if 'Done' in self.request.data['action_type']:
+                self.set_project_user_record_status("Challenge3Complete")
+
+
+class ChallengeDevelopNewHabitDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+    model = DevelopNewHabit
+    serializer_class = DevelopNewHabitSerializer
+    queryset = DevelopNewHabit.objects.all()
+
+    def perform_update(self, serializer):
+        """
+        :param serializer:
+        The method after updating the DevelopNewHabit, based on action_type, project challenge status will be updated.
+        """
+        super().perform_update(serializer)
+        if 'action_type' in self.request.data:
+            if 'done' in self.request.data['action_type']:
                 self.set_project_user_record_status("Challenge3Complete")
