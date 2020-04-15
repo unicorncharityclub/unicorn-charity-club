@@ -1,13 +1,41 @@
-@media (min-width: 600px) {
-    .MuiContainer-root {
-        /* padding-left: 0px; */
-        /* padding-right: 0px;          */
+@media only screen and (max-width: 40em){
+    .main_container{
+        display: none;
     }
 }
 
-.footer_container{    
-    display: flex;
-    height: 100px;
-    margin-top: 5%;
+
+.main_container {
     background-color: #fce1f3;
+    height: 30%;
+    margin-top: 5%;      
+    text-align: center;  
 }
+
+.footer_container{    
+    display: flex;    
+    padding: 2%;    
+    /* background-color: #f1f1f1; */
+    justify-content: space-evenly;    
+}
+  
+.footer_container > div {      
+    width: 200px;    
+    text-align: center;
+    /* background-color: gray; */
+    line-height: 25px;
+    font-size: 15px;    
+}
+
+a {
+    color: #2BB9B7;
+}
+
+.allrights {    
+    width: 600px;
+    display: inline-block;
+    font-size: small;
+    color: slategrey;
+
+}
+
