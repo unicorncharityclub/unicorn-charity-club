@@ -43,8 +43,8 @@ urlpatterns = [
     path('LearnNewSkill/', views.ChallengeLearNewSkillView.as_view()),
     path('volunteerTime/', views.ChallengeVolunteerTimeDetailsView.as_view()),
     path('spreadWord', spread_the_word),
-    path('giveDonation', donation),
-    path('fundraiser', fundraiser),
+    path('giveDonation/', views.ChallengeGiveDonationDetailsView.as_view()),
+    path('fundraiser/', views.ChallengeFundraiserDetailsView.as_view()),
     path('DevelopNewHabit', challenge_develop_new_habit),
 
     path('Congratulations/<int:project_id>/<str:user_email>/', unlock_prize),
