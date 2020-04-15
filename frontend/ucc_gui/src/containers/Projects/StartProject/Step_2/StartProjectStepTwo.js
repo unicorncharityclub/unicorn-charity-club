@@ -68,11 +68,9 @@ class StartProjectStepTwo extends React.Component {
         
         // if the prize is selected
         if (this.state.photoSelectedId){
-            AxiosConfig.put(`charityproject/projectPrize`, {
+            AxiosConfig.put(`charityproject/start_project/`, {
                 "project_id" : this.props.match.params.id,
-                "user_email" : cookie.load('user_email'),
-                "prize_id" : this.state.photoSelectedId
-
+                "prize" : this.state.photoSelectedId
             })
             .then(this.props.history.push(`/Projects/${this.props.match.params.id}/InviteFriends`))
             .catch(error => console.log(error))

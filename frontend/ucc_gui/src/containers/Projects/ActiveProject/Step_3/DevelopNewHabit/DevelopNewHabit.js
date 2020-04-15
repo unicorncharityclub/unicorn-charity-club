@@ -38,19 +38,19 @@ class DevelopNewHabit extends React.Component {
     };
 
     componentDidMount() {
-        AxiosConfig.get(`charityproject/activeProjectList/${cookie.load('user_email')}`)
+        AxiosConfig.get('charityproject/active_project_list/')
             .then(res => {
-                for (let i = 0; i < res.data.active_project_list.length; i++) {
-                    if (res.data.active_project_list[i].project_id === parseInt(this.state.projectId)) {
+                for (let i = 0; i < res.data.length; i++) {
+                    if (res.data[i].project.id === parseInt(this.state.projectId)) {
                         console.log("inside");
                         this.setState({
-                            projectName: res.data.active_project_list[i].project_name,
-                            projectBanner: res.data.active_project_list[i].project_banner,
-                            projectBadge: res.data.active_project_list[i].project_badge,
-                            projectMission: res.data.active_project_list[i].project_mission,
-                            projectCategory: res.data.active_project_list[i].project_category,
-                            projectJoinDate: res.data.active_project_list[i].project_join_date,
-                            challengeStatus: res.data.active_project_list[i].challenge_status
+                            projectName: res.data[i].project.name,
+                            projectBanner: res.data[i].project.banner,
+                            projectBadge: res.data[i].project.badge,
+                            projectMission: res.data[i].project.mission,
+                            projectCategory: res.data[i].project.category,
+                            projectJoinDate: res.data[i].date_joined,
+                            challengeStatus: res.data[i].challenge_status
                         });
                     }
                 }
