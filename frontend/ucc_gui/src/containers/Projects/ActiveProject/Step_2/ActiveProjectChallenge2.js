@@ -12,14 +12,13 @@ class ActiveProjectChallenge2 extends React.Component {
         const projectId = this.props.match.params.id;
         let formData = new FormData();
         try {
-            formData.append('user_email', this.state.userEmailId);
             formData.append('project_id', projectId);
             formData.append('goal_date', this.state.goalDate);
-            formData.append('adv_id', this.state.optionValue);
+            formData.append('adventure_id', this.state.optionValue);
         } catch (err) {
             console.log(err)
         }
-        AxiosConfig.put('charityproject/update/Challenge2', formData,
+        AxiosConfig.put('charityproject/update/Challenge2/', formData,
                 {
                         headers: {
                             'content-type': 'multipart/form-data'
