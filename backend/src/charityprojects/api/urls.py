@@ -36,10 +36,7 @@ urlpatterns = [
     path('project_invitation/', views.ProjectInvitationsListView.as_view()),
 
     # Project Challenges
-
-    path('update/Challenge2/', views.CharityProjectStartProject.as_view()),
-    #path('update/Challenge1', update_project_challenge_status_explore),
-    #path('update/Challenge2', update_project_challenge_status_ideation),
+    path('update/Challenge/', views.CharityProjectStartProject.as_view()),
     path('LearnNewSkill/', views.ChallengeLearNewSkillView.as_view()),
     path('volunteerTime/', views.ChallengeVolunteerTimeDetailsView.as_view()),
     path('spreadWord', spread_the_word),

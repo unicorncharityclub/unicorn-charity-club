@@ -68,7 +68,6 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
     model = ProjectUser
     serializer_class = ProjectUserSerializer
     queryset = ProjectUser.objects.all()
-    print("here")
 
     def __init__(self):
         self.project_user_record = None
@@ -129,7 +128,6 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
     def perform_update(self, serializer):
         project_user_record = self.get_project_user_record()
         challenge_status = project_user_record.challenge_status
-
         if challenge_status == "StartChallenge":
             join_date = date.today()
             project_user_record.date_joined = join_date
@@ -137,14 +135,14 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
             project_user_record.save()
 
         elif challenge_status == "Challenge1Complete":
-            if 'adv_id' not in self.request.data:
+            if 'adventure_id' not in self.request.data:
                 raise Http404("Adventure not selected")
             if 'goal_date' not in self.request.data:
                 raise Http404("Goal date not selected")
 
+            super().perform_update(serializer)
             project_user_record.challenge_status = "Challenge2Complete"
-
-        super().perform_update(serializer)
+            project_user_record.save()
 
 
 def all_project_list(request):

@@ -25,7 +25,7 @@ class ActiveProjectChallenge2 extends React.Component {
         } catch (err) {
             console.log(err)
         }
-        AxiosConfig.put('charityproject/update/Challenge2/', formData,
+        AxiosConfig.put('charityproject/update/Challenge/', formData,
                 {
                         headers: {
                             'content-type': 'multipart/form-data'
