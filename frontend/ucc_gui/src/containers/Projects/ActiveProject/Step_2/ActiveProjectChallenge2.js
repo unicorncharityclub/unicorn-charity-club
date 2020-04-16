@@ -10,7 +10,7 @@ class ActiveProjectChallenge2 extends React.Component {
         super(props);
         this.state = {
             userEmailId: cookie.load('user_email'),
-            goalDate: '',
+            goalDate: new Date(),
         }
      }
 
@@ -52,9 +52,10 @@ class ActiveProjectChallenge2 extends React.Component {
     }
 
     handleDateChange= date =>{
-        //console.log(formatDate(date));
+        var goalDate_Str  = this.formatDate(date)
+        
         this.setState({
-            goalDate: formatDate(date)
+            goalDate: new Date(goalDate_Str)
         });        
     };
 
