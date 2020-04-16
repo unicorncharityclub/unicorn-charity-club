@@ -6,6 +6,13 @@ import cookie from "react-cookies";
 import AxiosConfig from "../../../../axiosConfig";
 
 class ActiveProjectChallenge2 extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            userEmailId: cookie.load('user_email'),
+            goalDate: new Date(),
+        }
+     }
 
     onSubmit()
     {
@@ -45,29 +52,40 @@ class ActiveProjectChallenge2 extends React.Component {
     }
 
     handleDateChange= date =>{
-    this.setState({
-        goalDate: date
-    });
+        var goalDate_Str  = this.formatDate(date)
+        
+        this.setState({
+            goalDate: new Date(goalDate_Str)
+        });        
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            userEmailId: cookie.load('user_email'),
-            goalDate: new Date(),
-        }
-     }
+
+    formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+    
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+    
+        return [year, month, day].join('-');
+    }
+
+    
     render() {
       return(
-                  <div>
-                    <Container>
-                        <Challenge2Details id={this.props.match.params.id}
-                        handleChecked={this.handleChecked.bind(this)}
-                        goalDate = {this.state.goalDate}
-                        handleDateChange = {this.handleDateChange.bind(this)}
-                        onSubmit = {this.onSubmit.bind(this)}/>
-                    </Container>
-                  </div>
+            <div>
+            <Container>
+                <Challenge2Details id={this.props.match.params.id}
+                handleChecked={this.handleChecked.bind(this)}
+                goalDate = {this.state.goalDate}
+                handleDateChange = {this.handleDateChange.bind(this)}
+                onSubmit = {this.onSubmit.bind(this)}/>
+            </Container>
+            </div>
         )
     }
 }
