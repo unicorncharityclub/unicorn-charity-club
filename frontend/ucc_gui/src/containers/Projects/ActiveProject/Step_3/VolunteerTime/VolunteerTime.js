@@ -41,7 +41,7 @@ class VolunteerTime extends React.Component {
         } catch (err) {
             console.log(err)
         }
-        AxiosConfig.put('charityproject/volunteerTime/', formData,
+        AxiosConfig.put('charityproject/volunteer_time/', formData,
             {
                         headers: {
                             'content-type': 'multipart/form-data'
