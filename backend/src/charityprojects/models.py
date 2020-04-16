@@ -37,7 +37,7 @@ class CharityProjects(models.Model):
 
 class ProjectUser(models.Model):
     objects = None
-    project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE)
+    project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     invited_by = models.EmailField(null=True, blank=True)
     date_joined = models.DateField(null=True, blank=True)
@@ -60,8 +60,9 @@ class ProjectUser(models.Model):
 
 class ProjectUserDetails(models.Model):
     objects = None
-    project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
-    prize = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
+    project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE,
+                                     null=True, related_name='pu_details')
+    prize = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True, related_name='pu_prize' )
     video = models.FileField(upload_to='upload/video/invitation_video', null=True)
 
     def __str__(self):

@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from charityprojects.models import CharityProjects, VolunteerTime, ProjectUserDetails, LearnNewSkill, \
     DevelopNewHabit, GiveDonation, Fundraise, ProjectUser, UserInvitation
+from prize.api.serializers import PrizeSerializer
 from prize.models import Prize
 
 
@@ -189,12 +190,45 @@ class ProjectUserSerializer(serializers.ModelSerializer):
         read_only_fields = ['id']
 
 
+class ProjectUserDetailsNestedSerializer(serializers.ModelSerializer):
+    project_user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    prize = PrizeSerializer(many=False)
+
+    class Meta:
+        model = ProjectUserDetails
+        fields = ('project_user', 'video', 'prize')
+
+
 class ProjectUserNestedSerializer(serializers.ModelSerializer):
     project = CharityProjectSerializer(many=False)
+    pu_details = ProjectUserDetailsNestedSerializer(read_only=True, many=True)
 
     class Meta:
         model = ProjectUser
-        fields = ['project','invited_by','date_joined','date_started','goal_date','adventure_id','challenge_status','project_status']
+        fields = ['project', 'invited_by', 'date_joined', 'date_started', 'goal_date',
+                  'adventure_id', 'challenge_status', 'project_status', 'pu_details']
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if data:
+            pu_details_data = data.pop('pu_details')[0]
+            request_here = self.context.get('request')
+
+            if 'prize' in pu_details_data:
+                prize_data = pu_details_data.pop('prize')
+                if prize_data:
+                    prize = request_here.build_absolute_uri(prize_data.pop('image'))
+                else:
+                    prize = ""
+                data.update({"prize_image": prize})
+
+            if 'video' in pu_details_data:
+                video_data = pu_details_data.pop('video')
+                if video_data:
+                    data.update({"video": request_here.build_absolute_uri(video_data)})
+                else:
+                    data.update({"video": ""})
+        return data
 
 
 class UserInvitationNestedSerializer(serializers.ModelSerializer):

@@ -139,6 +139,15 @@ class PlannedProjectListView(ProjectListByStatusMixin, ListAPIView):
         return self.queryset.filter(user=self.request.user, project_status__icontains="Planning")
 
 
+class CompletedProjectListView(ProjectListByStatusMixin, ListAPIView):
+    def get_queryset(self):
+        """
+        Method to get projects whose challenge status is in "UnlockedPrize"
+        :return: ProjectUserNested serialized data
+        """
+        return self.queryset.filter(user=self.request.user, challenge_status__icontains="UnlockedPrize")
+
+
 class UserInvitationListMixin(object):
     """
     The mixin is used to find all the user invitation by the status passed from the Mixin-User
@@ -710,31 +719,6 @@ def fetch_fundraiser(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
-
-def fetch_completed_projects(request, user_email):
-    response = {'status': "Invalid Request"}
-    user_id = User.objects.get(email=user_email).id
-    project_user_list = ProjectUser.objects.filter(user_id=user_id)
-    completed_project_list = []
-    if len(project_user_list) > 0:
-        for project_user in project_user_list:
-            if project_user.challenge_status and project_user.challenge_status == "UnlockedPrize":
-                project_id = project_user.project_id
-                project = CharityProjects.objects.get(pk=project_id)
-                pu_id = project_user.id
-                project_badge = request.build_absolute_uri(project.badge.url)
-                prize_id = find_user_prize(pu_id)
-                prize = Prize.objects.get(pk=prize_id)
-                prize_image = request.build_absolute_uri(prize.image.url)
-                project_details = {"project_id": project_id, "badge": project_badge, "prize": prize_image}
-                completed_project_list.append(project_details)
-        response["completed_projects"] = completed_project_list
-        response["status"] = "Success"
-    else:
-        response["status"] = "User has no completed projects"
-
-    return JsonResponse(response)
 
 
 def spotlight_stats(request, user_email):
