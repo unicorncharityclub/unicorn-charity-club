@@ -1,8 +1,7 @@
 from rest_framework import serializers
 
-from accounts.models import User
 from charityprojects.models import CharityProjects, VolunteerTime, ProjectUserDetails, LearnNewSkill, \
-    DevelopNewHabit, GiveDonation, Fundraise, ProjectUser
+    DevelopNewHabit, GiveDonation, Fundraise, ProjectUser, UserInvitation
 from prize.models import Prize
 
 
@@ -196,3 +195,20 @@ class ProjectUserNestedSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectUser
         fields = ['project','invited_by','date_joined','date_started','goal_date','adventure_id','challenge_status','project_status']
+
+
+class UserInvitationNestedSerializer(serializers.ModelSerializer):
+    inviter_user_email = serializers.SerializerMethodField(read_only=True)
+    inviter_user_name = serializers.SerializerMethodField(read_only=True)
+    project = CharityProjectSerializer(many=False)
+
+    def get_inviter_user_email(self, obj):
+        return obj.friend.email
+
+    def get_inviter_user_name(self, obj):
+        return obj.friend.first_name
+
+    class Meta:
+        model = UserInvitation
+        fields = ['inviter_user_email', 'inviter_user_name', 'status', 'invitation_message',
+                  'invitation_date', 'project']

@@ -1,11 +1,9 @@
 from .views import all_project_list, update_project_challenge_status_explore, \
     update_project_challenge_status_ideation, update_user_invitation,\
     get_friend_list, search_friends, unregistered_invitation,\
-    volunteer_time, get_project_invitations,\
-    fetch_project_invitation_details, join_project_invitation, spread_the_word, donation, fetch_completed_projects, \
-    spotlight_stats, fundraiser, unlock_prize
+    fetch_project_invitation_details, join_project_invitation, spread_the_word,\
+    fetch_completed_projects, spotlight_stats, unlock_prize
 
-from rest_framework.routers import DefaultRouter
 from django.urls import path
 from charityprojects.api import views
 
@@ -32,22 +30,21 @@ urlpatterns = [
     path('completedProjects/<str:user_email>/', fetch_completed_projects),
 
     # Invitations
-    path('invitations/<str:user_email>/', get_project_invitations),
     path('invitation/Details/', fetch_project_invitation_details),
     path('joinProject', join_project_invitation),
     path('userInvitation', update_user_invitation),
+    path('project_invitation/', views.ProjectInvitationsListView.as_view()),
 
     # Project Challenges
     path('update/Challenge1', update_project_challenge_status_explore),
     path('update/Challenge2', update_project_challenge_status_ideation),
-    path('LearnNewSkill/', views.ChallengeLearNewSkillView.as_view()),
-    path('volunteerTime/', views.ChallengeVolunteerTimeDetailsView.as_view()),
+    path('learn_new_skill/', views.ChallengeLearNewSkillView.as_view()),
+    path('volunteer_time/', views.ChallengeVolunteerTimeDetailsView.as_view()),
     path('spreadWord', spread_the_word),
 
-    path('giveDonation/', views.ChallengeGiveDonationDetailsView.as_view()),
+    path('give_donation/', views.ChallengeGiveDonationDetailsView.as_view()),
     path('fundraiser/', views.ChallengeFundraiserDetailsView.as_view()),
-    path('DevelopNewHabit/', views.ChallengeDevelopNewHabitDetailsView.as_view()),
-
+    path('develop_new_habit/', views.ChallengeDevelopNewHabitDetailsView.as_view()),
 
     path('Congratulations/<int:project_id>/<str:user_email>/', unlock_prize),
 ]
