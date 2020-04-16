@@ -35,18 +35,16 @@ urlpatterns = [
     path('userInvitation', update_user_invitation),
     path('project_invitation/', views.ProjectInvitationsListView.as_view()),
 
-
     # Project Challenges
     path('update/Challenge1', update_project_challenge_status_explore),
     path('update/Challenge2', update_project_challenge_status_ideation),
-    path('LearnNewSkill/', views.ChallengeLearNewSkillView.as_view()),
-    path('volunteerTime/', views.ChallengeVolunteerTimeDetailsView.as_view()),
+    path('learn_new_skill/', views.ChallengeLearNewSkillView.as_view()),
+    path('volunteer_time/', views.ChallengeVolunteerTimeDetailsView.as_view()),
     path('spreadWord', spread_the_word),
 
-    path('giveDonation/', views.ChallengeGiveDonationDetailsView.as_view()),
+    path('give_donation/', views.ChallengeGiveDonationDetailsView.as_view()),
     path('fundraiser/', views.ChallengeFundraiserDetailsView.as_view()),
-    path('DevelopNewHabit/', views.ChallengeDevelopNewHabitDetailsView.as_view()),
-
+    path('develop_new_habit/', views.ChallengeDevelopNewHabitDetailsView.as_view()),
 
     path('Congratulations/<int:project_id>/<str:user_email>/', unlock_prize),
 ]

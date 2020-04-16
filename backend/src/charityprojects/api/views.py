@@ -914,6 +914,9 @@ def unlock_prize(request, project_id, user_email):
 
 
 class QueryByProjectUserMixin(object):
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+
     def __init__(self):
         self.project_user_record = None
 
@@ -960,8 +963,6 @@ class QueryByProjectUserMixin(object):
 
 
 class ChallengeLearNewSkillView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
-    authentication_classes = [SessionAuthentication, ]
-    permission_classes = [IsAuthenticated]
     model = LearnNewSkill
     serializer_class = LearnNewSkillSerializer
     queryset = LearnNewSkill.objects.all()
@@ -978,8 +979,6 @@ class ChallengeLearNewSkillView(QueryByProjectUserMixin, RetrieveAPIView, Update
 
 
 class StartProject(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
-    authentication_classes = [SessionAuthentication, ]
-    permission_classes = [IsAuthenticated]
     model = ProjectUserDetails
     serializer_class = ProjectUserDetailsSerializer
     queryset = ProjectUserDetails.objects.all()
@@ -1012,8 +1011,6 @@ class StartProject(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
 
 
 class ChallengeVolunteerTimeDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
-    authentication_classes = [SessionAuthentication, ]
-    permission_classes = [IsAuthenticated]
     model = VolunteerTime
     serializer_class = VolunteerTimeSerializer
     queryset = VolunteerTime.objects.all()
@@ -1025,10 +1022,7 @@ class ChallengeVolunteerTimeDetailsView(QueryByProjectUserMixin, RetrieveAPIView
                 self.set_project_user_record_status("Challenge3Complete")
 
 
-
 class ChallengeDevelopNewHabitDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
-    authentication_classes = [SessionAuthentication, ]
-    permission_classes = [IsAuthenticated]
     model = DevelopNewHabit
     serializer_class = DevelopNewHabitSerializer
     queryset = DevelopNewHabit.objects.all()
@@ -1043,9 +1037,8 @@ class ChallengeDevelopNewHabitDetailsView(QueryByProjectUserMixin, RetrieveAPIVi
             if 'done' in self.request.data['action_type']:
                 self.set_project_user_record_status("Challenge3Complete")
 
+
 class ChallengeGiveDonationDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
-    authentication_classes = [SessionAuthentication, ]
-    permission_classes = [IsAuthenticated]
     model = GiveDonation
     serializer_class = GiveDonationSerializer
     queryset = GiveDonation.objects.all()
@@ -1058,8 +1051,6 @@ class ChallengeGiveDonationDetailsView(QueryByProjectUserMixin, RetrieveAPIView,
 
 
 class ChallengeFundraiserDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
-    authentication_classes = [SessionAuthentication, ]
-    permission_classes = [IsAuthenticated]
     model = Fundraise
     serializer_class = FundraiserSerializer
     queryset = Fundraise.objects.all()

@@ -100,7 +100,7 @@ class LearnNewSkill extends React.Component {
         } catch (err) {
             console.log(err)
         }
-        return AxiosConfig.put('charityproject/LearnNewSkill/', formData,
+        return AxiosConfig.put('charityproject/learn_new_skill/', formData,
             {
                 headers: {
                     'content-type': 'multipart/form-data'

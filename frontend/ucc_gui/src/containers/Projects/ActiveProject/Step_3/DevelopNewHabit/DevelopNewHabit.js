@@ -101,7 +101,7 @@ class DevelopNewHabit extends React.Component {
             console.log(err)
         }
 
-        return AxiosConfig.put('charityproject/DevelopNewHabit/', formData,
+        return AxiosConfig.put('charityproject/develop_new_habit/', formData,
             {
                 headers: {
                     'content-type': 'multipart/form-data'
