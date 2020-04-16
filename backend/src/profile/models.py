@@ -53,8 +53,8 @@ class ChildProfile(models.Model):
                                     choices=school_grade_choices,
                                     default='Kindergarten',
                                     blank=True)
-    parent = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='parent_id')
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, related_name='user_id')
+    parent = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='parent')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, related_name='child')
 
     def __str__(self):
         return self.user

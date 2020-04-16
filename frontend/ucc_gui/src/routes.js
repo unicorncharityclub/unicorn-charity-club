@@ -60,6 +60,8 @@ class BaseRouter extends React.Component {
               <Route exact path="/Mobile_toolbar" component={Mobile_toolbar}/>
               <Route exact path="/Spotlight" component={SpotlightHome}/>
               <Route exact path="/Logout" component={Logout} />
+              
+
             </div>
           );
         default:

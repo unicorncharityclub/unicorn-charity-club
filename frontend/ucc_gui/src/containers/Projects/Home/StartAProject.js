@@ -40,7 +40,7 @@ class ProjectsHome extends React.Component {
 
    fetchInvitaionsList (obj) {
       const userEmail = this.state.userEmail;
-      AxiosConfig.get(`charityproject/invitations/${userEmail}`)
+      AxiosConfig.get('charityproject/project_invitation/')
       .then(function(response) {obj.setInvitationsList(response);})
       .catch(function(error) {console.log(error);});
    }
@@ -95,7 +95,7 @@ class ProjectsHome extends React.Component {
     }
 
     setInvitationsList (response) {
-        let invitationsList = response.data["invited_project_list"];
+        let invitationsList = response.data;
         this.setState(prevState => ({
           invitationsList: invitationsList
       }));      

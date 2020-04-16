@@ -85,15 +85,15 @@ class LearnNewSkill(models.Model):
 class UserInvitation(models.Model):
     objects = None
     project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    friend_id = models.IntegerField(blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='invitee')
+    friend = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='inviter')
     status = models.CharField(max_length=255, blank=True, null=True)
     prize = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
     invitation_message = models.TextField(blank=True)
     invitation_date = models.DateField(null=True, blank=True) #should not be empty
 
     def __str__(self):
-        return '{} {} {} {} {} {}'.format(self.project, self.user, self.friend_id, self.status, self.prize,
+        return '{} {} {} {} {} {}'.format(self.project, self.user, self.friend, self.status, self.prize,
                                           self.invitation_message, self.invitation_date)
 
 
@@ -129,7 +129,7 @@ class VolunteerTime(models.Model):
 
 class DevelopNewHabit(models.Model):
     objects = None
-    new_habit = models.CharField(max_length=255)
+    new_habit = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     video = models.FileField(upload_to='upload/video/challenge_video', null=True)
     project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
