@@ -1022,6 +1022,7 @@ class ChallengeVolunteerTimeDetailsView(QueryByProjectUserMixin, RetrieveAPIView
                 self.set_project_user_record_status("Challenge3Complete")
 
 
+
 class ChallengeDevelopNewHabitDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
@@ -1038,3 +1039,31 @@ class ChallengeDevelopNewHabitDetailsView(QueryByProjectUserMixin, RetrieveAPIVi
         if 'action_type' in self.request.data:
             if 'done' in self.request.data['action_type']:
                 self.set_project_user_record_status("Challenge3Complete")
+
+class ChallengeGiveDonationDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+    model = GiveDonation
+    serializer_class = GiveDonationSerializer
+    queryset = GiveDonation.objects.all()
+
+    def perform_update(self, serializer):
+        super().perform_update(serializer)
+        if 'action_type' in self.request.data:
+            if 'Done' in self.request.data['action_type']:
+                self.set_project_user_record_status("Challenge3Complete")
+
+
+class ChallengeFundraiserDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+    model = Fundraise
+    serializer_class = FundraiserSerializer
+    queryset = Fundraise.objects.all()
+
+    def perform_update(self, serializer):
+        super().perform_update(serializer)
+        if 'action_type' in self.request.data:
+            if 'Done' in self.request.data['action_type']:
+                self.set_project_user_record_status("Challenge3Complete")
+
