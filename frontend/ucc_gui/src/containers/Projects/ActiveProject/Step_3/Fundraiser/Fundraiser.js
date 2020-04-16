@@ -27,7 +27,6 @@ class Fundraiser extends React.Component {
  onSubmit(event, action_type) {
      let formData = new FormData();
         try {
-            formData.append('user_email', this.state.userEmail);
             formData.append('project_id', this.state.projectId);
             formData.append('organisation_name', this.state.name);
             formData.append('organisation_address', this.state.address);
@@ -42,7 +41,7 @@ class Fundraiser extends React.Component {
             console.log(err)
         }
 
-                AxiosConfig.post('charityproject/fundraiser', formData,
+                AxiosConfig.put('charityproject/fundraiser/', formData,
                     {
                         headers: {
                             'content-type': 'multipart/form-data'
