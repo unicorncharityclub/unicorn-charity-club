@@ -58,7 +58,7 @@ renderList (type) {
                 <div className="ProjectInfo_MainDiv" key={index} >
                   <div className="ProjectInfo_Container">    
                     <EachActiveProject 
-                      key={index} projectId={elem.project_id}                        
+                      key={index} projectId={elem.project.id}
                       type = {type}                       
                       projectDate = {elem.invitation_date}
                       inviterName = {elem.inviter_user_name}

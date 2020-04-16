@@ -18,7 +18,7 @@ from profile.models import ChildProfile
 from profile.models import Profile
 from .serializers import ProjectUserDetailsSerializer, LearnNewSkillSerializer, VolunteerTimeSerializer, \
     DevelopNewHabitSerializer, GiveDonationSerializer, FundraiserSerializer, CharityProjectSerializer, \
-    ProjectUserSerializer, ProjectUserNestedSerializer
+    ProjectUserSerializer, ProjectUserNestedSerializer, UserInvitationNestedSerializer
 from rest_framework import status
 from rest_framework.response import Response
 import re
@@ -112,6 +112,9 @@ def all_project_list(request):
 
 
 class ProjectListByStatusMixin(object):
+    """
+    The mixin is used to find all the projects by the status passed from the Mixin-User
+    """
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
     serializer_class = ProjectUserNestedSerializer
@@ -120,40 +123,40 @@ class ProjectListByStatusMixin(object):
 
 class ActiveProjectListView(ProjectListByStatusMixin, ListAPIView):
     def get_queryset(self):
+        """
+        Method to get projects whose status is in "Challenge State"
+        :return: ProjectUserNested serialized data
+        """
         return self.queryset.filter(user=self.request.user, challenge_status__icontains="Challenge")
 
 
 class PlannedProjectListView(ProjectListByStatusMixin, ListAPIView):
     def get_queryset(self):
+        """
+        Method to get projects whose status is in "Planning State"
+        :return: ProjectUserNested serialized data
+        """
         return self.queryset.filter(user=self.request.user, project_status__icontains="Planning")
 
 
-def get_project_invitations(request, user_email):
-    response = {'status': "Invalid Request"}
-    user_id = User.objects.get(email=user_email).id
-    invited_project_user_id_list = UserInvitation.objects.filter(friend_id=user_id, status="Pending")
-    invited_project_list = []
-    if len(invited_project_user_id_list) > 0:
-        for invitation in invited_project_user_id_list:
-            project_id = invitation.project_id
-            user_id = invitation.user_id
-            user = User.objects.get(pk=user_id)
-            project = CharityProjects.objects.get(pk=project_id)
-            project_name = project.name
-            project_badge = request.build_absolute_uri(project.badge.url)
-            inviter_name = user.get_full_name()
-            invitation_date = invitation.invitation_date
-            invitation_details = {"inviter_user_email": user.email, "inviter_user_name": inviter_name,
-                                  "project_id": project_id, "project_name": project_name,
-                                  "project_badge": project_badge,
-                                  "invitation_date": invitation_date}  # invitation date has to be updated
-            invited_project_list.append(invitation_details)
-        response["invited_project_list"] = invited_project_list
-        response["status"] = "Success"
-    else:
-        response["status"] = "User has no project invitation"
+class UserInvitationListMixin(object):
+    """
+    The mixin is used to find all the user invitation by the status passed from the Mixin-User
+    """
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserInvitationNestedSerializer
+    queryset = UserInvitation.objects.all().prefetch_related('project').prefetch_related('user')
 
-    return JsonResponse(response)
+
+class ProjectInvitationsListView(UserInvitationListMixin, ListAPIView):
+    def get_queryset(self):
+        """
+        Method to get project invitation whose status is in "Pending State"
+        :return: UserInvitationNested serialized data
+        """
+        return self.queryset.filter(user=self.request.user, status__icontains="Pending")
+
 
 def update_project_challenge_status_explore(request):
     response = {'status': "Invalid Request"}
@@ -804,12 +807,12 @@ def create_user_invitation(email, project_id, user_id, prize_id, message):
     if invited_user:
         invited_user_id = invited_user.id
         invitation_date = date.today()
-        invitation_record = UserInvitation.objects.filter(project_id=project_id, friend_id=invited_user_id)
+        invitation_record = UserInvitation.objects.filter(project_id=project_id, friend=invited_user_id)
         if invitation_record:
             return False
         else:
             user_invitation = UserInvitation.objects.create(project_id=project_id, user_id=user_id,
-                                                            friend_id=invited_user_id,
+                                                            friend=invited_user_id,
                                                             status="Pending", invitation_message=message,
                                                             prize_id=prize_id,
                                                             invitation_date=invitation_date)
@@ -873,7 +876,7 @@ def unlock_prize(request, project_id, user_email):
                                                                               user_id=user_id).values()
                         if registered_invitation:
                             for item in registered_invitation:
-                                user = User.objects.get(id=item['friend_id'])
+                                user = User.objects.get(id=item['friend'])
                                 invitees.append(user.email)
                     response['invitees'] = invitees
                     if project_user_details_record.video:

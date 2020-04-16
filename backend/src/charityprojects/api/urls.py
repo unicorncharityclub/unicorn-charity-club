@@ -1,7 +1,6 @@
 from .views import all_project_list, update_project_challenge_status_explore, \
     update_project_challenge_status_ideation, update_user_invitation,\
-    get_friend_list, search_friends, unregistered_invitation,\
-    volunteer_time, challenge_develop_new_habit, get_project_invitations,\
+    get_friend_list, search_friends, unregistered_invitation,volunteer_time, challenge_develop_new_habit, \
     fetch_project_invitation_details, join_project_invitation, spread_the_word, donation, fetch_completed_projects, \
     spotlight_stats, fundraiser, unlock_prize
 
@@ -32,10 +31,11 @@ urlpatterns = [
     path('completedProjects/<str:user_email>/', fetch_completed_projects),
 
     # Invitations
-    path('invitations/<str:user_email>/', get_project_invitations),
     path('invitation/Details/', fetch_project_invitation_details),
     path('joinProject', join_project_invitation),
     path('userInvitation', update_user_invitation),
+    path('project_invitation/', views.ProjectInvitationsListView.as_view()),
+
 
     # Project Challenges
     path('update/Challenge1', update_project_challenge_status_explore),
