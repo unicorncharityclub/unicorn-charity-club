@@ -105,7 +105,7 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
         queryset = ProjectUser.objects.filter(project_id=project_id, user_id=user_id)
         if queryset.exists():
             raise ValidationError('Project already in progress')
-        serializer.save(user_id=user_id, project_id=project_id,invited_by="", project_status="PlanningStarted")
+        serializer.save(user_id=user_id, project_id=project_id, invited_by="", project_status="PlanningStarted")
 
     def post(self, request, *args, **kwargs):
         """
@@ -210,7 +210,6 @@ class ProjectInvitationsListView(UserInvitationListMixin, ListAPIView):
         return self.queryset.filter(friend_id=self.request.user.id, status__icontains="Pending")
 
 
-
 def update_project_challenge_status_explore(request):
     response = {'status': "Invalid Request"}
     if request.method == 'PUT':
@@ -251,22 +250,49 @@ def update_project_challenge_status_ideation(request):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-class ProjectInvitationsDetailsView(UserInvitationListMixin, RetrieveAPIView):
+class ProjectInvitationsView(UserInvitationListMixin, RetrieveAPIView):
     def get_object(self):
         queryset = self.get_queryset()
-        project_id = None
-        inviter_user_id = None
-
+        obj = None
         if self.request.method == 'GET':
             project_id = self.request.GET.get('project_id')
-            inviter_user_id = User.objects.get(email=self.request.GET.get('inviter_user_email',None)).id
-
-        if inviter_user_id:
-            obj = get_object_or_404(queryset, friend_id=self.request.user.id, project_id=project_id,
-                                                               user_id=inviter_user_id)
-        else:
-            raise Http404("No invitation exists")
+            inviter_user_id = User.objects.get(email=self.request.GET.get('inviter_user_email', None)).id
+            if inviter_user_id:
+                obj = get_object_or_404(queryset, friend_id=self.request.user.id, project_id=project_id,
+                                        user_id=inviter_user_id)
+            else:
+                raise Http404("No invitation exists")
         return obj
+
+
+def join_project_invitation(request):
+    response = {'status': "Invalid Request"}
+
+    project_id = request.GET['project_id']
+    user_email = request.GET['user_email']
+    inviter_user_email = request.GET['inviter_user_email']
+
+    user_id = User.objects.get(email=user_email).id
+    inviter_user_id = User.objects.get(email=inviter_user_email).id
+    project_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=user_id)
+    if len(project_user_record) > 0:
+        response["status"] = "User has already joined this project"
+    else:
+        join_date = date.today()
+        project_user = ProjectUser.objects.create(project_id=project_id, user_id=user_id, date_joined=join_date,
+                                                  invited_by=inviter_user_email, challenge_status="StartChallenge")
+        project_user.save()
+        project_user_id = project_user.id
+        inviter_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=inviter_user_id)[0].id
+        prize_id = find_user_prize(inviter_user_record)
+        project_user_details = ProjectUserDetails.objects.create(project_user_id=project_user_id,
+                                                                 prize_id=prize_id)
+        project_user_details.save()
+        user_invitation = UserInvitation.objects.filter(project_id=project_id, user_id=inviter_user_id)[0]
+        user_invitation.status = "Accepted"
+        user_invitation.save()
+        response["status"] = "Success"
+    return JsonResponse(response)
 
 
 def update_user_invitation(request):
@@ -416,7 +442,8 @@ def create_volunteer_adventure(request, user_id, project_id):
     if project_user_record:
         project_user_record.challenge_status = "Challenge3Complete"
         project_user_record.save()
-    volunteer_time_update_data = {"project_user": project_user_id, "organisation_name": request.data["organisation_name"],
+    volunteer_time_update_data = {"project_user": project_user_id,
+                                  "organisation_name": request.data["organisation_name"],
                                   "organisation_address": request.data["organisation_address"],
                                   "organisation_city": request.data["organisation_city"],
                                   "organisation_state": request.data["organisation_state"],
@@ -428,7 +455,7 @@ def create_volunteer_adventure(request, user_id, project_id):
     if volunteer_serializer.is_valid():
         volunteer_serializer.save()
         return Response(volunteer_serializer.data, status=status.HTTP_201_CREATED)
-    #return Response(volunteer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # return Response(volunteer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST', 'GET'])
@@ -494,36 +521,6 @@ def update_volunteer_details(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
         create_volunteer_adventure(request, user_id, project_id)
-
-
-def join_project_invitation(request):
-    response = {'status': "Invalid Request"}
-
-    project_id = request.GET['project_id']
-    user_email = request.GET['user_email']
-    inviter_user_email = request.GET['inviter_user_email']
-
-    user_id = User.objects.get(email=user_email).id
-    inviter_user_id = User.objects.get(email=inviter_user_email).id
-    project_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=user_id)
-    if len(project_user_record) > 0:
-        response["status"] = "User has already joined this project"
-    else:
-        join_date = date.today()
-        project_user = ProjectUser.objects.create(project_id=project_id, user_id=user_id, date_joined=join_date,
-                                                  invited_by=inviter_user_email, challenge_status="StartChallenge")
-        project_user.save()
-        project_user_id = project_user.id
-        inviter_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=inviter_user_id)[0].id
-        prize_id = find_user_prize(inviter_user_record)
-        project_user_details = ProjectUserDetails.objects.create(project_user_id=project_user_id,
-                                                                 prize_id=prize_id)
-        project_user_details.save()
-        user_invitation = UserInvitation.objects.filter(project_id=project_id, user_id=inviter_user_id)[0]
-        user_invitation.status = "Accepted"
-        user_invitation.save()
-        response["status"] = "Success"
-    return JsonResponse(response)
 
 
 @api_view(['POST'])
@@ -644,7 +641,8 @@ def update_donation_details(request):
         0]  # ideally only one entry should be there
     project_user_id = project_user_record.id
     donation_record = GiveDonation.objects.get(project_user_id=project_user_id)
-    give_donation_update_data = {"project_user": project_user_id, "organisation_name": request.data["organisation_name"],
+    give_donation_update_data = {"project_user": project_user_id,
+                                 "organisation_name": request.data["organisation_name"],
                                  "organisation_address": request.data["organisation_address"],
                                  "organisation_city": request.data["organisation_city"],
                                  "organisation_state": request.data["organisation_state"],
@@ -1085,5 +1083,3 @@ class ChallengeFundraiserDetailsView(QueryByProjectUserMixin, RetrieveAPIView, U
         if 'action_type' in self.request.data:
             if 'Done' in self.request.data['action_type']:
                 self.set_project_user_record_status("Challenge3Complete")
-
-

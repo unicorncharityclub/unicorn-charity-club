@@ -1,5 +1,4 @@
-from .views import all_project_list, update_project_challenge_status_explore, \
-    update_project_challenge_status_ideation, update_user_invitation,\
+from .views import all_project_list, update_user_invitation,\
     get_friend_list, search_friends, unregistered_invitation,\
     join_project_invitation, spread_the_word,\
     spotlight_stats, unlock_prize
@@ -30,7 +29,7 @@ urlpatterns = [
     path('completed_project_list/', views.CompletedProjectListView.as_view()),
 
     # Invitations
-    path('project_invitation_details/', views.ProjectInvitationsDetailsView.as_view()),
+    path('project_invitation/', views.ProjectInvitationsView.as_view()),
     path('joinProject', join_project_invitation),  # step-0
     path('userInvitation', update_user_invitation),  # friends
     path('project_invitation/', views.ProjectInvitationsListView.as_view()),
@@ -39,7 +38,7 @@ urlpatterns = [
     path('update/Challenge/', views.CharityProjectStartProject.as_view()),
     path('learn_new_skill/', views.ChallengeLearNewSkillView.as_view()),
     path('volunteer_time/', views.ChallengeVolunteerTimeDetailsView.as_view()),
-    path('spreadWord', spread_the_word),
+    path('spreadWord', spread_the_word),  # friends
 
     path('give_donation/', views.ChallengeGiveDonationDetailsView.as_view()),
     path('fundraiser/', views.ChallengeFundraiserDetailsView.as_view()),
