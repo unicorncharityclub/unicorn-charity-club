@@ -77,22 +77,21 @@ class ProjectInvitation extends React.Component {
         const inviterEmail = this.props.match.params.inviterEmail;
         const invitedEmail = this.state.userEmail;
                
-        AxiosConfig.get(`/charityproject/invitation/Details`, {            
+        AxiosConfig.get(`/charityproject/project_invitation_details/`, {
             params: { 
                 project_id : projectId,
-                user_email : invitedEmail,
                 inviter_user_email : inviterEmail
             }                                
         })
         .then(res => {
                 this.setState({                  
-                    userName : res.data.invitation_details["user_name"],
-                    invitationMessage : res.data.invitation_details["message"],
-                    video: res.data.invitation_details["video"],
-                    projectCategory: res.data.invitation_details["project_category"],
-                    projectTags: res.data.invitation_details["project_tags"],
-                    projectMission: res.data.invitation_details["project_mission"],
-                    projectGoal: res.data.invitation_details["project_goal"]
+                    userName : res.data["invitee_user_name"],
+                    invitationMessage : res.data.invitation_message,
+                    video: res.data.video,
+                    projectCategory: res.data.project.category,
+                    projectTags: res.data.project.tags,
+                    projectMission: res.data.project.mission,
+                    projectGoal: res.data.project.goal
                 });
             //console.log(res);
         }).catch(error => console.log(error))

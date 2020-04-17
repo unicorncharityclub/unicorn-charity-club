@@ -1,7 +1,7 @@
 from .views import all_project_list, update_project_challenge_status_explore, \
     update_project_challenge_status_ideation, update_user_invitation,\
     get_friend_list, search_friends, unregistered_invitation,\
-    fetch_project_invitation_details, join_project_invitation, spread_the_word,\
+    join_project_invitation, spread_the_word,\
     spotlight_stats, unlock_prize
 
 from django.urls import path
@@ -30,7 +30,7 @@ urlpatterns = [
     path('completed_project_list/', views.CompletedProjectListView.as_view()),
 
     # Invitations
-    path('invitation/Details/', fetch_project_invitation_details),  # step-0
+    path('project_invitation_details/', views.ProjectInvitationsDetailsView.as_view()),
     path('joinProject', join_project_invitation),  # step-0
     path('userInvitation', update_user_invitation),  # friends
     path('project_invitation/', views.ProjectInvitationsListView.as_view()),

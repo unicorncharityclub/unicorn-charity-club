@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from accounts.api.serializers import AccountDetailsSerializer
 from charityprojects.models import CharityProjects, VolunteerTime, ProjectUserDetails, LearnNewSkill, \
     DevelopNewHabit, GiveDonation, Fundraise, ProjectUser, UserInvitation
 from prize.api.serializers import PrizeSerializer
@@ -202,11 +203,12 @@ class ProjectUserDetailsNestedSerializer(serializers.ModelSerializer):
 class ProjectUserNestedSerializer(serializers.ModelSerializer):
     project = CharityProjectSerializer(many=False)
     pu_details = ProjectUserDetailsNestedSerializer(read_only=True, many=True)
+    user = AccountDetailsSerializer(read_only=True, many=False)
 
     class Meta:
         model = ProjectUser
         fields = ['project', 'invited_by', 'date_joined', 'date_started', 'goal_date',
-                  'adventure_id', 'challenge_status', 'project_status', 'pu_details']
+                  'adventure_id', 'challenge_status', 'project_status', 'pu_details', 'user']
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -234,15 +236,31 @@ class ProjectUserNestedSerializer(serializers.ModelSerializer):
 class UserInvitationNestedSerializer(serializers.ModelSerializer):
     inviter_user_email = serializers.SerializerMethodField(read_only=True)
     inviter_user_name = serializers.SerializerMethodField(read_only=True)
+    invitee_user_name = serializers.SerializerMethodField(read_only=True)
+    video = serializers.SerializerMethodField(read_only=True)
     project = CharityProjectSerializer(many=False)
 
     def get_inviter_user_email(self, obj):
-        return obj.friend.email
+        return obj.user.email
 
     def get_inviter_user_name(self, obj):
-        return obj.friend.first_name
+        return obj.user.first_name + " " + obj.user.last_name
+
+    def get_invitee_user_name(self, obj):
+        return obj.friend.first_name + " " + obj.friend.last_name
+
+    def get_video(self, obj):
+        try:
+            project_user = ProjectUser.objects.filter(user_id=obj.user_id, project_id=obj.project_id)[0]
+            project_user_id = project_user.id
+            project_user_details = ProjectUserDetails.objects.filter(project_user_id=project_user_id)[0]
+            request_here = self.context.get('request')
+            invitation_video = request_here.build_absolute_uri(project_user_details.video.url)
+            return invitation_video
+        except (ProjectUserDetails.DoesNotExist, ProjectUser.DoesNotExist):
+            return ""
 
     class Meta:
         model = UserInvitation
-        fields = ['inviter_user_email', 'inviter_user_name', 'status', 'invitation_message',
-                  'invitation_date', 'project']
+        fields = ['inviter_user_email', 'inviter_user_name', 'invitee_user_name', 'status', 'invitation_message',
+                  'invitation_date', 'video', 'project']

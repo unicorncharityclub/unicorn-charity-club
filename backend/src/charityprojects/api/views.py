@@ -7,8 +7,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView, UpdateAPIView, get_object_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-from ..models import CharityProjects, ProjectUser, ProjectUserDetails, Prize, UserInvitation, UnregisterInvitation, \
+from ..models import CharityProjects, ProjectUser, ProjectUserDetails, UserInvitation, UnregisterInvitation, \
     SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit, VolunteerTime, Fundraise
 from prize.models import Prize
 
@@ -155,7 +154,7 @@ class UserInvitationListMixin(object):
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
     serializer_class = UserInvitationNestedSerializer
-    queryset = UserInvitation.objects.all().prefetch_related('project').prefetch_related('user')
+    queryset = UserInvitation.objects.all().prefetch_related('project').prefetch_related('friend')
 
 
 class ProjectInvitationsListView(UserInvitationListMixin, ListAPIView):
@@ -164,7 +163,7 @@ class ProjectInvitationsListView(UserInvitationListMixin, ListAPIView):
         Method to get project invitation whose status is in "Pending State"
         :return: UserInvitationNested serialized data
         """
-        return self.queryset.filter(user=self.request.user, status__icontains="Pending")
+        return self.queryset.filter(friend_id=self.request.user.id, status__icontains="Pending")
 
 
 def update_project_challenge_status_explore(request):
@@ -205,6 +204,24 @@ def update_project_challenge_status_ideation(request):
             return Response(status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProjectInvitationsDetailsView(UserInvitationListMixin, RetrieveAPIView):
+    def get_object(self):
+        queryset = self.get_queryset()
+        project_id = None
+        inviter_user_id = None
+
+        if self.request.method == 'GET':
+            project_id = self.request.GET.get('project_id')
+            inviter_user_id = User.objects.get(email=self.request.GET.get('inviter_user_email',None)).id
+
+        if inviter_user_id:
+            obj = get_object_or_404(queryset, friend_id=self.request.user.id, project_id=project_id,
+                                                               user_id=inviter_user_id)
+        else:
+            raise Http404("No invitation exists")
+        return obj
 
 
 def update_user_invitation(request):
@@ -434,46 +451,8 @@ def update_volunteer_details(request):
         create_volunteer_adventure(request, user_id, project_id)
 
 
-def fetch_project_invitation_details(request):
-    response = {'status': "Invalid Request"}
-    # json_data = json.loads(request.body)
-    # project_id = json_data["project_id"]
-    # invited_user_email = json_data["user_email"]
-    # inviter_user_email = json_data["inviter_user_email"]
-
-    # take url parametes like this
-    # as get request does not send data in json
-    project_id = request.GET['project_id']
-    invited_user_email = request.GET['user_email']
-    inviter_user_email = request.GET['inviter_user_email']
-
-    inviter_user_id = User.objects.get(email=inviter_user_email).id
-    invited_user = User.objects.get(email=invited_user_email)
-    user_id = invited_user.id
-    user_name = invited_user.get_full_name()
-    project = CharityProjects.objects.get(pk=project_id)
-    project_user_record = ProjectUser.objects.filter(user_id=inviter_user_id, project_id=project_id)[0]
-    project_user_id = project_user_record.id
-    project_user_details = ProjectUserDetails.objects.filter(project_user_id=project_user_id)[0]
-    invitation_video = request.build_absolute_uri(project_user_details.video.url)
-    user_invitation = UserInvitation.objects.filter(project_id=project_id, user_id=inviter_user_id, status="Pending")[0]
-
-    invitation_message = user_invitation.invitation_message
-    project_invitation = {"user_name": user_name, "message": invitation_message, "video": invitation_video,
-                          "project_category": project.category, "project_tags": project.tags,
-                          "project_mission": project.mission, "project_goal": project.goal}
-    response["invitation_details"] = project_invitation
-    response["status"] = "Success"
-    return JsonResponse(response)
-
-
 def join_project_invitation(request):
     response = {'status': "Invalid Request"}
-
-    # json_data = json.loads(request.body)
-    # project_id = json_data["project_id"]
-    # user_email = json_data["user_email"]
-    # inviter_user_email = json_data["inviter_user_email"]
 
     project_id = request.GET['project_id']
     user_email = request.GET['user_email']
