@@ -125,6 +125,11 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
             return Response(result, status=status.HTTP_400_BAD_REQUEST)
 
     def perform_update(self, serializer):
+        """
+        Update the challenges 1 and 2 started by user i.e project exploration and project ideation
+        :param serializer:
+        """
+
         project_user_record = self.get_project_user_record()
         challenge_status = project_user_record.challenge_status
         if challenge_status == "StartChallenge":
@@ -136,12 +141,36 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
         elif challenge_status == "Challenge1Complete":
             if 'adventure_id' not in self.request.data:
                 raise Http404("Adventure not selected")
+            else:
+                adventure_id = self.request.data["adventure_id"]
             if 'goal_date' not in self.request.data:
                 raise Http404("Goal date not selected")
 
             super().perform_update(serializer)
             project_user_record.challenge_status = "Challenge2Complete"
             project_user_record.save()
+            create_adventure_record(project_user_record.id, adventure_id)
+
+
+def create_adventure_record(project_user_id, adventure_id):
+    if adventure_id == 1:
+        spread_word = SpreadWord.objects.create(project_user_id=project_user_id)
+        spread_word.save()
+    elif adventure_id == 2:
+        learn_new_skill = LearnNewSkill.objects.create(project_user_id=project_user_id)
+        learn_new_skill.save()
+    elif adventure_id == 3:
+        develop_new_habit = DevelopNewHabit.objects.create(project_user_id=project_user_id)
+        develop_new_habit.save()
+    elif adventure_id == 4:
+        volunteer_time = VolunteerTime.objects.create(project_user_id=project_user_id)
+        volunteer_time.save()
+    elif adventure_id == 5:
+        give_donation = GiveDonation.objects.create(project_user_id=project_user_id)
+        give_donation.save()
+    elif adventure_id == 6:
+        fundraiser = Fundraise.objects.create(project_user_id=project_user_id)
+        fundraiser.save()
 
 
 def all_project_list(request):
@@ -208,7 +237,6 @@ class ProjectInvitationsListView(UserInvitationListMixin, ListAPIView):
         :return: UserInvitationNested serialized data
         """
         return self.queryset.filter(friend_id=self.request.user.id, status__icontains="Pending")
-
 
 def update_project_challenge_status_explore(request):
     response = {'status': "Invalid Request"}
