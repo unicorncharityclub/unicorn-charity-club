@@ -154,6 +154,11 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
 
 
 def create_adventure_record(project_user_id, adventure_id):
+    """
+    Creates an entry in the respective adventure table using the project user id.
+    :param project_user_id:
+    :param adventure_id:
+    """
     if adventure_id == 1:
         spread_word = SpreadWord.objects.create(project_user_id=project_user_id)
         spread_word.save()
@@ -1103,11 +1108,18 @@ class StartProject(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
 
 
 class ChallengeVolunteerTimeDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    """
+    This is the views for adventure Volunteer time. Updates and gets the adventure details
+    """
     model = VolunteerTime
     serializer_class = VolunteerTimeSerializer
     queryset = VolunteerTime.objects.all()
 
     def perform_update(self, serializer):
+        """
+        Update the volunteer time enntry based on action type
+        :param serializer:
+        """
         super().perform_update(serializer)
         if 'action_type' in self.request.data:
             if 'Done' in self.request.data['action_type']:
@@ -1131,11 +1143,18 @@ class ChallengeDevelopNewHabitDetailsView(QueryByProjectUserMixin, RetrieveAPIVi
 
 
 class ChallengeGiveDonationDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    """
+    This is the views for adventure Give donation. Updates and gets the adventure details
+    """
     model = GiveDonation
     serializer_class = GiveDonationSerializer
     queryset = GiveDonation.objects.all()
 
     def perform_update(self, serializer):
+        """
+        Update the give donation entry based on action type
+        :param serializer:
+        """
         super().perform_update(serializer)
         if 'action_type' in self.request.data:
             if 'Done' in self.request.data['action_type']:
@@ -1143,11 +1162,18 @@ class ChallengeGiveDonationDetailsView(QueryByProjectUserMixin, RetrieveAPIView,
 
 
 class ChallengeFundraiserDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    """
+    This is the views for adventure fundraiser. Updates and gets the adventure details
+    """
     model = Fundraise
     serializer_class = FundraiserSerializer
     queryset = Fundraise.objects.all()
 
     def perform_update(self, serializer):
+        """
+        Update the fundraiser entry based on action type
+        :param serializer:
+        """
         super().perform_update(serializer)
         if 'action_type' in self.request.data:
             if 'Done' in self.request.data['action_type']:
