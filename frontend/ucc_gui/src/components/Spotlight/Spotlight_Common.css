@@ -4,7 +4,7 @@
 }
 
   /* collapse */
-  .header{
+  .header_collapse{
     color: #2BB9B7;  
     cursor: pointer; 
     height: 100%;  
@@ -298,7 +298,7 @@ table {
         display: block;
     }
     
-    .header{
+    .header_collapse{
         color: #2BB9B7;  
         cursor: pointer;    
         background: white;

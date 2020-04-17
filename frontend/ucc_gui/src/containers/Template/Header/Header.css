@@ -17,7 +17,12 @@
     height: 70px;
     overflow: hidden;
   }
+
+  .setting-icon {
+    display: none;
+  }
 }
+
 
 /* header logo main */
 .header__logo {
@@ -395,6 +400,8 @@
   display: block;
   cursor: pointer;
 }
+
+
 
 /* in toolbar.css file
  .child-select__profile {
