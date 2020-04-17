@@ -66,6 +66,21 @@ defaultIfEmpty(value){
         });
     };
 
+    componentDidMount () {
+        AxiosConfig.get(`charityproject/give_donation/`,{params: {project_id: this.state.projectId, user_email:this.state.userEmail}})
+      .then(res => {
+              this.setState({
+                  name : res.data.organisation_name,
+                  address : res.data.organisation_address,
+                  city : res.data.organisation_city,
+                  website : res.data.website,
+                  stateName : res.data.organisation_state,
+                  description : res.data.details,
+                  finalVideo :res.data.exp_video
+              });
+      }).catch(error => console.log(error))
+    }
+
     render() {
       return(
                   <div>

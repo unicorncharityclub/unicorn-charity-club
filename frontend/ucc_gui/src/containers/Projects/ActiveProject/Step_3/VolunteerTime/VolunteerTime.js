@@ -82,8 +82,13 @@ defaultIfEmpty(value){
       .then(res => {
               this.setState({
                   name : res.data.organisation_name,
-                  description : res.data.description
-
+                  address : res.data.organisation_address,
+                  city : res.data.organisation_city,
+                  website : res.data.website,
+                  stateName : res.data.organisation_state,
+                  hours : res.data.hours,
+                  description : res.data.description,
+                  finalVideo :res.data.exp_video
               });
       }).catch(error => console.log(error))
     }
