@@ -39,8 +39,8 @@ class LearnNewSkill extends React.Component {
 
     componentDidMount() {
         Promise.all([
-            AxiosConfig.get('Zcharityproject/active_project_list/'),
-            AxiosConfig.get('charityproject/LearnNewSkill',{params: {project_id: this.state.projectId}})])
+            AxiosConfig.get('charityproject/active_project_list/'),
+            AxiosConfig.get('charityproject/learn_new_skill/',{params: {project_id: this.state.projectId}})])
             .then(([res1, res2]) => {
                 for (let i = 0; i < res1.data.length; i++) {
                     if (res1.data[i].project.id === parseInt(this.state.projectId)) {
@@ -61,7 +61,6 @@ class LearnNewSkill extends React.Component {
                         description: res2.data.description,
                         video: res2.data.video
                     });
-                    console.log(this.state.challenge_present);
                 }
                 console.log(res1.data);
             }).catch(error => console.log(error))
@@ -86,7 +85,7 @@ class LearnNewSkill extends React.Component {
     };
 
 
-    saveHandler(event, save_option) {
+    saveHandler(event, action_type) {
         //event.preventDefault();
         let formData = new FormData();
         try {
@@ -97,11 +96,11 @@ class LearnNewSkill extends React.Component {
             }
             formData.append('project_id', this.state.projectId);
             formData.append('email', cookie.load('user_email'));
-            formData.append('save_option', save_option);
+            formData.append('action_type', action_type);
         } catch (err) {
             console.log(err)
         }
-        return AxiosConfig.put('charityproject/LearnNewSkill/', formData,
+        return AxiosConfig.put('charityproject/learn_new_skill/', formData,
             {
                 headers: {
                     'content-type': 'multipart/form-data'

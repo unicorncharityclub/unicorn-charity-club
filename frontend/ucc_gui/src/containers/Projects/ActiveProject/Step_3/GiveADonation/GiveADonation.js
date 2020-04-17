@@ -39,7 +39,7 @@ class GiveADonation extends React.Component {
             console.log(err)
         }
 
-                AxiosConfig.put('charityproject/giveDonation/', formData,
+                AxiosConfig.put('charityproject/give_donation/', formData,
                     {
                         headers: {
                             'content-type': 'multipart/form-data'
