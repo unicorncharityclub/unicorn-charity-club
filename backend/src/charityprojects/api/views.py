@@ -62,11 +62,36 @@ class CharityProjectCategory(ListAPIView):
         return Response(result, status=status.HTTP_200_OK)
 
 
-class CharityProjectStartProject(CreateAPIView):
+class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
     model = ProjectUser
     serializer_class = ProjectUserSerializer
+    queryset = ProjectUser.objects.all()
+
+    def __init__(self):
+        self.project_user_record = None
+
+    def get_object(self):
+        """
+        The method will filter the queryset selected in the child class based on the project id present in the request
+        """
+        queryset = self.get_queryset()
+        project_id = None
+        if self.request.method == 'GET':
+            project_id = self.request.GET.get('project_id')
+        elif self.request.method == 'PUT':
+            project_id = self.request.data['project_id']
+        project_user_record = ProjectUser.objects.filter(user_id=self.request.user.id, project_id=project_id).first()
+        if project_user_record:
+            self.project_user_record = project_user_record
+            obj = get_object_or_404(queryset, user_id=self.request.user.id, project_id=project_id)
+        else:
+            raise Http404("Project not started")
+        return obj
+
+    def get_project_user_record(self):
+        return self.project_user_record
 
     def perform_create(self, serializer):
         """
@@ -99,6 +124,25 @@ class CharityProjectStartProject(CreateAPIView):
         except ValidationError:
             result["status"] = "Project already in progress"
             return Response(result, status=status.HTTP_400_BAD_REQUEST)
+
+    def perform_update(self, serializer):
+        project_user_record = self.get_project_user_record()
+        challenge_status = project_user_record.challenge_status
+        if challenge_status == "StartChallenge":
+            join_date = date.today()
+            project_user_record.date_joined = join_date
+            project_user_record.challenge_status = "Challenge1Complete"
+            project_user_record.save()
+
+        elif challenge_status == "Challenge1Complete":
+            if 'adventure_id' not in self.request.data:
+                raise Http404("Adventure not selected")
+            if 'goal_date' not in self.request.data:
+                raise Http404("Goal date not selected")
+
+            super().perform_update(serializer)
+            project_user_record.challenge_status = "Challenge2Complete"
+            project_user_record.save()
 
 
 def all_project_list(request):
@@ -156,6 +200,7 @@ class ProjectInvitationsListView(UserInvitationListMixin, ListAPIView):
         :return: UserInvitationNested serialized data
         """
         return self.queryset.filter(user=self.request.user, status__icontains="Pending")
+
 
 
 def update_project_challenge_status_explore(request):
@@ -961,6 +1006,23 @@ class QueryByProjectUserMixin(object):
         self.project_user_record.project_status = status
         self.project_user_record.save()
 
+    def set_project_joining_date(self, date):
+        """
+        Method to update project user joined date
+        :param date: date
+        """
+        self.project_user_record.date_joined = date
+        self.project_user_record.save()
+
+    def set_project_goal_date(self, date):
+        """
+
+        Method yo update project user goal date
+        :param date:
+        """
+        self.project_user_record.goal_date = date
+        self.project_user_record.save()
+
 
 class ChallengeLearNewSkillView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
     model = LearnNewSkill
@@ -1060,4 +1122,5 @@ class ChallengeFundraiserDetailsView(QueryByProjectUserMixin, RetrieveAPIView, U
         if 'action_type' in self.request.data:
             if 'Done' in self.request.data['action_type']:
                 self.set_project_user_record_status("Challenge3Complete")
+
 

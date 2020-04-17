@@ -38,7 +38,7 @@ class ActiveProjectChallenge1 extends React.Component {
         // on button click action
 
         // put req on done button click
-        AxiosConfig.put(`charityproject/update/Challenge1`, {
+        AxiosConfig.put(`charityproject/update/Challenge/`, {
             "project_id" : this.props.match.params.id           
         })
         .then(this.props.history.push(`/Projects/${this.props.match.params.id}/ActiveProjectChallenge2`))
