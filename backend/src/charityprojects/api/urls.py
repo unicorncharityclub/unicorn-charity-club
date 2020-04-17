@@ -36,11 +36,10 @@ urlpatterns = [
     path('project_invitation/', views.ProjectInvitationsListView.as_view()),
 
     # Project Challenges
-    path('update/Challenge1', update_project_challenge_status_explore),
-    path('update/Challenge2', update_project_challenge_status_ideation),
+    path('update/Challenge/', views.CharityProjectStartProject.as_view()),
     path('learn_new_skill/', views.ChallengeLearNewSkillView.as_view()),
     path('volunteer_time/', views.ChallengeVolunteerTimeDetailsView.as_view()),
-    path('spreadWord', spread_the_word),  # friends
+    path('spreadWord', spread_the_word),
 
     path('give_donation/', views.ChallengeGiveDonationDetailsView.as_view()),
     path('fundraiser/', views.ChallengeFundraiserDetailsView.as_view()),
