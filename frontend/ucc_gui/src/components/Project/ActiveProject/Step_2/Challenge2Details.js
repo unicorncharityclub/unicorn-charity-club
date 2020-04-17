@@ -11,8 +11,18 @@ import ProjectInfo from "../../Details/ProjectInfo";
 import TextBlackSubHeading from "../../../General/Text/TextBlackSubHeading";
 import DatePicker from "react-datepicker";
 import TwoButtonLayout from "../../../General/TwoButtonLayout";
-class ProjectContent extends React.Component {
 
+/**
+ * @summary: Creates the UI of the challenge 2 page
+ * @description: Creates the fields and styling for the challenge 2 selection of task page
+ * @class: ProjectContent
+ * @extends: React.component
+ * @see: {Challenge2Details.css}
+ * @param: projectId, projectName, projectBanner, projectBadge, projectJoinDate, projectChallengeStatus, selectedOption
+ * @returns: {ProjectContent}
+ */
+
+class ProjectContent extends React.Component {
     constructor(props) {
     super(props);
     this.state = {

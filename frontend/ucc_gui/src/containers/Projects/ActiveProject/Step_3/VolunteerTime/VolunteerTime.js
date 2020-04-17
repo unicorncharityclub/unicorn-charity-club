@@ -4,6 +4,17 @@ import {Container} from "@material-ui/core";
 import cookie from "react-cookies";
 import AxiosConfig from "../../../../../axiosConfig";
 
+/**
+ * @summary: Stores and retrieves the information from the challenge 3 - volunteer time page
+ * @description: Contains the methods to store the information with a put and get call for the data entry
+ * @class: VolunteerTime
+ * @extends: React.component
+ * @see: {VolunteerTimeDetails}
+ * @params: hours, description, video, finalVideo, name, address, city, stateName, website
+ * @fires: get charityproject/volunteer_time/ and put charityproject/volunteer_time/
+ * @returns: {VolunteerTime}
+ */
+
 class VolunteerTime extends React.Component {
     constructor(props) {
     super(props);

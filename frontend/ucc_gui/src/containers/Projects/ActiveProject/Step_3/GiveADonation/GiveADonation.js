@@ -4,6 +4,17 @@ import {Container} from "@material-ui/core";
 import cookie from "react-cookies";
 import AxiosConfig from "../../../../../axiosConfig";
 
+/**
+ * @summary: Stores and retrieves the information from the challenge 3 - give a donation page
+ * @description: Contains the methods to store the information with a put and get call for the data entry
+ * @class: GiveADonation
+ * @extends: React.component
+ * @see: {GiveDonationDetails}
+ * @params: description, video, finalVideo, name, address, city, stateName, website
+ * @fires: get charityproject/give_donation/ and put charityproject/give_donation/
+ * @returns: {GiveADonation}
+ */
+
 class GiveADonation extends React.Component {
     constructor(props) {
     super(props);
