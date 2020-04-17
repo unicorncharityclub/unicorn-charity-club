@@ -106,7 +106,7 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
         queryset = ProjectUser.objects.filter(project_id=project_id, user_id=user_id)
         if queryset.exists():
             raise ValidationError('Project already in progress')
-        serializer.save(user_id=user_id, project_id=project_id,invited_by="", project_status="PlanningStarted")
+        serializer.save(user_id=user_id, project_id=project_id, invited_by="", project_status="PlanningStarted")
 
     def post(self, request, *args, **kwargs):
         """
@@ -126,6 +126,11 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
             return Response(result, status=status.HTTP_400_BAD_REQUEST)
 
     def perform_update(self, serializer):
+        """
+        Update the challenges 1 and 2 started by user i.e project exploration and project ideation
+        :param serializer:
+        """
+
         project_user_record = self.get_project_user_record()
         challenge_status = project_user_record.challenge_status
         if challenge_status == "StartChallenge":
@@ -137,12 +142,36 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
         elif challenge_status == "Challenge1Complete":
             if 'adventure_id' not in self.request.data:
                 raise Http404("Adventure not selected")
+            else:
+                adventure_id = self.request.data["adventure_id"]
             if 'goal_date' not in self.request.data:
                 raise Http404("Goal date not selected")
 
             super().perform_update(serializer)
             project_user_record.challenge_status = "Challenge2Complete"
             project_user_record.save()
+            create_adventure_record(project_user_record.id, adventure_id)
+
+
+def create_adventure_record(project_user_id, adventure_id):
+    if adventure_id == 1:
+        spread_word = SpreadWord.objects.create(project_user_id=project_user_id)
+        spread_word.save()
+    elif adventure_id == 2:
+        learn_new_skill = LearnNewSkill.objects.create(project_user_id=project_user_id)
+        learn_new_skill.save()
+    elif adventure_id == 3:
+        develop_new_habit = DevelopNewHabit.objects.create(project_user_id=project_user_id)
+        develop_new_habit.save()
+    elif adventure_id == 4:
+        volunteer_time = VolunteerTime.objects.create(project_user_id=project_user_id)
+        volunteer_time.save()
+    elif adventure_id == 5:
+        give_donation = GiveDonation.objects.create(project_user_id=project_user_id)
+        give_donation.save()
+    elif adventure_id == 6:
+        fundraiser = Fundraise.objects.create(project_user_id=project_user_id)
+        fundraiser.save()
 
 
 def all_project_list(request):
@@ -200,7 +229,6 @@ class ProjectInvitationsListView(UserInvitationListMixin, ListAPIView):
         :return: UserInvitationNested serialized data
         """
         return self.queryset.filter(user=self.request.user, status__icontains="Pending")
-
 
 
 def update_project_challenge_status_explore(request):
@@ -390,7 +418,8 @@ def create_volunteer_adventure(request, user_id, project_id):
     if project_user_record:
         project_user_record.challenge_status = "Challenge3Complete"
         project_user_record.save()
-    volunteer_time_update_data = {"project_user": project_user_id, "organisation_name": request.data["organisation_name"],
+    volunteer_time_update_data = {"project_user": project_user_id,
+                                  "organisation_name": request.data["organisation_name"],
                                   "organisation_address": request.data["organisation_address"],
                                   "organisation_city": request.data["organisation_city"],
                                   "organisation_state": request.data["organisation_state"],
@@ -402,7 +431,7 @@ def create_volunteer_adventure(request, user_id, project_id):
     if volunteer_serializer.is_valid():
         volunteer_serializer.save()
         return Response(volunteer_serializer.data, status=status.HTTP_201_CREATED)
-    #return Response(volunteer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # return Response(volunteer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST', 'GET'])
@@ -656,7 +685,8 @@ def update_donation_details(request):
         0]  # ideally only one entry should be there
     project_user_id = project_user_record.id
     donation_record = GiveDonation.objects.get(project_user_id=project_user_id)
-    give_donation_update_data = {"project_user": project_user_id, "organisation_name": request.data["organisation_name"],
+    give_donation_update_data = {"project_user": project_user_id,
+                                 "organisation_name": request.data["organisation_name"],
                                  "organisation_address": request.data["organisation_address"],
                                  "organisation_city": request.data["organisation_city"],
                                  "organisation_state": request.data["organisation_state"],
@@ -1122,5 +1152,3 @@ class ChallengeFundraiserDetailsView(QueryByProjectUserMixin, RetrieveAPIView, U
         if 'action_type' in self.request.data:
             if 'Done' in self.request.data['action_type']:
                 self.set_project_user_record_status("Challenge3Complete")
-
-
