@@ -16,23 +16,14 @@ class ActiveProjectChallenge2 extends React.Component {
 
     onSubmit()
     {
-        const projectId = this.props.match.params.id;
-        let formData = new FormData();
-        try {
-            formData.append('project_id', projectId);
-            formData.append('goal_date', this.state.goalDate);
-            formData.append('adventure_id', this.state.optionValue);
-        } catch (err) {
-            console.log(err)
-        }
-        AxiosConfig.put('charityproject/update/Challenge/', formData,
-                {
-                        headers: {
-                            'content-type': 'multipart/form-data'
-                        }
-                    })
-                .then(res => console.log(res))
-                .catch(error => console.log(error))
+  
+        AxiosConfig.put(`charityproject/update/Challenge/`, {
+            "project_id" : this.props.match.params.id ,
+            "goal_date" :  this.formatDate(this.state.goalDate),
+            "adventure_id" :   this.state.optionValue       
+        })
+        .then(this.props.history.push(`/Projects/${this.props.match.params.id}/SpreadTheWord`))
+        .catch(error => console.log(error))
 
     }
 
