@@ -77,6 +77,17 @@ defaultIfEmpty(value){
         });
     };
 
+    componentDidMount () {
+        AxiosConfig.get(`charityproject/volunteer_time/`,{params: {project_id: this.state.projectId, user_email:this.state.userEmail}})
+      .then(res => {
+              this.setState({
+                  name : res.data.organisation_name,
+                  description : res.data.description
+
+              });
+      }).catch(error => console.log(error))
+    }
+
     render() {
       return(
                   <div>
