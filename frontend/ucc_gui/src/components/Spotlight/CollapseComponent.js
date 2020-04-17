@@ -30,13 +30,13 @@ class CollapseComponent extends React.Component {
 
   fetchCompletedProjectList (obj) {
     const user_email = this.state.user_email;
-    AxiosConfig.get(`charityproject/completedProjects/${user_email}`)
+    AxiosConfig.get('charityproject/completed_project_list/')
     .then(function(response) {obj.setCompletedProjectList(response);})
     .catch(function(error) {console.log(error);});
  }
 
   setCompletedProjectList (response) {
-        let completed_projects = response.data['completed_projects'];      
+        let completed_projects = response.data;
         this.setState(prevState => ({
           completed_projects : completed_projects
       }));
@@ -119,7 +119,7 @@ class CollapseComponent extends React.Component {
               this.state.completed_projects          
               .map((elem, index) => (
                   <Col>
-                    <ProjectCard className="completedproject" imageSrc={elem.project_details.badge} imageId={elem.project_details.project_id} onClick={this.projectSelectedHandler.bind(this)} />
+                    <ProjectCard className="completedproject" imageSrc={elem.project.badge} imageId={elem.project.id} onClick={this.projectSelectedHandler.bind(this)} />
                     {/* <ProjectCard imageSrc={elem.project_details.badge} imageId={elem.project_details.project_id} onClick={this.projectSelectedHandler.bind(this)} /> */}
                   </Col>                  
               )) ):(<span>No Completed Projects available</span>) }                                                    
@@ -136,7 +136,7 @@ class CollapseComponent extends React.Component {
               this.state.completed_projects                    
               .map((elem, index) => (
                     <Col>
-                      <Image className="completedproject" key = {index} src={elem.project_details.prize} rounded />
+                      <Image className="completedproject" key = {index} src={elem.prize_image} rounded />
                     </Col>                  
                 )) ):(<span>No Treasure Trove available</span>) }                                        
           </Row>        
