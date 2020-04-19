@@ -1,6 +1,6 @@
 from .views import all_project_list, update_user_invitation,\
     get_friend_list, search_friends, unregistered_invitation,\
-    join_project_invitation, spread_the_word,\
+    spread_the_word,\
     spotlight_stats, unlock_prize
 
 from django.urls import path
@@ -30,7 +30,6 @@ urlpatterns = [
 
     # Invitations
     path('project_invitation/', views.ProjectInvitationsView.as_view()),
-    path('joinProject', join_project_invitation),  # step-0
     path('userInvitation', update_user_invitation),  # friends
     path('project_invitation/', views.ProjectInvitationsListView.as_view()),
 

@@ -30,14 +30,13 @@ class ProjectInvitation extends React.Component {
         const projectId = this.props.match.params.id;
         const inviterEmail = this.props.match.params.inviterEmail;
         const invitedEmail = this.state.userEmail;
-               
-        AxiosConfig.get(`/charityproject/joinProject`, {            
-            params: { 
-                project_id : projectId,
-                user_email : invitedEmail,
-                inviter_user_email : inviterEmail
-            }                                
-        })
+
+        let formData = new FormData();
+        formData.append('project_id', projectId);
+        formData.append('inviter_user_email', inviterEmail);
+        formData.append('create_type', "invite");
+
+        AxiosConfig.post(`/charityproject/start/`, formData)
         .then(res => { 
             // saving the res message to show later
             this.setState({     
