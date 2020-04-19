@@ -74,3 +74,27 @@ class ProjectInterest(models.Model):
 
     def __str__(self):
         return '{} {} {}'.format(self.name,  self.tags, self.feature)
+
+    def get_name(self):
+        return self.name
+
+    def get_tags(self):
+        return self.tags
+
+    def get_feature(self):
+        return self.feature
+
+
+class UserProjectInterest(models.Model):
+    objects = None
+    user = models.ManyToManyField(User)
+    project_interest = models.ManyToManyField(ProjectInterest)
+
+    def __str__(self):
+        return '{} {}'.format(self.user,  self.project_interest)
+
+    def get_user(self):
+        return self.user
+
+    def get_project_interest(self):
+        return self.project_interest
