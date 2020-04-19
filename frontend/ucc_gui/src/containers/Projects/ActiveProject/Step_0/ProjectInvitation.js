@@ -180,69 +180,6 @@ class ProjectInvitation extends React.Component {
         </div>
     </div>
 
-
-
-
-
-        // --------------------------------------------------
-
-            // <div style={{margin:"25px"}}> 
-                
-            //     {/* Add project banner here */}
-            //     <div className="banner_common banner_inside">
-            //         <ProjectBanner image={this.state.projectBanner}  />
-            //         <br/>
-            //     </div>
-
-            //     <div className="content_project_info_vertical">
-            //         <ProjectInfo vertical={true} id={this.props.match.params.id} />
-            //     </div>
-
-            //     <div className = "content_section">
-            //         <h2 className="textHeader">PROJECT INVITATION</h2>
-
-            //         <div className = "insideContent">                    
-            //             <h4>DEAR {this.state.userName.toUpperCase()},</h4>
-            //             <p>
-            //                 {this.state.invitationMessage}
-            //             </p>
-
-            //             <div>
-            //                 <Player
-            //                     playsInline                      
-            //                     src={this.state.video}
-            //                 />    
-            //             </div>
-            //         </div>
-
-            //         <br/>
-                    
-            //         <ProjectInfo id = {this.props.match.params.id} />
-
-            //         <div>
-            //             <h2 className="textHeader">Project Mission</h2>
-            //             <p className = "insideContent">
-            //                 {this.state.projectMission}
-            //             </p>
-            //         </div>
-
-            //         <div>
-            //             <h2 className="textHeader">Project Goal</h2>
-            //             <p className = "insideContent">
-            //                 {this.state.projectGoal}
-            //             </p>
-            //         </div>
-
-            //         <br/>
-
-            //             <Button className = "startButton" onClick={this.buttonHandler.bind(this)} variant="success" size="lg">
-            //                 JOIN PROJECT
-            //             </Button>
-            //             <div style={{width:"100%"}}>
-            //                 {/* {this.showAlertMsg}  */}
-            //             </div>
-            //         </div>                    
-            // </div>
         )
     }
 }
