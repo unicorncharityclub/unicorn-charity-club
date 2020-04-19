@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import Settings from "./Desktop/Settings";
 import MobileLogo from "../../../image/Logo-mobile.png";
+import Logo from "../../../image/Logo_Round_080719.png";
 import DesktopLogo from "../../../site_media/Logo_Horizontal_No_Tagline.png";
 import MobileMenuIcon from "../../../site_media/Images/mobile_menu_icon.png";
 import Toolbar from "./Desktop/Toolbar";
@@ -53,10 +54,16 @@ class Header extends React.Component {
           </div>
           <div className="header__logo main">
             <a href="/">
-              <img
+              {/* <img
                 src={DesktopLogo}
                 className="header__logo-desktop"
                 alt="Unicorn Charity Club"
+              /> */}
+
+              <img
+                src={Logo}
+                className="header__logo-mobile1"
+                alt="Unicorn Charity Club Logo"
               />
               <img
                 src={MobileLogo}
