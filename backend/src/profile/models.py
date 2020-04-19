@@ -7,6 +7,25 @@ from django.dispatch import receiver
 from accounts.models import User
 
 
+class ProjectInterest(models.Model):
+    objects = None
+    name = models.CharField(max_length=255)
+    tags = models.CharField(max_length=255, blank=True)
+    feature = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return '{} {} {}'.format(self.name,  self.tags, self.feature)
+
+    def get_name(self):
+        return self.name
+
+    def get_tags(self):
+        return self.tags
+
+    def get_feature(self):
+        return self.feature
+
+
 class Profile(models.Model):
     objects = None
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,)
@@ -21,6 +40,7 @@ class Profile(models.Model):
     dream = models.TextField(blank=True)
     super_powers = models.TextField(blank=True)
     support = models.CharField(max_length=255, blank=True)
+    project_interest = models.ManyToManyField(ProjectInterest)
 
     def __str__(self):
         return '{} {} {}'.format(self.address,  self.mobile, self.profile_pic)
@@ -64,37 +84,3 @@ class ChildProfile(models.Model):
 
     def get_school_grade(self):
         return self.school_grade
-
-
-class ProjectInterest(models.Model):
-    objects = None
-    name = models.CharField(max_length=255)
-    tags = models.CharField(max_length=255, blank=True)
-    feature = models.CharField(max_length=255, blank=True)
-
-    def __str__(self):
-        return '{} {} {}'.format(self.name,  self.tags, self.feature)
-
-    def get_name(self):
-        return self.name
-
-    def get_tags(self):
-        return self.tags
-
-    def get_feature(self):
-        return self.feature
-
-
-class UserProjectInterest(models.Model):
-    objects = None
-    user = models.ManyToManyField(User)
-    project_interest = models.ManyToManyField(ProjectInterest)
-
-    def __str__(self):
-        return '{} {}'.format(self.user,  self.project_interest)
-
-    def get_user(self):
-        return self.user
-
-    def get_project_interest(self):
-        return self.project_interest
