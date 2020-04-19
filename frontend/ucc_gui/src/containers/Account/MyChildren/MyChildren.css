@@ -197,6 +197,10 @@ textarea:focus {
   -webkit-box-shadow: 0 0 3px #8ddef4 !important;
 }
 
+.blessing-info {
+  padding-bottom: 2%;
+}
+
 .blessing-info textarea {
   display: block;
   width: 95%;
@@ -249,6 +253,16 @@ textarea:focus {
 	 display: inline-block;
 	 margin-right: 30px;
      margin-left: 20px;
+}
+
+.radio-inline {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.radio__label {
+  padding-left: 25%;
+  padding-top: 5%;  
 }
  .radio__container .radio {
 	 display: inline;

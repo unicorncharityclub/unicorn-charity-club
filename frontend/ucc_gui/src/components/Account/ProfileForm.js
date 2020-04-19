@@ -4,6 +4,7 @@ import "../../containers/Account/Info/Account.css";
 import "../../containers/Account/MyChildren/MyChildren.css";
 import ArrowBackward from "./../../image/arrow-backward.png";
 import UploadPhoto from "./../../image/Default-profile-picture.png";
+import { Container } from "@material-ui/core";
 
 class ProfileForm extends React.Component {
 
@@ -21,7 +22,7 @@ class ProfileForm extends React.Component {
     ];
 
     return (
-      <div style={{ display: "block" }}>
+      <div style={{ display: "block" }}>        
         <div className="header__wrapper">
           <div className="header__logo">
             <NavLink to={"/"}>
@@ -41,6 +42,7 @@ class ProfileForm extends React.Component {
             </div>
           </div>
         </div>
+        <Container>
         <form id="child-form" onSubmit={this.props.onSaveClicked.bind(this)}>
           <div className="form-wrapper">
             <div className="blessing-form">
@@ -189,7 +191,8 @@ class ProfileForm extends React.Component {
                     <option value="Grade 6">Grade 6</option>
                   </select>
                 </div>
-              </div>
+                
+              </div>              
             ) : (
               ""
             )}
@@ -249,6 +252,7 @@ class ProfileForm extends React.Component {
           */}
           </div>
         </form>
+        </Container>
       </div>
     );
   }
