@@ -8,7 +8,7 @@ from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView,
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, UserInvitation, UnregisterInvitation, \
-    SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit, VolunteerTime, Fundraise
+    SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit, VolunteerTime, Fundraise, Posts
 from prize.models import Prize
 
 from django.http import JsonResponse, Http404
@@ -846,6 +846,69 @@ def check_existing_project(email, project_id):
         return True
     else:
         return False
+
+
+def user_feed(request):
+    response = {'status': "Invalid Request"}
+    user_email_id = request.GET["user_email"]
+    user = User.objects.get(email=user_email_id).id
+    user_id = user.id
+    user_actions = Posts.object.filter(user_id=user_id)
+    feed_list = []
+    adventure_map = {1: "Spread Word", 2: "Learn New Skill", 3: "Develop New Habit", 4: "Volunteer Time",
+                     5: "Give Donation", 6: "Fundraiser"}
+    if len(user_actions) > 0:
+        for record in user_actions:
+            action_type = record.action_type
+            project_id = record.project_id
+            project = CharityProjects.objects.get(pk=project_id)
+            if action_type == "Started_Project":
+                project_details = {"project_name": project.name, "project_banner": project.banner, "time": record.date,
+                                   "action": "Started_Project"}
+                feed_list.append(project_details)
+            elif action_type == "Completed_Project":
+                project_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=user_id)
+                pu_id = project_user_record.id
+                adventure_id = project_user_record.adventure_id
+                adventure_video = find_adventure_record(request, adventure_id, pu_id)
+                project_details = {"project_name": project.name, "adventure_experience": adventure_video,
+                                   "time": record.date, "action": "Completed_Project"}
+                feed_list.append(project_details)
+            elif action_type == "Goal_Set":
+                project_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=user_id)
+                adventure_id = project_user_record.adventure_id
+                goal_date = project_user_record.goal_date
+                adventure_name = adventure_map[adventure_id]
+                project_details = {"project_name": project.name, "goal_name": adventure_name, "goal_date": goal_date,
+                                   "time": record.date, "action": "Goal_Set"}
+                feed_list.append(project_details)
+
+        feed_list.sort(key=lambda k: k['time'])
+    response["feed_list"] = feed_list
+    response["Status"] = "Success"
+    return JsonResponse(response)
+
+
+def find_adventure_record(request, adventure_id, project_user_id):
+    if adventure_id == 1:
+        spread_word = SpreadWord.objects.filter(project_user_id=project_user_id)
+        project_user_details = ProjectUserDetails.objects.filter(project_user_id=project_user_id)
+        return request.build_absolute_uri(project_user_details.video.url)
+    elif adventure_id == 2:
+        learn_new_skill = LearnNewSkill.objects.filter(project_user_id=project_user_id)
+        return request.build_absolute_uri(learn_new_skill.exp_video.url)
+    elif adventure_id == 3:
+        develop_new_habit = DevelopNewHabit.objects.filter(project_user_id=project_user_id)
+        return request.build_absolute_uri(develop_new_habit.video.url)
+    elif adventure_id == 4:
+        volunteer_time = VolunteerTime.objects.filter(project_user_id=project_user_id)
+        return request.build_absolute_uri(volunteer_time.exp_video.url)
+    elif adventure_id == 5:
+        give_donation = GiveDonation.objects.filter(project_user_id=project_user_id)
+        return request.build_absolute_uri(give_donation.exp_video.url)
+    elif adventure_id == 6:
+        fundraiser = Fundraise.objects.filter(project_user_id=project_user_id)
+        return request.build_absolute_uri(fundraiser.exp_video.url)
 
 
 @api_view(['GET'])
