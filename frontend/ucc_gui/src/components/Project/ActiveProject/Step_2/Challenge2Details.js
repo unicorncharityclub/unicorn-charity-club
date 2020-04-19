@@ -115,10 +115,10 @@ class ProjectContent extends React.Component {
                                 <DatePicker selected = {this.props.goalDate} onChange={this.props.handleDateChange}/>
                             </div>
                                 <br/>
-                            <div>
-                                <TwoButtonLayout button1Text="SAVE" button2Text="NEXT" button2Click={this.props.onSubmit}/>
-                            </div>
-                                </div>
+                                <br/>   
+                            <TwoButtonLayout button1Text="SAVE" button2Text="NEXT" button2Click={this.props.onSubmit}/>
+                            
+                        </div>
                     </div>  
                 </form>                      
                                                
