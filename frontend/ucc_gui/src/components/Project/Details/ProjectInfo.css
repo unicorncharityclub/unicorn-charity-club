@@ -1,7 +1,6 @@
 .start_project_info_main_div{
     border-radius: 10px;
     border: 1px solid;
-    margin-right:10px;
     height:100%
 }
 
@@ -50,7 +49,6 @@
     .start_project_info_container
     {
         display:flex;
-        margin:2px;
         height:100%;
     }
 }

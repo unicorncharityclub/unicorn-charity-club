@@ -29,6 +29,7 @@ import FundraiseSummary from "./FundraiseSummary";
 class ProjectCompleteComponent extends React.Component {
 
     render() {
+
         return (
             <div className="form-wrapper">
                 <div className="mobile-content">

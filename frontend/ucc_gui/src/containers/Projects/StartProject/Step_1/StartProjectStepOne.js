@@ -78,36 +78,52 @@ class StartProjectStepOne extends React.Component {
 
     render() {
       return(
-            <div style={{margin:"10px", marginBottom:"150px"}}>
-                <div className="header_step_banner_common">
-                    <div className="stepper_common">
-                    <ProgressStepper currentStep="1" />
-                    </div>
-                    <div className="banner_common">
-                    <ProjectBanner image={this.state.projectBanner}  />
-                    </div>
-                    </div>
-                <div className="content_project_info_vertical">
-                    <ProjectInfo vertical={true} id={this.props.match.params.id} />
+            <div className="header_main">
+                <div className="header_step_banner_main">
+
+                    <div className="banner_main">
+                        <div className="banner_main_content">
+                            <ProjectBanner image={this.state.projectBanner}  />
+                        </div>
                     </div>
 
-                <div className="content_section">
-                    <div className="content_project_info">
+
+                    <div className="stepper_main">
+                        <div className="stepper_main_content">
+                            <ProgressStepper currentStep="1" />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="page_info_hr_content_main">
                     <ProjectInfo id={this.props.match.params.id} />
+                </div>
+
+
+                <div className="page_main">
+                    <div className="page_info_vr_content_main">
+                        <ProjectInfo vertical={true} id={this.props.match.params.id} />
                     </div>
 
-                <ProjectContent videoHandler={this.videoHandler.bind(this)}
+                    <div className="page_details_main">
+                        <div className="page_details_content_main">
+                            <ProjectContent videoHandler={this.videoHandler.bind(this)}
                                 video={this.state.video}/> <br/>
 
-                    <div>
+                        <div>
                        <TwoButtonLayout button1Text="SAVE" button2Text="NEXT" button2Click={this.moveToStepTwoHandler.bind(this)}/>
                        </div>
+
+
                     <div style={{width:"100%"}}>
                         <AlertMessage alertMessage={this.state.errorMessage} />
                     </div>
+                        </div>
+                    </div>
+
 
                 </div>
-            </div>
+                </div>
         )
     }
   }

@@ -14,8 +14,8 @@
 @media only screen and (max-width: 40em) {
   .header {
     background: #e7088a;
-    height: 70px;
-    overflow: hidden;
+    height: 50px;
+    display: none;
   }
 }
 

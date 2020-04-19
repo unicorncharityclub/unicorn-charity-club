@@ -51,23 +51,26 @@ class ProjectDetails extends React.Component {
 
     render() {
       return(
-            <div>  
-              <Container>                                        
+            <div className="header_main">
                   {/* {console.log(this.props)} */}
-                  <div className="header_step_banner_common">
-                    <div className="banner_common">
-                    <ProjectBanner image={this.state.projectBanner}  />
+                  <div className="header_banner_main">
+                    <div className="only_banner_main">
+                        <ProjectBanner image={this.state.projectBanner}  />
                     </div>
+                  </div>
+
+                    <div className="page_info_hr_content_main">
+                            <ProjectInfo id={this.props.match.params.id} />
                     </div>
-                  <div className="content_project_info_vertical">
-                    <ProjectInfo vertical={true} id={this.props.match.params.id} />
+
+                <div className="page_main">
+                    <div className="page_info_vr_content_main">
+                          <ProjectInfo vertical={true} id={this.props.match.params.id} />
                     </div>
-                  <div className="content_section">
-                    <div className="content_project_info">
-                    <ProjectInfo id={this.props.match.params.id} />
-                    </div>
-                    <br/>
-                    <Button onClick={this.onSubmit.bind(this)} className = "startButton" variant="success" size="lg">
+
+                    <div className="page_details_main">
+                        <div className="page_details_content_main">
+                        <Button onClick={this.onSubmit.bind(this)} className = "startButton" variant="success" size="lg">
                         START PROJECT
                     </Button>
                   <br/>
@@ -76,17 +79,17 @@ class ProjectDetails extends React.Component {
                   <div className="projectNameFormat">
                     <h2 className="textHeader">{this.state.projectName}</h2>
                   </div>
-                  
+
                   <div>
                     <h2 className="textHeader">Mission</h2>
                     <p className = "insideContent">{ this.state.projectMission }</p>
                   </div>
 
                   <div>
-                    <h2 className="textHeader">Project Video</h2>                    
+                    <h2 className="textHeader">Project Video</h2>
                     <p className = "insideContent">Project Name : { this.state.projectVideoName }</p>
                     <Player
-                      playsInline                      
+                      playsInline
                       src={this.state.projectVideo}
                     />
                   </div>
@@ -97,9 +100,9 @@ class ProjectDetails extends React.Component {
                       <span className = "explore">Explore More</span>
                     </h5>
                   </a>
+                    </div>
+                    </div>
                   </div>
-
-                </ Container>
             </div>
         )
     }
