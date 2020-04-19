@@ -34,18 +34,12 @@ class ActiveProjectChallenge1 extends React.Component {
       }).catch(error => console.log(error))
     }
 
-    buttonHandler() {
-        // on button click action
-
-        // put req on done button click
+    buttonHandler() {     
         AxiosConfig.put(`charityproject/update/Challenge/`, {
             "project_id" : this.props.match.params.id           
         })
         .then(this.props.history.push(`/Projects/${this.props.match.params.id}/ActiveProjectChallenge2`))
         .catch(error => console.log(error))
-
-
-        // window.open('/Projects/' +this.props.match.params.id + '/ActiveProjectChallenge2/',"_self");
     }
 
     render() {
@@ -104,7 +98,11 @@ class ActiveProjectChallenge1 extends React.Component {
                                     <span>Explore More</span>
                                 </h5>     
                                 </a>                                
-                            </div>                        
+                            </div> 
+
+                            <div className="buttonDiv"> 
+                                <Button className = "doneButton" variant="light" size="lg" onClick = {this.buttonHandler.bind(this)}>NEXT</Button>                                           
+                            </div>
                     </div>
                 </div>
             </div>
