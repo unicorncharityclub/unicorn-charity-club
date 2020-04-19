@@ -157,6 +157,11 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
             project_user_record.save()
             create_adventure_record(project_user_record.id, adventure_id)
 
+        elif challenge_status == 'Challenge3Complete':
+            super().perform_update(serializer)
+            project_user_record.challenge_status = "UnlockedPrize"
+            project_user_record.save()
+
 
 def create_adventure_record(project_user_id, adventure_id):
     """
@@ -1024,14 +1029,17 @@ class QueryByProjectUserMixin(object):
 
 
 class ChallengeLearNewSkillView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    """
+    This is the views for adventure Learn new skill. Updates and gets the adventure details
+    """
     model = LearnNewSkill
     serializer_class = LearnNewSkillSerializer
     queryset = LearnNewSkill.objects.all()
 
     def perform_update(self, serializer):
         """
+        The method updates project challenge status based on action_type.
         :param serializer:
-        The method after updating the LearnNewSkill, based on action_type, project challenge status will be updated.
         """
         super().perform_update(serializer)
         if 'action_type' in self.request.data:
@@ -1091,14 +1099,17 @@ class ChallengeVolunteerTimeDetailsView(QueryByProjectUserMixin, RetrieveAPIView
 
 
 class ChallengeDevelopNewHabitDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    """
+    This is the views for adventure Develop new habit. Updates and gets the adventure details
+    """
     model = DevelopNewHabit
     serializer_class = DevelopNewHabitSerializer
     queryset = DevelopNewHabit.objects.all()
 
     def perform_update(self, serializer):
         """
+        The method updates project challenge status based on action_type.
         :param serializer:
-        The method after updating the DevelopNewHabit, based on action_type, project challenge status will be updated.
         """
         super().perform_update(serializer)
         if 'action_type' in self.request.data:
@@ -1142,3 +1153,6 @@ class ChallengeFundraiserDetailsView(QueryByProjectUserMixin, RetrieveAPIView, U
         if 'action_type' in self.request.data:
             if 'Done' in self.request.data['action_type']:
                 self.set_project_user_record_status("Challenge3Complete")
+
+
+
