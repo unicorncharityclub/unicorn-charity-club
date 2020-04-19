@@ -1,8 +1,8 @@
 .two_button_div{
     width:70%;
-    margin-left: 43%;
-    /* margin-bottom: 10px; */
-    align-items: center;    
+    margin-left: 30%;
+    margin-bottom: 10px;
+    text-align: center;    
     justify-content: center;
 }
 
