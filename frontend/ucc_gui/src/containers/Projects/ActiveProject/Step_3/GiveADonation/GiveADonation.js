@@ -4,6 +4,17 @@ import {Container} from "@material-ui/core";
 import cookie from "react-cookies";
 import AxiosConfig from "../../../../../axiosConfig";
 
+/**
+ * @summary: Stores and retrieves the information from the challenge 3 - give a donation page
+ * @description: Contains the methods to store the information with a put and get call for the data entry
+ * @class: GiveADonation
+ * @extends: React.component
+ * @see: {GiveDonationDetails}
+ * @params: description, video, finalVideo, name, address, city, stateName, website
+ * @fires: get charityproject/give_donation/ and put charityproject/give_donation/
+ * @returns: {GiveADonation}
+ */
+
 class GiveADonation extends React.Component {
     constructor(props) {
     super(props);
@@ -65,6 +76,21 @@ defaultIfEmpty(value){
             finalVideo: event.target.files[0]
         });
     };
+
+    componentDidMount () {
+        AxiosConfig.get(`charityproject/give_donation/`,{params: {project_id: this.state.projectId, user_email:this.state.userEmail}})
+      .then(res => {
+              this.setState({
+                  name : res.data.organisation_name,
+                  address : res.data.organisation_address,
+                  city : res.data.organisation_city,
+                  website : res.data.website,
+                  stateName : res.data.organisation_state,
+                  description : res.data.details,
+                  finalVideo :res.data.exp_video
+              });
+      }).catch(error => console.log(error))
+    }
 
     render() {
       return(

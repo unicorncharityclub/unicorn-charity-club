@@ -12,7 +12,18 @@ import Video from "../../../../General/Video/Video"
 import TwoButtonLayout from "../../../../General/TwoButtonLayout";
 import TextBlackSubHeading from "../../../../General/Text/TextBlackSubHeading";
 
-class VolunteerTimeDetails extends React.Component {
+/**
+ * @summary: Creates the UI of the give a donation page
+ * @description: Creates the fields and styling for the challenge 3 give a donation page
+ * @class: GiveDonationDetails
+ * @extends: React.component
+ * @see: {VolunteerTime.css}
+ * @param: projectId, projectName, projectBanner, projectBadge, projectJoinDate, projectChallengeStatus
+ * @returns: {GiveDonationDetails}
+ */
+
+
+class GiveDonationDetails extends React.Component {
     constructor(props) {
     super(props);
     this.state = {
@@ -98,4 +109,4 @@ class VolunteerTimeDetails extends React.Component {
 }
 
 
-export default VolunteerTimeDetails;
+export default GiveDonationDetails;

@@ -5,6 +5,17 @@ import {Container} from "@material-ui/core";
 import cookie from "react-cookies";
 import AxiosConfig from "../../../../axiosConfig";
 
+/**
+ * @summary: Stores the information from the challenge 2 selection of task page
+ * @description: Contains the methods to store the information with a put call to update the challenge
+ * @class: ActiveProjectChallenge2
+ * @extends: React.component
+ * @see: {Challenge2Details}
+ * @params: goal_date, adventure_id
+ * @fires: put charityproject/update/Challenge/
+ * @returns: {ActiveProjectChallenge2}
+ */
+
 class ActiveProjectChallenge2 extends React.Component {
     constructor(props) {
         super(props);
@@ -13,10 +24,8 @@ class ActiveProjectChallenge2 extends React.Component {
             goalDate: new Date(),
         }
      }
-
     onSubmit()
     {
-  
         AxiosConfig.put(`charityproject/update/Challenge/`, {
             "project_id" : this.props.match.params.id ,
             "goal_date" :  this.formatDate(this.state.goalDate),
