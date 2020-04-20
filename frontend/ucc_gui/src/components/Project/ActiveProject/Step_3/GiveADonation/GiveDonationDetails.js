@@ -110,6 +110,42 @@ class GiveDonationDetails extends React.Component {
                         </div>
                     </div>
                 </div>
+<<<<<<< HEAD
+                <TextBlueHeading message="Challenge 3: Adventure"/>
+                      <br/>
+                      <br/>
+                        <TextBlackSubHeading message = "GIVE A DONATION"/>
+                        <br/>
+                        <TextBlackSubHeading message = "Give a donation to a local organization that supports the mission of the project."/>
+                        <div className="project-form-inner">
+                            <Address
+                                changeHandler = {this.props.changeHandler}/>
+
+                            <TextBlackSubHeading message = "3. Describe what you donated."/><br/>
+                              <TextArea name="description" rows={3} cols={80}
+                                     value={this.props.defaultIfEmpty(this.props.description)}
+                                     handleChange={this.props.changeHandler.bind(this)} /><br/>
+
+                                     <TextBlackSubHeading message="3. Share a video or photo that celebrates your volunteer experience."/>
+                          </div>
+                    <br/>
+                    <Video src={this.props.video}
+                        id="file" style={{display: 'none'}}
+                           type="file"
+                           name="video"
+                           accept="video/*"
+                           onChange={this.props.videoHandler.bind(this)}/>
+                           <div> <br/>
+                    <TwoButtonLayout button1Text="SAVE" button2Text="COMPLETE PROJECT"
+                           button1Click={(event) => this.props.onSubmit(event, 'Save')}
+                                     button2Click={(event) => this.props.onSubmit(event, 'Done')}/>
+                           </div>
+
+                  </div>
+                </form>
+            </div>
+=======
+>>>>>>> sprint6
             </div>
 
 // --------------------------------------------------------------------------------------------
