@@ -58,6 +58,7 @@ class ProfileDetailView(APIView):
 
     @method_decorator(csrf_protect)
     def put(self, request):
+        print(request.data)
         try:
             # Updating user account details
             user = request.user

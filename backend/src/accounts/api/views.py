@@ -87,6 +87,7 @@ class UserLoginView(ChildrenListMixin, APIView):
 class AddChildView(UserRegisterMixin, APIView):
     def post(self, request, *args, **kwargs):
         try:
+
             parent_user = request.user
             parent_user_id = parent_user.id
             child_name = request.data['first_name']
@@ -102,11 +103,13 @@ class AddChildView(UserRegisterMixin, APIView):
 
             child_user_id = User.objects.get(email=child_user_email).id
             # Updating user profile details
-            profile = Profile.objects.get(id=child_user_id)
+            profile = Profile.objects.get(user_id=child_user_id)
+            print(profile)
             profile_serializer = ProfileSerializer(profile, data=request.data)
             if profile_serializer.is_valid():
                 profile_serializer.save()
-
+            else:
+                print(profile_serializer.error_messages)
             # Creating child profile
             data = {"user": child_user_id, "parent": parent_user_id,
                     "school": request.data["school"], "school_grade": request.data["school_grade"]}
