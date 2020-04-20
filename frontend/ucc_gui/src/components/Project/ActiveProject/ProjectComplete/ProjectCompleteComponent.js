@@ -116,7 +116,7 @@ class ProjectCompleteComponent extends React.Component {
                             }
                             <div className="navigate-done">
                                 <Button className="done" id="done" variant="contained" type="submit"
-                                        onClick={(event) => this.props.saveHandler(event, 'post')}>DONE</Button>
+                                        onClick={(event) => this.props.saveHandler(event)}>DONE</Button>
                             </div>
                         </div>
                     </div>

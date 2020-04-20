@@ -14,10 +14,15 @@
 @media only screen and (max-width: 40em) {
   .header {
     background: #e7088a;
-    height: 50px;
+    height: 70px;
+    /* display: none; */
+  }
+
+  .setting-icon {
     display: none;
   }
 }
+
 
 /* header logo main */
 .header__logo {
@@ -395,6 +400,8 @@
   display: block;
   cursor: pointer;
 }
+
+
 
 /* in toolbar.css file
  .child-select__profile {

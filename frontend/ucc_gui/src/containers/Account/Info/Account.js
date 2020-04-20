@@ -5,6 +5,7 @@ import AxiosConfig from '../../../axiosConfig'
 /** @import CSS styles */
 import "./Account.css";
 import ProfileForm from "../../../components/Account/ProfileForm";
+import { Container } from "@material-ui/core";
 
 /**
  * @description Creates the My Account page for the user
@@ -125,8 +126,7 @@ class Account extends React.Component {
 
   render() {
     return (
-            <div style={{ display: "block" }}>
-
+            <div style={{ display: "block" }}>                
                 <ProfileForm
                      email={this.state.email}
                      firstName={this.state.firstName}
@@ -147,7 +147,7 @@ class Account extends React.Component {
                      onSaveClicked={this.onSaveClicked.bind(this)}
                      onCheckboxDataChange={this.onCheckboxDataChange.bind(this)}
                      />
-              {/* form ends here */}
+              {/* form ends here */}                
             </div>
     );
   }

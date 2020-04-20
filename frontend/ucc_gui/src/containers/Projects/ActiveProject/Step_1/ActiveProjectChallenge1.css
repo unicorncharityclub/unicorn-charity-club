@@ -1,26 +1,58 @@
-.inside-content {
-    float: left;
-    width : 100%;
-}
-
-
-@media screen and (max-width: 640px) {
-
-    .insideContent {
-        padding-right: 10px;
-        padding-left: 0px;
+@media screen and (max-width: 640px){
+    .page_details_main {
+        margin-bottom: 30px;
     }
-
 }
 
 
-@media screen and (max-width: 480px) {
+.doneButton {
+    width : 200px;
+    color: #2BB9B7;
+}
 
-    .insideContent {
-        padding-right: 10px;
-        padding-left: 0px;
+.btn-light:hover {
+    color: #212529;
+    background-color: rgb(13, 209, 206);
+    border-color: #dae0e5;
+}
+
+
+.btn-light {
+    color: white;
+    background-color: #2BB9B7;
+    border-color: #dae0e5;
+}
+
+
+.buttonDiv{
+    padding-top: 3%;
+    float: right;
+    /* padding-left: 20%; */
+}
+
+
+@media screen and (max-device-width: 40em){
+    .doneButton {
+        width : 200px;
+        color: #2BB9B7;
     }
-
-
+    
+    .btn-light:hover {
+        color: #212529;
+        background-color: rgb(13, 209, 206);
+        border-color: #dae0e5;
+    }
+    
+    
+    .btn-light {
+        color: white;
+        background-color: #2BB9B7;
+        border-color: #dae0e5;
+    }
+    
+    .buttonDiv{
+        padding-top: 3%;
+        /* float: right; */
+        padding-right: 20%;
+    }
 }
-

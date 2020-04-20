@@ -14,6 +14,17 @@ import Video from "../../../../General/Video/Video"
 import TwoButtonLayout from "../../../../General/TwoButtonLayout";
 import TextBlackSubHeading from "../../../../General/Text/TextBlackSubHeading";
 
+
+/**
+ * @summary: Creates the UI of the fundraiser page
+ * @description: Creates the fields and styling for the challenge 3 fundraise page
+ * @class: FundraiserDetails
+ * @extends: React.component
+ * @see: {VolunteerTime.css}
+ * @param: projectId, projectName, projectBanner, projectBadge, projectJoinDate, projectChallengeStatus
+ * @returns: {FundraiserDetails}
+ */
+
 class FundraiserDetails extends React.Component {
     constructor(props) {
     super(props);

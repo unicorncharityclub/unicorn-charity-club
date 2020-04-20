@@ -3,8 +3,18 @@ import FundraiserDetails from "../../../../../components/Project/ActiveProject/S
 import {Container} from "@material-ui/core";
 import cookie from "react-cookies";
 import AxiosConfig from "../../../../../axiosConfig";
-import VolunteerTimeDetails
-    from "../../../../../components/Project/ActiveProject/Step_3/VolunteerTime/VolunteerTimeDetails";
+
+
+/**
+ * @summary: Stores and retrieves the information from the challenge 3 - fundraise page
+ * @description: Contains the methods to store the information with a put and get call for the data entry
+ * @class: Fundraiser
+ * @extends: React.component
+ * @see: {FundraiserDetails}
+ * @params: dollars, description, video, finalVideo, name, address, city, stateName, website
+ * @fires: get charityproject/fundraiser/ and put charityproject/fundraiser/
+ * @returns: {Fundraiser}
+ */
 
 class Fundraiser extends React.Component {
     constructor(props) {
@@ -76,6 +86,22 @@ defaultIfEmpty(value){
             finalVideo: event.target.files[0]
         });
     };
+
+    componentDidMount () {
+        AxiosConfig.get(`charityproject/fundraiser/`,{params: {project_id: this.state.projectId, user_email:this.state.userEmail}})
+      .then(res => {
+              this.setState({
+                  name : res.data.organisation_name,
+                  address : res.data.organisation_address,
+                  city : res.data.organisation_city,
+                  website : res.data.website,
+                  stateName : res.data.organisation_state,
+                  dollars : res.data.amount,
+                  description : res.data.details,
+                  finalVideo :res.data.exp_video
+              });
+      }).catch(error => console.log(error))
+    }
 
     render() {
       return(

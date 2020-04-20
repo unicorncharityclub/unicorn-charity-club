@@ -177,7 +177,7 @@ class CollapseComponent extends React.Component {
       console.log(this.props.title)
       return (
         <div className="content_section">
-          <div onClick={(e)=>this.togglePanel(e)} className="header">
+          <div onClick={(e)=>this.togglePanel(e)} className="header_collapse">
               <h3>             
                 <span className="collapse_title">{this.props.title}</span>
                 <span class='icon-down'>&#709;</span>

@@ -8,4 +8,8 @@
     .content-wrapper {
         padding-bottom: 20%;
     }
+
+    .spotlight_container{
+        padding-top: 0%;        
+    }
 }
