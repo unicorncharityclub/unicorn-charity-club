@@ -30,6 +30,22 @@
 }
 
 
+@media only screen and (max-width: 40em) {
+  .page_details_content_main {  
+      border: 0px; 
+     border-radius: 0px; 
+     padding: 0px;
+  }
+
+  .horizontal_line {
+    margin-top: 10%;
+  }  
+  
+  .br {
+    display: none;
+  }
+}
+
 
 
 
