@@ -34,7 +34,8 @@ class VolunteerTimeDetails extends React.Component {
         projectBanner : '',
         projectBadge : '',
         projectJoinDate :'',
-        projectChallengeStatus: ''
+        projectChallengeStatus: '',
+        status :"Only numeric values"
     }
  }
 
@@ -84,7 +85,7 @@ class VolunteerTimeDetails extends React.Component {
                             <TextBlackSubHeading message ="2. How much time did you volunteer?"/> <br/>
 
                             <div className="form_control">
-                            <Input type="number" name="hours" value={this.props.hours}
+                            <Input inputType="number" name="hours" value={this.props.hours} placeholder='0'
                                    handleChange={this.props.handleNumbers.bind(this)}/>
                                     <label><TextBlack message="Hours"/></label>
                                 <br/>

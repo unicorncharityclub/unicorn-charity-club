@@ -84,7 +84,7 @@ class FundraiserDetails extends React.Component {
                             <TextBlackSubHeading message ="2. How much money did you raise in your fundraiser?"/> <br/>
 
                             <div className="form_control">
-                            <Input type="number" name="dollars" value={this.props.dollars}
+                            <Input inputType="number" name="dollars" value={this.props.dollars} placeholder='0'
                                    handleChange={this.props.handleNumbers.bind(this)}/>
                                     <label><TextBlack message="Dollars"/></label>
                                 <br/>
