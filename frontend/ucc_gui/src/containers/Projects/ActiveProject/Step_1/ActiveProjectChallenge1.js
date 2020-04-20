@@ -6,6 +6,7 @@ import ProjectBanner from "../../../../components/Project/ProjectBanner";
 import AxiosConfig from '../../../../axiosConfig'
 import { Player } from 'video-react';
 import ProjectInfo from "../../../../components/Project/Details/ProjectInfo";
+import TextWhite from "../../../../components/General/Text/TextWhite";
 
 class ActiveProjectChallenge1 extends React.Component {
     constructor(props) {
@@ -35,22 +36,17 @@ class ActiveProjectChallenge1 extends React.Component {
     }
 
     buttonHandler() {
-        // on button click action
-
-        // put req on done button click
         AxiosConfig.put(`charityproject/update/Challenge/`, {
             "project_id" : this.props.match.params.id           
         })
         .then(this.props.history.push(`/Projects/${this.props.match.params.id}/ActiveProjectChallenge2`))
         .catch(error => console.log(error))
 
-
-        // window.open('/Projects/' +this.props.match.params.id + '/ActiveProjectChallenge2/',"_self");
     }
 
     render() {
       return(
-            <div style={{margin:"15px"}}> 
+             <div style={{margin:"15px"}}>
                 <div className="header_step_banner_common">
                     <div className="stepper_common" >
                         <ProgressStepper currentStep="0" />
@@ -91,12 +87,6 @@ class ActiveProjectChallenge1 extends React.Component {
                         </div>    
                                        
                 </div>
-                
-                <div className="insideContent1">                    
-                    {this.state.projectMission}
-                </div>
-                                
-                
                 {/* <hr style={{height: "1px", background:"#333"}}/> */}
                 
                 <div className="exploreLink content_section">
@@ -109,9 +99,11 @@ class ActiveProjectChallenge1 extends React.Component {
                     </div>
                 </div>
 
-                <div className="buttonDiv">                    
-                    <Button className = "doneButton" variant="light" size="lg" onClick = {this.buttonHandler.bind(this)}>Done</Button>                    
-                </div>               
+                <Button className="buttonStyle" variant="success"
+                        size="lg" onClick={this.buttonHandler.bind(this)}>
+                    <b><TextWhite message={"NEXT"}/></b>
+                </Button>
+
             </div>
         )
     }
