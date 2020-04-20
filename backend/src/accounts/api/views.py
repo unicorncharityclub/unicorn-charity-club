@@ -66,7 +66,7 @@ class UserLoginView(ChildrenListMixin, APIView):
                 return Response(response, status=status.HTTP_200_OK)
 
             login(request, user)
-            profile_serializer = ProfileSerializer(Profile.objects.get(id=user.id), context={'request': request})
+            profile_serializer = ProfileSerializer(Profile.objects.get(user_id=user.id), context={'request': request})
             parent_user_data = profile_serializer.data
             parent_user_data.update(AccountDetailsSerializer(user).data)
             user_details_list.append(parent_user_data)
@@ -80,7 +80,6 @@ class UserLoginView(ChildrenListMixin, APIView):
             response['user_list'] = user_details_list
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
-            print(e)
             return Response(status=status.HTTP_404_NOT_FOUND)
 
 
@@ -104,12 +103,10 @@ class AddChildView(UserRegisterMixin, APIView):
             child_user_id = User.objects.get(email=child_user_email).id
             # Updating user profile details
             profile = Profile.objects.get(user_id=child_user_id)
-            print(profile)
             profile_serializer = ProfileSerializer(profile, data=request.data)
             if profile_serializer.is_valid():
                 profile_serializer.save()
-            else:
-                print(profile_serializer.error_messages)
+
             # Creating child profile
             data = {"user": child_user_id, "parent": parent_user_id,
                     "school": request.data["school"], "school_grade": request.data["school_grade"]}
