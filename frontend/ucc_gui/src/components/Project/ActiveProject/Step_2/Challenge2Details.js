@@ -65,7 +65,7 @@ class ProjectContent extends React.Component {
                     <div className="content_project_info">
                     <ProjectInfo id={this.state.projectId} />
                     </div>
-                    <TextBlueHeading message="Challenge 2: Ideation"/>
+                    <TextBlueHeading message="CHALLENGE 2: Ideation"/>
                       <br/>
                         <TextBlackSubHeading message = "SET YOUR GOAL"/>
                         <br/>

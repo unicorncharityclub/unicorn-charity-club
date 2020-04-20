@@ -7,6 +7,9 @@ import AxiosConfig from '../../../../axiosConfig'
 import { Player } from 'video-react';
 import ProjectInfo from "../../../../components/Project/Details/ProjectInfo";
 import TextWhite from "../../../../components/General/Text/TextWhite";
+import TextBlueHeading from "../../../../components/General/Text/TextBlueHeading";
+import TextBlackSubHeading from "../../../../components/General/Text/TextBlackSubHeading";
+import TextBlack from "../../../../components/General/Text/TextBlack";
 
 class ActiveProjectChallenge1 extends React.Component {
     constructor(props) {
@@ -67,13 +70,9 @@ class ActiveProjectChallenge1 extends React.Component {
                     </div>
                     
                     <br/>
-                    <h2 className="textHeader">CHALLENGE 1: Exploration</h2>
-                        <p className="insideContent">
-                        <br/>
-                        PRESENTATION
-                        <br/>
-                        Prep for Success Exploration Presentation
-                        </p> 
+                    <TextBlueHeading message="CHALLENGE 1: Exploration"/><br/>
+                    <TextBlackSubHeading message = "PRESENTATION"/>
+                    <TextBlackSubHeading message = "Prep for Success Exploration Presentation"/>
                         <div>                            
                             <Player
                             playsInline                      
@@ -82,8 +81,8 @@ class ActiveProjectChallenge1 extends React.Component {
                         </div>
 
                         <br/>
-                        <div className="insideContent">                    
-                            {this.state.projectMission}
+                        <div className="insideContent">
+                        <TextBlack message = {this.state.projectMission}/>
                         </div>    
                                        
                 </div>
