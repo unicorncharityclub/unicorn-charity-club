@@ -50,7 +50,7 @@ class ProjectComplete extends React.Component {
             AxiosConfig.get(`charityproject/Congratulations/${this.state.projectId}/${cookie.load('user_email')}`)])
             .then(([res1, res2]) => {
                 for (let i = 0; i < res1.data.length; i++) {
-                    if (res1.data[i].project_id === parseInt(this.state.projectId)) {
+                    if (res1.data[i].project.id === parseInt(this.state.projectId)) {
                         this.setState({
                             projectName: res1.data[i].project.name,
                             projectBanner: res1.data[i].project.banner,
@@ -67,24 +67,24 @@ class ProjectComplete extends React.Component {
                         image: res2.data.image,
                         adventureId: res2.data.adventure_id
                     });
-                    if(res2.data.adventure_id === 1) {
+                    if (res2.data.adventure_id === 1) {
                         this.setState({
                             invitees: res2.data.invitees,
                             video: res2.data.video
                         });
-                    } else if(res2.data.adventure_id === 2){
+                    } else if (res2.data.adventure_id === 2) {
                         this.setState({
                             newSkill: res2.data.new_skill,
                             description: res2.data.description,
                             video: res2.data.video
                         });
-                    } else if(res2.data.adventure_id === 3){
+                    } else if (res2.data.adventure_id === 3) {
                         this.setState({
                             newHabit: res2.data.new_habit,
                             description: res2.data.description,
                             video: res2.data.video
                         });
-                    } else if(res2.data.adventure_id === 4){
+                    } else if (res2.data.adventure_id === 4) {
                         this.setState({
                             organisationName: res2.data.organisation_name,
                             organisationAddress: res2.data.organisation_address,
@@ -95,7 +95,7 @@ class ProjectComplete extends React.Component {
                             description: res2.data.volunteer_work_description,
                             video: res2.data.video
                         });
-                    } else if(res2.data.adventure_id === 5){
+                    } else if (res2.data.adventure_id === 5) {
                         this.setState({
                             organisationName: res2.data.organisation_name,
                             organisationAddress: res2.data.organisation_address,
@@ -104,7 +104,7 @@ class ProjectComplete extends React.Component {
                             organisationWebsite: res2.data.organisation_website,
                             video: res2.data.video
                         });
-                    } else if(res2.data.adventure_id === 6){
+                    } else if (res2.data.adventure_id === 6) {
                         this.setState({
                             organisationName: res2.data.organisation_name,
                             organisationAddress: res2.data.organisation_address,
@@ -120,29 +120,27 @@ class ProjectComplete extends React.Component {
             }).catch(error => console.log(error))
     };
 
-    saveHandler(event, requestType) {
+    saveHandler(event) {
         //event.preventDefault();
         let formData = new FormData();
         try {
-            formData.append('prize', this.state.image);
             formData.append('project_id', this.state.projectId);
         } catch (err) {
             console.log(err)
         }
 
-        switch (requestType) {
-            case 'post':
-                return AxiosConfig.post('charityproject/', formData,
-                    {
-                        headers: {
-                            'content-type': 'multipart/form-data'
-                        }
-                    })
-                    .then(res => {
-                        console.log(res)
-                    })
-                    .catch(error => console.log(error))
-        }
+        return AxiosConfig.put('charityproject/start/', formData,
+            {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            })
+            .then(res => {
+                console.log(res);
+                this.props.history.push('/Projects/');
+            })
+            .catch(error => console.log(error))
+
     };
 
     render() {

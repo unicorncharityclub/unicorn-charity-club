@@ -118,7 +118,13 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
         try:
             result["status"] = "Success"
             charity_project = super().post(request, *args, **kwargs)
-            ProjectUserDetails.objects.create(project_user_id=charity_project.data['id']).save()
+            if 'create_type' in request.data:
+                if request.data['create_type'] == 'invite':
+                    self.create_by_invite()
+                else:
+                    raise Http404("Invalid create type")
+            else:
+                ProjectUserDetails.objects.create(project_user_id=charity_project.data['id']).save()
             return Response(result, status=status.HTTP_200_OK)
         except ValidationError:
             result["status"] = "Project already in progress"
@@ -151,8 +157,18 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
             project_user_record.save()
             create_adventure_record(project_user_record.id, adventure_id)
 
+        elif challenge_status == 'Challenge3Complete':
+            super().perform_update(serializer)
+            project_user_record.challenge_status = "UnlockedPrize"
+            project_user_record.save()
+
 
 def create_adventure_record(project_user_id, adventure_id):
+    """
+    Creates an entry in the respective adventure table using the project user id.
+    :param project_user_id:
+    :param adventure_id:
+    """
     if adventure_id == 1:
         spread_word = SpreadWord.objects.create(project_user_id=project_user_id)
         spread_word.save()
@@ -172,6 +188,35 @@ def create_adventure_record(project_user_id, adventure_id):
         fundraiser = Fundraise.objects.create(project_user_id=project_user_id)
         fundraiser.save()
 
+    def create_by_invite(self):
+        inviter_user_email = self.request.data['inviter_user_email']
+        inviter_user_id = User.objects.get(email=inviter_user_email).id
+        project_id = self.request.data['project_id']
+        join_date = date.today()
+        project_user = ProjectUser.objects.filter(user_id=self.request.user.id, project_id=project_id).first()
+        inviter_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=inviter_user_id)
+        if inviter_user_record:
+            inviter_user_record_id = inviter_user_record[0].id
+
+            project_user.date_joined = join_date
+            project_user.invited_by = inviter_user_email
+            project_user.challenge_status = "StartChallenge"
+            project_user.project_status = ""
+            project_user.save()
+
+            project_user_id = project_user.id
+            if inviter_user_record:
+                inviter_user_record_id = inviter_user_record[0].id
+            prize_id = find_user_prize(inviter_user_record_id)
+            project_user_details = ProjectUserDetails.objects.create(project_user_id=project_user_id,
+                                                                     prize_id=prize_id)
+            project_user_details.save()
+            user_invitation = UserInvitation.objects.filter(project_id=project_id, user_id=inviter_user_id)[0]
+            user_invitation.status = "Accepted"
+            user_invitation.save()
+        else:
+            # TODO - Should delete project_user
+            raise Http404()
 
 def all_project_list(request):
     response = {'status': "Success"}
@@ -278,7 +323,7 @@ def update_project_challenge_status_ideation(request):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-class ProjectInvitationsView(UserInvitationListMixin, RetrieveAPIView):
+class ProjectInvitationsView(UserInvitationListMixin, RetrieveAPIView, CreateAPIView):
     def get_object(self):
         queryset = self.get_queryset()
         obj = None
@@ -291,36 +336,6 @@ class ProjectInvitationsView(UserInvitationListMixin, RetrieveAPIView):
             else:
                 raise Http404("No invitation exists")
         return obj
-
-
-def join_project_invitation(request):
-    response = {'status': "Invalid Request"}
-
-    project_id = request.GET['project_id']
-    user_email = request.GET['user_email']
-    inviter_user_email = request.GET['inviter_user_email']
-
-    user_id = User.objects.get(email=user_email).id
-    inviter_user_id = User.objects.get(email=inviter_user_email).id
-    project_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=user_id)
-    if len(project_user_record) > 0:
-        response["status"] = "User has already joined this project"
-    else:
-        join_date = date.today()
-        project_user = ProjectUser.objects.create(project_id=project_id, user_id=user_id, date_joined=join_date,
-                                                  invited_by=inviter_user_email, challenge_status="StartChallenge")
-        project_user.save()
-        project_user_id = project_user.id
-        inviter_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=inviter_user_id)[0].id
-        prize_id = find_user_prize(inviter_user_record)
-        project_user_details = ProjectUserDetails.objects.create(project_user_id=project_user_id,
-                                                                 prize_id=prize_id)
-        project_user_details.save()
-        user_invitation = UserInvitation.objects.filter(project_id=project_id, user_id=inviter_user_id)[0]
-        user_invitation.status = "Accepted"
-        user_invitation.save()
-        response["status"] = "Success"
-    return JsonResponse(response)
 
 
 def update_user_invitation(request):
@@ -1077,14 +1092,17 @@ class QueryByProjectUserMixin(object):
 
 
 class ChallengeLearNewSkillView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    """
+    This is the views for adventure Learn new skill. Updates and gets the adventure details
+    """
     model = LearnNewSkill
     serializer_class = LearnNewSkillSerializer
     queryset = LearnNewSkill.objects.all()
 
     def perform_update(self, serializer):
         """
+        The method updates project challenge status based on action_type.
         :param serializer:
-        The method after updating the LearnNewSkill, based on action_type, project challenge status will be updated.
         """
         super().perform_update(serializer)
         if 'action_type' in self.request.data:
@@ -1125,11 +1143,18 @@ class StartProject(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
 
 
 class ChallengeVolunteerTimeDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    """
+    This is the views for adventure Volunteer time. Updates and gets the adventure details
+    """
     model = VolunteerTime
     serializer_class = VolunteerTimeSerializer
     queryset = VolunteerTime.objects.all()
 
     def perform_update(self, serializer):
+        """
+        Update the volunteer time enntry based on action type
+        :param serializer:
+        """
         super().perform_update(serializer)
         if 'action_type' in self.request.data:
             if 'Done' in self.request.data['action_type']:
@@ -1137,14 +1162,17 @@ class ChallengeVolunteerTimeDetailsView(QueryByProjectUserMixin, RetrieveAPIView
 
 
 class ChallengeDevelopNewHabitDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    """
+    This is the views for adventure Develop new habit. Updates and gets the adventure details
+    """
     model = DevelopNewHabit
     serializer_class = DevelopNewHabitSerializer
     queryset = DevelopNewHabit.objects.all()
 
     def perform_update(self, serializer):
         """
+        The method updates project challenge status based on action_type.
         :param serializer:
-        The method after updating the DevelopNewHabit, based on action_type, project challenge status will be updated.
         """
         super().perform_update(serializer)
         if 'action_type' in self.request.data:
@@ -1153,11 +1181,18 @@ class ChallengeDevelopNewHabitDetailsView(QueryByProjectUserMixin, RetrieveAPIVi
 
 
 class ChallengeGiveDonationDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    """
+    This is the views for adventure Give donation. Updates and gets the adventure details
+    """
     model = GiveDonation
     serializer_class = GiveDonationSerializer
     queryset = GiveDonation.objects.all()
 
     def perform_update(self, serializer):
+        """
+        Update the give donation entry based on action type
+        :param serializer:
+        """
         super().perform_update(serializer)
         if 'action_type' in self.request.data:
             if 'Done' in self.request.data['action_type']:
@@ -1165,12 +1200,22 @@ class ChallengeGiveDonationDetailsView(QueryByProjectUserMixin, RetrieveAPIView,
 
 
 class ChallengeFundraiserDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    """
+    This is the views for adventure fundraiser. Updates and gets the adventure details
+    """
     model = Fundraise
     serializer_class = FundraiserSerializer
     queryset = Fundraise.objects.all()
 
     def perform_update(self, serializer):
+        """
+        Update the fundraiser entry based on action type
+        :param serializer:
+        """
         super().perform_update(serializer)
         if 'action_type' in self.request.data:
             if 'Done' in self.request.data['action_type']:
                 self.set_project_user_record_status("Challenge3Complete")
+
+
+

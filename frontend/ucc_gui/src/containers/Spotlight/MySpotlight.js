@@ -12,9 +12,10 @@ class MySpotlight extends React.Component {
   render() {
     return (
         <div className="SpotlightPage">
-            <Container>
+            
                 <ProfileInfo />
-                
+
+            <Container className="spotlight_container">    
                 <ProfileDetails />
                 
                 <SocialImpact />

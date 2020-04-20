@@ -25,6 +25,7 @@
   background-color: #fff;
   min-height: 1000px;
   overflow: hidden !important;
+  padding-bottom: 20px;
 }
 
 @media only screen and (max-width: 40em) {
@@ -57,3 +58,168 @@
     position: fixed;
   }
 }
+
+
+/* Application template layout*/
+  .header_main
+  {
+    margin: 20px;
+  }
+
+  .header_step_banner_main
+  {
+    height: 400px;
+    position: relative;
+  }
+
+  .header_banner_main
+  {
+    height: 300px;
+    position: relative;
+  }
+
+  .only_banner_main
+  {
+    height: 100%;
+  }
+
+  .stepper_main
+  {
+      height: 30%;
+      position: absolute;
+      bottom: 0;
+      width : 100%;
+      padding-top: 20px;
+  }
+
+  .stepper_main_content
+  {
+      height : 100%;
+  }
+
+  .banner_main
+  {
+      height: 70%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+  }
+
+  .banner_main_content
+  {
+    height : 100%;
+  }
+
+  .page_main
+  {
+    background-color: white;
+    margin-top: 20px;
+    min-height: 500px;
+  }
+
+  .page_info_vr_content_main
+  {
+    width:20%;
+    float:left;
+  }
+
+
+  .page_info_hr_content_main
+  {
+    display: none;
+    margin-top:20px;
+  }
+
+  .page_details_main
+  {
+    width:80%;
+    float:left;
+  }
+
+  .page_details_content_main
+  {
+     margin-left:20px;
+    border:solid 1px;
+    border-radius:10px;
+    padding:10px;
+  }
+
+  @media screen and (max-width: 640px){
+
+
+    .header_step_banner_main
+    {
+      height: 300px;
+      position: relative;
+    }
+
+    .header_banner_main
+    {
+      height: 250px;
+      position: relative;
+    }
+
+    .stepper_main
+    {
+        height: 30%;
+        position: absolute;
+        top: 0;
+        bottom:unset;
+        padding-top: 0px;
+        width : 100%;
+    }
+
+    .banner_main
+    {
+        bottom: 0;
+        height: 70%;
+        width: 100%;
+        top:unset;
+        position: absolute;
+        padding-top: 20px;
+    }
+
+    .page_info_hr_main
+    {
+      display: block;
+    }
+
+    .page_info_hr_content_main
+    {
+      display: block;
+    }
+
+    .page_info_vr_main
+    {
+      display: none;
+    }
+
+    .page_info_vr_content_main
+    {
+      display: none;
+    }
+
+    .page_details_main
+    {
+      width:100%;
+    }
+
+    .page_details_content_main
+    {
+      margin-left:0;
+    }
+  }
+
+  @media screen and (max-width: 480px){
+    .header_step_banner_main
+    {
+      height: 250px;
+      position: relative;
+    }
+
+    .header_banner_main
+    {
+      height: 200px;
+      position: relative;
+    }
+  }

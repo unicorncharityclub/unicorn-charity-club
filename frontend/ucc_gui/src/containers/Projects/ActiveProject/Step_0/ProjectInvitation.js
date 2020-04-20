@@ -1,5 +1,5 @@
 import React from "react";
-import "./ProjectInvitation.css";
+// import "./ProjectInvitation.css";
 import ProjectInfo from "../../../../components/Project/Details/ProjectInfo";
 import Button from 'react-bootstrap/Button';
 import cookie from "react-cookies";
@@ -7,6 +7,7 @@ import AxiosConfig from '../../../../axiosConfig'
 import { Player } from 'video-react';
 import AlertMessage from "../../../../components/General/AlertMessage";
 import ProjectBanner from "../../../../components/Project/ProjectBanner";
+import ProgressStepper from "../../../../components/Project/ProgressStepper";
 
 class ProjectInvitation extends React.Component {
     constructor(props) {
@@ -30,14 +31,13 @@ class ProjectInvitation extends React.Component {
         const projectId = this.props.match.params.id;
         const inviterEmail = this.props.match.params.inviterEmail;
         const invitedEmail = this.state.userEmail;
-               
-        AxiosConfig.get(`/charityproject/joinProject`, {            
-            params: { 
-                project_id : projectId,
-                user_email : invitedEmail,
-                inviter_user_email : inviterEmail
-            }                                
-        })
+
+        let formData = new FormData();
+        formData.append('project_id', projectId);
+        formData.append('inviter_user_email', inviterEmail);
+        formData.append('create_type', "invite");
+
+        AxiosConfig.post(`/charityproject/start/`, formData)
         .then(res => { 
             // saving the res message to show later
             this.setState({     
@@ -108,22 +108,32 @@ class ProjectInvitation extends React.Component {
 
     render() {
       return(
-            <div style={{margin:"25px"}}> 
-                
-                {/* Add project banner here */}
-                <div className="banner_common banner_inside">
+
+        <div className="header_main">
+        <div className="header_step_banner_main">
+            <div className="banner_main">
+                <div className="banner_main_content">
                     <ProjectBanner image={this.state.projectBanner}  />
-                    <br/>
                 </div>
+            </div>   
 
-                <div className="content_project_info_vertical">
-                    <ProjectInfo vertical={true} id={this.props.match.params.id} />
-                </div>
+            <div className="stepper_main">
+                  <div className="stepper_main_content">
+                      <ProgressStepper currentStep="0" />
+                  </div>
+              </div>         
+        </div>
 
-                <div className = "content_section">
+        <div className="page_main">
+            <div className="page_info_vr_content_main">
+                <ProjectInfo vertical={true} id={this.props.match.params.id} />
+            </div>
+
+            <div className="page_details_main">
+                <div className="page_details_content_main">
                     <h2 className="textHeader">PROJECT INVITATION</h2>
 
-                    <div className = "insideContent">                    
+                                         
                         <h4>DEAR {this.state.userName.toUpperCase()},</h4>
                         <p>
                             {this.state.invitationMessage}
@@ -135,36 +145,41 @@ class ProjectInvitation extends React.Component {
                                 src={this.state.video}
                             />    
                         </div>
-                    </div>
-
-                    <br/>
                     
-                    <ProjectInfo id = {this.props.match.params.id} />
 
-                    <div>
-                        <h2 className="textHeader">Project Mission</h2>
-                        <p className = "insideContent">
-                            {this.state.projectMission}
-                        </p>
-                    </div>
-
-                    <div>
-                        <h2 className="textHeader">Project Goal</h2>
-                        <p className = "insideContent">
-                            {this.state.projectGoal}
-                        </p>
-                    </div>
-
-                    <br/>
-
-                        <Button className = "startButton" onClick={this.buttonHandler.bind(this)} variant="success" size="lg">
-                            JOIN PROJECT
-                        </Button>
-                        <div style={{width:"100%"}}>
-                            {/* {this.showAlertMsg}  */}
+                        <br/>
+                        
+                        <div className="page_info_hr_content_main">
+                                <ProjectInfo id={this.props.match.params.id} />
                         </div>
-                    </div>                    
+
+                        <div>
+                            <h2 className="textHeader">Project Mission</h2>                            
+                            {this.state.projectMission}                        
+                        </div>
+
+                        <div>
+                            <h2 className="textHeader">Project Goal</h2>                            
+                                {this.state.projectGoal}                            
+                        </div>
+
+                        <br/>
+
+                        <div className="JoinBtn">
+                            <Button className = "startButton" onClick={this.buttonHandler.bind(this)} variant="success" size="lg">
+                                    JOIN PROJECT
+                            </Button>
+                        </div>
+
+                        <div style={{width:"100%"}}>
+                             {/* {this.showAlertMsg}  */}
+                        </div>
+
+                </div>
             </div>
+        </div>
+    </div>
+
         )
     }
 }

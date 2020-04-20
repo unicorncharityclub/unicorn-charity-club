@@ -3,6 +3,18 @@ import VolunteerTimeDetails from "../../../../../components/Project/ActiveProjec
 import {Container} from "@material-ui/core";
 import cookie from "react-cookies";
 import AxiosConfig from "../../../../../axiosConfig";
+import AlertMessage from "../../../../../components/General/AlertMessage";
+
+/**
+ * @summary: Stores and retrieves the information from the challenge 3 - volunteer time page
+ * @description: Contains the methods to store the information with a put and get call for the data entry
+ * @class: VolunteerTime
+ * @extends: React.component
+ * @see: {VolunteerTimeDetails}
+ * @params: hours, description, video, finalVideo, name, address, city, stateName, website
+ * @fires: get charityproject/volunteer_time/ and put charityproject/volunteer_time/
+ * @returns: {VolunteerTime}
+ */
 
 class VolunteerTime extends React.Component {
     constructor(props) {
@@ -10,15 +22,16 @@ class VolunteerTime extends React.Component {
     this.state = {
         projectId: this.props.match.params.id,
         userEmail: cookie.load('user_email'),
-        hours : '',
-        description :'',
-        video :'',
-        finalVideo :'',
-        name :'',
-        address :'',
-        city :'',
-        stateName : '',
-        website :''
+        hours: '',
+        description: '',
+        video: '',
+        finalVideo: '',
+        name: '',
+        address: '',
+        city: '',
+        stateName: '',
+        website: '',
+        errors: ''
     }
  }
 
@@ -26,30 +39,34 @@ class VolunteerTime extends React.Component {
      let formData = new FormData();
      console.log(this.state.name)
      console.log(this.state.finalVideo)
-        try {
-            formData.append('project_id', this.state.projectId);
-            formData.append('organisation_name', this.state.name);
-            formData.append('organisation_address', this.state.address);
-            formData.append('organisation_city', this.state.city);
-            formData.append('website', this.state.website);
-            formData.append('organisation_state', this.state.stateName);
-            formData.append('hours', this.state.hours);
-            formData.append('description', this.state.description);
-            formData.append('action_type', action_type );
-            formData.append('exp_video', this.state.finalVideo);
+     console.log(this.state.hours)
+         try {
+             formData.append('project_id', this.state.projectId);
+             formData.append('organisation_name', this.state.name);
+             formData.append('organisation_address', this.state.address);
+             formData.append('organisation_city', this.state.city);
+             formData.append('website', this.state.website);
+             formData.append('organisation_state', this.state.stateName);
+             formData.append('hours', this.state.hours);
+             formData.append('description', this.state.description);
+             formData.append('action_type', action_type);
+             formData.append('exp_video', this.state.finalVideo);
 
-        } catch (err) {
-            console.log(err)
-        }
-        AxiosConfig.put('charityproject/volunteer_time/', formData,
-            {
-                        headers: {
-                            'content-type': 'multipart/form-data'
-                        }
-                    })
-                .then(res => console.log(res))
-                .catch(error => console.log(error))
+         } catch (err) {
+             console.log(err)
+         }
+         AxiosConfig.put('charityproject/volunteer_time/', formData,
+             {
+                 headers: {
+                     'content-type': 'multipart/form-data'
+                 }
+             })
+             .then(
+                 this.props.history.push(`/Projects/${this.state.projectId}/Congratulations`)
+             )
+             .catch(error => console.log(error))
  }
+
 
 defaultIfEmpty(value){
         return value === "" ? "":value;
@@ -68,6 +85,7 @@ defaultIfEmpty(value){
            [event.target.name]:event.target.value
         })
     }
+
     };
 
     videoHandler = (event) =>{
@@ -76,6 +94,22 @@ defaultIfEmpty(value){
             finalVideo: event.target.files[0]
         });
     };
+
+    componentDidMount () {
+        AxiosConfig.get(`charityproject/volunteer_time/`,{params: {project_id: this.state.projectId, user_email:this.state.userEmail}})
+      .then(res => {
+              this.setState({
+                  name : res.data.organisation_name,
+                  address : res.data.organisation_address,
+                  city : res.data.organisation_city,
+                  website : res.data.website,
+                  stateName : res.data.organisation_state,
+                  hours : res.data.hours,
+                  description : res.data.description,
+                  finalVideo :res.data.exp_video
+              });
+      }).catch(error => console.log(error))
+    }
 
     render() {
       return(

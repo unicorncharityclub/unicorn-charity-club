@@ -5,6 +5,17 @@ import {Container} from "@material-ui/core";
 import cookie from "react-cookies";
 import AxiosConfig from "../../../../axiosConfig";
 
+/**
+ * @summary: Stores the information from the challenge 2 selection of task page
+ * @description: Contains the methods to store the information with a put call to update the challenge
+ * @class: ActiveProjectChallenge2
+ * @extends: React.component
+ * @see: {Challenge2Details}
+ * @params: goal_date, adventure_id
+ * @fires: put charityproject/update/Challenge/
+ * @returns: {ActiveProjectChallenge2}
+ */
+
 class ActiveProjectChallenge2 extends React.Component {
     constructor(props) {
         super(props);
@@ -13,17 +24,40 @@ class ActiveProjectChallenge2 extends React.Component {
             goalDate: new Date(),
         }
      }
-
     onSubmit()
     {
-  
         AxiosConfig.put(`charityproject/update/Challenge/`, {
             "project_id" : this.props.match.params.id ,
             "goal_date" :  this.formatDate(this.state.goalDate),
             "adventure_id" :   this.state.optionValue       
         })
-        .then(this.props.history.push(`/Projects/${this.props.match.params.id}/SpreadTheWord`))
+        .then(
+            this.reRoute()
+        )
         .catch(error => console.log(error))
+
+    }
+
+    reRoute()
+    {
+        if(this.state.optionValue==1){
+            this.props.history.push(`/Projects/${this.props.match.params.id}/SpreadTheWord`)
+        }
+        if(this.state.optionValue==2) {
+            this.props.history.push(`/Projects/${this.props.match.params.id}/LearnNewSkill`)
+        }
+        if(this.state.optionValue==3) {
+            this.props.history.push(`/Projects/${this.props.match.params.id}/DevelopNewHabit`)
+        }
+        if(this.state.optionValue==4) {
+            this.props.history.push(`/Projects/${this.props.match.params.id}/VolunteerTime`)
+        }
+        if(this.state.optionValue==5) {
+            this.props.history.push(`/Projects/${this.props.match.params.id}/GiveADonation`)
+        }
+        if(this.state.optionValue==6) {
+            this.props.history.push(`/Projects/${this.props.match.params.id}/Fundraise`)
+        }
 
     }
 

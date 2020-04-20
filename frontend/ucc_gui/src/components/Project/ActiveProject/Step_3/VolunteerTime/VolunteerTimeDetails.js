@@ -14,6 +14,17 @@ import Video from "../../../../General/Video/Video"
 import TwoButtonLayout from "../../../../General/TwoButtonLayout";
 import TextBlackSubHeading from "../../../../General/Text/TextBlackSubHeading";
 
+
+/**
+ * @summary: Creates the UI of the volunteer time page
+ * @description: Creates the fields and styling for the challenge 3 volunteer time page
+ * @class: VolunteerTimeDetails
+ * @extends: React.component
+ * @see: {VolunteerTime.css}
+ * @param: projectId, projectName, projectBanner, projectBadge, projectJoinDate, projectChallengeStatus
+ * @returns: {VolunteerTimeDetails}
+ */
+
 class VolunteerTimeDetails extends React.Component {
     constructor(props) {
     super(props);
@@ -23,7 +34,8 @@ class VolunteerTimeDetails extends React.Component {
         projectBanner : '',
         projectBadge : '',
         projectJoinDate :'',
-        projectChallengeStatus: ''
+        projectChallengeStatus: '',
+        status :"Only numeric values"
     }
  }
 
@@ -73,7 +85,7 @@ class VolunteerTimeDetails extends React.Component {
                             <TextBlackSubHeading message ="2. How much time did you volunteer?"/> <br/>
 
                             <div className="form_control">
-                            <Input type="number" name="hours" value={this.props.hours}
+                            <Input inputType="number" name="hours" value={this.props.hours} placeholder='0'
                                    handleChange={this.props.handleNumbers.bind(this)}/>
                                     <label><TextBlack message="Hours"/></label>
                                 <br/>
@@ -95,7 +107,7 @@ class VolunteerTimeDetails extends React.Component {
                            accept="video/*"
                            onChange={this.props.videoHandler.bind(this)}/> <br/>
 
-                    <TwoButtonLayout button1Text="SAVE" button2Text="DONE"
+                    <TwoButtonLayout button1Text="SAVE" button2Text="COMPLETE PROJECT"
                            button1Click={(event) => this.props.onSubmit(event, 'Save')} button2Click={(event) => this.props.onSubmit(event, 'Done')}/>
 
                   </div>

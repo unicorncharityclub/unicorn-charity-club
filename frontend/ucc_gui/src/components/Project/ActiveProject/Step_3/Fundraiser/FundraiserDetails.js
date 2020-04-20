@@ -14,6 +14,17 @@ import Video from "../../../../General/Video/Video"
 import TwoButtonLayout from "../../../../General/TwoButtonLayout";
 import TextBlackSubHeading from "../../../../General/Text/TextBlackSubHeading";
 
+
+/**
+ * @summary: Creates the UI of the fundraiser page
+ * @description: Creates the fields and styling for the challenge 3 fundraise page
+ * @class: FundraiserDetails
+ * @extends: React.component
+ * @see: {VolunteerTime.css}
+ * @param: projectId, projectName, projectBanner, projectBadge, projectJoinDate, projectChallengeStatus
+ * @returns: {FundraiserDetails}
+ */
+
 class FundraiserDetails extends React.Component {
     constructor(props) {
     super(props);
@@ -73,7 +84,7 @@ class FundraiserDetails extends React.Component {
                             <TextBlackSubHeading message ="2. How much money did you raise in your fundraiser?"/> <br/>
 
                             <div className="form_control">
-                            <Input type="number" name="dollars" value={this.props.dollars}
+                            <Input inputType="number" name="dollars" value={this.props.dollars} placeholder='0'
                                    handleChange={this.props.handleNumbers.bind(this)}/>
                                     <label><TextBlack message="Dollars"/></label>
                                 <br/>
@@ -95,7 +106,7 @@ class FundraiserDetails extends React.Component {
                            accept="video/*"
                            onChange={this.props.videoHandler.bind(this)}/> <br/>
 
-                    <TwoButtonLayout button1Text="SAVE" button2Text="DONE"
+                    <TwoButtonLayout button1Text="SAVE" button2Text="COMPLETE PROJECT"
                            button1Click={(event) => this.props.onSubmit(event, 'Save')} button2Click={(event) => this.props.onSubmit(event, 'Done')}/>
 
                   </div>

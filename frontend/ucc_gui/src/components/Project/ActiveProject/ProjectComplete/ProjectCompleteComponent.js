@@ -29,6 +29,7 @@ import FundraiseSummary from "./FundraiseSummary";
 class ProjectCompleteComponent extends React.Component {
 
     render() {
+
         return (
             <div className="form-wrapper">
                 <div className="mobile-content">
@@ -115,7 +116,7 @@ class ProjectCompleteComponent extends React.Component {
                             }
                             <div className="navigate-done">
                                 <Button className="done" id="done" variant="contained" type="submit"
-                                        onClick={(event) => this.props.saveHandler(event, 'post')}>DONE</Button>
+                                        onClick={(event) => this.props.saveHandler(event)}>DONE</Button>
                             </div>
                         </div>
                     </div>
