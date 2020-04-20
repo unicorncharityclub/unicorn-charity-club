@@ -106,7 +106,7 @@ class FundraiserDetails extends React.Component {
                            accept="video/*"
                            onChange={this.props.videoHandler.bind(this)}/> <br/>
 
-                    <TwoButtonLayout button1Text="SAVE" button2Text="DONE"
+                    <TwoButtonLayout button1Text="SAVE" button2Text="COMPLETE PROJECT"
                            button1Click={(event) => this.props.onSubmit(event, 'Save')} button2Click={(event) => this.props.onSubmit(event, 'Done')}/>
 
                   </div>
