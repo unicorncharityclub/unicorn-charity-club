@@ -14,6 +14,7 @@ def get_child_profile(user):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    # automatically relates the data to the 'name' field of the project interest table.
     project_interest = serializers.SlugRelatedField(many=True, read_only=False, slug_field='name', queryset=ProjectInterest.objects.all())
 
     class Meta:
