@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import User
+from django.utils.timezone import now
 # Create your models here.
 from prize.models import Prize
 
@@ -86,8 +87,8 @@ class LearnNewSkill(models.Model):
 class UserInvitation(models.Model):
     objects = None
     project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='invitee')
-    friend = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='inviter')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='inviter')
+    friend = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='invitee')
     status = models.CharField(max_length=255, blank=True, null=True)
     prize = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
     invitation_message = models.TextField(blank=True)
@@ -185,3 +186,17 @@ class Fundraise(models.Model):
                                                    self.organisation_city, self.organisation_state,
                                                    self.organisation_website, self.fundraise_details,
                                                    self.fundraise_amount, self.exp_video)
+
+
+class Posts(models.Model):
+    objects = None
+    project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='posts_invitee')
+    friend = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='posts_inviter')
+    action_type = models.CharField(max_length=200, blank=True)
+    date = models.DateTimeField(default=now, blank=True)
+
+    def __str__(self):
+        return '{} {} {}'.format(self.project, self.user, self.action_type)
+
+
