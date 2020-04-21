@@ -8,7 +8,7 @@ from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView,
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, UserInvitation, UnregisterInvitation, \
-    SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit, VolunteerTime, Fundraise
+    SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit, VolunteerTime, Fundraise, Posts
 from prize.models import Prize
 
 from django.http import JsonResponse, Http404
@@ -106,6 +106,8 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
         if queryset.exists():
             raise ValidationError('Project already in progress')
         serializer.save(user_id=user_id, project_id=project_id, invited_by="", project_status="PlanningStarted")
+        posts_record = Posts.objects.create(user_id=user_id, project_id=project_id, action_type="Started_Project")
+        posts_record.save()
 
     def post(self, request, *args, **kwargs):
         """
@@ -156,11 +158,46 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
             project_user_record.challenge_status = "Challenge2Complete"
             project_user_record.save()
             create_adventure_record(project_user_record.id, adventure_id)
+            Posts.objects.create(user_id= project_user_record.user_id, project_id=project_user_record.project_id,
+                                 action_type="Goal_Set").save()
 
         elif challenge_status == 'Challenge3Complete':
             super().perform_update(serializer)
             project_user_record.challenge_status = "UnlockedPrize"
             project_user_record.save()
+
+    def create_by_invite(self):
+        inviter_user_email = self.request.data['inviter_user_email']
+        inviter_user_id = User.objects.get(email=inviter_user_email).id
+        project_id = self.request.data['project_id']
+        join_date = date.today()
+        project_user = ProjectUser.objects.filter(user_id=self.request.user.id, project_id=project_id).first()
+        inviter_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=inviter_user_id)
+        if inviter_user_record:
+            inviter_user_record_id = inviter_user_record[0].id
+
+            project_user.date_joined = join_date
+            project_user.invited_by = inviter_user_email
+            project_user.challenge_status = "StartChallenge"
+            project_user.project_status = ""
+            project_user.save()
+
+            project_user_id = project_user.id
+            if inviter_user_record:
+                inviter_user_record_id = inviter_user_record[0].id
+            prize_id = find_user_prize(inviter_user_record_id)
+            project_user_details = ProjectUserDetails.objects.create(project_user_id=project_user_id,
+                                                                     prize_id=prize_id)
+            project_user_details.save()
+            user_invitation = UserInvitation.objects.filter(project_id=project_id, user_id=inviter_user_id,
+                                                            friend_id=self.request.user.id)[0]
+            user_invitation.status = "Accepted"
+            user_invitation.save()
+            Posts.objects.create(project_id=project_id, user_id=inviter_user_id, friend_id=self.request.user.id,
+                                 action_type="Joined_Project").save()
+        else:
+            # TODO - Should delete project_user
+            raise Http404()
 
 
 def create_adventure_record(project_user_id, adventure_id):
@@ -188,35 +225,6 @@ def create_adventure_record(project_user_id, adventure_id):
         fundraiser = Fundraise.objects.create(project_user_id=project_user_id)
         fundraiser.save()
 
-    def create_by_invite(self):
-        inviter_user_email = self.request.data['inviter_user_email']
-        inviter_user_id = User.objects.get(email=inviter_user_email).id
-        project_id = self.request.data['project_id']
-        join_date = date.today()
-        project_user = ProjectUser.objects.filter(user_id=self.request.user.id, project_id=project_id).first()
-        inviter_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=inviter_user_id)
-        if inviter_user_record:
-            inviter_user_record_id = inviter_user_record[0].id
-
-            project_user.date_joined = join_date
-            project_user.invited_by = inviter_user_email
-            project_user.challenge_status = "StartChallenge"
-            project_user.project_status = ""
-            project_user.save()
-
-            project_user_id = project_user.id
-            if inviter_user_record:
-                inviter_user_record_id = inviter_user_record[0].id
-            prize_id = find_user_prize(inviter_user_record_id)
-            project_user_details = ProjectUserDetails.objects.create(project_user_id=project_user_id,
-                                                                     prize_id=prize_id)
-            project_user_details.save()
-            user_invitation = UserInvitation.objects.filter(project_id=project_id, user_id=inviter_user_id)[0]
-            user_invitation.status = "Accepted"
-            user_invitation.save()
-        else:
-            # TODO - Should delete project_user
-            raise Http404()
 
 def all_project_list(request):
     response = {'status': "Success"}
@@ -282,6 +290,7 @@ class ProjectInvitationsListView(UserInvitationListMixin, ListAPIView):
         :return: UserInvitationNested serialized data
         """
         return self.queryset.filter(friend_id=self.request.user.id, status__icontains="Pending")
+
 
 def update_project_challenge_status_explore(request):
     response = {'status': "Invalid Request"}
@@ -831,11 +840,13 @@ def create_user_invitation(email, project_id, user_id, prize_id, message):
             return False
         else:
             user_invitation = UserInvitation.objects.create(project_id=project_id, user_id=user_id,
-                                                            friend=invited_user_id,
+                                                            friend_id=invited_user_id,
                                                             status="Pending", invitation_message=message,
                                                             prize_id=prize_id,
                                                             invitation_date=invitation_date)
             user_invitation.save()
+            Posts.objects.create(user_id=invited_user_id, project_id=project_id, friend_id=user_id,
+                                 action_type="Received_Invitation").save()
             return True
     else:
         return False
@@ -861,6 +872,91 @@ def check_existing_project(email, project_id):
         return True
     else:
         return False
+
+
+def user_feed(request):
+    """
+    This api will gather information about different activities performed by the user to display on his/her feed.
+    :param request:
+    :return: list of map of with details of user actions
+    """
+    response = {'status': "Invalid Request"}
+    user_email_id = request.GET["user_email"]
+    user = User.objects.get(email=user_email_id).id
+    user_id = user.id
+    user_actions = Posts.objects.filter(user_id=user_id)
+    feed_list = []
+    adventure_map = {1: "Spread Word", 2: "Learn New Skill", 3: "Develop New Habit", 4: "Volunteer Time",
+                     5: "Give Donation", 6: "Fundraiser"}
+    if len(user_actions) > 0:
+        for record in user_actions:
+            action_type = record.action_type
+            project_id = record.project_id
+            project = CharityProjects.objects.get(pk=project_id)
+            if action_type == "Started_Project":
+                project_details = {"project_name": project.name, "project_banner": project.banner, "time": record.date,
+                                   "action": "Started_Project"}
+                feed_list.append(project_details)
+            elif action_type == "Completed_Project":
+                project_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=user_id)
+                pu_id = project_user_record.id
+                adventure_id = project_user_record.adventure_id
+                adventure_video = find_adventure_record(request, adventure_id, pu_id)
+                project_details = {"project_name": project.name, "adventure_experience": adventure_video,
+                                   "time": record.date, "action": "Completed_Project"}
+                feed_list.append(project_details)
+            elif action_type == "Goal_Set":
+                project_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=user_id)
+                adventure_id = project_user_record.adventure_id
+                goal_date = project_user_record.goal_date
+                adventure_name = adventure_map[adventure_id]
+                project_details = {"project_name": project.name, "goal_name": adventure_name, "goal_date": goal_date,
+                                   "time": record.date, "action": "Goal_Set"}
+                feed_list.append(project_details)
+            elif action_type == "Received_Invitation":
+                friend = User.objects.get(pk=record.friend_id)
+                invitation_details = {"project_name": project.name, "project_mission": project.mission,
+                                      "friend_name": friend.get_full_name, "time": record.date, "action": "Received_Invitation"}
+                feed_list.append(invitation_details)
+            elif action_type == "Joined_Project":
+                friend = User.objects.get(pk=record.friend_id)
+                friend_image = request.build_absolute_uri(friend.profile.profile_pic.url)
+                joining_details = {"project_name": project.name, "friend_name": friend.get_full_name,
+                                   "friend_image": friend_image, "time": record.date, "action": "Joined_Project"}
+                feed_list.append(joining_details)
+        feed_list.sort(key=lambda k: k['time'])
+    response["feed_list"] = feed_list
+    response["Status"] = "Success"
+    return JsonResponse(response)
+
+
+def find_adventure_record(request, adventure_id, project_user_id):
+    """
+    This method finds the adventure record for a given project and user and returns the associated adventure experience video
+    :param request:
+    :param adventure_id:
+    :param project_user_id:
+    :return: Experience video
+    """
+    if adventure_id == 1:
+        spread_word = SpreadWord.objects.filter(project_user_id=project_user_id)
+        project_user_details = ProjectUserDetails.objects.filter(project_user_id=project_user_id)
+        return request.build_absolute_uri(project_user_details.video.url)
+    elif adventure_id == 2:
+        learn_new_skill = LearnNewSkill.objects.filter(project_user_id=project_user_id)
+        return request.build_absolute_uri(learn_new_skill.exp_video.url)
+    elif adventure_id == 3:
+        develop_new_habit = DevelopNewHabit.objects.filter(project_user_id=project_user_id)
+        return request.build_absolute_uri(develop_new_habit.video.url)
+    elif adventure_id == 4:
+        volunteer_time = VolunteerTime.objects.filter(project_user_id=project_user_id)
+        return request.build_absolute_uri(volunteer_time.exp_video.url)
+    elif adventure_id == 5:
+        give_donation = GiveDonation.objects.filter(project_user_id=project_user_id)
+        return request.build_absolute_uri(give_donation.exp_video.url)
+    elif adventure_id == 6:
+        fundraiser = Fundraise.objects.filter(project_user_id=project_user_id)
+        return request.build_absolute_uri(fundraiser.exp_video.url)
 
 
 @api_view(['GET'])
@@ -959,6 +1055,8 @@ def unlock_prize(request, project_id, user_email):
                         response['video'] = request.build_absolute_uri(challenge_fundraise.fundraise_exp.url)
                     else:
                         response['video'] = ''
+        posts_record = Posts.objects.create(user_id=user_id, project_id=project_id, action_type="Completed_Project")
+        posts_record.save()
     return JsonResponse(response)
 
 
