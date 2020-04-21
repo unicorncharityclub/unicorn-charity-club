@@ -22,20 +22,19 @@ class Address extends React.Component {
         return (
 
                 <form>
-                        <div className="project-form-address">
-                        <br/>
+                        <div className="project-form-address">                        
                               <TextBlackSubHeading message = "1. Charitable Organization"/> <br/>
                               <Input type="text"
                                     name="name"
                                      placeholder="Name"
                                     value={this.props.name}
-                                     handleChange={this.props.changeHandler}/> <br/><br/>
+                                     handleChange={this.props.changeHandler}/> <br/>
 
                               <Input type="text"
                                     name="address"
                                      placeholder="Address"
                                     value={this.props.address}
-                                    handleChange={this.props.changeHandler}/> <br/><br/>
+                                    handleChange={this.props.changeHandler}/> <br/>
 
                                    <div className="Box1">
                                     <Input type="text"
@@ -52,7 +51,7 @@ class Address extends React.Component {
                                     name="stateName"
                                     value={this.props.stateName}
                                            placeholder="State"
-                                    handleChange={this.props.changeHandler}/> <br/><br/>
+                                    handleChange={this.props.changeHandler}/> <br/>
                                     </div>
 
                                     <Input type="text"

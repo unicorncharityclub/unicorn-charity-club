@@ -19,7 +19,7 @@ class UnregisteredFriendsInvite extends React.Component {
         {this.props.unregisteredUser.map((user, index) => {
           return (
                   <tr key={index}>
-                    <td style={{width:"400px"}}>
+                    <td style={{width:"100%"}}>
                       <Input
                           width="100%"
                         placeholder="Email"

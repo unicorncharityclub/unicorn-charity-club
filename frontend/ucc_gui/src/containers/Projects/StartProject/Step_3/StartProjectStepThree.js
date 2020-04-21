@@ -15,6 +15,7 @@ import TwoButtonLayout from "../../../../components/General/TwoButtonLayout";
 import AlertMessage from "../../../../components/General/AlertMessage";
 import * as FriendsSearchHelper from "../../../../components/Project/FriendsSearcHelper/FriendsSearchHelper";
 import TextBlackSubHeading from "../../../../components/General/Text/TextBlackSubHeading";
+
 class StartProjectStepThree extends React.Component {
   constructor(props) {
     super(props);
@@ -28,7 +29,7 @@ class StartProjectStepThree extends React.Component {
       searchType: "",
       searchValue: "",
       searchMoreAvailable: true,
-      searchOffset: 0,
+      searchPage: 1,
       selectedFriends: new Map(),
       inviteMessage: "Hello Friends",
       unregisteredUser: [
@@ -45,8 +46,7 @@ class StartProjectStepThree extends React.Component {
   }
   componentDidMount() {
     const project_id = this.props.match.params.id;
-    AxiosConfig
-      .get(`charityproject/${project_id}/`)
+    AxiosConfig.get(`charityproject/${project_id}/`)
       .then((res) => {
         this.setState({
           projectName: res.data["name"],
@@ -59,8 +59,14 @@ class StartProjectStepThree extends React.Component {
   /*
   This method will actually call the backend API and fetch the friends result based on the search query
    */
-  fetchFriendsData(obj, searchType, searchValue, offset, searchMoreFlag) {
-      FriendsSearchHelper.fetchFriendsDataHelper( obj, searchType, searchValue, offset, searchMoreFlag);
+  fetchFriendsData(obj, searchType, searchValue, page, searchMoreFlag) {
+    FriendsSearchHelper.fetchFriendsDataHelper(
+      obj,
+      searchType,
+      searchValue,
+      page,
+      searchMoreFlag
+    );
   }
 
   saveButtonClick() {}
@@ -108,13 +114,12 @@ class StartProjectStepThree extends React.Component {
         this.state.unregisteredUser[i]["email_address"].trim()
       );
     }
-    AxiosConfig
-      .post(`charityproject/unregisteredInvitation`, {
-        user_email: this.state.userEmail,
-        project_id: this.state.projectId,
-        invitation_message: this.state.inviteMessage,
-        friend_list: unregisterEmail,
-      })
+    AxiosConfig.post(`charityproject/unregisteredInvitation`, {
+      user_email: this.state.userEmail,
+      project_id: this.state.projectId,
+      invitation_message: this.state.inviteMessage,
+      friend_list: unregisterEmail,
+    })
       .then(function (response) {
         // go to next page
       })
@@ -128,13 +133,12 @@ class StartProjectStepThree extends React.Component {
     for (const friends of this.state.selectedFriends.values()) {
       friendsEmail.push(friends["user_email"]);
     }
-    AxiosConfig
-      .post(`charityproject/userInvitation`, {
-        user_email: this.state.userEmail,
-        project_id: this.state.projectId,
-        invitation_message: this.state.inviteMessage,
-        friend_list: friendsEmail,
-      })
+    AxiosConfig.post(`charityproject/userInvitation`, {
+      user_email: this.state.userEmail,
+      project_id: this.state.projectId,
+      invitation_message: this.state.inviteMessage,
+      friend_list: friendsEmail,
+    })
       .then(function (response) {
         obj.sendInvitationToUnregisteredUsers();
       })
@@ -145,110 +149,99 @@ class StartProjectStepThree extends React.Component {
 
   render() {
     return (
-      <div style={{ margin: "10px" }}>
-        <div style={{ marginBottom: "150px" }}>
-          {this.state.popupSearch ? (
-            <div id="popup" className="friends-popup-window">
-              <FriendsSearchGrid
-                friendsSearchData={this.state.friendsSearchData}
-                searchStringType={this.state.searchType}
-                searchStringValue={this.state.searchValue}
-                searchMore={this.state.searchMoreAvailable}
-                searchResultCancelClick={FriendsSearchHelper.searchResultCancelClick.bind(
-                  this
-                )}
-                searchResultMoreClick={FriendsSearchHelper.searchResultMoreClick.bind(
-                  this
-                )}
-                searchResultImageClick={FriendsSearchHelper.searchResultImageClick.bind(
-                  this
-                )}
-              />
-            </div>
-          ) : (
-            <div />
-          )}
+      <div className="header_main">
+        {this.state.popupSearch ? (
+          <div id="popup" className="friends-popup-window">
+            <FriendsSearchGrid
+              friendsSearchData={this.state.friendsSearchData}
+              searchStringType={this.state.searchType}
+              searchStringValue={this.state.searchValue}
+              searchMore={this.state.searchMoreAvailable}
+              searchResultCancelClick={FriendsSearchHelper.searchResultCancelClick.bind(this)}
+              searchResultMoreClick={FriendsSearchHelper.searchResultMoreClick.bind(this)}
+              searchResultImageClick={FriendsSearchHelper.searchResultImageClick.bind(this)}
+            />
+          </div>
+        ) : (
+          <div />
+        )}
 
-          <div className="header_step_banner_common">
-            <div className="stepper_common">
+        <div className="header_step_banner_main">
+          <div className="stepper_main">
+            <div className="stepper_main_content">
               <ProgressStepper currentStep="2" />
             </div>
-            <div className="banner_common">
+          </div>
+
+          <div className="banner_main">
+            <div className="banner_main_content">
               <ProjectBanner image={this.state.projectBanner} />
             </div>
           </div>
+        </div>
 
-          <div className="content_project_info_vertical">
+        <div className="page_info_hr_content_main">
+          <ProjectInfo id={this.props.match.params.id} />
+        </div>
+
+        <div className="page_main">
+          <div className="page_info_vr_content_main">
             <ProjectInfo vertical={true} id={this.state.projectId} />
           </div>
-          <div className="content_section">
-            <div className="content_project_info">
-              <ProjectInfo id={this.state.projectId} />
-            </div>
-            <InviteFriends
-              showHeaderMessage={true}
-              message="1. Build your team by inviting family and friends to your project."
-              searchResultHandler={FriendsSearchHelper.searchResultHandler.bind(
-                this
-              )}
-              disabled={this.state.popupSearch}
-            />
-            <br />
-            <div>
-              <FriendsInvitedGrid
-                friendsInvitedData={[...this.state.selectedFriends.values()]}
-                removeInviteClick={FriendsSearchHelper.removeInviteClick.bind(
-                  this
-                )}
-              />
-            </div>
 
-            <br />
-            <div>
-              <UnregisteredFriendsInvite
-                message="2. Send invites to unregistered users."
-                unregisteredUser={this.state.unregisteredUser}
-                unregisteredUserIssue={this.state.unregisteredUserIssue}
-                unregisteredUserAddMoreClick={FriendsSearchHelper.unregisteredUserAddMore.bind(
-                  this
-                )}
-                unregisteredUserEmailChange={FriendsSearchHelper.unregisteredUserEmailChange.bind(
-                  this
-                )}
-                unregisteredUserDeleteClick={FriendsSearchHelper.unregisteredUserDeleteClick.bind(
-                  this
-                )}
-                unregisteredUserEmailValidate={FriendsSearchHelper.unregisteredUserEmailValidate.bind(
-                  this
-                )}
+          <div className="page_details_main">
+            <div className="page_details_content_main">
+              <InviteFriends
+                showHeaderMessage={true}
+                message="1. Build your team by inviting family and friends to your project."
+                searchResultHandler={FriendsSearchHelper.searchResultHandler.bind(this)}
                 disabled={this.state.popupSearch}
               />
-            </div>
-
-            <br />
-            <hr />
-            <div style={{ marginTop: "20px" }}>
+              <br />
               <div>
-                <TextBlackSubHeading message="3. Invitation message to friends." />
+                <FriendsInvitedGrid
+                  friendsInvitedData={[...this.state.selectedFriends.values()]}
+                  removeInviteClick={FriendsSearchHelper.removeInviteClick.bind(this)}
+                />
               </div>
-              <TextArea
-                value={this.state.inviteMessage}
-                rows={5}
-                handleChange={FriendsSearchHelper.inviteMessageChange.bind(
-                  this
-                )}
-              />
-            </div>
 
-            <br />
-          <TwoButtonLayout
-            button1Text="SAVE"
-            button2Text="SEND INVITATIONS"
-            button1Click={this.saveButtonClick.bind(this)}
-            button2Click={this.sendInviteButtonClick.bind(this)}
-            disabled={this.state.popupSearch}
-          />
-          <AlertMessage alertMessage={this.state.sendInvitationIssue} />
+              <br />
+              <div>
+                <UnregisteredFriendsInvite
+                  message="2. Send invites to unregistered users."
+                  unregisteredUser={this.state.unregisteredUser}
+                  unregisteredUserIssue={this.state.unregisteredUserIssue}
+                  unregisteredUserAddMoreClick={FriendsSearchHelper.unregisteredUserAddMore.bind(this)}
+                  unregisteredUserEmailChange={FriendsSearchHelper.unregisteredUserEmailChange.bind(this)}
+                  unregisteredUserDeleteClick={FriendsSearchHelper.unregisteredUserDeleteClick.bind(this)}
+                  unregisteredUserEmailValidate={FriendsSearchHelper.unregisteredUserEmailValidate.bind(this)}
+                  disabled={this.state.popupSearch}
+                />
+              </div>
+
+              <br />
+              <hr />
+              <div style={{ marginTop: "20px" }}>
+                <div>
+                  <TextBlackSubHeading message="3. Invitation message to friends." />
+                </div>
+                <TextArea
+                  value={this.state.inviteMessage}
+                  rows={5}
+                  handleChange={FriendsSearchHelper.inviteMessageChange.bind(this)}
+                />
+              </div>
+
+              <br />
+              <TwoButtonLayout
+                button1Text="SAVE"
+                button2Text="SEND INVITATIONS"
+                button1Click={this.saveButtonClick.bind(this)}
+                button2Click={this.sendInviteButtonClick.bind(this)}
+                disabled={this.state.popupSearch}
+              />
+              <AlertMessage alertMessage={this.state.sendInvitationIssue} />
+            </div>
           </div>
         </div>
       </div>
