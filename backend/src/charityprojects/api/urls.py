@@ -1,5 +1,5 @@
 from .views import all_project_list, update_user_invitation,\
-    get_friend_list, search_friends, unregistered_invitation,\
+    get_friend_list, unregistered_invitation,\
     spread_the_word,\
     spotlight_stats, unlock_prize
 
@@ -21,7 +21,6 @@ urlpatterns = [
     path('start_project/', views.StartProject.as_view()),
     path('friendByEmail', get_friend_list),  # friends
     path('search_friend_name/', views.SearchFriendByNameView.as_view()),
-    path('search', search_friends),  # friends
     path('unregisteredInvitation', unregistered_invitation),  # friends
 
     # Charity Project List
