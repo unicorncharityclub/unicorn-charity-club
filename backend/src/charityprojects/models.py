@@ -87,8 +87,8 @@ class LearnNewSkill(models.Model):
 class UserInvitation(models.Model):
     objects = None
     project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='invitee')
-    friend = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='inviter')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='inviter')
+    friend = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='invitee')
     status = models.CharField(max_length=255, blank=True, null=True)
     prize = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
     invitation_message = models.TextField(blank=True)
@@ -189,9 +189,10 @@ class Fundraise(models.Model):
 
 
 class Posts(models.Model):
-    object = None
-    project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    objects = None
+    project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='posts_invitee')
+    friend = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='posts_inviter')
     action_type = models.CharField(max_length=200, blank=True)
     date = models.DateTimeField(default=now, blank=True)
 
