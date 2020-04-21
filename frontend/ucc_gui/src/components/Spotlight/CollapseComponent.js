@@ -191,7 +191,7 @@ class CollapseComponent extends React.Component {
                 { this.renderContent(this.props.title) } 
                 <br/>             
                 <hr className="horizontal"/>                         
-              </div>) : <hr className="horizontal"/>}
+              </div>) : <hr className="horizontal_close"/>}
           
           </div>
         );
