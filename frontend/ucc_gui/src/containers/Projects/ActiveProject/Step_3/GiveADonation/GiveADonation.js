@@ -56,7 +56,9 @@ class GiveADonation extends React.Component {
                             'content-type': 'multipart/form-data'
                         }
                     })
-                    .then(res => console.log(res))
+                    .then(
+                        this.props.history.push(`/Projects/${this.state.projectId}/Congratulations`)
+                    )
                     .catch(error => console.log(error))
  }
 

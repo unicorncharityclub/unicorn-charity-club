@@ -6,6 +6,10 @@ import ProjectBanner from "../../../../components/Project/ProjectBanner";
 import AxiosConfig from '../../../../axiosConfig'
 import { Player } from 'video-react';
 import ProjectInfo from "../../../../components/Project/Details/ProjectInfo";
+import TextWhite from "../../../../components/General/Text/TextWhite";
+import TextBlueHeading from "../../../../components/General/Text/TextBlueHeading";
+import TextBlackSubHeading from "../../../../components/General/Text/TextBlackSubHeading";
+import TextBlack from "../../../../components/General/Text/TextBlack";
 
 class ActiveProjectChallenge1 extends React.Component {
     constructor(props) {
@@ -34,12 +38,13 @@ class ActiveProjectChallenge1 extends React.Component {
       }).catch(error => console.log(error))
     }
 
-    buttonHandler() {     
+    buttonHandler() {
         AxiosConfig.put(`charityproject/update/Challenge/`, {
             "project_id" : this.props.match.params.id           
         })
         .then(this.props.history.push(`/Projects/${this.props.match.params.id}/ActiveProjectChallenge2`))
         .catch(error => console.log(error))
+
     }
 
     render() {
@@ -83,7 +88,6 @@ class ActiveProjectChallenge1 extends React.Component {
                             playsInline                      
                             src={this.state.projectVideo}
                             />
-                        
 
                             <br/>
                             <div>                    
@@ -171,6 +175,7 @@ class ActiveProjectChallenge1 extends React.Component {
             //         </a>
             //         </div>
             //     </div>
+
 
             //     <div className="buttonDiv">                    
             //         <Button className = "doneButton" variant="light" size="lg" onClick = {this.buttonHandler.bind(this)}>Done</Button>                    

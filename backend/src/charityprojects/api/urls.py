@@ -1,7 +1,6 @@
 from .views import all_project_list, update_user_invitation,\
     get_friend_list, unregistered_invitation,\
-    spread_the_word,\
-    spotlight_stats, unlock_prize
+    spread_the_word, spotlight_stats, unlock_prize, user_feed
 
 from django.urls import path
 from charityprojects.api import views
@@ -44,4 +43,6 @@ urlpatterns = [
     path('develop_new_habit/', views.ChallengeDevelopNewHabitDetailsView.as_view()),
 
     path('Congratulations/<int:project_id>/<str:user_email>/', unlock_prize),
+
+    path('feed', user_feed)
 ]
