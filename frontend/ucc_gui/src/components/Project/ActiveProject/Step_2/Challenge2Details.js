@@ -84,28 +84,28 @@ class ProjectContent extends React.Component {
                                 <br/>
                                 
                                 <div className="OptionList">
-                                        <input name="Options" type ="radio" value="1" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                                        <label htmlFor="Option1"> <TextBlack message = "Spread the word by inviting 5+ friends to the project"/></label><br/>
+                                        <input name="Option" type ="radio" value="1" checked={this.state.checked} onClick={this.props.handleChecked}/>
+                                        <label htmlFor="Option"> <TextBlack message = "Spread the word by inviting 5+ friends to the project"/></label><br/>
                                     <br/>
 
-                                        <input name="Options" type="radio" value="2" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                                        <label htmlFor="Option2"> <TextBlack message = "Learn a new skill that supports the mission"/></label><br/>
+                                        <input name="Option" type="radio" value="2" checked={this.state.checked} onClick={this.props.handleChecked}/>
+                                        <label htmlFor="Option"> <TextBlack message = "Learn a new skill that supports the mission"/></label><br/>
                                     <br/>
 
-                                        <input name="Options" type="radio" value="3" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                                        <label htmlFor="Option3"> <TextBlack message = "Develop a new habit that supports the mission"/></label><br/>
+                                        <input name="Option" type="radio" value="3" checked={this.state.checked} onClick={this.props.handleChecked}/>
+                                        <label htmlFor="Option"> <TextBlack message = "Develop a new habit that supports the mission"/></label><br/>
                                     <br/>
 
-                                        <input name="Options" type="radio" value="4" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                                        <label htmlFor="Option4"> <TextBlack message = "Volunteer time at a local organization"/></label><br/>
+                                        <input name="Option" type="radio" value="4" checked={this.state.checked} onClick={this.props.handleChecked}/>
+                                        <label htmlFor="Option"> <TextBlack message = "Volunteer time at a local organization"/></label><br/>
                                     <br/>
 
-                                        <input name="Options" type="radio" value="5" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                                        <label htmlFor="Option5"> <TextBlack message = "Give a donation to support the mission"/></label><br/>
+                                        <input name="Option" type="radio" value="5" checked={this.state.checked} onClick={this.props.handleChecked}/>
+                                        <label htmlFor="Option"> <TextBlack message = "Give a donation to support the mission"/></label><br/>
                                     <br/>
 
-                                        <input name="Options" type="radio" value="6" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                                        <label htmlFor="Option6"> <TextBlack message = "Fundraise money to support the mission"/></label><br/>
+                                        <input name="Option" type="radio" value="6" checked={this.state.checked} onClick={this.props.handleChecked}/>
+                                        <label htmlFor="Option"> <TextBlack message = "Fundraise money to support the mission"/></label><br/>
                                     <br/>
                                 </div>
                             </ul>
