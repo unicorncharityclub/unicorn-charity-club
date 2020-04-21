@@ -5,6 +5,7 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView, UpdateAPIView, get_object_or_404
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 
@@ -23,6 +24,21 @@ from .serializers import ProjectUserDetailsSerializer, LearnNewSkillSerializer, 
 from rest_framework import status
 from rest_framework.response import Response
 import re
+
+
+class CustomPagination(PageNumberPagination):
+    page_size = 2
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+
+    def get_paginated_response(self, data):
+        return Response({
+            'next': self.get_next_link(),
+            'previous': self.get_previous_link(),
+            'count': self.page.paginator.count,
+            'page_size': self.page_size,
+            'results': data
+        })
 
 
 class CharityProjectDetailsView(RetrieveAPIView):
@@ -334,6 +350,7 @@ class ProjectInvitationsView(UserInvitationListMixin, RetrieveAPIView, CreateAPI
         obj = None
         if self.request.method == 'GET':
             project_id = self.request.GET.get('project_id')
+            print(self.request.GET.get('inviter_user_email', None))
             inviter_user_id = User.objects.get(email=self.request.GET.get('inviter_user_email', None)).id
             if inviter_user_id:
                 obj = get_object_or_404(queryset, friend_id=self.request.user.id, project_id=project_id,
@@ -413,7 +430,7 @@ def get_friend_list(request):
 
 
 class SearchFriendByNameView(ListAPIView):
-    model = User
+    pagination_class = CustomPagination
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
     serializer_class = SearchByNameSerializer
@@ -427,6 +444,7 @@ class SearchFriendByNameView(ListAPIView):
             return self.queryset.filter(first_name__istartswith=search_params[0])
         else:
             return self.queryset.filter(first_name__istartswith=search_params[0], last_name__istartswith=search_params[1])
+
 
 
 def search_friends(request):
