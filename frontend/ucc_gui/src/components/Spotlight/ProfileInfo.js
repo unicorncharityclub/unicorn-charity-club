@@ -9,9 +9,9 @@ class ProfileInfo extends React.Component {
     this.state = {
         profile_pic : 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
         cover_pic : 'https://cdn.pixabay.com/photo/2016/10/18/21/22/california-1751455_1280.jpg',
-        age : '25',
-        city : 'Tempe',
-        state : 'Arizona',
+        age : '',
+        city : '',
+        state : '',
         user_email: cookie.load('user_email')
     }
  }

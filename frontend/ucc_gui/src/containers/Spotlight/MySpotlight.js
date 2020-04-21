@@ -11,11 +11,10 @@ import { Container } from "@material-ui/core";
 class MySpotlight extends React.Component {
   render() {
     return (
-        <div className="SpotlightPage">
-            
+        <div className="header_main main_spotlight">
+            <div className="page_main main_page"> 
                 <ProfileInfo />
-
-            <Container className="spotlight_container">    
+               
                 <ProfileDetails />
                 
                 <SocialImpact />
@@ -23,7 +22,7 @@ class MySpotlight extends React.Component {
                 <CompletedProjects />
                 
                 <TreasureTrove />           
-            </Container> 
+            </div> 
         </div>
     );
   }

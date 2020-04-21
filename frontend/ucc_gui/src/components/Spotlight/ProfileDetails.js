@@ -29,19 +29,17 @@ class ProfileDetails extends React.Component {
 
 
 
- setProfileDetails(response) {
-  //console.log(response);
-  let about_me = response.data['about_me'];
-  let favorite_thing = response.data['favorite_thing'];
-  let dream = response.data['dream'];
-  let super_powers = response.data['super_powers'];
-  this.setState(prevState => ({
-        about_me : about_me,
-        favorite_thing : favorite_thing,
-        dream : dream,
-        super_powers : super_powers
-}));
-
+ setProfileDetails(response) {  
+    let about_me = response.data['about_me'];
+    let favorite_thing = response.data['favorite_thing'];
+    let dream = response.data['dream'];
+    let super_powers = response.data['super_powers'];
+    this.setState(prevState => ({
+          about_me : about_me,
+          favorite_thing : favorite_thing,
+          dream : dream,
+          super_powers : super_powers
+  }));
 }
 
 
