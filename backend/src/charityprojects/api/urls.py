@@ -20,6 +20,7 @@ urlpatterns = [
     path('start/', views.CharityProjectStartProject.as_view()),
     path('start_project/', views.StartProject.as_view()),
     path('friendByEmail', get_friend_list),  # friends
+    path('search_friend_name/', views.SearchFriendByNameView.as_view()),
     path('search', search_friends),  # friends
     path('unregisteredInvitation', unregistered_invitation),  # friends
 

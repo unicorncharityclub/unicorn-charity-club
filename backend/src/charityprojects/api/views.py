@@ -7,6 +7,8 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView, UpdateAPIView, get_object_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
+
+from accounts.api.serializers import AccountDetailsSerializer, SearchByNameSerializer
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, UserInvitation, UnregisterInvitation, \
     SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit, VolunteerTime, Fundraise
 from prize.models import Prize
@@ -61,15 +63,9 @@ class CharityProjectCategory(ListAPIView):
         return Response(result, status=status.HTTP_200_OK)
 
 
-class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
-    authentication_classes = [SessionAuthentication, ]
-    permission_classes = [IsAuthenticated]
-    model = ProjectUser
-    serializer_class = ProjectUserSerializer
-    queryset = ProjectUser.objects.all()
+class ProjectUserMixin(object):
 
-    def __init__(self):
-        self.project_user_record = None
+    project_user_record = None
 
     def get_object(self):
         """
@@ -91,6 +87,14 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
 
     def get_project_user_record(self):
         return self.project_user_record
+
+
+class CharityProjectStartProject(ProjectUserMixin, CreateAPIView, UpdateAPIView):
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+    model = ProjectUser
+    serializer_class = ProjectUserSerializer
+    queryset = ProjectUser.objects.all()
 
     def perform_create(self, serializer):
         """
@@ -162,32 +166,6 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
             project_user_record.challenge_status = "UnlockedPrize"
             project_user_record.save()
 
-
-def create_adventure_record(project_user_id, adventure_id):
-    """
-    Creates an entry in the respective adventure table using the project user id.
-    :param project_user_id:
-    :param adventure_id:
-    """
-    if adventure_id == 1:
-        spread_word = SpreadWord.objects.create(project_user_id=project_user_id)
-        spread_word.save()
-    elif adventure_id == 2:
-        learn_new_skill = LearnNewSkill.objects.create(project_user_id=project_user_id)
-        learn_new_skill.save()
-    elif adventure_id == 3:
-        develop_new_habit = DevelopNewHabit.objects.create(project_user_id=project_user_id)
-        develop_new_habit.save()
-    elif adventure_id == 4:
-        volunteer_time = VolunteerTime.objects.create(project_user_id=project_user_id)
-        volunteer_time.save()
-    elif adventure_id == 5:
-        give_donation = GiveDonation.objects.create(project_user_id=project_user_id)
-        give_donation.save()
-    elif adventure_id == 6:
-        fundraiser = Fundraise.objects.create(project_user_id=project_user_id)
-        fundraiser.save()
-
     def create_by_invite(self):
         inviter_user_email = self.request.data['inviter_user_email']
         inviter_user_id = User.objects.get(email=inviter_user_email).id
@@ -217,6 +195,33 @@ def create_adventure_record(project_user_id, adventure_id):
         else:
             # TODO - Should delete project_user
             raise Http404()
+
+
+def create_adventure_record(project_user_id, adventure_id):
+    """
+    Creates an entry in the respective adventure table using the project user id.
+    :param project_user_id:
+    :param adventure_id:
+    """
+    if adventure_id == 1:
+        spread_word = SpreadWord.objects.create(project_user_id=project_user_id)
+        spread_word.save()
+    elif adventure_id == 2:
+        learn_new_skill = LearnNewSkill.objects.create(project_user_id=project_user_id)
+        learn_new_skill.save()
+    elif adventure_id == 3:
+        develop_new_habit = DevelopNewHabit.objects.create(project_user_id=project_user_id)
+        develop_new_habit.save()
+    elif adventure_id == 4:
+        volunteer_time = VolunteerTime.objects.create(project_user_id=project_user_id)
+        volunteer_time.save()
+    elif adventure_id == 5:
+        give_donation = GiveDonation.objects.create(project_user_id=project_user_id)
+        give_donation.save()
+    elif adventure_id == 6:
+        fundraiser = Fundraise.objects.create(project_user_id=project_user_id)
+        fundraiser.save()
+
 
 def all_project_list(request):
     response = {'status': "Success"}
@@ -405,6 +410,23 @@ def get_friend_list(request):
     else:
         response["status"] = "User does not exist"
     return JsonResponse(response)
+
+
+class SearchFriendByNameView(ListAPIView):
+    model = User
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+    serializer_class = SearchByNameSerializer
+    queryset = User.objects.all().order_by('id')
+
+    def get_queryset(self):
+        search = self.request.GET.get('text')
+        search = re.sub(' +', ' ', search)
+        search_params = search.split()
+        if len(search_params) == 1:
+            return self.queryset.filter(first_name__istartswith=search_params[0])
+        else:
+            return self.queryset.filter(first_name__istartswith=search_params[0], last_name__istartswith=search_params[1])
 
 
 def search_friends(request):
@@ -1153,6 +1175,3 @@ class ChallengeFundraiserDetailsView(QueryByProjectUserMixin, RetrieveAPIView, U
         if 'action_type' in self.request.data:
             if 'Done' in self.request.data['action_type']:
                 self.set_project_user_record_status("Challenge3Complete")
-
-
-

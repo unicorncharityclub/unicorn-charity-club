@@ -146,11 +146,10 @@
     }
     else {
       AxiosConfig
-        .post(`charityproject/search`,
-            {
-              "text" : searchValue,
-              "offset_value" : offset
-            })
+        .get(`charityproject/search_friend_name/`,
+            {params: {
+                  text: searchValue
+                }})
         .then(function(response) {
             if("friend_list" in response.data)
             {
@@ -165,4 +164,4 @@
 
     //Set this accordingly
     obj.setState({ searchMoreAvailable: true });
-  }
+  };
