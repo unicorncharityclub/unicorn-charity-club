@@ -28,7 +28,7 @@ urlpatterns = [
     path('completed_project_list/', views.CompletedProjectListView.as_view()),
 
     # Invitations
-    path('project_invitation/', views.ProjectInvitationsView.as_view()),
+    path('project_invitation_details/', views.ProjectInvitationsView.as_view()),
     path('userInvitation', update_user_invitation),  # friends
     path('project_invitation/', views.ProjectInvitationsListView.as_view()),
 

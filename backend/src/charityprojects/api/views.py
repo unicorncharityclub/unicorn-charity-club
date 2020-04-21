@@ -318,7 +318,6 @@ class ProjectInvitationsView(UserInvitationListMixin, RetrieveAPIView, CreateAPI
         obj = None
         if self.request.method == 'GET':
             project_id = self.request.GET.get('project_id')
-            print(self.request.GET.get('inviter_user_email', None))
             inviter_user_id = User.objects.get(email=self.request.GET.get('inviter_user_email', None)).id
             if inviter_user_id:
                 obj = get_object_or_404(queryset, friend_id=self.request.user.id, project_id=project_id,
