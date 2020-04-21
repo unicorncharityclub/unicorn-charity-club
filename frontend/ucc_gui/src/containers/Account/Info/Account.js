@@ -38,6 +38,7 @@ class Account extends React.Component {
         support: '',
         school: '',
         schoolGrade: '',
+        projectInterest: []
     };
 
     componentDidMount() {
@@ -58,6 +59,7 @@ class Account extends React.Component {
                         dream: res.data.dream,
                         superPowers: res.data.super_powers,
                         support: res.data.support,
+                        projectInterest: res.data.project_interest
                     }
                     );
 
@@ -76,7 +78,18 @@ class Account extends React.Component {
      }
 
      onCheckboxDataChange(event){
-        // do something here
+         if(event.target.checked) {
+             this.setState({
+                 projectInterest: this.state.projectInterest.concat(event.target.value)
+             })
+         }
+         else
+         {
+            let filteredArray = this.state.projectInterest.filter( item => item !== event.target.value);
+            this.setState({
+                 projectInterest: filteredArray
+            })
+         }
      }
 
     onImageChange(event){
@@ -103,6 +116,9 @@ class Account extends React.Component {
           form_data.append("support", this.state.support);
           form_data.append("school", this.state.school);
           form_data.append("school_grade", this.state.schoolGrade);
+          this.state.projectInterest.forEach((item) => {
+               form_data.append('project_interest', item)
+            });
           if (this.state.finalImage)
             form_data.append(
               "profile_pic",
@@ -142,6 +158,7 @@ class Account extends React.Component {
                      profilePic={this.state.profilePic}
                      school={this.state.school}
                      schoolGrade={this.state.schoolGrade}
+                     projectInterest={this.state.projectInterest}
                      onDataChange={this.onDataChange.bind(this)}
                      onImageChange={this.onImageChange.bind(this)}
                      onSaveClicked={this.onSaveClicked.bind(this)}

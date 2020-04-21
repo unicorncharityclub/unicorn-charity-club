@@ -40,7 +40,6 @@ class FriendsSearchGrid extends React.Component {
             <PinkButton
                 startIcon={<Close />}
                 handleOnClick={this.props.searchResultCancelClick}
-                disabled={!this.props.searchMore}
                 height="35px"
                 marginLeft="20px"
                 title="Cancel"

@@ -34,7 +34,7 @@ class SpreadTheWord extends React.Component {
               searchType: "",
               searchValue: "",
               searchMoreAvailable: true,
-              searchOffset: 0,
+              searchPage: 1,
               selectedFriends : new Map(),
               inviteMessage : "Hello Friends",
               unregisteredUser : [{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""}],
@@ -110,8 +110,8 @@ class SpreadTheWord extends React.Component {
   /*
   This method will actually call the backend API and fetch the friends result based on the search query
    */
-  fetchFriendsData(obj, searchType, searchValue, offset, searchMoreFlag) {
-      FriendsSearchHelper.fetchFriendsDataHelper( obj, searchType, searchValue, offset, searchMoreFlag);
+  fetchFriendsData(obj, searchType, searchValue, page, searchMoreFlag) {
+      FriendsSearchHelper.fetchFriendsDataHelper( obj, searchType, searchValue, page, searchMoreFlag);
   }
 
   // button actions
