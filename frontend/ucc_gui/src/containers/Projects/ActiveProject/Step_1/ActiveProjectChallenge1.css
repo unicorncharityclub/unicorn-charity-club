@@ -43,14 +43,26 @@
 
 .btn-light:hover {
     color: #212529;
-    background-color: rgb(13, 209, 206);
+    background-color:rgb(236, 236, 236);
     border-color: #dae0e5;
 }
 
 
 .btn-light {
     color: white;
+    /* background-color: #2BB9B7; */
+    border-color: #dae0e5;
+}
+
+.doneButton {
+    color: white;
     background-color: #2BB9B7;
+    border-color: #dae0e5;
+}
+
+.doneButton:hover {
+    color: #212529;
+    background-color:rgb(94, 221, 219);
     border-color: #dae0e5;
 }
 
