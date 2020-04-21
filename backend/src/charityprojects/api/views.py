@@ -158,7 +158,8 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
             project_user_record.challenge_status = "Challenge2Complete"
             project_user_record.save()
             create_adventure_record(project_user_record.id, adventure_id)
-            Posts.objects.create(project_user_record.user_id, project_user_record.project_id).save()
+            Posts.objects.create(user_id= project_user_record.user_id, project_id=project_user_record.project_id,
+                                 action_type="Goal_Set").save()
 
         elif challenge_status == 'Challenge3Complete':
             super().perform_update(serializer)
