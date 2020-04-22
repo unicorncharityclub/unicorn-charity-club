@@ -81,8 +81,6 @@ class ProfileDetailView(APIView):
             user_serializer = AccountDetailsSerializer(user, data=request.data)
             if user_serializer.is_valid():
                 user_serializer.save()
-            else:
-                print(user_serializer.errors)
 
             # Updating user profile details
             profile = Profile.objects.get(id=user_id)

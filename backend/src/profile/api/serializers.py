@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from accounts.models import User
-from profile.models import Profile, ChildProfile
+from profile.models import Profile, ChildProfile, ProjectInterest
 
 
 def get_child_profile(user):
@@ -14,10 +14,13 @@ def get_child_profile(user):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    # automatically relates the data to the 'name' field of the project interest table.
+    project_interest = serializers.SlugRelatedField(many=True, read_only=False, slug_field='name', queryset=ProjectInterest.objects.all())
+
     class Meta:
         model = Profile
         fields = ('address', 'mobile', 'profile_pic', 'cover_pic', 'about_me', 'favorite_thing', 'dream', 'super_powers',
-                  'support', 'user')
+                  'support', 'user', 'project_interest')
         read_only_fields = ['user']
 
     @property

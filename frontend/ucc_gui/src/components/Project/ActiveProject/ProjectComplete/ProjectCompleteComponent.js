@@ -79,39 +79,19 @@ class ProjectCompleteComponent extends React.Component {
                                 (this.props.adventureId === 1) ? <SpreadTheWordSummary invitees={this.props.invitees}
                                                                                        video={this.props.video}/>
                                     : (this.props.adventureId === 2) ?
-                                    <LearnNewSkillSummary newSkill={this.props.newSkill}
-                                                          description={this.props.description}
-                                                          video={this.props.video}/>
+                                    <LearnNewSkillSummary projectId={this.props.projectId}/>
                                     : (this.props.adventureId === 3) ?
-                                        <DevelopNewHabitSummary newHabit={this.props.newHabit}
-                                                                description={this.props.description}
-                                                                video={this.props.video}/>
+                                        <DevelopNewHabitSummary projectId={this.props.projectId}/>
                                         : (this.props.adventureId === 4) ?
-                                            <VolunteerTimeSummary name={this.props.organisationName}
-                                                                  address={this.props.organisationAddress}
-                                                                  city={this.props.organisationCity}
-                                                                  state={this.props.organisationState}
-                                                                  website={this.props.organisationWebsite}
-                                                                  hours={this.props.volunteerHours}
-                                                                  description={this.props.description}
-                                                                  video={this.props.video}/>
+                                            <VolunteerTimeSummary projectId={this.props.projectId}
+                                                                  userEmail={this.props.userEmail}/>
                                             : (this.props.adventureId === 5) ?
-                                                <GiveADonationSummary name={this.props.organisationName}
-                                                                      address={this.props.organisationAddress}
-                                                                      city={this.props.organisationCity}
-                                                                      state={this.props.organisationState}
-                                                                      website={this.props.organisationWebsite}
-                                                                      description={this.props.description}
-                                                                      video={this.props.video}/>
+                                                <GiveADonationSummary projectId={this.props.projectId}
+                                                                      userEmail={this.props.userEmail}/>
                                                 : (this.props.adventureId === 6) ?
-                                                    <FundraiseSummary name={this.props.organisationName}
-                                                                      address={this.props.organisationAddress}
-                                                                      city={this.props.organisationCity}
-                                                                      state={this.props.organisationState}
-                                                                      website={this.props.organisationWebsite}
-                                                                      description={this.props.description}
-                                                                      video={this.props.video}/> :
-                                                    ''
+                                                    <FundraiseSummary projectId={this.props.projectId}
+                                                                      userEmail={this.props.userEmail}/>
+                                                    : ''
 
                             }
                             <div className="navigate-done">

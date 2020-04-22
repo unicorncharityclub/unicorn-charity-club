@@ -231,7 +231,7 @@ class EachActiveProject extends React.Component {
             <div className="ActiveProjectInfo_Text" >             
                 <table >
                     <tbody>
-                    <tr className = "row">
+                    <tr className = "row1">
                     <td className="firstCell" colSpan={2}>
                         {this.renderOnClick(this.props.projectStatus, this.props.type)}                                                                            
                         <br /> <br/>

@@ -32,15 +32,8 @@ class ProjectComplete extends React.Component {
             image: '',
             invitees: [],
             video: '',
-            newSkill: '',
             description: '',
-            newHabit: '',
-            organisationName: '',
-            organisationAddress: '',
-            organisationCity: '',
-            organisationState: '',
-            organisationWebsite: '',
-            volunteerHours: '',
+            userEmail: cookie.load('user_email')
         }
     };
 
@@ -70,48 +63,6 @@ class ProjectComplete extends React.Component {
                     if (res2.data.adventure_id === 1) {
                         this.setState({
                             invitees: res2.data.invitees,
-                            video: res2.data.video
-                        });
-                    } else if (res2.data.adventure_id === 2) {
-                        this.setState({
-                            newSkill: res2.data.new_skill,
-                            description: res2.data.description,
-                            video: res2.data.video
-                        });
-                    } else if (res2.data.adventure_id === 3) {
-                        this.setState({
-                            newHabit: res2.data.new_habit,
-                            description: res2.data.description,
-                            video: res2.data.video
-                        });
-                    } else if (res2.data.adventure_id === 4) {
-                        this.setState({
-                            organisationName: res2.data.organisation_name,
-                            organisationAddress: res2.data.organisation_address,
-                            organisationCity: res2.data.organisation_city,
-                            organisationState: res2.data.organisation_state,
-                            organisationWebsite: res2.data.organisation_website,
-                            volunteerHours: res2.data.volunteer_hours,
-                            description: res2.data.volunteer_work_description,
-                            video: res2.data.video
-                        });
-                    } else if (res2.data.adventure_id === 5) {
-                        this.setState({
-                            organisationName: res2.data.organisation_name,
-                            organisationAddress: res2.data.organisation_address,
-                            organisationCity: res2.data.organisation_city,
-                            organisationState: res2.data.organisation_state,
-                            organisationWebsite: res2.data.organisation_website,
-                            video: res2.data.video
-                        });
-                    } else if (res2.data.adventure_id === 6) {
-                        this.setState({
-                            organisationName: res2.data.organisation_name,
-                            organisationAddress: res2.data.organisation_address,
-                            organisationCity: res2.data.organisation_city,
-                            organisationState: res2.data.organisation_state,
-                            organisationWebsite: res2.data.organisation_website,
-                            description: res2.data.fundraise_details,
                             video: res2.data.video
                         });
                     }
@@ -153,18 +104,11 @@ class ProjectComplete extends React.Component {
                                           challengeStatus={this.state.challengeStatus}
                                           projectMission={this.state.projectMission}
                                           adventureId={this.state.adventureId}
+                                          projectId={this.state.projectId}
+                                          userEmail={this.state.userEmail}
                                           image={this.state.image}
                                           invitees={this.state.invitees}
                                           video={this.state.video}
-                                          newSkill={this.state.newSkill}
-                                          description={this.state.description}
-                                          newHabit={this.state.newHabit}
-                                          organisationName={this.state.organisationName}
-                                          organisationAddress={this.state.organisationAddress}
-                                          organisationCity={this.state.organisationCity}
-                                          organisationState={this.state.organisationState}
-                                          organisationWebsite={this.state.organisationWebsite}
-                                          volunteerHours={this.state.volunteerHours}
                                           saveHandler={this.saveHandler.bind(this)}/>
 
             </div>

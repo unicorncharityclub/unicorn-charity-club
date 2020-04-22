@@ -5,6 +5,7 @@ import "../../containers/Account/MyChildren/MyChildren.css";
 import ArrowBackward from "./../../image/arrow-backward.png";
 import UploadPhoto from "./../../image/Default-profile-picture.png";
 import { Container } from "@material-ui/core";
+import CheckBox from "../General/Form/Checkbox";
 
 class ProfileForm extends React.Component {
 
@@ -237,19 +238,18 @@ class ProfileForm extends React.Component {
                 onChange={this.props.onDataChange.bind(this)}
               />
             </div>
-            {/*
+            {
             <div className="blessing-info">
-              <label>I want to make the world a better place by supporting(check all that apply):</label>
               <CheckBox
                 name="support"
                 title="I want to make the world a better place by supporting(check all that apply):"
+                handleChange={this.props.onCheckboxDataChange.bind(this)}
                 type="checkbox"
                 options={checkboxes}
-                //selectedOptions
-                onChange={this.props.onCheckboxDataChange.bind(this)}
+                selectedOptions = {this.props.projectInterest}
               />
             </div>
-          */}
+          }
           </div>
         </form>
         </Container>

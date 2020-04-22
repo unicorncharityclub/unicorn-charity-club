@@ -5,8 +5,11 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView, UpdateAPIView, get_object_or_404
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
+
+from accounts.api.serializers import AccountDetailsSerializer, SearchByNameSerializer
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, UserInvitation, UnregisterInvitation, \
     SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit, VolunteerTime, Fundraise, Posts
 from prize.models import Prize
@@ -21,6 +24,21 @@ from .serializers import ProjectUserDetailsSerializer, LearnNewSkillSerializer, 
 from rest_framework import status
 from rest_framework.response import Response
 import re
+
+
+class CustomPagination(PageNumberPagination):
+    page_size = 2
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+
+    def get_paginated_response(self, data):
+        return Response({
+            'next': self.get_next_link(),
+            'previous': self.get_previous_link(),
+            'count': self.page.paginator.count,
+            'page_size': self.page_size,
+            'results': data
+        })
 
 
 class CharityProjectDetailsView(RetrieveAPIView):
@@ -61,15 +79,9 @@ class CharityProjectCategory(ListAPIView):
         return Response(result, status=status.HTTP_200_OK)
 
 
-class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
-    authentication_classes = [SessionAuthentication, ]
-    permission_classes = [IsAuthenticated]
-    model = ProjectUser
-    serializer_class = ProjectUserSerializer
-    queryset = ProjectUser.objects.all()
+class ProjectUserMixin(object):
 
-    def __init__(self):
-        self.project_user_record = None
+    project_user_record = None
 
     def get_object(self):
         """
@@ -91,6 +103,14 @@ class CharityProjectStartProject(CreateAPIView, UpdateAPIView):
 
     def get_project_user_record(self):
         return self.project_user_record
+
+
+class CharityProjectStartProject(ProjectUserMixin, CreateAPIView, UpdateAPIView):
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+    model = ProjectUser
+    serializer_class = ProjectUserSerializer
+    queryset = ProjectUser.objects.all()
 
     def perform_create(self, serializer):
         """
@@ -227,10 +247,6 @@ def create_adventure_record(project_user_id, adventure_id):
 
 
 def all_project_list(request):
-    """
-    This methods is used to return the names of all the projects.
-    :param request:
-    """
     response = {'status': "Success"}
     project_list = []
     projects = CharityProjects.objects.all()
@@ -296,46 +312,6 @@ class ProjectInvitationsListView(UserInvitationListMixin, ListAPIView):
         return self.queryset.filter(friend_id=self.request.user.id, status__icontains="Pending")
 
 
-def update_project_challenge_status_explore(request):
-    response = {'status': "Invalid Request"}
-    if request.method == 'PUT':
-        json_data = json.loads(request.body)
-        user_email_id = json_data["user_email"]
-        user_id = User.objects.get(email=user_email_id).id
-        project_id = json_data["project_id"]
-        project_join_date = json_data["joining_date"]
-        project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[
-            0]  # ideally only one entry should be there
-        if project_user_record:
-            project_user_record.date_joined = project_join_date
-            project_user_record.challenge_status = "Challenge1Complete"
-            project_user_record.save()
-            return Response(status=status.HTTP_201_CREATED)
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-def update_project_challenge_status_ideation(request):
-    response = {'status': "Invalid Request"}
-    if request.method == 'PUT':
-        json_data = json.loads(request.body)
-        user_email_id = json_data["user_email"]
-        user_id = User.objects.get(email=user_email_id).id
-        project_id = json_data["project_id"]
-        project_goal_date = json_data["goal_date"]
-        adventure_id = json_data["adv_id"]
-        project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[
-            0]  # ideally only one entry should be there
-        if project_user_record:
-            project_user_record.goal_date = project_goal_date
-            project_user_record.challenge_status = "Challenge2Complete"
-            project_user_record.adventure_id = adventure_id
-            project_user_record.save()
-            return Response(status=status.HTTP_201_CREATED)
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
 class ProjectInvitationsView(UserInvitationListMixin, RetrieveAPIView, CreateAPIView):
     def get_object(self):
         queryset = self.get_queryset()
@@ -353,8 +329,8 @@ class ProjectInvitationsView(UserInvitationListMixin, RetrieveAPIView, CreateAPI
 
 def update_user_invitation(request):
     """
-    This method is used when user wants to invite other members to the charity project.
-    :param request:
+       This method is used when user wants to invite other members to the charity project.
+       :param request:
     """
     response = {'status': "Invalid Request"}
     if request.method == 'POST':
@@ -386,10 +362,10 @@ def update_user_invitation(request):
 
 def get_friend_list(request):
     """
-    This method is used to find the users given an email address. Since children are associated with parents email,
-    it will return both parent and children users.
-    :param request: Email
-    :return:
+       This method is used to find the users given an email address. Since children are associated with parents email,
+       it will return both parent and children users.
+       :param request: Email
+       :return:
     """
     response = {'status': "Invalid Request"}
     friend_list = []
@@ -430,62 +406,28 @@ def get_friend_list(request):
     return JsonResponse(response)
 
 
-def search_friends(request):
-    """
-    This method is used to find the users based on the given name provided.
-    :param request:
-    :return:
-    """
-    response = {'status': "Invalid Request"}
-    friend_list = []
-    result = []
-    json_data = json.loads(request.body)
-    search_text = json_data["text"]
-    offset = json_data["offset_value"]
-    offset = offset * 10
-    user_list = User.objects.all()
-    children_list = ChildProfile.objects.all()
-    for user in user_list:
-        if bool(re.match(search_text, user.first_name, re.I)):
-            if user.profile.profile_pic:
-                user_photo = request.build_absolute_uri(user.profile.profile_pic.url)
-            else:
-                user_photo = ""
-            user_details = {"user_email": user.email, "user_name": user.get_full_name(),
-                            "user_photo": user_photo}
-            friend_list.append(user_details)
-    for child in children_list:
+class SearchFriendByNameView(ListAPIView):
+    pagination_class = CustomPagination
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+    serializer_class = SearchByNameSerializer
+    queryset = User.objects.all().order_by('id')
 
-        child_user_id = child.user_id
-        child_profile_object = Profile.objects.get(user_id=child_user_id)
-        child_account_object = User.objects.get(pk=child_user_id)
-        child_email_id = child_account_object.email
-        child_name = child_account_object.first_name + child_account_object.last_name
-        if child_name.startswith(search_text):
-            if child_profile_object.profile_pic:
-                child_photo = request.build_absolute_uri(child_profile_object.profile_pic.url)
-            else:
-                child_photo = ""
-            child_details = {"user_email": child_email_id, "user_name": child_name,
-                             "user_photo": child_photo}  # Check with child account what dummy email to use
-            friend_list.append(child_details)
-    if len(friend_list) == 0:
-        response["status"] = "No user exists with the search name"
-    # assuming first offset to be 0, then 11 and so on. Return 0 to 10, then 11to 20...
-    else:
-        for i in range(len(friend_list)):
-            result.append(friend_list[i])
-        response["status"] = 'Success'
-        response["friend_list"] = result
-
-    return JsonResponse(response)
+    def get_queryset(self):
+        search = self.request.GET.get('text')
+        search = re.sub(' +', ' ', search)
+        search_params = search.split()
+        if len(search_params) == 1:
+            return self.queryset.filter(first_name__istartswith=search_params[0])
+        else:
+            return self.queryset.filter(first_name__istartswith=search_params[0], last_name__istartswith=search_params[1])
 
 
 def unregistered_invitation(request):
     """
-    This method is used to invite those users to the charity project who are not registered with the application
-    :param request:
-    :return:
+       This method is used to invite those users to the charity project who are not registered with the application
+       :param request:
+       :return:
     """
     response = {'status': "Invalid Request"}
     if request.method == 'POST':
@@ -509,94 +451,6 @@ def unregistered_invitation(request):
                 create_unregister_user_invitation(email, project_user_id, prize_id, message)
 
     return JsonResponse(response)
-
-
-def create_volunteer_adventure(request, user_id, project_id):
-    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[
-        0]  # ideally only one entry should be there
-    project_user_id = project_user_record.id
-    if project_user_record:
-        project_user_record.challenge_status = "Challenge3Complete"
-        project_user_record.save()
-    volunteer_time_update_data = {"project_user": project_user_id,
-                                  "organisation_name": request.data["organisation_name"],
-                                  "organisation_address": request.data["organisation_address"],
-                                  "organisation_city": request.data["organisation_city"],
-                                  "organisation_state": request.data["organisation_state"],
-                                  "organisation_website": request.data["website"],
-                                  "volunteer_hours": request.data["hours"],
-                                  "volunteer_work_description": request.data["description"],
-                                  "volunteer_exp": request.data["exp_video"]}
-    volunteer_serializer = VolunteerTimeSerializer(data=volunteer_time_update_data)
-    if volunteer_serializer.is_valid():
-        volunteer_serializer.save()
-        return Response(volunteer_serializer.data, status=status.HTTP_201_CREATED)
-    # return Response(volunteer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(['POST', 'GET'])
-@parser_classes([MultiPartParser, FormParser])
-def volunteer_time(request):
-    response = {'status': "Invalid Request"}
-    if request.method == "POST":
-        store_volunteer_details(request)
-    elif request.method == "GET":
-        fetch_volunteer_details(request)
-    return Response(status=status.HTTP_200_OK)
-
-
-def store_volunteer_details(request):
-    user_email_id = request.data["user_email"]
-    user_id = User.objects.get(email=user_email_id).id
-    project_id = request.data["project_id"]
-    action_type = request.data["action_type"]
-    if action_type == "Done":
-        create_volunteer_adventure(request, user_id, project_id)
-        update_challenge_status(user_id, project_id, "Challenge3Complete")
-    elif action_type == "Save":
-        update_volunteer_details(request)
-
-
-def fetch_volunteer_details(request):
-    user_email_id = request.GET["user_email"]
-    user_id = User.objects.get(email=user_email_id).id
-    project_id = request.GET["project_id"]
-    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[
-        0]  # ideally only one entry should be there
-    project_user_id = project_user_record.id
-    volunteer_record = VolunteerTime.objects.get(project_user_id=project_user_id)
-    if volunteer_record:
-        serializer = VolunteerTimeSerializer(volunteer_record)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-
-def update_volunteer_details(request):
-    user_email_id = request.data["user_email"]
-    user_id = User.objects.get(email=user_email_id).id
-    project_id = request.data["project_id"]
-    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[
-        0]  # ideally only one entry should be there
-    project_user_id = project_user_record.id
-    volunteer_record = VolunteerTime.objects.filter(project_user_id=project_user_id)[0]
-    volunteer_time_update_data = {"project_user": project_user_id,
-                                  "organisation_name": request.data["organisation_name"],
-                                  "organisation_address": request.data["organisation_address"],
-                                  "organisation_city": request.data["organisation_city"],
-                                  "organisation_state": request.data["organisation_state"],
-                                  "organisation_website": request.data["website"],
-                                  "volunteer_hours": request.data["hours"],
-                                  "volunteer_work_description": request.data["description"],
-                                  "volunteer_exp": request.data["exp_video"]}
-    if volunteer_record:
-        serializer = VolunteerTimeSerializer(volunteer_record, data=volunteer_time_update_data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        create_volunteer_adventure(request, user_id, project_id)
 
 
 @api_view(['POST'])
@@ -645,181 +499,13 @@ def spread_the_word(request):
     return JsonResponse(response)
 
 
-@api_view(['POST', 'GET', 'PUT'])
-@parser_classes([MultiPartParser, FormParser])
-def donation(request):
-    response = {'status': "Success"}
-    if request.method == "POST":
-        store_donation_details(request)
-    elif request.method == "GET":
-        fetch_donation_details(request)
-    return JsonResponse(response)
-
-
-def store_donation_details(request):
-    user_email_id = request.data["user_email"]
-    user_id = User.objects.get(email=user_email_id).id
-    project_id = request.data["project_id"]
-    action_type = request.data["action_type"]
-    if action_type == "Done":
-        create_donation_record(request, user_id, project_id)
-        update_challenge_status(user_id, project_id, "Challenge3Complete")
-    elif action_type == "Save":
-        update_donation_details(request)
-
-
-def create_donation_record(request, user_id, project_id):
-    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[
-        0]  # ideally only one entry should be there
-    project_user_id = project_user_record.id
-    give_donation_data = {"project_user": project_user_id, "organisation_name": request.data["organisation_name"],
-                          "organisation_address": request.data["organisation_address"],
-                          "organisation_city": request.data["organisation_city"],
-                          "organisation_state": request.data["organisation_state"],
-                          "organisation_website": request.data["website"],
-                          "donation_details": request.data["details"],
-                          "donation_exp": request.data["exp_video"]}
-    donation_serializer = GiveDonationSerializer(data=give_donation_data)
-    if donation_serializer.is_valid():
-        donation_serializer.save()
-        return Response(donation_serializer.data, status=status.HTTP_201_CREATED)
-    else:
-        return Response(donation_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-def update_challenge_status(user_id, project_id, challenge_status):
-    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[
-        0]  # ideally only one entry should be there
-    project_user_record.challenge_status = challenge_status
-    project_user_record.save()
-
-
-def fetch_donation_details(request):
-    user_email_id = request.GET["user_email"]
-    user_id = User.objects.get(email=user_email_id).id
-    project_id = request.GET["project_id"]
-    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[
-        0]  # ideally only one entry should be there
-    project_user_id = project_user_record.id
-    donation_record = GiveDonation.objects.get(project_user_id=project_user_id)
-    if donation_record:
-        serializer = GiveDonationSerializer(donation_record)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-
-def update_donation_details(request):
-    user_email_id = request.data["user_email"]
-    user_id = User.objects.get(email=user_email_id).id
-    project_id = request.data["project_id"]
-    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[
-        0]  # ideally only one entry should be there
-    project_user_id = project_user_record.id
-    donation_record = GiveDonation.objects.get(project_user_id=project_user_id)
-    give_donation_update_data = {"project_user": project_user_id,
-                                 "organisation_name": request.data["organisation_name"],
-                                 "organisation_address": request.data["organisation_address"],
-                                 "organisation_city": request.data["organisation_city"],
-                                 "organisation_state": request.data["organisation_state"],
-                                 "organisation_website": request.data["website"],
-                                 "donation_details": request.data["details"],
-                                 "donation_exp": request.data["exp_video"]}
-    if donation_record:
-        serializer = GiveDonationSerializer(donation_record, data=give_donation_update_data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        create_donation_record(request, user_id, project_id)
-
-
-@api_view(['POST', 'GET'])
-@parser_classes([MultiPartParser, FormParser])
-def fundraiser(request):
-    response = {'status': "Success"}
-    if request.method == "POST":
-        store_fundraiser_details(request)
-    elif request.method == "GET":
-        fetch_fundraiser(request)
-    return JsonResponse(response)
-
-
-def store_fundraiser_details(request):
-    user_email_id = request.data["user_email"]
-    user_id = User.objects.get(email=user_email_id).id
-    project_id = request.data["project_id"]
-    action_type = request.data["action_type"]
-    if action_type == "Done":
-        create_fundraiser_record(request, user_id, project_id)
-        update_challenge_status(user_id, project_id, "Challenge3Complete")
-    elif action_type == "Save":
-        update_fundraiser_record(request)
-
-
-def create_fundraiser_record(request, user_id, project_id):
-    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[
-        0]  # ideally only one entry should be there
-    project_user_id = project_user_record.id
-    fundraiser_data = {"project_user": project_user_id, "organisation_name": request.data["organisation_name"],
-                       "organisation_address": request.data["organisation_address"],
-                       "organisation_city": request.data["organisation_city"],
-                       "organisation_state": request.data["organisation_state"],
-                       "organisation_website": request.data["website"],
-                       "fundraise_details": request.data["details"],
-                       "fundraise_amount": request.data["amount"],
-                       "fundraise_exp": request.data["exp_video"]}
-    fundraiser_serializer = FundraiserSerializer(data=fundraiser_data)
-    if fundraiser_serializer.is_valid():
-        fundraiser_serializer.save()
-        return Response(fundraiser_serializer.data, status=status.HTTP_201_CREATED)
-    else:
-        return Response(fundraiser_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-def update_fundraiser_record(request):
-    user_email_id = request.data["user_email"]
-    user_id = User.objects.get(email=user_email_id).id
-    project_id = request.data["project_id"]
-    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[
-        0]  # ideally only one entry should be there
-    project_user_id = project_user_record.id
-    fundraiser_record = Fundraise.objects.get(project_user_id=project_user_id)
-    fundraiser_data = {"project_user": project_user_id, "organisation_name": request.data["organisation_name"],
-                       "organisation_address": request.data["organisation_address"],
-                       "organisation_city": request.data["organisation_city"],
-                       "organisation_state": request.data["organisation_state"],
-                       "organisation_website": request.data["website"],
-                       "fundraise_details": request.data["details"],
-                       "fundraise_amount": request.data["amount"],
-                       "fundraise_exp": request.data["exp_video"]}
-    if fundraiser_record:
-        serializer = FundraiserSerializer(fundraiser_record, data=fundraiser_data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        create_fundraiser_record(request, user_id, project_id)
-
-
-def fetch_fundraiser(request):
-    user_email_id = request.GET["user_email"]
-    user_id = User.objects.get(email=user_email_id).id
-    project_id = request.GET["project_id"]
-    project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[
-        0]  # ideally only one entry should be there
-    project_user_id = project_user_record.id
-    fundraiser = Fundraise.objects.get(project_user_id=project_user_id)
-    if fundraiser:
-        serializer = FundraiserSerializer(fundraiser)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-
 def spotlight_stats(request, user_email):
+    """
+    This method is used to find the statistics for user activities to be displayed on the spotlight page.
+    :param request:
+    :param user_email:
+    :return:
+    """
     response = {'status': "Invalid Request"}
     total_volunteer_hours = 0
     total_fund_raised = 0
@@ -849,6 +535,11 @@ def spotlight_stats(request, user_email):
 
 
 def find_user_prize(project_user_id):
+    """
+    For a given project find the prize
+    :param project_user_id:
+    :return: prize id
+    """
     project_user_details = ProjectUserDetails.objects.get(project_user_id=project_user_id)
     prize_id = project_user_details.prize_id
     return prize_id
@@ -856,13 +547,13 @@ def find_user_prize(project_user_id):
 
 def create_user_invitation(email, project_id, user_id, prize_id, message):
     """
-    This method is used to create an invitation for the user and enter details in user invitation table.
-    :param email:
-    :param project_id:
-    :param user_id:
-    :param prize_id:
-    :param message:
-    :return:
+       This method is used to create an invitation for the user and enter details in user invitation table.
+       :param email:
+       :param project_id:
+       :param user_id:
+       :param prize_id:
+       :param message:
+       :return: boolean
     """
     invited_user = check_user(email)
     if invited_user:
@@ -886,6 +577,14 @@ def create_user_invitation(email, project_id, user_id, prize_id, message):
 
 
 def create_unregister_user_invitation(email, project_user_id, prize_id, message):
+    """
+    Create an invitation record in unregistered user invitation table.
+    :param email:
+    :param project_user_id:
+    :param prize_id:
+    :param message:
+    :return:
+    """
     unregister_invitation = UnregisterInvitation.objects.create(project_user_id=project_user_id,
                                                                 unregister_user_emailId=email,
                                                                 prize_id=prize_id, invitation_message=message)
@@ -894,9 +593,9 @@ def create_unregister_user_invitation(email, project_user_id, prize_id, message)
 
 def check_user(email):
     """
-    Check whether the user with the given email exists or not
-    :param email:
-    :return: user
+       Check whether the user with the given email exists or not
+       :param email:
+       :return: user
     """
     user = User.objects.get(email=email)
     if user:
@@ -905,10 +604,10 @@ def check_user(email):
 
 def check_existing_project(email, project_id):
     """
-    Check whether there is a record for a given project for a user.
-    :param email:
-    :param project_id:
-    :return: boolean
+        Check whether there is a record for a given project for a user.
+        :param email:
+        :param project_id:
+        :return: boolean
     """
     user_id = User.objects.get(email=email).id
     project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)
@@ -1035,68 +734,12 @@ def unlock_prize(request, project_id, user_email):
                                                                               user_id=user_id).values()
                         if registered_invitation:
                             for item in registered_invitation:
-                                user = User.objects.get(id=item['friend'])
+                                print(item)
+                                user = User.objects.get(id=item['friend_id'])
                                 invitees.append(user.email)
                     response['invitees'] = invitees
                     if project_user_details_record.video:
                         response['video'] = request.build_absolute_uri(project_user_details_record.video.url)
-                    else:
-                        response['video'] = ''
-            elif adventure_id == 2:
-                challenge_skill = LearnNewSkill.objects.filter(project_user_id=pu_id).first()
-                if challenge_skill:
-                    response['new_skill'] = challenge_skill.new_skill
-                    response['description'] = challenge_skill.description
-                    if challenge_skill.video:
-                        response['video'] = request.build_absolute_uri(challenge_skill.video.url)
-                    else:
-                        response['video'] = ''
-            elif adventure_id == 3:
-                challenge_develop_habit = DevelopNewHabit.objects.filter(project_user_id=pu_id).first()
-                if challenge_develop_habit:
-                    response['new_habit'] = challenge_develop_habit.new_habit
-                    response['description'] = challenge_develop_habit.description
-                    if challenge_develop_habit.video:
-                        response['video'] = request.build_absolute_uri(challenge_develop_habit.video.url)
-                    else:
-                        response['video'] = ''
-            elif adventure_id == 4:
-                challenge_voluteer_time = VolunteerTime.objects.filter(project_user_id=pu_id).first()
-                if challenge_voluteer_time:
-                    response['organisation_name'] = challenge_voluteer_time.organisation_name
-                    response['organisation_address'] = challenge_voluteer_time.organisation_address
-                    response['organisation_city'] = challenge_voluteer_time.organisation_city
-                    response['organisation_state'] = challenge_voluteer_time.organisation_state
-                    response['organisation_website'] = challenge_voluteer_time.organisation_website
-                    response['volunteer_hours'] = challenge_voluteer_time.volunteer_hours
-                    response['volunteer_work_description'] = challenge_voluteer_time.volunteer_work_description
-                    if challenge_voluteer_time.volunteer_exp:
-                        response['video'] = request.build_absolute_uri(challenge_voluteer_time.volunteer_exp.url)
-                    else:
-                        response['video'] = ''
-            elif adventure_id == 5:
-                challenge_give_donation = GiveDonation.objects.filter(project_user_id=pu_id).first()
-                if challenge_give_donation:
-                    response['organisation_name'] = challenge_give_donation.organisation_name
-                    response['organisation_address'] = challenge_give_donation.organisation_address
-                    response['organisation_city'] = challenge_give_donation.organisation_city
-                    response['organisation_state'] = challenge_give_donation.organisation_state
-                    response['organisation_website'] = challenge_give_donation.organisation_website
-                    if challenge_give_donation.donation_exp:
-                        response['video'] = request.build_absolute_uri(challenge_give_donation.volunteer_exp.url)
-                    else:
-                        response['video'] = ''
-            elif adventure_id == 6:
-                challenge_fundraise = Fundraise.objects.filter(project_user_id=pu_id).first()
-                if challenge_fundraise:
-                    response['organisation_name'] = challenge_fundraise.organisation_name
-                    response['organisation_address'] = challenge_fundraise.organisation_address
-                    response['organisation_city'] = challenge_fundraise.organisation_city
-                    response['organisation_state'] = challenge_fundraise.organisation_state
-                    response['organisation_website'] = challenge_fundraise.organisation_website
-                    response['fundraise_details'] = challenge_fundraise.fundraise_details
-                    if challenge_fundraise.fundraise_exp:
-                        response['video'] = request.build_absolute_uri(challenge_fundraise.fundraise_exp.url)
                     else:
                         response['video'] = ''
         posts_record = Posts.objects.create(user_id=user_id, project_id=project_id, action_type="Completed_Project")
@@ -1295,6 +938,3 @@ class ChallengeFundraiserDetailsView(QueryByProjectUserMixin, RetrieveAPIView, U
         if 'action_type' in self.request.data:
             if 'Done' in self.request.data['action_type']:
                 self.set_project_user_record_status("Challenge3Complete")
-
-
-

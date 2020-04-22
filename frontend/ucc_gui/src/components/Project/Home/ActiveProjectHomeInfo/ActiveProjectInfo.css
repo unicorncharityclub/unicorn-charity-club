@@ -9,7 +9,7 @@
 
 .viewButton {
     border-radius: 0rem;
-    width: 105%;
+    width: 70%;
     background-color: #2BB9B7;
     padding: 4px;    
     border: 0px;    
@@ -47,7 +47,7 @@
     color: darkgray;
 }
 
-.row {
+.row1 {
      /* padding-top: 5px; */
     /* align-content: inline;  */
     width: 550px;
@@ -93,8 +93,7 @@
 
 .ActiveProjectInfo_Text
 {
-    float: right;
-    width: 74%;
+  margin-top: 1%;
 }
 
 .text_black {
@@ -105,7 +104,6 @@
 {
     display: none;
 }
-
 
 
 @media screen and (max-device-width: 1700px){
@@ -122,10 +120,19 @@
     }
 
     .ActiveProjectInfo_Text {
-        width: 70%;
+        width: 71%;
         float: left;
     }
 }
+
+
+@media screen and (max-device-width: 1400px){   
+
+    .ActiveProjectInfo_Text {
+        width: 76%;        
+    }
+}
+
 
 
 @media screen and (max-device-width: 920px){
@@ -143,7 +150,7 @@
 
     .ActiveProjectInfo_Text
     {        
-        width: 72%;
+        width: 81%;
     }
 
     .horizontal_line
@@ -168,7 +175,7 @@
 
     .ActiveProjectInfo_Text
     {        
-        width: 68%;
+        width: 80%;
     }
 
     .horizontal_line
@@ -185,6 +192,10 @@
     {
         width:40%;
     }
+
+    .viewButton {
+        font-size: small;
+    } 
 
     .ProjectInfo_Text
     {
@@ -207,15 +218,12 @@
     }
 
     .ActiveProjectInfo_Text {
-        width: 80%;
+        width: 84%;
     }
 
     .text_black_heading {
         font-size: 1.3em;        
-    }
-    .text_black {
-        width: fit-content;
-    }
+    }    
 
     .ActiveProjectInfo_Badge {
         height: 17vw;        
@@ -236,6 +244,11 @@
     .textHeader {        
         padding-bottom: 5%;
     }
+
+    .stepperWidth {
+        width: 115%;
+    }
+
 }
 
 

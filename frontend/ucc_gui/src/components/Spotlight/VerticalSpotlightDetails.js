@@ -13,10 +13,10 @@ class ProfileInfo extends React.Component {
         dob : '',
         full_name : '',
         address : '',  
-        total_projects  : '',
-        people_reached  : '',
-        volunteer_hours  : '',
-        funds_raised  : '',
+        total_projects  : '0',
+        people_reached  : '0',
+        volunteer_hours  : '0',
+        funds_raised  : '0',
         user_email: cookie.load('user_email')      
     }
  }
@@ -121,7 +121,7 @@ class ProfileInfo extends React.Component {
   render() {    
     if (this.props.isSpotlightPage){
         return (
-          <div className="content_section vertical">
+          <div>
 
             <div> 
                 {/* profile pic details here */}

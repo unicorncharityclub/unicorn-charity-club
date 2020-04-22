@@ -9,7 +9,7 @@
 .two_button_left_button
 {
     border-radius : 15px 0px 0px 15px;
-    background-color:white;
+    background-color: white;
     border:1px solid #2BB9B7;
     border-right: 0;
     font-size: 0.8em;
@@ -70,7 +70,7 @@
     .two_button_left_button
     {
         border-radius : 15px 0px 0px 15px;
-        background-color:white;
+        background-color: white;
         border:1px solid #2BB9B7;
         border-right: 0;
         width : 40%;

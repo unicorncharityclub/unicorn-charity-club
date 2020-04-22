@@ -1,6 +1,7 @@
 import React from 'react';
 import "../../../../containers/Projects/ActiveProject/Step_3/LearnNewSkill/LearnNewSkill.css";
 import {Player} from "video-react";
+import AxiosConfig from "../../../../axiosConfig";
 
 
 /**
@@ -18,6 +19,40 @@ import {Player} from "video-react";
 
 class GiveADonationSummary extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            projectId: this.props.projectId,
+            userEmail: this.props.userEmail,
+            description: '',
+            video: '',
+            name: '',
+            address: '',
+            city: '',
+            stateName: '',
+            website: ''
+        }
+    }
+
+    componentDidMount() {
+        AxiosConfig.get(`charityproject/give_donation/`, {
+            params: {
+                project_id: this.state.projectId,
+                user_email: this.state.userEmail
+            }
+        })
+            .then(res => {
+                this.setState({
+                    name: res.data.organisation_name,
+                    address: res.data.organisation_address,
+                    city: res.data.organisation_city,
+                    website: res.data.website,
+                    stateName: res.data.organisation_state,
+                    description: res.data.details,
+                    video: res.data.exp_video
+                });
+            }).catch(error => console.log(error))
+    }
 
     render() {
         return (
@@ -26,16 +61,16 @@ class GiveADonationSummary extends React.Component {
                     <label>I reached my project goal of donating to a charitable organization that supports the
                         mission of the project:</label>
                     <label className="statement">I donated to:</label>
-                    <label className="statement">{this.props.name}</label>
-                    <label className="statement">{this.props.address}</label>
-                    <label className="statement">{this.props.city}, {this.props.state}</label>
-                    <label>{this.props.website}</label>
-                    <label>{this.props.description}</label>
+                    <label className="statement">{this.state.name}</label>
+                    <label className="statement">{this.state.address}</label>
+                    <label className="statement">{this.state.city}, {this.state.stateName}</label>
+                    <label>{this.state.website}</label>
+                    <label>{this.state.description}</label>
                     <div className="project-video-preview" style={{width: this.props.width}}>{
-                        (this.props.video) ?
+                        (this.state.video) ?
                             <div style={{width: this.props.width}}>
                                 <Player className="video-upload-preview" fluid={false}
-                                        playsInline src={this.props.video}
+                                        playsInline src={this.state.video}
                                 />
                             </div> : ''
                     }</div>
