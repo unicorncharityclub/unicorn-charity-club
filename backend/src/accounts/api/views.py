@@ -29,6 +29,9 @@ def random_string(string_length=10):
 
 
 class UserRegisterMixin(object):
+    """
+    Register new user to the application
+    """
     def post(self, data, *args, **kwargs):
         response_data = {"status": "Success"}
         serializer = AccountDetailsSerializer(data=data, context={'password': make_password(data['password'])})
@@ -53,6 +56,13 @@ class UserLoginView(ChildrenListMixin, APIView):
 
     @method_decorator(csrf_exempt)
     def post(self, request, *args, **kwargs):
+        """
+        Login registered user to the application
+        :param request:
+        :param args:
+        :param kwargs:
+        :return:
+        """
         try:
             response = {'status': "Invalid Request"}
             user_details_list = []
@@ -86,6 +96,13 @@ class UserLoginView(ChildrenListMixin, APIView):
 
 class AddChildView(UserRegisterMixin, APIView):
     def post(self, request, *args, **kwargs):
+        """
+        Add children for the parent user
+        :param request:
+        :param args:
+        :param kwargs:
+        :return:
+        """
         try:
             parent_user = request.user
             parent_user_id = parent_user.id
