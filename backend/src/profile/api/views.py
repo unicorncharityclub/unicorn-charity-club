@@ -16,6 +16,13 @@ class ChildrenListMixin(object):
     request = None
 
     def get(self, request, *args, **kwargs):
+        """
+        For a given parent return the list of children.
+        :param request:
+        :param args:
+        :param kwargs:
+        :return:
+        """
         try:
             child_list = []
             if 'user_email' in kwargs:
@@ -39,6 +46,11 @@ class ProfileDetailView(APIView):
 
     @method_decorator(csrf_protect)
     def get(self, request):
+        """
+        Get details of user's profile
+        :param request:
+        :return: user profile
+        """
         result = {}
         try:
             # Getting user account details
@@ -58,6 +70,10 @@ class ProfileDetailView(APIView):
 
     @method_decorator(csrf_protect)
     def put(self, request):
+        """
+        Update user's profile based on user type
+        :param request:
+        """
         try:
             # Updating user account details
             user = request.user

@@ -328,6 +328,10 @@ class ProjectInvitationsView(UserInvitationListMixin, RetrieveAPIView, CreateAPI
 
 
 def update_user_invitation(request):
+    """
+       This method is used when user wants to invite other members to the charity project.
+       :param request:
+    """
     response = {'status': "Invalid Request"}
     if request.method == 'POST':
         json_data = json.loads(request.body)
@@ -357,6 +361,12 @@ def update_user_invitation(request):
 
 
 def get_friend_list(request):
+    """
+       This method is used to find the users given an email address. Since children are associated with parents email,
+       it will return both parent and children users.
+       :param request: Email
+       :return:
+    """
     response = {'status': "Invalid Request"}
     friend_list = []
     json_data = json.loads(request.body)
@@ -414,6 +424,11 @@ class SearchFriendByNameView(ListAPIView):
 
 
 def unregistered_invitation(request):
+    """
+       This method is used to invite those users to the charity project who are not registered with the application
+       :param request:
+       :return:
+    """
     response = {'status': "Invalid Request"}
     if request.method == 'POST':
         json_data = json.loads(request.body)
@@ -485,6 +500,12 @@ def spread_the_word(request):
 
 
 def spotlight_stats(request, user_email):
+    """
+    This method is used to find the statistics for user activities to be displayed on the spotlight page.
+    :param request:
+    :param user_email:
+    :return:
+    """
     response = {'status': "Invalid Request"}
     total_volunteer_hours = 0
     total_fund_raised = 0
@@ -514,12 +535,26 @@ def spotlight_stats(request, user_email):
 
 
 def find_user_prize(project_user_id):
+    """
+    For a given project find the prize
+    :param project_user_id:
+    :return: prize id
+    """
     project_user_details = ProjectUserDetails.objects.get(project_user_id=project_user_id)
     prize_id = project_user_details.prize_id
     return prize_id
 
 
 def create_user_invitation(email, project_id, user_id, prize_id, message):
+    """
+       This method is used to create an invitation for the user and enter details in user invitation table.
+       :param email:
+       :param project_id:
+       :param user_id:
+       :param prize_id:
+       :param message:
+       :return: boolean
+    """
     invited_user = check_user(email)
     if invited_user:
         invited_user_id = invited_user.id
@@ -542,6 +577,14 @@ def create_user_invitation(email, project_id, user_id, prize_id, message):
 
 
 def create_unregister_user_invitation(email, project_user_id, prize_id, message):
+    """
+    Create an invitation record in unregistered user invitation table.
+    :param email:
+    :param project_user_id:
+    :param prize_id:
+    :param message:
+    :return:
+    """
     unregister_invitation = UnregisterInvitation.objects.create(project_user_id=project_user_id,
                                                                 unregister_user_emailId=email,
                                                                 prize_id=prize_id, invitation_message=message)
@@ -549,12 +592,23 @@ def create_unregister_user_invitation(email, project_user_id, prize_id, message)
 
 
 def check_user(email):
+    """
+       Check whether the user with the given email exists or not
+       :param email:
+       :return: user
+    """
     user = User.objects.get(email=email)
     if user:
         return user
 
 
 def check_existing_project(email, project_id):
+    """
+        Check whether there is a record for a given project for a user.
+        :param email:
+        :param project_id:
+        :return: boolean
+    """
     user_id = User.objects.get(email=email).id
     project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)
     if project_user_record:
