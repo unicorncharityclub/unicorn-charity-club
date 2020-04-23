@@ -219,7 +219,7 @@ class RegisterForm extends React.Component {
           onSubmit={this.submitRegister}
         >
           <div className="form-content">
-            <Row>
+            <Row style={{paddingLeft:"unset", marginTop:"5px"}}>
               <Col md={{ span: 5, offset: 5}}>
                 <TextTheme
                       message={this.state.status}
@@ -227,7 +227,7 @@ class RegisterForm extends React.Component {
                     />
               </Col>
             </Row>
-            <Row>
+            <Row style={{paddingLeft:"unset", marginTop:"20px"}}>
               <Col md={{ span: 4, offset: 1 }}>
                 <TextTheme
                       message="First name:"
@@ -264,7 +264,7 @@ class RegisterForm extends React.Component {
                     />
               </Col>
             </Row>
-            <Row>
+            <Row style={{paddingLeft:"unset", marginTop:"20px"}}>
               <Col md={{ span: 4, offset: 1 }}>
                 <TextTheme
                         message="Email:"
@@ -301,7 +301,7 @@ class RegisterForm extends React.Component {
                     />
               </Col>
             </Row>
-            <Row>
+            <Row style={{paddingLeft:"unset", marginTop:"20px"}}>
               <Col md={{ span: 4, offset: 1 }}>
                 <TextTheme
                         message="Password:"
@@ -338,7 +338,7 @@ class RegisterForm extends React.Component {
                       />
               </Col>
             </Row>
-            <Row>
+            <Row style={{paddingLeft:"unset", marginTop:"20px"}}>
               <Col md={{ span: 6, offset: 4 }}>
                 <div className="terms-checkbox">
                   <FormControlLabel
@@ -362,7 +362,7 @@ class RegisterForm extends React.Component {
               </Col>
             </Row>
 
-            <Row>
+            <Row style={{paddingLeft:"unset", marginTop:"20px"}}>
               <Col md={{ span: 4, offset: 4 }}>
                 <button
                   id="button"
@@ -375,10 +375,10 @@ class RegisterForm extends React.Component {
               </Col>
             </Row>
 
-            <Row>
+            <Row style={{paddingLeft:"unset", marginTop:"5px"}}>
               <Col md={{ span: 4, offset: 4 }}>
                 <a href="/">
-                  Already Registered? Continue to Login.
+                  Login.
                 </a>
               </Col>
             </Row>
