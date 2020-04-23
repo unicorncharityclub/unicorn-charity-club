@@ -30,13 +30,14 @@ class FriendJoinedProject extends React.Component {
         return (
             <div className="feed-wrapper">
                 <div className="feed-form">
-                    <p><img className="profile-pic" src={this.props.friendsProfilePic || DefaultProfilePic}/></p>
-                    <p><label style={{ fontWeight: 'bold' }}>{this.props.friendsName}</label>
+                    <p className="mobile-profile-pic"><img className="profile-pic"
+                                                           src={this.props.friendsProfilePic || DefaultProfilePic}/></p>
+                    <p className="mobile-intro"><label style={{fontWeight: 'bold'}}>{this.props.friendsName}</label>
                         <label>{this.props.friendsName} joined project on {formattedDate}, {time}</label></p>
                 </div>
                 <div className="feed-display-adjacent">
-                    <p><img className="display-pic-adjacent" src={this.props.friendsProfilePic || DefaultProfilePic}/></p><
-                    p><img className="display-pic-adjacent" src={this.props.projectBadge}/></p>
+                    <p><img className="display-pic-adjacent" src={this.props.friendsProfilePic || DefaultProfilePic}/></p>
+                    <p><img className="display-pic-adjacent" src={this.props.projectBadge}/></p>
                 </div>
                 <div className="feed-form">
                     <label>{this.props.friendsName} just joined your impact project, {this.props.projectName}</label>

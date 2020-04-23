@@ -31,8 +31,8 @@ class UserCompletedProject extends React.Component {
         return (
             <div className="feed-wrapper">
                 <div className="feed-form">
-                    <p><img className="profile-pic" src={this.props.profilePic}/></p>
-                    <p><label style={{fontWeight: 'bold'}}>{this.props.userName}</label>
+                    <p className="mobile-profile-pic"><img className="profile-pic" src={this.props.profilePic}/></p>
+                    <p className="mobile-intro"><label style={{fontWeight: 'bold'}}>{this.props.userName}</label>
                         <label>Project was completed on {formattedDate}, {time}</label></p>
                 </div>
                 <div className="feed-display-video" style={{width: this.props.width}}>{

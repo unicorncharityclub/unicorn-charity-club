@@ -36,8 +36,8 @@ class ProjectInvitation extends React.Component {
         return (
             <div className="feed-wrapper">
                 <div className="feed-form">
-                    <p><img className="profile-pic" src={this.props.profilePic || DefaultProfilePic}/></p>
-                    <p><label style={{ fontWeight: 'bold' }}>{this.props.friendsName}</label>
+                    <p className="mobile-profile-pic"><img className="profile-pic" src={this.props.profilePic || DefaultProfilePic}/></p>
+                    <p className="mobile-intro"><label style={{ fontWeight: 'bold' }}>{this.props.friendsName}</label>
                         <label>{this.props.friendsName} catapulted project on {formattedDate}, {time}</label></p>
                 </div>
                 <div className="feed-display-pic" style={{backgroundImage: `url(${this.props.projectBanner}`}}>

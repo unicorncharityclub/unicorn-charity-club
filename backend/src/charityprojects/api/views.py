@@ -647,7 +647,7 @@ def user_feed(request):
                                    "friend_profile_pic": friend_image, "time": record.date,
                                    "project_badge": project_badge, "action": "Joined_Project"}
                 feed_list.append(joining_details)
-        feed_list.sort(key=lambda k: k['time'])
+        feed_list.sort(key=lambda k: k['time'], reverse=True)
     response["feed_list"] = feed_list
     response["Status"] = "Success"
     return JsonResponse(response)
