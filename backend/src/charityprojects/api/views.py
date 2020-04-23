@@ -578,55 +578,89 @@ def spotlight_stats(request, user_email):
     return JsonResponse(response)
 
 
+@api_view(['GET'])
+@parser_classes([MultiPartParser, FormParser])
 def user_feed(request):
     """
     This api will gather information about different activities performed by the user to display on his/her feed.
     :param request:
     :return: list of map of with details of user actions
     """
-    response = {'status': "Invalid Request"}
+    response = {'status': "Success"}
     user_email_id = request.GET["user_email"]
-    user = User.objects.get(email=user_email_id).id
+    user = User.objects.get(email=user_email_id)
     user_id = user.id
     user_actions = Posts.objects.filter(user_id=user_id)
     feed_list = []
-    adventure_map = {1: "Spread Word", 2: "Learn New Skill", 3: "Develop New Habit", 4: "Volunteer Time",
-                     5: "Give Donation", 6: "Fundraiser"}
+    adventure_map = {1: "Spread the word", 2: "Learn a new skill", 3: "Develop a new habit", 4: "Volunteer",
+                     5: "Give a donation", 6: "Raise funds"}
     if len(user_actions) > 0:
         for record in user_actions:
             action_type = record.action_type
             project_id = record.project_id
             project = CharityProjects.objects.get(pk=project_id)
             if action_type == "Started_Project":
-                project_details = {"project_name": project.name, "project_banner": project.banner, "time": record.date,
+                user = User.objects.get(pk=record.user_id)
+                profile = Profile.objects.get(user_id=record.user_id)
+                profile_pic = request.build_absolute_uri(profile.profile_pic.url)
+                project_badge = request.build_absolute_uri(project.badge.url)
+                user_name = user.first_name+' '+user.last_name
+                project_details = {"project_name": project.name, "project_badge": project_badge, "time": record.date,
+                                   "user_name": user_name, "profile_pic": profile_pic,
                                    "action": "Started_Project"}
                 feed_list.append(project_details)
             elif action_type == "Completed_Project":
-                project_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=user_id)
+                user = User.objects.get(pk=record.user_id)
+                profile = Profile.objects.get(user_id=record.user_id)
+                profile_pic = request.build_absolute_uri(profile.profile_pic.url)
+                project_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=user_id).first()
                 pu_id = project_user_record.id
                 adventure_id = project_user_record.adventure_id
                 adventure_video = find_adventure_record(request, adventure_id, pu_id)
+                user_name = user.first_name + ' ' + user.last_name
                 project_details = {"project_name": project.name, "adventure_experience": adventure_video,
-                                   "time": record.date, "action": "Completed_Project"}
+                                   "time": record.date, "user_name": user_name,
+                                   "profile_pic": profile_pic, "action": "Completed_Project"}
                 feed_list.append(project_details)
             elif action_type == "Goal_Set":
-                project_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=user_id)
+                user = User.objects.get(pk=record.user_id)
+                profile = Profile.objects.get(user_id=record.user_id)
+                profile_pic = request.build_absolute_uri(profile.profile_pic.url)
+                project_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=user_id).first()
                 adventure_id = project_user_record.adventure_id
                 goal_date = project_user_record.goal_date
                 adventure_name = adventure_map[adventure_id]
+                user_name = user.first_name + ' ' + user.last_name
                 project_details = {"project_name": project.name, "goal_name": adventure_name, "goal_date": goal_date,
+                                   "user_name": user_name, "profile_pic": profile_pic,
                                    "time": record.date, "action": "Goal_Set"}
                 feed_list.append(project_details)
             elif action_type == "Received_Invitation":
                 friend = User.objects.get(pk=record.friend_id)
+                friend_name = friend.first_name + ' ' + friend.last_name
+                friend_profile = Profile.objects.get(user_id=record.friend_id)
+                if friend_profile.profile_pic:
+                    friend_image = request.build_absolute_uri(friend_profile.profile_pic.url)
+                else:
+                    friend_image = ''
+                project_banner = request.build_absolute_uri(project.banner.url)
                 invitation_details = {"project_name": project.name, "project_mission": project.mission,
-                                      "friend_name": friend.get_full_name, "time": record.date, "action": "Received_Invitation"}
+                                      "project_banner": project_banner, "friend_name": friend_name,
+                                      "time": record.date, "friend_profile_pic": friend_image,
+                                      "gender": friend.gender, "action": "Received_Invitation"}
                 feed_list.append(invitation_details)
             elif action_type == "Joined_Project":
                 friend = User.objects.get(pk=record.friend_id)
-                friend_image = request.build_absolute_uri(friend.profile.profile_pic.url)
-                joining_details = {"project_name": project.name, "friend_name": friend.get_full_name,
-                                   "friend_image": friend_image, "time": record.date, "action": "Joined_Project"}
+                friend_name = friend.first_name + ' ' + friend.last_name
+                friend_profile = Profile.objects.get(user_id=record.friend_id)
+                if friend_profile.profile_pic:
+                    friend_image = request.build_absolute_uri(friend.profile.profile_pic.url)
+                else:
+                    friend_image = ''
+                project_badge = request.build_absolute_uri(project.banner.url)
+                joining_details = {"project_name": project.name, "friend_name": friend_name,
+                                   "friend_profile_pic": friend_image, "time": record.date,
+                                   "project_badge": project_badge, "action": "Joined_Project"}
                 feed_list.append(joining_details)
         feed_list.sort(key=lambda k: k['time'])
     response["feed_list"] = feed_list
@@ -644,23 +678,41 @@ def find_adventure_record(request, adventure_id, project_user_id):
     """
     if adventure_id == 1:
         spread_word = SpreadWord.objects.filter(project_user_id=project_user_id)
-        project_user_details = ProjectUserDetails.objects.filter(project_user_id=project_user_id)
-        return request.build_absolute_uri(project_user_details.video.url)
+        project_user_details = ProjectUserDetails.objects.filter(project_user_id=project_user_id).first()
+        if project_user_details.video:
+            return request.build_absolute_uri(project_user_details.video.url)
+        else:
+            return ''
     elif adventure_id == 2:
-        learn_new_skill = LearnNewSkill.objects.filter(project_user_id=project_user_id)
-        return request.build_absolute_uri(learn_new_skill.exp_video.url)
+        learn_new_skill = LearnNewSkill.objects.filter(project_user_id=project_user_id).first()
+        if learn_new_skill.video:
+            return request.build_absolute_uri(learn_new_skill.video.url)
+        else:
+            return ''
     elif adventure_id == 3:
-        develop_new_habit = DevelopNewHabit.objects.filter(project_user_id=project_user_id)
-        return request.build_absolute_uri(develop_new_habit.video.url)
+        develop_new_habit = DevelopNewHabit.objects.filter(project_user_id=project_user_id).first()
+        if develop_new_habit.video:
+            return request.build_absolute_uri(develop_new_habit.video.url)
+        else:
+            return ''
     elif adventure_id == 4:
-        volunteer_time = VolunteerTime.objects.filter(project_user_id=project_user_id)
-        return request.build_absolute_uri(volunteer_time.exp_video.url)
+        volunteer_time = VolunteerTime.objects.filter(project_user_id=project_user_id).first()
+        if volunteer_time.volunteer_exp:
+            return request.build_absolute_uri(volunteer_time.volunteer_exp.url)
+        else:
+            return ''
     elif adventure_id == 5:
-        give_donation = GiveDonation.objects.filter(project_user_id=project_user_id)
-        return request.build_absolute_uri(give_donation.exp_video.url)
+        give_donation = GiveDonation.objects.filter(project_user_id=project_user_id).first()
+        if give_donation.donation_exp:
+            return request.build_absolute_uri(give_donation.donation_exp.url)
+        else:
+            return ''
     elif adventure_id == 6:
-        fundraiser = Fundraise.objects.filter(project_user_id=project_user_id)
-        return request.build_absolute_uri(fundraiser.exp_video.url)
+        fundraiser = Fundraise.objects.filter(project_user_id=project_user_id).first()
+        if fundraiser.fundraise_exp:
+            return request.build_absolute_uri(fundraiser.fundraise_exp.url)
+        else:
+            return ''
 
 
 @api_view(['GET'])
