@@ -1,5 +1,6 @@
 import json
 from datetime import date
+from functools import reduce
 
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view, parser_classes
@@ -8,6 +9,7 @@ from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView,
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
 from accounts.api.serializers import AccountDetailsSerializer, SearchByNameSerializer
 from ..models import CharityProjects, ProjectUser, ProjectUserDetails, UserInvitation, UnregisterInvitation, \
@@ -24,6 +26,7 @@ from .serializers import ProjectUserDetailsSerializer, LearnNewSkillSerializer, 
 from rest_framework import status
 from rest_framework.response import Response
 import re
+from django.db.models import Q
 
 
 class CustomPagination(PageNumberPagination):
@@ -82,21 +85,22 @@ class CharityProjectCategory(ListAPIView):
 class ProjectUserMixin(object):
 
     project_user_record = None
+    queryset = ProjectUser.objects.all()
 
     def get_object(self):
         """
         The method will filter the queryset selected in the child class based on the project id present in the request
         """
-        queryset = self.get_queryset()
+        #queryset = self.get_queryset()
         project_id = None
         if self.request.method == 'GET':
             project_id = self.request.GET.get('project_id')
-        elif self.request.method == 'PUT':
+        elif self.request.method == 'PUT' or self.request.method == 'POST':
             project_id = self.request.data['project_id']
         project_user_record = ProjectUser.objects.filter(user_id=self.request.user.id, project_id=project_id).first()
         if project_user_record:
             self.project_user_record = project_user_record
-            obj = get_object_or_404(queryset, user_id=self.request.user.id, project_id=project_id)
+            obj = get_object_or_404(self.queryset, user_id=self.request.user.id, project_id=project_id)
         else:
             raise Http404("Project not started")
         return obj
@@ -110,7 +114,7 @@ class CharityProjectStartProject(ProjectUserMixin, CreateAPIView, UpdateAPIView)
     permission_classes = [IsAuthenticated]
     model = ProjectUser
     serializer_class = ProjectUserSerializer
-    queryset = ProjectUser.objects.all()
+    #queryset = ProjectUser.objects.all()
 
     def perform_create(self, serializer):
         """
@@ -327,73 +331,87 @@ class ProjectInvitationsView(UserInvitationListMixin, RetrieveAPIView, CreateAPI
         return obj
 
 
-def update_user_invitation(request):
-    response = {'status': "Invalid Request"}
-    if request.method == 'POST':
-        json_data = json.loads(request.body)
-        user_email_id = json_data["user_email"]
-        user_id = User.objects.get(email=user_email_id).id
-        project_id = json_data["project_id"]
-        invited_users = json_data["friend_list"]
-        # Remove null, duplicates and own emailId if it exists
-        invited_users = [item for item in invited_users if len(item) > 1 and item != user_email_id]
-        invited_users = set(invited_users)
-        message = json_data["invitation_message"]
-        project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0]
-        project_user_id = project_user_record.id
-        prize_id = ProjectUserDetails.objects.filter(project_user_id=project_user_id)[0].prize_id
-        for email in invited_users:
-            if check_existing_project(email, project_id):
-                response["status"] = "User is already doing the project"
-            if create_user_invitation(email, project_id, user_id, prize_id, message):
-                response["status"] = "Successfully stored invitation"
+class InviteUser(ProjectUserMixin, APIView):
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+    invited_users = None
+    prize_id = None
+    project_id = None
+    message = None
+    project_user_id = None
+
+    def invite_registered_user(self, invitation_result):
+        for email in self.invited_users:
+            invitation_status = ""
+            if check_existing_project(email, self.project_id):
+                invitation_status = "User is already doing the project"
+            elif create_user_invitation(email, self.project_id, self.request.user.id, self.prize_id, self.message):
+                invitation_status = "Successfully created invitation"
             else:
-                response["status"] = "User has invitation for this project"
+                invitation_status = "User has invitation for this project"
+            invitation_result.append({"email": email, "status": invitation_status})
+
+    def invite_unregistered_user(self, invitation_result):
+        for email in self.invited_users:
+            invitation_status = ""
+            invited_user = check_user(email)
+            if invited_user:
+                if check_existing_project(email, self.project_id):
+                    invitation_status = "User is already doing the project"
+                elif create_user_invitation(email, self.project_id, self.request.user.id, self.prize_id, self.message):
+                    invitation_status = "Successfully created invitation"
+            else:
+                create_unregister_user_invitation(email, self.project_user_id, self.prize_id, self.message)
+                invitation_status = "Successfully send mail to unregistered user"
+            invitation_result.append({"email": email, "status": invitation_status})
+
+    def post(self, request, *args, **kwargs):
+        response = {'status': "Invalid Request"}
+        invitation_result = []
+
+        project_user_record = super().get_object()
+        self.project_user_id = project_user_record.id
+        self.invited_users = request.data["friend_list"]
+        self.invited_users = [item for item in self.invited_users if len(item) > 1 and item != request.user.email]
+        self.invited_users = set(self.invited_users)
+        self.prize_id = ProjectUserDetails.objects.filter(project_user_id=self.project_user_id)[0].prize_id
+        self.project_id = request.data["project_id"]
+        self.message = request.data["invitation_message"]
+
+        if request.data["action_type"] == 'registered_user':
+            self.invite_registered_user(invitation_result)
+        elif request.data["action_type"] == 'unregistered_user':
+            self.invite_unregistered_user(invitation_result)
 
         project_user_record.project_status = "PlanningPhase3"
         project_user_record.challenge_status = "StartChallenge"
         project_user_record.save()
-        return JsonResponse(response)
+        response["status"] = "Success"
+        response["invitation_result"] = invitation_result
+        return Response(response, status=status.HTTP_200_OK)
 
 
-def get_friend_list(request):
-    response = {'status': "Invalid Request"}
-    friend_list = []
-    json_data = json.loads(request.body)
-    friend_email_id = json_data["friend_email"]
-    friend = User.objects.get(email=friend_email_id.lower())
-    friend_id = friend.id
-    if friend_id:
-        user_name = friend.first_name + " " + friend.last_name
-        if friend.profile.profile_pic:
-            user_photo = request.build_absolute_uri(friend.profile.profile_pic.url)
-        else:
-            user_photo = ""
-        user_details = {"user_id": friend_id, "user_email": friend_email_id, "user_name": user_name,
-                        "user_photo": user_photo}
-        friend_list.append(user_details)
-        children = ChildProfile.objects.filter(parent_id=friend_id)
-        if children:
+class SearchFriendByEmailView(ListAPIView):
+    pagination_class = CustomPagination
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthenticated]
+    serializer_class = SearchByNameSerializer
+    queryset = User.objects.all().prefetch_related('profile').order_by('id')
+
+    def get_queryset(self):
+        search = self.request.GET.get('email')
+        return self.queryset.filter(email__icontains=search) | self.queryset.filter(id__in=self.get_child_id_list(search))
+
+    def get_child_id_list(self, email):
+        child_id_list = []
+        try:
+            parent_id = User.objects.get(email=email).id
+            children = ChildProfile.objects.filter(parent_id=parent_id)
             for child in children:
-                child_user_id = child.user_id
-                child_profile_object = Profile.objects.get(user_id=child_user_id)
-                child_account_object = User.objects.get(pk=child_user_id)
-                child_email_id = child_account_object.email
-                if child_profile_object.profile_pic:
-                    child_photo = request.build_absolute_uri(child_profile_object.profile_pic.url)
-                else:
-                    child_photo = ""
-                child_name = child_account_object.first_name + child_account_object.last_name
-                child_details = {"user_id": child.id, "user_email": child_email_id, "user_name": child_name,
-                                 "user_photo": child_photo}
-                friend_list.append(child_details)
-            response["status"] = "Success"
-        else:
-            response["status"] = "User has no child added"
-        response["friend_list"] = friend_list
-    else:
-        response["status"] = "User does not exist"
-    return JsonResponse(response)
+                child_id_list.append(child.user_id)
+            return child_id_list
+        except Exception:
+            return child_id_list
 
 
 class SearchFriendByNameView(ListAPIView):
@@ -401,7 +419,7 @@ class SearchFriendByNameView(ListAPIView):
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
     serializer_class = SearchByNameSerializer
-    queryset = User.objects.all().order_by('id')
+    queryset = User.objects.all().prefetch_related('profile').order_by('id')
 
     def get_queryset(self):
         search = self.request.GET.get('text')
@@ -411,31 +429,6 @@ class SearchFriendByNameView(ListAPIView):
             return self.queryset.filter(first_name__istartswith=search_params[0])
         else:
             return self.queryset.filter(first_name__istartswith=search_params[0], last_name__istartswith=search_params[1])
-
-
-def unregistered_invitation(request):
-    response = {'status': "Invalid Request"}
-    if request.method == 'POST':
-        json_data = json.loads(request.body)
-        user_email_id = json_data["user_email"]
-        user_id = User.objects.get(email=user_email_id).id
-        project_id = json_data["project_id"]
-        project_user_id = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)[0].id
-        message = json_data["invitation_message"]
-        invited_users = json_data["friend_list"]
-        # Remove null, duplicates and own emailId if it exists
-        invited_users = [item for item in invited_users if len(item) > 1 and item != user_email_id]
-        invited_users = set(invited_users)
-        prize_id = ProjectUserDetails.objects.filter(project_user_id=project_user_id)[0].prize_id
-
-        for email in invited_users:
-            invited_user = check_user(email)
-            if invited_user:
-                create_user_invitation(email, project_id, user_id, prize_id, message)
-            else:
-                create_unregister_user_invitation(email, project_user_id, prize_id, message)
-
-    return JsonResponse(response)
 
 
 @api_view(['POST'])

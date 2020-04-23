@@ -1,5 +1,4 @@
-from .views import all_project_list, update_user_invitation,\
-    get_friend_list, unregistered_invitation,\
+from .views import all_project_list, \
     spread_the_word, spotlight_stats, unlock_prize, user_feed
 
 from django.urls import path
@@ -18,9 +17,10 @@ urlpatterns = [
     # Start Project related
     path('start/', views.CharityProjectStartProject.as_view()),
     path('start_project/', views.StartProject.as_view()),
-    path('friendByEmail', get_friend_list),  # friends
+
+    path('search_friend_email/', views.SearchFriendByEmailView.as_view()),
     path('search_friend_name/', views.SearchFriendByNameView.as_view()),
-    path('unregisteredInvitation', unregistered_invitation),  # friends
+    #path('unregisteredInvitation', unregistered_invitation),  # friends
 
     # Charity Project List
     path('active_project_list/', views.ActiveProjectListView.as_view()),
@@ -29,7 +29,8 @@ urlpatterns = [
 
     # Invitations
     path('project_invitation_details/', views.ProjectInvitationsView.as_view()),
-    path('userInvitation', update_user_invitation),  # friends
+    #path('userInvitation', update_user_invitation),  # friends
+    path('invite_user/', views.InviteUser.as_view()),
     path('project_invitation/', views.ProjectInvitationsListView.as_view()),
 
     # Project Challenges
