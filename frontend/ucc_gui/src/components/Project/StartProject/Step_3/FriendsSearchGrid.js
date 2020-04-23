@@ -17,14 +17,22 @@ class FriendsSearchGrid extends React.Component {
       <div style={{ flexGrow: 1 }}>
 
           <div>
-              <TextBlackSubHeading message={"Search Result For " + this.props.searchStringType + " : \"" + this.props.searchStringValue + "\""}/>
+              <TextBlackSubHeading 
+                  message={"Search Result For " + this.props.searchStringType + " : \"" + this.props.searchStringValue + "\""}
+              />
             </div>
-        <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start" style={{paddingLeft: "20px", paddingRight: "20px", paddingTop: "20px"}}>
+        <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start" 
+              style={{paddingLeft: "20px", paddingRight: "20px", paddingTop: "20px"}}>
 
           {this.props.friendsSearchData
           .map(elem => (
                    <Grid item xs={4} sm={3} md={3} key={this.props.friendsSearchData.indexOf(elem)} >
-                   <FriendsMediaCard imageSrc={elem.user_photo} imageId={elem.user_email} imageName={elem.user_name} searchResultImageClick={this.searchResultImageClick.bind(this)} />
+                   <FriendsMediaCard 
+                        imageSrc={elem.user_photo} 
+                        imageId={elem.user_email} 
+                        imageName={elem.user_name} 
+                        searchResultImageClick={this.searchResultImageClick.bind(this)} 
+                    />
             </Grid>
           ))}
         </Grid>

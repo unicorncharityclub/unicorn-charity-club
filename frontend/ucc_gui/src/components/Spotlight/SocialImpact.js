@@ -9,14 +9,12 @@ class SocialImpact extends React.Component {
     return (
       <div>
           <div className="page_details_content_main social">        
-          <VerticalSpotlightDetails isSpotlightPage = {true}/>
-          {/* <CollapseComponent isVertical = {true} title = "My Social Impact"/>               */}
-        </div>
+              <VerticalSpotlightDetails isSpotlightPage = {true}/>          
+          </div>
 
-        <div className = "content_spotlightInfo">          
-          <CollapseComponent  title = "My Social Impact"/>              
-        </div>
-
+          <div className = "content_spotlightInfo">          
+              <CollapseComponent  title = "My Social Impact"/>              
+          </div>
       </div>
     );
   }

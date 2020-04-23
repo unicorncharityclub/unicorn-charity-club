@@ -22,17 +22,26 @@ class FriendsInvitedGrid extends React.Component {
           <TextBlackSubHeading message="Invites are being sent to :"/>
         </div>
         {this.props.friendsInvitedData.length > 0 ? (
-        <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start"
-              style={{paddingLeft: "20px", paddingRight: "20px", paddingTop: "20px"}}>
+        <Grid container spacing={2} 
+              direction="row" 
+              justify="flex-start" 
+              alignItems="flex-start"
+              style={{paddingLeft: "20px", 
+                      paddingRight: "20px", 
+                      paddingTop: "20px"}}>
           {this.props.friendsInvitedData.map(elem => (
                    <Grid item xs={4} sm={3} md={3} key={this.props.friendsInvitedData.indexOf(elem)} >
-                   <FriendsMediaCard imageSrc={elem.user_photo} imageId={elem.user_email} imageName={elem.user_name} searchResultImageClick={this.searchResultImageClick.bind(this)} removeInviteClick={this.removeInviteClick.bind(this)} />
-            </Grid>
+                   <FriendsMediaCard  imageSrc={elem.user_photo} 
+                                      imageId={elem.user_email} 
+                                      imageName={elem.user_name} 
+                                      searchResultImageClick={this.searchResultImageClick.bind(this)} 
+                                      removeInviteClick={this.removeInviteClick.bind(this)} />
+                    </Grid>
           ))}
         </Grid>
             ) :
             (<div style={{textAlign:"center"}}>
-          <TextRedSubHeading message=" -- No Friends Selected -- "/>
+            <TextRedSubHeading message=" -- No Friends Selected -- "/>
         </div>)}
       </div>
     );

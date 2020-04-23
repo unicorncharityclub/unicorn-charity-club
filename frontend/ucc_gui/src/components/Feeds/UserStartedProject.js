@@ -1,16 +1,15 @@
 import React from 'react';
 
 /**
- * @description Displays the prize earned by a user after completion of the project.
+ * @description Displays the project started by the user.
  * @class UserStartedProject
- * @implements ProgressStepper, ProjectBanner, ProjectInfo, SpreadTheWordSummary, LearnNewSkillSummary,
- * DevelopNewHabitSummary, GiveADonationSummary, FundraiseSummary
+ * @implements none
  * @extends React.Component
  * @type {UserStartedProject}
  * @example <UserStartedProject />
  * pre-condition: all the imports
- * post-condition: returns a form with the prize earned by the user.
- * @param project_banner, project_name, project_badge, project_join_date, challenge_status, image, saveHandler
+ * post-condition: returns a form with the project started by the user.
+ * @param profilePic, userName, time, projectbadge, projectName
  * @returns {UserStartedProject}
  */
 
@@ -28,8 +27,8 @@ class UserStartedProject extends React.Component {
         return (
             <div className="feed-wrapper">
                 <div className="feed-form">
-                    <p><img className="profile-pic" src={this.props.profilePic}/></p>
-                    <p><label style={{fontWeight: 'bold'}}>{this.props.userName}</label>
+                    <p className="mobile-profile-pic"><img className="profile-pic" src={this.props.profilePic}/></p>
+                    <p className="mobile-intro"><label style={{fontWeight: 'bold'}}>{this.props.userName}</label>
                         <label>Project was started on {formattedDate}, {time}</label></p>
                 </div>
                 <div className="feed-display-adjacent">
