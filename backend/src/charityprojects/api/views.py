@@ -354,9 +354,9 @@ class InviteUserMixin(object):
            :param email:
            :return: user
         """
-        user = User.objects.get(email=email)
+        user = User.objects.filter(email=email)
         if user:
-            return user
+            return user[0]
 
     def check_existing_project(self, email):
         """
@@ -404,10 +404,17 @@ class InviteUserMixin(object):
         :param email:
         :return:
         """
-        unregister_invitation = UnregisterInvitation.objects.create(project_user_id=self.project_user_id,
-                                                                    unregister_user_emailId=email,
-                                                                    prize_id=self.prize_id, invitation_message=self.message)
+        unregister_invitation = UnregisterInvitation.objects.create(project_id=self.project_id,
+                                                                    user_id=self.request.user.id,
+                                                                    unregister_user_email=email,
+                                                                    prize_id=self.prize_id,
+                                                                    invitation_message=self.message)
         unregister_invitation.save()
+
+    def check_unregister_existing_project(self, email):
+        if UnregisterInvitation.objects.filter(unregister_user_email=email, project_id=self.project_id):
+            return True
+        return False
 
     def invite_registered_user(self, invitation_result, user_list):
         for email in user_list:
@@ -429,9 +436,14 @@ class InviteUserMixin(object):
                     invitation_status = "User is already doing the project"
                 elif self.create_user_invitation(email):
                     invitation_status = "Successfully created invitation"
+                else:
+                    invitation_status = "User has invitation for this project"
             else:
-                self.create_unregister_user_invitation(email)
-                invitation_status = "Successfully send mail to unregistered user"
+                if self.check_unregister_existing_project(email):
+                    invitation_status = "User is already doing the project"
+                else:
+                    self.create_unregister_user_invitation(email)
+                    invitation_status = "Successfully send mail to unregistered user"
             invitation_result.append({"email": email, "status": invitation_status})
 
 
@@ -442,14 +454,14 @@ class InviteUser(ProjectUserMixin, InviteUserMixin, APIView):
     def post(self, request, *args, **kwargs):
         response = {'status': "Invalid Request"}
         invitation_result = []
-
         project_user_record = super().get_object()
         self.project_id = request.data["project_id"]
         self.message = request.data["invitation_message"]
         self.project_user_id = project_user_record.id
         self.prize_id = ProjectUserDetails.objects.filter(project_user_id=self.project_user_id)[0].prize_id
-        self.invite_registered_user(invitation_result, self.clean_data(request.data["registered_user"]))
-        self.invite_unregistered_user(invitation_result, self.clean_data(request.data["unregistered_user"]))
+
+        self.invite_registered_user(invitation_result, self.clean_data(request.POST.getlist('registered_user')))
+        self.invite_unregistered_user(invitation_result, self.clean_data(request.POST.getlist('unregistered_user')))
 
         project_user_record.project_status = "PlanningPhase3"
         project_user_record.challenge_status = "StartChallenge"
@@ -674,7 +686,7 @@ def unlock_prize(request, project_id, user_email):
                 if challenge_spread_word:
                     spread_word_pu_id = challenge_spread_word.project_user_id
                     unregister_invitation = UnregisterInvitation.objects.filter(
-                        project_user_id=spread_word_pu_id).values()
+                        project_id=project_id, user_id=user_id).values()
                     if unregister_invitation:
                         for item in unregister_invitation:
                             invitees.append(item['unregister_user_emailId'])

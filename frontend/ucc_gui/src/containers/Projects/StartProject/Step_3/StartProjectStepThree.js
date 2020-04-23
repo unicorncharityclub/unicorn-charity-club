@@ -77,7 +77,7 @@ class StartProjectStepThree extends React.Component {
       this.checkUnregisteredUsersErr() === false &&
       this.checkInvitationMessageErr() === false
     ) {
-      this.sendInvitationToRegisteredUsers(this);
+      this.sendInvitationToUsers(this);
     }
   }
 
@@ -107,40 +107,21 @@ class StartProjectStepThree extends React.Component {
     return errorFlag;
   }
 
-  sendInvitationToUnregisteredUsers() {
-    var unregisterEmail = [];
-    for (let i = 0; i < this.state.unregisteredUser.length; i++) {
-      unregisterEmail.push(
-        this.state.unregisteredUser[i]["email_address"].trim()
-      );
-    }
-    AxiosConfig.post(`charityproject/unregisteredInvitation`, {
-      user_email: this.state.userEmail,
-      project_id: this.state.projectId,
-      invitation_message: this.state.inviteMessage,
-      friend_list: unregisterEmail,
-    })
-      .then(function (response) {
-        // go to next page
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
+  sendInvitationToUsers(obj){
+    let form_data = new FormData();
 
-  sendInvitationToRegisteredUsers(obj) {
-    var friendsEmail = [];
     for (const friends of this.state.selectedFriends.values()) {
-      friendsEmail.push(friends["user_email"]);
+      form_data.append('registered_user', friends["user_email"])
     }
-    AxiosConfig.post(`charityproject/userInvitation`, {
-      user_email: this.state.userEmail,
-      project_id: this.state.projectId,
-      invitation_message: this.state.inviteMessage,
-      friend_list: friendsEmail,
-    })
+    for (let i = 0; i < this.state.unregisteredUser.length; i++) {
+      form_data.append('unregistered_user', this.state.unregisteredUser[i]["email_address"].trim());
+    }
+    form_data.append("project_id", this.state.projectId);
+    form_data.append("invitation_message", this.state.inviteMessage);
+
+    AxiosConfig.post(`charityproject/invite_user/`, form_data)
       .then(function (response) {
-        obj.sendInvitationToUnregisteredUsers();
+        console.log()
       })
       .catch(function (error) {
         console.log(error);
