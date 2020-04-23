@@ -1,16 +1,15 @@
 import React from 'react';
 
 /**
- * @description Displays the prize earned by a user after completion of the project.
+ * @description Displays the project started by the user.
  * @class UserStartedProject
- * @implements ProgressStepper, ProjectBanner, ProjectInfo, SpreadTheWordSummary, LearnNewSkillSummary,
- * DevelopNewHabitSummary, GiveADonationSummary, FundraiseSummary
+ * @implements none
  * @extends React.Component
  * @type {UserStartedProject}
  * @example <UserStartedProject />
  * pre-condition: all the imports
- * post-condition: returns a form with the prize earned by the user.
- * @param project_banner, project_name, project_badge, project_join_date, challenge_status, image, saveHandler
+ * post-condition: returns a form with the project started by the user.
+ * @param profilePic, userName, time, projectbadge, projectName
  * @returns {UserStartedProject}
  */
 

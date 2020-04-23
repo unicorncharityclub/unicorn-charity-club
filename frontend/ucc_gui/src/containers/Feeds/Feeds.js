@@ -8,7 +8,23 @@ import UserCompletedProject from "../../components/Feeds/UserCompletedProject";
 import ProjectInvitation from "../../components/Feeds/ProjectInvitation";
 import UserSetGoal from "../../components/Feeds/UserSetGoal";
 import FriendJoinedProject from "../../components/Feeds/FriendJoinedProject";
+import FriendSetGoal from "../../components/Feeds/FriendSetGoal";
+import FriendCompletedProject from "../../components/Feeds/FriendCompletedProject";
 
+
+/**
+ * @description Displays the feeds for the user.
+ * @class Feeds
+ * @implements ProjectInvitation, FriendJoinedProject, UserStartedProject, UserCompletedProject, UserSetGoal,
+ * FriendSetGoal
+ * @extends React.Component
+ * @type {Feeds}
+ * @example <Feeds />
+ * pre-condition: all the imports
+ * post-condition: returns a form with the feed information for the user.
+ * @param none
+ * @returns {Feeds}
+ */
 
 class Feeds extends React.Component {
 
@@ -44,7 +60,9 @@ class Feeds extends React.Component {
                                                    time={item.time}
                                                    projectBanner={item.project_banner}
                                                    projectName={item.project_name}
-                                                   projectMission={item.project_mission}/>
+                                                   projectMission={item.project_mission}
+                                                   projectId={item.project_id}
+                                                   friendEmail={item.friend_email}/>
                                 : (item.action === 'Joined_Project') ?
                                 <FriendJoinedProject friendsProfilePic={item.friend_profile_pic}
                                                      friendsName={item.friend_name}
@@ -68,7 +86,19 @@ class Feeds extends React.Component {
                                                          userName={item.user_name}
                                                          time={item.time}
                                                          goalName={item.goal_name}
-                                                         projectName={item.project_name}/> : ''
+                                                         projectName={item.project_name}/>
+                                            : (item.action === 'Friend_Goal_Set') ?
+                                                <FriendSetGoal profilePic={item.friend_profile_pic}
+                                                               friendsName={item.friend_name}
+                                                               time={item.time}
+                                                               goalName={item.goal_name}
+                                                               projectName={item.project_name}/>
+                                                : (item.action === 'Friend_Completed_Project') ?
+                                                    <FriendCompletedProject profilePic={item.profile_pic}
+                                                                            friendsName={item.friend_name}
+                                                                            time={item.time}
+                                                                            video={item.adventure_experience}
+                                                                            projectName={item.project_name}/> : ''
                         ))}
                     </div>
                 </Container>

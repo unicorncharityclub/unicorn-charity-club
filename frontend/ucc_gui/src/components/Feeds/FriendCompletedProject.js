@@ -4,19 +4,19 @@ import DefaultProfilePic from "../../site_media/default-images/default-profile-p
 import {Player} from "video-react";
 
 /**
- * @description Displays the project completed by the user.
- * @class UserCompletedProject
+ * @description Displays the project completed by a friend of the user in the feed.
+ * @class FriendCompletedProject
  * @implements none
  * @extends React.Component
- * @type {UserCompletedProject}
- * @example <UserCompletedProject />
+ * @type {FriendCompletedProject}
+ * @example <FriendCompletedProject />
  * pre-condition: all the imports
- * post-condition: returns a form with the information about the project completed by the user.
- * @param profilePic, userName, time, video, projectName
- * @returns {UserCompletedProject}
+ * post-condition: returns a form with the message of project completed by a friend of the user.
+ * @param profilePic, friendsName, video, projectName, time
+ * @returns {FriendCompletedProject}
  */
 
-class UserCompletedProject extends React.Component {
+class FriendCompletedProject extends React.Component {
 
     render() {
         let event = new Date(this.props.time);
@@ -32,7 +32,7 @@ class UserCompletedProject extends React.Component {
                 <div className="feed-form">
                     <p className="mobile-profile-pic"><img className="profile-pic"
                                                            src={this.props.profilePic || DefaultProfilePic}/></p>
-                    <p className="mobile-intro"><label style={{fontWeight: 'bold'}}>{this.props.userName}</label>
+                    <p className="mobile-intro"><label style={{fontWeight: 'bold'}}>{this.props.friendsName}</label>
                         <label>Project was completed on {formattedDate}, {time}</label></p>
                 </div>
                 <div className="feed-display-video" style={{width: this.props.width}}>{
@@ -44,8 +44,8 @@ class UserCompletedProject extends React.Component {
                         </div> : ''
                 }</div>
                 <div className="feed-form">
-                    <label>Yay! You just completed your impact project, {this.props.projectName}. Time to
-                        celebrate!</label>
+                    <label>Woo-hoo! {this.props.friendsName} just completed your impact
+                        project, {this.props.projectName}!</label>
                 </div>
             </div>
         );
@@ -53,4 +53,4 @@ class UserCompletedProject extends React.Component {
 }
 
 
-export default UserCompletedProject;
+export default FriendCompletedProject;
