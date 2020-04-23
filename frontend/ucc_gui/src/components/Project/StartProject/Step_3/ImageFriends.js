@@ -102,13 +102,13 @@ class InviteFriends extends React.Component {
                             </div>
                             <div className="form-item" style={{float:"left",width:"50%"}}>
                               <Input
-                            name="friendEmail"
-                            type="text"
-                            id="friend-emailid"
-                            placeholder="Enter Email"
-                            value={this.state.friendEmail}
-                            handleChange={this.onFriendEmailChange.bind(this)}
-                          />
+                                    name="friendEmail"
+                                    type="text"
+                                    id="friend-emailid"
+                                    placeholder="Enter Email"
+                                    value={this.state.friendEmail}
+                                    handleChange={this.onFriendEmailChange.bind(this)}
+                                />
                             </div>
                         </div>
 
@@ -122,7 +122,7 @@ class InviteFriends extends React.Component {
                             disabled={this.props.disabled}
                             title="SEARCH&nbsp;"
                           />
-                            <AlertMessage alertMessage={this.state.searchStatus} />
+                          <AlertMessage alertMessage={this.state.searchStatus} />
                     </div>
                 </div>
             </div>

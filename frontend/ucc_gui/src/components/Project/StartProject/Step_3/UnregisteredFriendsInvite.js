@@ -16,48 +16,46 @@ class UnregisteredFriendsInvite extends React.Component {
         </div>
         <table >
             <tbody>
-        {this.props.unregisteredUser.map((user, index) => {
-          return (
-                  <tr key={index}>
-                    <td style={{width:"100%"}}>
-                      <Input
-                          width="100%"
-                        placeholder="Email"
-                        handleChange={e =>
-                          this.props.unregisteredUserEmailChange(e, index)
-                        }
-                        onBlur={this.props.unregisteredUserEmailValidate(index)}
-                        value={user.email_address}
-                      />
-                    </td>
-                    <td>
-                      {index > 4 ? (
-                          <DeleteButton handleOnClick={e =>this.props.unregisteredUserDeleteClick(e, index)}/>
-                      ) : (
-                        <div />
-                      )}
-                    </td>
-                    <td>
-                      <AlertMessage alertMessage={user.issue} />
-                    </td>
-                  </tr>
-          );
-        })}
-        </tbody>
-              </table>
-        <div style={{width:"100%", marginTop: "5px"}}>
-          <BlueButton
-                startIcon={<Add style={{ fontSize: 30 }}/>}
-                handleOnClick={this.props.unregisteredUserAddMoreClick}
-                title="ADD MORE&nbsp;"
-                disabled={this.props.disabled}
-              />
-          </div>
-          <div style={{marginTop:"5px"}}>
-              <AlertMessage alertMessage={this.props.unregisteredUserIssue} />
+                {this.props.unregisteredUser.map((user, index) => {
+                  return (
+                          <tr key={index}>
+                            <td style={{width:"100%"}}>
+                              <Input
+                                  width="100%"
+                                placeholder="Email"
+                                handleChange={e =>
+                                  this.props.unregisteredUserEmailChange(e, index)
+                                }
+                                onBlur={this.props.unregisteredUserEmailValidate(index)}
+                                value={user.email_address}
+                              />
+                            </td>
+                            <td>
+                              {index > 4 ? (
+                                  <DeleteButton handleOnClick={e =>this.props.unregisteredUserDeleteClick(e, index)}/>
+                              ) : (
+                                <div />
+                              )}
+                            </td>
+                            <td>
+                              <AlertMessage alertMessage={user.issue} />
+                            </td>
+                          </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+          <div style={{width:"100%", marginTop: "5px"}}>
+            <BlueButton
+                  startIcon={<Add style={{ fontSize: 30 }}/>}
+                  handleOnClick={this.props.unregisteredUserAddMoreClick}
+                  title="ADD MORE&nbsp;"
+                  disabled={this.props.disabled}
+                />
             </div>
-
-
+            <div style={{marginTop:"5px"}}>
+                <AlertMessage alertMessage={this.props.unregisteredUserIssue} />
+            </div>
       </div>
     );
   }

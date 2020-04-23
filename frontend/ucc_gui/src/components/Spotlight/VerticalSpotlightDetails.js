@@ -53,8 +53,7 @@ class ProfileInfo extends React.Component {
 
   }
 
-  setProfileInfo (response) {     
-    console.log(response)    
+  setProfileInfo (response) {          
       let dob = response.data['dob'];
       let full_name = response.data['full_name'];
       let address = response.data['address'];
@@ -123,8 +122,7 @@ class ProfileInfo extends React.Component {
         return (
           <div>
 
-            <div> 
-                {/* profile pic details here */}
+            <div>                 
                 <Image className="profile_pic_vertical" src={this.state.profile_pic} />
             </div> 
 
@@ -138,7 +136,7 @@ class ProfileInfo extends React.Component {
             <div onClick={(e)=>this.togglePanel(e)} className="header">
                 <p>             
                   <span className="collapse_title">{this.props.title}</span>
-                  <span class='icon-down-vertical'>&#709;</span>
+                  <span className='icon-down-vertical'>&#709;</span>
                 </p>             
             </div>                      
                 <div className="content_vertical">                    
@@ -166,7 +164,7 @@ class ProfileInfo extends React.Component {
             <div onClick={(e)=>this.togglePanel(e)} className="header">
                 <p>             
                   <span className="collapse_title">{this.props.title}</span>
-                  <span class='icon-down-vertical'>&#709;</span>
+                  <span className='icon-down-vertical'>&#709;</span>
                 </p>             
             </div>                      
                 <div className="content_vertical">                    

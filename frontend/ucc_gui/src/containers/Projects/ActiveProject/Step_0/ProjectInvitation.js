@@ -1,5 +1,4 @@
 import React from "react";
-// import "./ProjectInvitation.css";
 import ProjectInfo from "../../../../components/Project/Details/ProjectInfo";
 import Button from 'react-bootstrap/Button';
 import cookie from "react-cookies";
@@ -45,16 +44,12 @@ class ProjectInvitation extends React.Component {
             });               
             console.log(res);
         }).catch(error => console.log(error))
-
-        // now move to challenge 1
+        
         window.open('/Projects/'+ this.props.match.params.id +'/ActiveProjectChallenge1',"_self");
     }
 
-    componentDidMount () {
-        // get details for invitation
-        this.getInvitationDetails() ;
-        
-        // get project banner
+    componentDidMount () {        
+        this.getInvitationDetails() ;                
         this.getProjectBanner();
     }
 
@@ -65,17 +60,14 @@ class ProjectInvitation extends React.Component {
         .then(res => {
                 this.setState({                  
                     projectBanner: res.data["banner"]
-                });
-            //console.log(res);
+                });            
         }).catch(error => console.log(error))
-
     }
 
     getInvitationDetails() {
         
         const projectId = this.props.match.params.id;
-        const inviterEmail = this.props.match.params.inviterEmail;
-        const invitedEmail = this.state.userEmail;
+        const inviterEmail = this.props.match.params.inviterEmail;        
                
         AxiosConfig.get(`/charityproject/project_invitation_details/`, {
             params: { 
@@ -92,8 +84,7 @@ class ProjectInvitation extends React.Component {
                     projectTags: res.data.project.tags,
                     projectMission: res.data.project.mission,
                     projectGoal: res.data.project.goal
-                });
-            //console.log(res);
+                });            
         }).catch(error => console.log(error))
     }
 
@@ -132,7 +123,6 @@ class ProjectInvitation extends React.Component {
             <div className="page_details_main">
                 <div className="page_details_content_main">
                     <h2 className="textHeader">PROJECT INVITATION</h2>
-
                                          
                         <h4>DEAR {this.state.userName.toUpperCase()},</h4>
                         <p>
@@ -146,7 +136,6 @@ class ProjectInvitation extends React.Component {
                             />    
                         </div>
                     
-
                         <br/>
                         
                         <div className="page_info_hr_content_main">

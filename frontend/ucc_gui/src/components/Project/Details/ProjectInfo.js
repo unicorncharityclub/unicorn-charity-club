@@ -45,9 +45,10 @@ class ProjectInfo extends React.Component {
                     <tr>
                         <td>
                           <Image
-                    src={this.state.projectBadge}
-                    className="start_project_info_badge_image"
-                    roundedCircle/>
+                              src={this.state.projectBadge}
+                              className="start_project_info_badge_image"
+                              roundedCircle
+                            />
                         </td>
                       </tr>
                     <tr>
