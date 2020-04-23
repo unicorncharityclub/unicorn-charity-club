@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import RegisterForm from "./RegisterForm";
 import "./Register.css";
+import TextTheme from "../../../components/General/Text/TextTheme";
 
 class Register extends React.Component {
   render() {
@@ -9,7 +10,7 @@ class Register extends React.Component {
       <Router>
           <div>
             <div className="title">
-              <span>Let's get you registered with Unicron Charity Club!!</span>
+              <TextTheme message="Let's get you registered with Unicron Charity Club!!" className="text_large text_white"/>
             </div>
             <RegisterForm />
           </div>

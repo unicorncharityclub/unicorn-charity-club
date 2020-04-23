@@ -2,9 +2,11 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Login.css";
 import AxiosConfig from '../../../axiosConfig'
-import TextAlertLarge from "../../../components/General/Text/TextAlertLarge";
+import TextTheme from "../../../components/General/Text/TextTheme";
 import { connect } from 'react-redux';
 import cookie from 'react-cookies'
+import Input from "../../../components/General/Form/Input";
+import Button from "../../../components/General/Form/Button";
 
 class Login_Form extends React.Component {
   constructor(props) {
@@ -16,7 +18,8 @@ class Login_Form extends React.Component {
   login(e) {
     e.preventDefault();
     let valid = true;
-    if (this.state.email === "") {
+    console.log(this.state);
+    if (this.state.email === "" || this.state.email.size===0) {
       this.showValidationErr("email", "Email cannot be empty");
       valid=false;
     }
@@ -87,6 +90,7 @@ class Login_Form extends React.Component {
   }
 
   onEmailChange(e) {
+    console.log("Called")
     this.setState({ email: e.target.value });
     this.clearValidationErr("email");
   }
@@ -110,48 +114,40 @@ class Login_Form extends React.Component {
 
     return (
       <div className="login-form">
-        <TextAlertLarge alertMessage={this.state.status} />
+        <TextTheme message={this.state.status} className="text_medium text_red"/>
         <form className="login__form" name="form" method="POST">
 
           <div className="form-item">
-            <input
-              id="email"
-              placeholder="Email"
-              value={this.state.email}
-              onChange={this.onEmailChange.bind(this)}
-              type="email"
-              name="email"
+            <Input name="email"
+                   placeholder="Email"
+                   value={this.state.email}
+                   handleChange={this.onEmailChange.bind(this)}
+                   inputType="email"
             />
-            <small className="danger-error">{emailErr ? emailErr : ""}</small>
+            <TextTheme message={emailErr ? emailErr : ""} className="text_small text_red"/>
           </div>
 
           <div className="form-item">
-            <input
-              name="password"
-              type="password"
-              id="password"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={this.onPasswordChange.bind(this)}
+            <Input name="password"
+                   placeholder="Password"
+                   value={this.state.password}
+                   handleChange={this.onPasswordChange.bind(this)}
+                   inputType="password"
             />
-            <small className="danger-error">
-              {passwordErr ? passwordErr : ""}
-            </small>
+            <TextTheme message={passwordErr ? passwordErr : ""} className="text_small text_red"/>
           </div>
 
           <div className="login__field">
-            <button
-              type="button"
-              onClick={this.login}
+            <Button
+              handleClick={this.login}
               className="submit-button"
-            >
-              Log In
-            </button>
-
+              title="Log In"
+            />
             <NavLink to="/Register">
-              <button type="button" className="submit-button">
-                Don't have an account?{" "}
-              </button>
+              <Button
+              className="submit-button"
+              title="Don't have an account?"
+            />
             </NavLink>
           </div>
         </form>

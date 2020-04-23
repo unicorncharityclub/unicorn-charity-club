@@ -1,10 +1,11 @@
 import React from "react";
 import "./Text.css";
 
-class TextBlack extends React.Component {
+class TextTheme extends React.Component {
     render() {
         return (
-            <div className="text_black"
+            <div
+                className={this.props.className}
                  style={{ top: this.props.top,
                 position: this.props.position,
                 transform: this.props.transform,
@@ -18,4 +19,4 @@ class TextBlack extends React.Component {
     }
 }
 
-export default TextBlack;
+export default TextTheme;
