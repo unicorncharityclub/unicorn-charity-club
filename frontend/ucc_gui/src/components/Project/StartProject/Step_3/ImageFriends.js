@@ -4,7 +4,7 @@ import TextBlueHeading from "../../../General/Text/TextBlueHeading";
 import TextBlack from "../../../General/Text/TextBlack";
 import TextBlackSubHeading from "../../../General/Text/TextBlackSubHeading";
 import Search from "@material-ui/icons/Search";
-import AlertMessage from "../../../General/AlertMessage";
+import TextAlertLarge from "../../../General/Text/TextAlertLarge";
 import Input from "../../../General/Form/Input";
 import BlueButton from "../../../General/Form/BlueButton";
 

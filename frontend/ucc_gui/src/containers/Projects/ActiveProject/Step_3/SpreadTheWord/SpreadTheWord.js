@@ -12,7 +12,7 @@ import UnregisteredFriendsInvite from "../../../../../components/Project/StartPr
 import TextArea from "../../../../../components/General/Form/TextArea";
 import FriendsSearchGrid from "../../../../../components/Project/StartProject/Step_3/FriendsSearchGrid";
 import TwoButtonLayout from "../../../../../components/General/TwoButtonLayout";
-import AlertMessage from "../../../../../components/General/AlertMessage";
+import TextAlertLarge from "../../../../../components/General/Text/TextAlertLarge";
 import * as FriendsSearchHelper from '../../../../../components/Project/FriendsSearcHelper/FriendsSearchHelper';
 import TextBlackSubHeading from "../../../../../components/General/Text/TextBlackSubHeading";
 import TextBlackHeading from "../../../../../components/General/Text/TextBlackHeading";
@@ -29,20 +29,17 @@ class SpreadTheWord extends React.Component {
             projectName: '',
             projectBanner: '',
             projectBadge: '',
-            userEmail: cookie.load("user_email"),
-              popupSearch: false,
-              searchType: "",
-              searchValue: "",
-              searchMoreAvailable: true,
-              searchPage: 1,
-              selectedFriends : new Map(),
-              inviteMessage : "Hello Friends",
-              unregisteredUser : [{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""}],
-              unregisteredUserIssue : "",
-              sendInvitationIssue : "",
-              friendsSearchData: [
-
-              ],
+            popupSearch: false,
+            searchType: "",
+            searchValue: "",
+            searchMoreAvailable: true,
+            searchPage: 1,
+            selectedFriends : new Map(),
+            inviteMessage : "Hello Friends",
+            unregisteredUser : [{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""},{email_address:"", issue:""}],
+            unregisteredUserIssue : "",
+            sendInvitationIssue : "",
+            friendsSearchData: [],
             video : "",
             finalVideo : ""
         }
@@ -67,12 +64,25 @@ class SpreadTheWord extends React.Component {
       });
   };
 
-  sendInvitationToRegisteredUsers(obj) {
+  sendInvitationToUsers(obj){
+    let form_data = new FormData();
 
-  }
+    for (const friends of this.state.selectedFriends.values()) {
+      form_data.append('registered_user', friends["user_email"])
+    }
+    for (let i = 0; i < this.state.unregisteredUser.length; i++) {
+      form_data.append('unregistered_user', this.state.unregisteredUser[i]["email_address"].trim());
+    }
+    form_data.append("project_id", this.state.projectId);
+    form_data.append("invitation_message", this.state.inviteMessage);
 
-  sendInvitationToUnregisteredUsers() {
-
+    AxiosConfig.post(`charityproject/spread_the_word/`, form_data)
+      .then(function (response) {
+        obj.props.history.push('/Projects')
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   checkInvitationMessageErr()
@@ -120,8 +130,7 @@ class SpreadTheWord extends React.Component {
   {
     this.setState({sendInvitationIssue: ""});
     if(this.checkUnregisteredUsersErr()===false && this.checkInvitationMessageErr()===false) {
-      //this.sendInvitationToRegisteredUsers(this);
-        this.props.history.push(`/Projects`)
+      this.sendInvitationToUsers(this);
     }
   }
 
@@ -248,7 +257,7 @@ class SpreadTheWord extends React.Component {
           </div>          
               <TwoButtonLayout button1Text="SAVE" button2Text="COMPLETE PROJECT"
                               button1Click={this.saveButtonClick.bind(this)} button2Click={this.sendInviteButtonClick.bind(this)}/>
-                              <AlertMessage alertMessage={this.state.sendInvitationIssue} />                    
+                              <TextAlertLarge alertMessage={this.state.sendInvitationIssue} />
       </div>
       )
     }

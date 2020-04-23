@@ -8,7 +8,6 @@
  import AxiosConfig from "../../../axiosConfig";
 
  export const searchResultHandler = function(value) {
-    console.log(value);
     this.setState({ searchType: value[0] });
     this.setState({ searchValue: value[1] });
     this.setState({ searchPage: 1 });
@@ -87,7 +86,7 @@
         break;
       }
     }
-    console.log(errorFlag);
+
     if(errorFlag)
     {
       this.setState({unregisteredUserIssue:"Empty Spaces Available"})
@@ -97,7 +96,7 @@
       this.setState({unregisteredUserIssue:""});
       this.setState({unregisteredUser:[...this.state.unregisteredUser, {email_address:"", issue:""}]})
     }
-    console.log(this.state.unregisteredUser);
+
   };
 
   //When the email id on the unregistered user is updated
@@ -132,13 +131,29 @@
     if(searchType==='email')
     {
       AxiosConfig
-        .post(`charityproject/friendByEmail`,
+      .get(`charityproject/search_friend_email/`,
+        {params: {
+              email: searchValue,
+                page: page
+            }})
+        .then(function(response)
+        {
+            if("results" in response.data)
             {
-              "friend_email" : searchValue
-            })
-        .then(function(response) {
-          obj.setState({ popupSearch: true });
-          obj.setState({friendsSearchData: response.data["friend_list"]})
+                obj.setState({ popupSearch: true });
+                obj.setState({friendsSearchData: response.data["results"]})
+            }
+            if("next" in response.data)
+            {
+                if (response.data["next"] == null)
+                {
+                    obj.setState({ searchMoreAvailable: false });
+                }
+                else
+                {
+                    obj.setState({ searchMoreAvailable: true });
+                }
+            }
         })
         .catch(function(error) {
           console.log(error);
