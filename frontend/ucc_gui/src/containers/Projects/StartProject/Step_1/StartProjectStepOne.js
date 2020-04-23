@@ -7,7 +7,7 @@ import ProjectInfo from "../../../../components/Project/Details/ProjectInfo";
 import ProjectContent from "../../../../components/Project/StartProject/Step_1/ProjectContent";
 import cookie from "react-cookies";
 import ProgressStepper from "../../../../components/Project/ProgressStepper";
-import AlertMessage from "../../../../components/General/AlertMessage";
+import TextAlertLarge from "../../../../components/General/Text/TextAlertLarge";
 import TwoButtonLayout from "../../../../components/General/TwoButtonLayout";
 
 class StartProjectStepOne extends React.Component {
@@ -121,7 +121,7 @@ class StartProjectStepOne extends React.Component {
                 />
               </div>
               <div style={{ width: "100%" }}>
-                <AlertMessage alertMessage={this.state.errorMessage} />
+                <TextAlertLarge alertMessage={this.state.errorMessage} />
               </div>
             </div>
           </div>

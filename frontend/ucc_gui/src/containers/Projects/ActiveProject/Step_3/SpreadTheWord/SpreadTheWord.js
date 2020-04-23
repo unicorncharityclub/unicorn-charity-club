@@ -12,7 +12,7 @@ import UnregisteredFriendsInvite from "../../../../../components/Project/StartPr
 import TextArea from "../../../../../components/General/Form/TextArea";
 import FriendsSearchGrid from "../../../../../components/Project/StartProject/Step_3/FriendsSearchGrid";
 import TwoButtonLayout from "../../../../../components/General/TwoButtonLayout";
-import AlertMessage from "../../../../../components/General/AlertMessage";
+import TextAlertLarge from "../../../../../components/General/Text/TextAlertLarge";
 import * as FriendsSearchHelper from '../../../../../components/Project/FriendsSearcHelper/FriendsSearchHelper';
 import TextBlackSubHeading from "../../../../../components/General/Text/TextBlackSubHeading";
 import TextBlackHeading from "../../../../../components/General/Text/TextBlackHeading";
@@ -257,7 +257,7 @@ class SpreadTheWord extends React.Component {
           </div>          
               <TwoButtonLayout button1Text="SAVE" button2Text="COMPLETE PROJECT"
                               button1Click={this.saveButtonClick.bind(this)} button2Click={this.sendInviteButtonClick.bind(this)}/>
-                              <AlertMessage alertMessage={this.state.sendInvitationIssue} />                    
+                              <TextAlertLarge alertMessage={this.state.sendInvitationIssue} />
       </div>
       )
     }

@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Login.css";
 import AxiosConfig from '../../../axiosConfig'
-import AlertMessage from "../../../components/General/AlertMessage";
+import TextAlertLarge from "../../../components/General/Text/TextAlertLarge";
 import { connect } from 'react-redux';
 import cookie from 'react-cookies'
 
@@ -110,7 +110,7 @@ class Login_Form extends React.Component {
 
     return (
       <div className="login-form">
-        <AlertMessage alertMessage={this.state.status} />
+        <TextAlertLarge alertMessage={this.state.status} />
         <form className="login__form" name="form" method="POST">
 
           <div className="form-item">

@@ -1,7 +1,7 @@
 import React from "react";
-import "./AlertMessage.css"
+import "./TextAlertLarge.css"
 
-class AlertMessage extends React.Component {
+class TextAlertLarge extends React.Component {
     render() {
         return (
             <div className="alert_message">
@@ -11,4 +11,4 @@ class AlertMessage extends React.Component {
     }
 }
 
-export default AlertMessage;
+export default TextAlertLarge;

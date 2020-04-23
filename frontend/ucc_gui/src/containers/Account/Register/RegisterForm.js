@@ -1,7 +1,7 @@
 import React from "react";
 import AxiosConfig from '../../../axiosConfig'
 import { Checkbox, FormControlLabel } from "@material-ui/core";
-import AlertMessage from "../../../components/General/AlertMessage";
+import TextAlertLarge from "../../../components/General/Text/TextAlertLarge";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
@@ -220,7 +220,7 @@ class RegisterForm extends React.Component {
           <div className="form-content">
             <Row>
               <Col md={{ span: 5, offset: 5}}>
-                <AlertMessage alertMessage={this.state.status} />
+                <TextAlertLarge alertMessage={this.state.status} />
               </Col>
             </Row>
             <Row>
