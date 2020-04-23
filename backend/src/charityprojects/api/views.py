@@ -478,6 +478,12 @@ def spread_the_word(request):
 
 
 def spotlight_stats(request, user_email):
+    """
+    This method is used to find the statistics for user activities to be displayed on the spotlight page.
+    :param request:
+    :param user_email:
+    :return:
+    """
     response = {'status': "Invalid Request"}
     total_volunteer_hours = 0
     total_fund_raised = 0
@@ -507,12 +513,26 @@ def spotlight_stats(request, user_email):
 
 
 def find_user_prize(project_user_id):
+    """
+    For a given project find the prize
+    :param project_user_id:
+    :return: prize id
+    """
     project_user_details = ProjectUserDetails.objects.get(project_user_id=project_user_id)
     prize_id = project_user_details.prize_id
     return prize_id
 
 
 def create_user_invitation(email, project_id, user_id, prize_id, message):
+    """
+       This method is used to create an invitation for the user and enter details in user invitation table.
+       :param email:
+       :param project_id:
+       :param user_id:
+       :param prize_id:
+       :param message:
+       :return: boolean
+    """
     invited_user = check_user(email)
     if invited_user:
         invited_user_id = invited_user.id
@@ -535,6 +555,14 @@ def create_user_invitation(email, project_id, user_id, prize_id, message):
 
 
 def create_unregister_user_invitation(email, project_user_id, prize_id, message):
+    """
+    Create an invitation record in unregistered user invitation table.
+    :param email:
+    :param project_user_id:
+    :param prize_id:
+    :param message:
+    :return:
+    """
     unregister_invitation = UnregisterInvitation.objects.create(project_user_id=project_user_id,
                                                                 unregister_user_emailId=email,
                                                                 prize_id=prize_id, invitation_message=message)
@@ -542,12 +570,23 @@ def create_unregister_user_invitation(email, project_user_id, prize_id, message)
 
 
 def check_user(email):
+    """
+       Check whether the user with the given email exists or not
+       :param email:
+       :return: user
+    """
     user = User.objects.get(email=email)
     if user:
         return user
 
 
 def check_existing_project(email, project_id):
+    """
+        Check whether there is a record for a given project for a user.
+        :param email:
+        :param project_id:
+        :return: boolean
+    """
     user_id = User.objects.get(email=email).id
     project_user_record = ProjectUser.objects.filter(user_id=user_id, project_id=project_id)
     if project_user_record:
@@ -673,68 +712,12 @@ def unlock_prize(request, project_id, user_email):
                                                                               user_id=user_id).values()
                         if registered_invitation:
                             for item in registered_invitation:
-                                user = User.objects.get(id=item['friend'])
+                                print(item)
+                                user = User.objects.get(id=item['friend_id'])
                                 invitees.append(user.email)
                     response['invitees'] = invitees
                     if project_user_details_record.video:
                         response['video'] = request.build_absolute_uri(project_user_details_record.video.url)
-                    else:
-                        response['video'] = ''
-            elif adventure_id == 2:
-                challenge_skill = LearnNewSkill.objects.filter(project_user_id=pu_id).first()
-                if challenge_skill:
-                    response['new_skill'] = challenge_skill.new_skill
-                    response['description'] = challenge_skill.description
-                    if challenge_skill.video:
-                        response['video'] = request.build_absolute_uri(challenge_skill.video.url)
-                    else:
-                        response['video'] = ''
-            elif adventure_id == 3:
-                challenge_develop_habit = DevelopNewHabit.objects.filter(project_user_id=pu_id).first()
-                if challenge_develop_habit:
-                    response['new_habit'] = challenge_develop_habit.new_habit
-                    response['description'] = challenge_develop_habit.description
-                    if challenge_develop_habit.video:
-                        response['video'] = request.build_absolute_uri(challenge_develop_habit.video.url)
-                    else:
-                        response['video'] = ''
-            elif adventure_id == 4:
-                challenge_voluteer_time = VolunteerTime.objects.filter(project_user_id=pu_id).first()
-                if challenge_voluteer_time:
-                    response['organisation_name'] = challenge_voluteer_time.organisation_name
-                    response['organisation_address'] = challenge_voluteer_time.organisation_address
-                    response['organisation_city'] = challenge_voluteer_time.organisation_city
-                    response['organisation_state'] = challenge_voluteer_time.organisation_state
-                    response['organisation_website'] = challenge_voluteer_time.organisation_website
-                    response['volunteer_hours'] = challenge_voluteer_time.volunteer_hours
-                    response['volunteer_work_description'] = challenge_voluteer_time.volunteer_work_description
-                    if challenge_voluteer_time.volunteer_exp:
-                        response['video'] = request.build_absolute_uri(challenge_voluteer_time.volunteer_exp.url)
-                    else:
-                        response['video'] = ''
-            elif adventure_id == 5:
-                challenge_give_donation = GiveDonation.objects.filter(project_user_id=pu_id).first()
-                if challenge_give_donation:
-                    response['organisation_name'] = challenge_give_donation.organisation_name
-                    response['organisation_address'] = challenge_give_donation.organisation_address
-                    response['organisation_city'] = challenge_give_donation.organisation_city
-                    response['organisation_state'] = challenge_give_donation.organisation_state
-                    response['organisation_website'] = challenge_give_donation.organisation_website
-                    if challenge_give_donation.donation_exp:
-                        response['video'] = request.build_absolute_uri(challenge_give_donation.volunteer_exp.url)
-                    else:
-                        response['video'] = ''
-            elif adventure_id == 6:
-                challenge_fundraise = Fundraise.objects.filter(project_user_id=pu_id).first()
-                if challenge_fundraise:
-                    response['organisation_name'] = challenge_fundraise.organisation_name
-                    response['organisation_address'] = challenge_fundraise.organisation_address
-                    response['organisation_city'] = challenge_fundraise.organisation_city
-                    response['organisation_state'] = challenge_fundraise.organisation_state
-                    response['organisation_website'] = challenge_fundraise.organisation_website
-                    response['fundraise_details'] = challenge_fundraise.fundraise_details
-                    if challenge_fundraise.fundraise_exp:
-                        response['video'] = request.build_absolute_uri(challenge_fundraise.fundraise_exp.url)
                     else:
                         response['video'] = ''
         posts_record = Posts.objects.create(user_id=user_id, project_id=project_id, action_type="Completed_Project")
