@@ -1,5 +1,5 @@
 from .views import all_project_list, \
-    spread_the_word, spotlight_stats, unlock_prize, user_feed
+    spotlight_stats, unlock_prize, user_feed
 
 from django.urls import path
 from charityprojects.api import views
@@ -20,7 +20,6 @@ urlpatterns = [
 
     path('search_friend_email/', views.SearchFriendByEmailView.as_view()),
     path('search_friend_name/', views.SearchFriendByNameView.as_view()),
-    #path('unregisteredInvitation', unregistered_invitation),  # friends
 
     # Charity Project List
     path('active_project_list/', views.ActiveProjectListView.as_view()),
@@ -29,7 +28,6 @@ urlpatterns = [
 
     # Invitations
     path('project_invitation_details/', views.ProjectInvitationsView.as_view()),
-    #path('userInvitation', update_user_invitation),  # friends
     path('invite_user/', views.InviteUser.as_view()),
     path('project_invitation/', views.ProjectInvitationsListView.as_view()),
 
@@ -37,7 +35,7 @@ urlpatterns = [
     path('update/Challenge/', views.CharityProjectStartProject.as_view()),
     path('learn_new_skill/', views.ChallengeLearNewSkillView.as_view()),
     path('volunteer_time/', views.ChallengeVolunteerTimeDetailsView.as_view()),
-    path('spreadWord', spread_the_word),  # friends
+    path('spread_the_word/', views.ChallengeSpreadTheWord.as_view()),
 
     path('give_donation/', views.ChallengeGiveDonationDetailsView.as_view()),
     path('fundraiser/', views.ChallengeFundraiserDetailsView.as_view()),
