@@ -101,13 +101,14 @@ class UserInvitation(models.Model):
 
 class UnregisterInvitation(models.Model):
     objects = None
-    project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
-    unregister_user_emailId = models.CharField(max_length=100, null=True)
+    project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    unregister_user_email = models.CharField(max_length=100, null=True)
     prize = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
     invitation_message = models.TextField(blank=True)
 
     def __str__(self):
-        return '{} {} {} {}'.format(self.project_user, self.unregister_user_emailId, self.prize, self.invitation_message)
+        return '{} {} {} {}'.format(self.project, self.user, self.unregister_user_email, self.prize, self.invitation_message)
 
 
 class VolunteerTime(models.Model):
