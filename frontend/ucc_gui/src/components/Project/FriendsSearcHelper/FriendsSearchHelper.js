@@ -8,7 +8,6 @@
  import AxiosConfig from "../../../axiosConfig";
 
  export const searchResultHandler = function(value) {
-    console.log(value);
     this.setState({ searchType: value[0] });
     this.setState({ searchValue: value[1] });
     this.setState({ searchPage: 1 });
@@ -87,7 +86,7 @@
         break;
       }
     }
-    console.log(errorFlag);
+
     if(errorFlag)
     {
       this.setState({unregisteredUserIssue:"Empty Spaces Available"})
@@ -97,7 +96,7 @@
       this.setState({unregisteredUserIssue:""});
       this.setState({unregisteredUser:[...this.state.unregisteredUser, {email_address:"", issue:""}]})
     }
-    console.log(this.state.unregisteredUser);
+
   };
 
   //When the email id on the unregistered user is updated

@@ -24,7 +24,6 @@ class StartProjectStepThree extends React.Component {
       projectBanner: "",
       projectName: "",
       projectDateStarted: "Date Started",
-      userEmail: cookie.load("user_email"),
       popupSearch: false,
       searchType: "",
       searchValue: "",
@@ -121,7 +120,7 @@ class StartProjectStepThree extends React.Component {
 
     AxiosConfig.post(`charityproject/invite_user/`, form_data)
       .then(function (response) {
-        console.log()
+        obj.props.history.push('/Projects')
       })
       .catch(function (error) {
         console.log(error);
