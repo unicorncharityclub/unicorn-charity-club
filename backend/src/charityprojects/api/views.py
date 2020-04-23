@@ -15,7 +15,7 @@ from rest_framework.response import Response
 
 from prize.models import Prize
 from accounts.models import User
-from profile.models import ChildProfile
+from profile.models import ChildProfile, Profile
 from charityprojects.models import CharityProjects, ProjectUser, ProjectUserDetails, UserInvitation, \
     UnregisterInvitation, SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit, VolunteerTime, Fundraise, Posts
 
