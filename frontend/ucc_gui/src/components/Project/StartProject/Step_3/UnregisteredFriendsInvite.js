@@ -56,8 +56,6 @@ class UnregisteredFriendsInvite extends React.Component {
           <div style={{marginTop:"5px"}}>
               <TextAlertLarge alertMessage={this.props.unregisteredUserIssue} />
             </div>
-
-
       </div>
     );
   }

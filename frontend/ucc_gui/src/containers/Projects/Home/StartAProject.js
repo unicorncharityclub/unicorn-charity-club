@@ -6,9 +6,7 @@ import AxiosConfig from '../../../axiosConfig'
 import ActiveProjectInfo from "../../../components/Project/Home/ActiveProjectHomeInfo/ActiveProjectInfo";
 import cookie from "react-cookies";
 import "./Project.css";
-import {Container} from "@material-ui/core";
 import VerticalSpotlightDetails from '../../../components/Spotlight/VerticalSpotlightDetails';
-
 
 class ProjectsHome extends React.Component {
     constructor(props) {
@@ -38,22 +36,19 @@ class ProjectsHome extends React.Component {
         this.fetchInvitaionsList(this);
    }
 
-   fetchInvitaionsList (obj) {
-      const userEmail = this.state.userEmail;
+   fetchInvitaionsList (obj) {      
       AxiosConfig.get('charityproject/project_invitation/')
       .then(function(response) {obj.setInvitationsList(response);})
       .catch(function(error) {console.log(error);});
    }
 
-   fetchActiveProjectsList(obj) {
-      const userEmail = this.state.userEmail;
+   fetchActiveProjectsList(obj) {      
       AxiosConfig.get('charityproject/active_project_list/')
       .then(function(response) {obj.setActiveProjectsList(response);})
       .catch(function(error) {console.log(error);});
    }
 
-  fetchPlannedProjectsList(obj) {
-        const userEmail = this.state.userEmail;
+  fetchPlannedProjectsList(obj) {        
         AxiosConfig.get('charityproject/planning_project_list/')
         .then(function(response) {obj.setPlannedProjectsList(response);})
         .catch(function(error) {console.log(error);});
@@ -90,8 +85,7 @@ class ProjectsHome extends React.Component {
         let plannedProjectsList = response.data;
         this.setState(prevState => ({
           plannedProjectsList: plannedProjectsList
-      }));      
-      //console.log(this.state.plannedProjectsList)
+      }));            
     }
 
     setInvitationsList (response) {
@@ -116,17 +110,14 @@ class ProjectsHome extends React.Component {
   render() {
     return (
             <div className="header_main">                
-                <div className="page_main">
-                    
+                <div className="page_main">                    
                     <VerticalSpotlightDetails isSpotlightPage = {false}/>
-
                     
                     <div className="page_details_main">
                         <div className="page_details_content_main">
                             <div className="textHeader">
                                 Invitations
                             </div>
-
                             <div>                             
                                 {this.state.invitationsList && this.state.invitationsList.length > 0?
                                   (  <ActiveProjectInfo projectList={this.state.invitationsList} listType = {"Invitation"}/>):(<span className = "message">Invitations not available</span>)}
@@ -140,7 +131,6 @@ class ProjectsHome extends React.Component {
                           <div className="textHeader">
                                 Planning
                             </div>
-
                             <div>                     
                             {this.state.plannedProjectsList && this.state.plannedProjectsList.length > 0?
                                       (  <ActiveProjectInfo projectList={this.state.plannedProjectsList} listType = {"Planning"}/>):(<span className = "message">Projects not available</span>)}
@@ -148,16 +138,12 @@ class ProjectsHome extends React.Component {
                             <hr className="horizontal_line"/>
                         </div>
 
-
                         <br/>
-
-
 
                         <div className="page_details_content_main">
                           <div className="textHeader">
                                 Active
                             </div>
-
                             <div> 
                               {this.state.activeProjectsList && this.state.activeProjectsList.length > 0?
                                       (  <ActiveProjectInfo projectList={this.state.activeProjectsList} listType = {"Active"}/>):(<span className = "message">Projects not available</span>)}
@@ -165,15 +151,12 @@ class ProjectsHome extends React.Component {
                             <hr className="horizontal_line"/>
                         </div>
 
-
                         <br/>
-
 
                         <div className="page_details_content_main">
                           <div className="textHeader">
                                   Start a Project
                               </div>
-
                               <div className="marginSpaceTop marginSpaceBottom">
                                 <FormControl variant="outlined" style={{marginLeft: '15%', border: '2px solid black', width : "70%"}}>
                                     <Select  native style={{height: "50px"}} onChange={this.onCategoryChange.bind(this)} >
@@ -182,7 +165,6 @@ class ProjectsHome extends React.Component {
                                   </Select>
                                 </FormControl>
                               </div>
-
                               <div>
                                   {this.state.projectsList[0].banner?
                                       (<ProjectGrid projectData={this.state.projectsList} category={this.state.selectedCategory} />):(<div/>)}

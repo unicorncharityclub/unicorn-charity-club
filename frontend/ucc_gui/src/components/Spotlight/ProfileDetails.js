@@ -11,8 +11,8 @@ class ProfileDetails extends React.Component {
         about_me : '',
         favorite_thing : '',
         dream : '',
-        super_powers : '',
-        support : [],              
+        super_powers : '',               
+        project_interest : [],  
         user_email: cookie.load('user_email')
     }
  }
@@ -30,16 +30,19 @@ class ProfileDetails extends React.Component {
 
 
  setProfileDetails(response) {  
+    console.log(response);
     let about_me = response.data['about_me'];
     let favorite_thing = response.data['favorite_thing'];
     let dream = response.data['dream'];
     let super_powers = response.data['super_powers'];
+    let project_interest = response.data['project_interest'];
     this.setState(prevState => ({
           about_me : about_me,
           favorite_thing : favorite_thing,
           dream : dream,
-          super_powers : super_powers
-  }));
+          super_powers : super_powers,
+          project_interest : project_interest
+  }));  
 }
 
 
@@ -62,11 +65,15 @@ class ProfileDetails extends React.Component {
             <p>
                 {this.state.super_powers}
             </p> 
-            <h4 className="profileTitle">I will make the world a better place by supporting:</h4>         
-            <ul>
-              <li>Coffee</li>
-              <li>Tea</li>
-              <li>Milk</li>
+              <h4 className="profileTitle">I will make the world a better place by supporting:</h4>         
+              { console.log(this.state.project_interests)}
+              <ul>
+            {            
+            this.state.project_interest && this.state.project_interest.length > 0?(
+              this.state.project_interest          
+                .map((elem, index) => (
+                  <li key={index}>{elem}</li>                                    
+                )) ):(<div></div>) } 
             </ul>
 
             <hr className="horizontal"/>
