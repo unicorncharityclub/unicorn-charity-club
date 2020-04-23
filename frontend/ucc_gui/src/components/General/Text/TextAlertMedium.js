@@ -4,7 +4,7 @@ import "./TextAlert.css"
 class TextAlertLarge extends React.Component {
     render() {
         return (
-            <div className="alert_message_large">
+            <div className="alert_message_medium">
                 {this.props.alertMessage}
             </div>
         );
