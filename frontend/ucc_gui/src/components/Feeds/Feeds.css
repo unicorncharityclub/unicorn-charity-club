@@ -13,9 +13,9 @@
 }
 
 .feed-form {
+    width: 100%;
     float: left;
     position: relative;
-    width: 100%;
     flex-flow: row;
     padding-top: 20px;
     display: flex;
@@ -23,6 +23,7 @@
     flex-wrap: wrap;
     margin-left: 10px;
     padding-bottom: 20px;
+    margin-right: 10px;
 }
 
 .feed-form label {
@@ -133,7 +134,16 @@
 }
 
 .video-player > div {
-  position: absolute;
+    position: absolute;
+}
+
+.mobile-profile-pic {
+    width: 12%;
+}
+
+.mobile-intro {
+    width: 85%;
+    float: right;
 }
 
 .button {
@@ -154,27 +164,68 @@
 }
 
 @media only screen and (max-width: 520px) {
-    .challenge-name {
-        font-size: 1.2rem;
+
+    .feed-content {
+        display: inline-block;
+        font-size: 14px;
     }
 
-    .project-form label {
-        line-height: 1rem;
+    .feed-wrapper {
+        width: 100%;
+        float: left;
     }
 
-    .project-form {
-        padding-top: 10px;
+    .feed-form {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
     }
 
-    .congratulations-form-inner img {
+    .feed-form label {
+        line-height: 1.2rem;
+    }
+
+    .mobile-profile-pic {
+        width: 23%;
+    }
+
+    .mobile-intro {
+        width: 70%;
+        float: right;
+    }
+
+    .feed-display {
         height: 200px;
-        width: 300px;
-        margin: 20px auto 30px;
     }
 
-    .congratulation-message {
-        padding: 5px;
+    .feed-display-adjacent {
+        height: 200px;
     }
 
+    .feed-display-pic {
+        height: 200px;
+    }
+
+    .feed-display-video {
+        height: 200px;
+    }
+
+    .video-player {
+        width: 320px !important;
+        height: 190px !important;
+    }
+
+    .display-pic-adjacent {
+        width: 150px;
+        height: 150px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .button {
+        font-size: 18px;
+        height: 40px;
+        width: 50%;
+    }
 }
 
