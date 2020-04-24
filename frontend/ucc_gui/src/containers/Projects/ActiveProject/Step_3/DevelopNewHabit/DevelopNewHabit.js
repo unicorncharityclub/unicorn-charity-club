@@ -127,6 +127,7 @@ class DevelopNewHabit extends React.Component {
                                           challengeStatus={this.state.challengeStatus}
                                           projectMission={this.state.projectMission}
                                           projectCategory={this.state.projectCategory}
+                                          projectId={this.state.projectId}
                                           defaultIfEmpty={this.defaultIfEmpty.bind(this)}
                                           changeHandler={this.changeHandler.bind(this)}
                                           videoHandler={this.videoHandler.bind(this)}

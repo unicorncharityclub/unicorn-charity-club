@@ -1,6 +1,6 @@
 .start_project_info_main_div{
     border-radius: 10px;
-    border: 1px dotted;
+    border: 1px solid #9d9d9d;
     height:100%
 }
 
@@ -35,6 +35,10 @@
 
 .dottedLine {
     border-top: 9px dashed #e7088a;
+}
+
+.start_project_info_container table, th, td {
+    text-align: center;
 }
 
 @media screen and (max-width: 720px){

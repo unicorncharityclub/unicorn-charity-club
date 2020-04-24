@@ -3,8 +3,8 @@ import "../../../../../containers/Projects/ActiveProject/Step_3/LearnNewSkill/Le
 import Video from "../../../../General/Video/Video";
 import ProgressStepper from "../../../ProgressStepper";
 import ProjectBanner from "../../../ProjectBanner";
-import ProjectInfo from "../../../ProjectHeader/ProjectInfo";
 import TwoButtonLayout from "../../../../General/TwoButtonLayout";
+import ProjectInfo from "../../../Details/ProjectInfo";
 
 /**
  * @description Creates a form displaying all the information of the Challenge 3 Learn new skill
@@ -25,35 +25,43 @@ class LearnNewSkillComponent extends React.Component {
 
     render() {
         return (
-            <div className="form-wrapper">
-                <div className="mobile-content">
-                    <ProgressStepper currentStep="3"/>
-                    <ProjectBanner image={this.props.projectBanner}/>
-                    <ProjectInfo projectName={this.props.projectName} projectBadge={this.props.projectBadge}
-                                 projectCategory={this.props.projectCategory}
-                                 projectJoinDate={this.props.projectJoinDate}
-                                 challengeStatus={this.props.challengeStatus}
-                    />
-                </div>
-                <div className="adventure-project">
-                    <div className="desktop-content-header">
-                        <ProjectInfo projectName={this.props.projectName} projectBadge={this.props.projectBadge}
-                                     projectCategory={this.props.projectCategory}
-                                     projectJoinDate={this.props.projectJoinDate}
-                                     challengeStatus={this.props.challengeStatus}
-                                     projectMission={this.props.projectMission}
-                        />
-                    </div>
-                    <div className="project-header-content">
-                        <div className="desktop-content">
-                            {(this.props.projectBanner) ?
-                                <div className="project-banner">
-                                    <ProjectBanner image={this.props.projectBanner}/>
-                                </div> : ''
-                            }
-                            <ProgressStepper currentStep="3"/>
+            <div className="header_main">
+                <div className="page_info_hr_content_main">
+                    <div className="header_step_banner_main">
+                        <div className="banner_main">
+                            <div className="banner_main_content">
+                                <ProjectBanner image={this.props.projectBanner}/>
+                            </div>
                         </div>
-                        <div className="project-content">
+
+                        <div className="stepper_main">
+                            <div className="stepper_main_content">
+                                <ProgressStepper currentStep="2"/>
+                            </div>
+                        </div>
+                    </div>
+                    <ProjectInfo id={this.props.projectId}/>
+                </div>
+                <div className="page_main">
+                    <div className="page_info_vr_content_main">
+                        <ProjectInfo vertical={true} id={this.props.projectId}/>
+                    </div>
+
+                    <div className="header_step_banner_main_vr">
+                        <div className="banner_main_vr">
+                            <div className="banner_main_content">
+                                <ProjectBanner image={this.props.projectBanner}/>
+                            </div>
+                        </div>
+
+                        <div className="stepper_main_vr">
+                            <div className="stepper_main_content">
+                                <ProgressStepper currentStep="2"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="page_details_main">
+                        <div className="page_details_content_main">
                             <div className="challenge-name">
                                 <label>CHALLENGE 3: Adventure</label>
                             </div>
@@ -87,6 +95,7 @@ class LearnNewSkillComponent extends React.Component {
                         </div>
                     </div>
                 </div>
+                {/*</div>*/}
             </div>
         );
     }

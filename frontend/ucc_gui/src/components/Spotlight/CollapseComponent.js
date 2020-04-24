@@ -174,7 +174,7 @@ class CollapseComponent extends React.Component {
             );
         }else if (!this.props.isVertical){            
           return (
-            <div className="content_section">
+            <div className="content_section_profile">
               <div onClick={(e)=>this.togglePanel(e)} className="header_collapse">
                   <h3>             
                     <span className="collapse_title">{this.props.title}</span>

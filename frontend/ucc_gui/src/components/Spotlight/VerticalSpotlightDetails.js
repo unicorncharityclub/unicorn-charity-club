@@ -148,7 +148,7 @@ class ProfileInfo extends React.Component {
     }else{
       // for projects page      
       return (
-          <div className="content_section vertical_project">
+          <div className="content_section_sidebar vertical_project">
 
             <div>                 
                 <Image className="profile_pic_vertical" src={this.state.profile_pic} />

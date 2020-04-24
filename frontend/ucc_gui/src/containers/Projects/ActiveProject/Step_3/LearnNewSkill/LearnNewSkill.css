@@ -1,6 +1,5 @@
 .challenge-name {
     color: #3b9f9d;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 1.3rem;
     font-weight: bold;
 }
@@ -61,7 +60,6 @@
 }
 
 .congratulations-form-inner img {
-    border: 1px solid;
     display: block;
     height: 300px;
     width: 400px;

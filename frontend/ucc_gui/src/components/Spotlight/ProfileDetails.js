@@ -48,7 +48,7 @@ class ProfileDetails extends React.Component {
 
   render() {
     return (
-        <div className="content_section">
+        <div className="content_section_profile">
             <h4 className="profileTitle">About Me</h4> 
             <p>
                 {this.state.about_me}              

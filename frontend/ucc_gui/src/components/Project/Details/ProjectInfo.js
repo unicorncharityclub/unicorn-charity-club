@@ -64,19 +64,19 @@ class ProjectInfo extends React.Component {
 
                       <tr>
                         <td>
-                          <TextTheme message={this.state.projectName} className="text_large text_black" />
+                          <TextTheme message={this.state.projectName} className="text_large text_blue" />
                         </td>
                       </tr>
                       <tr>
                         <td valign="top">
                           <b>
-                            <TextTheme message="Category" className="text_small text_black" />
+                            <TextTheme message="Category" className="text_small text_blue" />
                           </b>
                         </td>
                       </tr>
                       <tr>
                         <td>
-                          <TextTheme message={this.state.projectCategory} className="text_small text_black" />
+                          <TextTheme message={this.state.projectCategory} className="text_small" />
                         </td>
                       </tr>
 
@@ -86,12 +86,12 @@ class ProjectInfo extends React.Component {
 
                       <tr>
                         <td valign="top">
-                          <b><TextTheme message="Tags" className="text_small text_black" /></b>
+                          <b><TextTheme message="Tags" className="text_small text_blue" /></b>
                         </td>
                       </tr>
                       <tr>
                         <td>
-                          <TextTheme message={this.state.projectTags} className="text_small text_black" />
+                          <TextTheme message={this.state.projectTags} className="text_small" />
                         </td>
                       </tr>
                       <tr>
@@ -100,14 +100,14 @@ class ProjectInfo extends React.Component {
 
                       <tr>
                         <td valign="top">
-                            <b><TextTheme message="Mission" className="text_small text_black" /></b>
+                            <b><TextTheme message="Mission" className="text_small text_blue" /></b>
                         </td>
                       </tr>
 
                     <tr>
                         <td>
                           <TextTheme
-                            message={this.state.projectMission} className="text_small text_black"
+                            message={this.state.projectMission} className="text_small"
                           />
                         </td>
                       </tr>
