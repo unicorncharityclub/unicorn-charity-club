@@ -1,5 +1,4 @@
 import React from 'react';
-import TextBlueHeading from "../../../../General/Text/TextBlueHeading";
 import TextArea from "../../../../General/Form/TextArea"
 import ProjectInfo from "../../../Details/ProjectInfo";
 import "../../../../../containers/ProjectCommon.css"
@@ -10,7 +9,7 @@ import "../../../../../containers/Projects/ActiveProject/Step_3/VolunteerTime/Vo
 import Address from "../../../../General/Form/Address/Address";
 import Video from "../../../../General/Video/Video"
 import TwoButtonLayout from "../../../../General/TwoButtonLayout";
-import TextBlackSubHeading from "../../../../General/Text/TextBlackSubHeading";
+import TextTheme from "../../../../General/Text/TextTheme";
 
 /**
  * @summary: Creates the UI of the give a donation page
@@ -78,20 +77,18 @@ class GiveDonationDetails extends React.Component {
                     <div className="page_details_main">
                         <div className="page_details_content_main">
                             <form onSubmit={this.handleFormSubmit}>
-                                    <TextBlueHeading message="Challenge 3: Adventure"/>
-                                <br/>                                
-                                    <TextBlackSubHeading message = "GIVE A DONATION"/>                                    
-                                    <TextBlackSubHeading message = "Give a donation to a local organization that supports the mission of the project."/>
+                                <TextTheme message="Challenge 3: Adventure" className="text_large text_blue" />
+                                <br/>
+                                <TextTheme message="GIVE A DONATION" className="text_medium text_black" />
+                                <TextTheme message="Give a donation to a local organization that supports the mission of the project." className="text_medium text_black" />
                                     <div className="project-form-inner">
                                         <Address
                                         changeHandler = {this.props.changeHandler}/>
-
-                                    <TextBlackSubHeading message = "3. Describe what you donated."/><br/>
+                                    <TextTheme message="3. Describe what you donated." className="text_medium text_black" /><br/>
                                     <TextArea name="description" rows={3} cols={80}
                                             value={this.props.defaultIfEmpty(this.props.description)}
                                             handleChange={this.props.changeHandler.bind(this)} />
-
-                                            <TextBlackSubHeading message="3. Share a video or photo that celebrates your volunteer experience."/>
+                                        <TextTheme message="3. Share a video or photo that celebrates your volunteer experience." className="text_medium text_black" />
                                 </div>
                                 <br/>
                                 <Video src={this.props.video}

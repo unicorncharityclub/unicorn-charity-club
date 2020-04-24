@@ -3,7 +3,6 @@ import "../../../../ProjectCommon.css"
 import AxiosConfig from "../../../../../axiosConfig";
 import ProgressStepper from "../../../../../components/Project/ProgressStepper";
 import ProjectBanner from "../../../../../components/Project/ProjectBanner";
-import TextBlueHeading from "../../../../../components/General/Text/TextBlueHeading";
 import InviteFriends from "../../../../../components/Project/StartProject/Step_3/ImageFriends";
 import FriendsInvitedGrid from "../../../../../components/Project/StartProject/Step_3/FriendsInvitedGrid";
 import UnregisteredFriendsInvite from "../../../../../components/Project/StartProject/Step_3/UnregisteredFriendsInvite";
@@ -12,8 +11,7 @@ import FriendsSearchGrid from "../../../../../components/Project/StartProject/St
 import TwoButtonLayout from "../../../../../components/General/TwoButtonLayout";
 import TextTheme from "../../../../../components/General/Text/TextTheme";
 import * as FriendsSearchHelper from '../../../../../components/Project/FriendsSearcHelper/FriendsSearchHelper';
-import TextBlackSubHeading from "../../../../../components/General/Text/TextBlackSubHeading";
-import TextBlackHeading from "../../../../../components/General/Text/TextBlackHeading";
+
 import Video from "../../../../../components/General/Video/Video";
 import ProjectInfo from "../../../../../components/Project/Details/ProjectInfo";
 
@@ -188,14 +186,14 @@ class SpreadTheWord extends React.Component {
               <div className="page_details_main">
                   <div className="page_details_content_main">
                   <div>
-                        <TextBlueHeading message="CHALLENGE 3: Adventure"/>
+                      <TextTheme message="CHALLENGE 3: Adventure" className="text_large text_blue" />
                         <br/>
-                        <TextBlackHeading message="SPREAD THE WORD"/>
+                        <TextTheme message="SPREAD THE WORD"className="text_large text_black" />
                         <TextTheme message="Spread the word by inviting your family and friends to join you on your project." className="text_small text_black"/>
                         <br/>
                     </div>                          
                       <div >
-                            <TextBlackSubHeading message="1. Create a Personal Video to :" className="text_small text_black"/>
+                          <TextTheme message="1. Create a Personal Video to :" className="text_medium text_black" />
                             <table style={{marginTop: "10px"}}>
                             <tbody>
                             <tr>
@@ -243,7 +241,7 @@ class SpreadTheWord extends React.Component {
                       <br/>
                     <div>                    
                       <div >
-                          <TextBlackSubHeading message="4. Invitation message to friends."/>
+                          <TextTheme message="4. Invitation message to friends." className="text_medium text_black" />
                       </div>
                       <TextArea
                           value={this.state.inviteMessage}

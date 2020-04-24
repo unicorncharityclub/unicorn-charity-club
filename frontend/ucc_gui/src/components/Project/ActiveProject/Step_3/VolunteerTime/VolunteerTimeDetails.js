@@ -1,5 +1,4 @@
 import React from 'react';
-import TextBlueHeading from "../../../../General/Text/TextBlueHeading";
 import TextTheme from "../../../../General/Text/TextTheme";
 import TextArea from "../../../../General/Form/TextArea"
 import Input from  "../../../../../components/General/Form/Input"
@@ -12,7 +11,6 @@ import "../../../../../containers/Projects/ActiveProject/Step_3/VolunteerTime/Vo
 import Address from "../../../../General/Form/Address/Address";
 import Video from "../../../../General/Video/Video"
 import TwoButtonLayout from "../../../../General/TwoButtonLayout";
-import TextBlackSubHeading from "../../../../General/Text/TextBlackSubHeading";
 
 
 /**
@@ -73,16 +71,16 @@ class VolunteerTimeDetails extends React.Component {
                 <div className="content_project_info">
                 <ProjectInfo id={this.state.projectId} />
                 </div>
-                <TextBlueHeading message="Challenge 3: Adventure"/>
+                <TextTheme message="Challenge 3: Adventure" className="text_large text_blue" />
                       <br/>
                       <br/>
-                        <TextBlackSubHeading message = "VOLUNTEER TIME"/>
+                      <TextTheme message="VOLUNTEER TIME" className="text_medium text_black" />
                         <br/>
-                        <TextBlackSubHeading message = "Volunteer time at a local organization that supports the mission of the project."/>
+                        <TextTheme message="Volunteer time at a local organization that supports the mission of the project." className="text_medium text_black" />
                         <div className="project-form-inner">
                             <Address
                                 changeHandler = {this.props.changeHandler}/>
-                            <TextBlackSubHeading message ="2. How much time did you volunteer?"/> <br/>
+                                <TextTheme message="2. How much time did you volunteer?" className="text_medium text_black" /><br/>
 
                             <div className="form_control">
                             <Input inputType="number" name="hours" value={this.props.hours} placeholder='0'
@@ -91,13 +89,11 @@ class VolunteerTimeDetails extends React.Component {
                                 <br/>
 
                         </div>
-
-                            <TextBlackSubHeading message = "3. Describe what you did to volunteer your time."/><br/>
+                            <TextTheme message="3. Describe what you did to volunteer your time." className="text_medium text_black" /><br/>
                               <TextArea name="description" rows={3} cols={80}
                                      value={this.props.defaultIfEmpty(this.props.description)}
                                      handleChange={this.props.changeHandler.bind(this)} /><br/>
-
-                                     <TextBlackSubHeading message="3. Share a video or photo that celebrates your volunteer experience."/>
+                                    <TextTheme message="3. Share a video or photo that celebrates your volunteer experience." className="text_medium text_black" />
                           </div>
                     <br/>
                     <Video src={this.props.video}

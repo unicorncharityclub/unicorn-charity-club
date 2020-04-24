@@ -14,7 +14,6 @@ import TextArea from "../../../../components/General/Form/TextArea";
 import TwoButtonLayout from "../../../../components/General/TwoButtonLayout";
 import TextTheme from "../../../../components/General/Text/TextTheme";
 import * as FriendsSearchHelper from "../../../../components/Project/FriendsSearcHelper/FriendsSearchHelper";
-import TextBlackSubHeading from "../../../../components/General/Text/TextBlackSubHeading";
 
 class StartProjectStepThree extends React.Component {
   constructor(props) {
@@ -203,7 +202,7 @@ class StartProjectStepThree extends React.Component {
               <hr />
               <div style={{ marginTop: "20px" }}>
                 <div>
-                  <TextBlackSubHeading message="3. Invitation message to friends." />
+                  <TextTheme message="3. Invitation message to friends." className="text_medium text_black" />
                 </div>
                 <TextArea
                   value={this.state.inviteMessage}

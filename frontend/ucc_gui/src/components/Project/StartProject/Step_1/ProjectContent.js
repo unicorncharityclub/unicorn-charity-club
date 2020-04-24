@@ -1,5 +1,4 @@
 import React from 'react';
-import TextBlueHeading from "../../../General/Text/TextBlueHeading";
 import TextTheme from "../../../General/Text/TextTheme";
 import Video from "../../../General/Video/Video";
 class ProjectContent extends React.Component {
@@ -7,7 +6,7 @@ class ProjectContent extends React.Component {
     render() {
         return (
                   <div style={{margin:"10px"}}>
-                      <TextBlueHeading message="Share Your Story"/>
+                      <TextTheme message="Share Your Story" className="text_large text_blue" />
                         <b><TextTheme message = "Create a personal video that tells your friends and family about your new project. Be sure to:" className="text_small text_black" /></b>
                         <ul style={{paddingLeft:"60px"}}>
                             <br/>

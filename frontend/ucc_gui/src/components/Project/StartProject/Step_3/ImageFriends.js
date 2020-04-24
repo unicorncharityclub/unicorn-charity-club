@@ -1,7 +1,4 @@
 import React from 'react';
-import TextBlueSubHeading from "../../../General/Text/TextBlueSubHeading";
-import TextBlueHeading from "../../../General/Text/TextBlueHeading";
-import TextBlackSubHeading from "../../../General/Text/TextBlackSubHeading";
 import Search from "@material-ui/icons/Search";
 import Input from "../../../General/Form/Input";
 import BlueButton from "../../../General/Form/BlueButton";
@@ -56,12 +53,12 @@ class InviteFriends extends React.Component {
         return (
             <div >
                 {this.props.showHeaderMessage ?
-                    (<TextBlueHeading message="BUILD YOUR TEAM"/>)
+                    (<TextTheme message="BUILD YOUR TEAM" className="text_large text_blue" />)
                     : ('')
                 }
                 <hr/>
                 <div >
-                    <TextBlackSubHeading message={this.props.message}/>
+                    <TextTheme message={this.props.message} className="text_medium text_black" />
                 </div>
                 <br/>
                 <div >
@@ -88,7 +85,7 @@ class InviteFriends extends React.Component {
                         </div>
 
                         <div style={{width:"100%", float:"left", textAlign:"center"}}>
-                            <TextBlueSubHeading message="OR"/>
+                            <TextTheme message="OR" className="text_medium text_blue" />
                         </div>
 
                         <div style={{width:"100%", height:"50px", float:"left", textAlign:"left"}}>

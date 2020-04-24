@@ -1,7 +1,6 @@
 import React from "react";
 import "./ActiveProjectChallengeInfo.css";
 import Image from "react-bootstrap/Image";
-import TextBlackHeading from "../../../General/Text/TextBlackHeading";
 import TextTheme from "../../../General/Text/TextTheme";
 import AxiosConfig from '../../../../axiosConfig'
 
@@ -97,7 +96,7 @@ class ActiveProjectChallengeInfo extends React.Component {
                         <tbody>
                           <tr>
                             <td colSpan={2}>
-                              <TextBlackHeading message={this.state.projectName} />
+                                <TextTheme message={this.state.projectName} className="text_large text_black" />
                             </td>
                           </tr>
                           <tr>

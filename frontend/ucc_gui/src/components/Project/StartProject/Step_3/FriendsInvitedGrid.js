@@ -1,7 +1,6 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import FriendsMediaCard from "./FriendsCard";
-import TextBlackSubHeading from "../../../General/Text/TextBlackSubHeading";
 import TextTheme from "../../../General/Text/TextTheme";
 
 
@@ -19,7 +18,7 @@ class FriendsInvitedGrid extends React.Component {
     return (
       <div style={{ flexGrow: 1 }}>
           <div style={{textAlign:"center"}}>
-          <TextBlackSubHeading message="Invites are being sent to :"/>
+              <TextTheme message="Invites are being sent to :" className="text_medium text_black" />
         </div>
         {this.props.friendsInvitedData.length > 0 ? (
         <Grid container spacing={2} 

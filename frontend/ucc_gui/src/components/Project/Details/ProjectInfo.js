@@ -2,7 +2,6 @@ import React from "react";
 import AxiosConfig from "../../../axiosConfig";
 import "./ProjectInfo.css";
 import Image from "react-bootstrap/Image";
-import TextBlackHeading from "../../General/Text/TextBlackHeading";
 import TextTheme from "../../General/Text/TextTheme";
 
 class ProjectInfo extends React.Component {
@@ -65,7 +64,7 @@ class ProjectInfo extends React.Component {
 
                       <tr>
                         <td>
-                          <TextBlackHeading message={this.state.projectName} />
+                          <TextTheme message={this.state.projectName} className="text_large text_black" />
                         </td>
                       </tr>
                       <tr>
@@ -136,7 +135,7 @@ class ProjectInfo extends React.Component {
                     <tbody>
                       <tr>
                         <td colSpan={2}>
-                          <TextBlackHeading message={this.state.projectName} />
+                          <TextTheme message={this.state.projectName} className="text_large text_black" />
                         </td>
                       </tr>
                       <tr>

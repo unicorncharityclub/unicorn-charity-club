@@ -1,14 +1,12 @@
 import React from 'react';
 import "./Challenge2Details.css"
 import "react-datepicker/dist/react-datepicker.css";
-import TextBlueHeading from "../../../General/Text/TextBlueHeading";
 import TextTheme from "../../../General/Text/TextTheme";
 import "../../../../containers/ProjectCommon.css"
 import AxiosConfig from "../../../../axiosConfig";
 import ProgressStepper from "../../ProgressStepper";
 import ProjectBanner from "../../ProjectBanner";
 import ProjectInfo from "../../Details/ProjectInfo";
-import TextBlackSubHeading from "../../../General/Text/TextBlackSubHeading";
 import DatePicker from "react-datepicker";
 import TwoButtonLayout from "../../../General/TwoButtonLayout";
 
@@ -75,11 +73,11 @@ class ProjectContent extends React.Component {
                 <form onSubmit={this.handleFormSubmit}>
                     <div className="page_details_main">
                         <div className="page_details_content_main">
-                            <TextBlueHeading message="Challenge 2: Ideation"/>
+                            <TextTheme message="Challenge 2: Ideation" className="text_large text_blue" />
                             <br/>
-                            <TextBlackSubHeading message = "SET YOUR GOAL"/>
+                            <TextTheme message="SET YOUR GOAL" className="text_medium text_black" />
                             <br/>
-                            <TextBlackSubHeading message = "1. How can I make a difference? Explore the following impact adventures and set your project goal."/>
+                            <TextTheme message="1. How can I make a difference? Explore the following impact adventures and set your project goal." className="text_medium text_black" />
                             <ul style={{paddingLeft:"60px"}}>
                                 <br/>
                                 
@@ -110,7 +108,8 @@ class ProjectContent extends React.Component {
                                 </div>
                             </ul>
                             <br/>
-                                <TextBlackSubHeading message = "2. Set a target date to complete your goal:"/> <br/>
+                            <TextTheme message="2. Set a target date to complete your goal:" className="text_medium text_black" />
+                                <br/>
                             <div className="DatePick">
                                 <DatePicker selected = {this.props.goalDate} onChange={this.props.handleDateChange}/>
                             </div>
@@ -120,12 +119,9 @@ class ProjectContent extends React.Component {
                             
                         </div>
                     </div>  
-                </form>                      
-                                               
+                </form>
             </div>
-            
-        </div>        
-
+        </div>
         );
     }
 }

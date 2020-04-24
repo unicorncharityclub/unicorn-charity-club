@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import FriendsMediaCard from "./FriendsCard";
 import Add from "@material-ui/icons/Add";
 import Close from "@material-ui/icons/Close";
-import TextBlackSubHeading from "../../../General/Text/TextBlackSubHeading";
+import TextTheme from "../../../General/Text/TextTheme";
 import PinkButton from "../../../General/Form/PinkButton";
 
 class FriendsSearchGrid extends React.Component {
@@ -17,9 +17,7 @@ class FriendsSearchGrid extends React.Component {
       <div style={{ flexGrow: 1 }}>
 
           <div>
-              <TextBlackSubHeading 
-                  message={"Search Result For " + this.props.searchStringType + " : \"" + this.props.searchStringValue + "\""}
-              />
+              <TextTheme message={"Search Result For " + this.props.searchStringType + " : \"" + this.props.searchStringValue + "\""} className="text_medium text_black" />
             </div>
         <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start" 
               style={{paddingLeft: "20px", paddingRight: "20px", paddingTop: "20px"}}>

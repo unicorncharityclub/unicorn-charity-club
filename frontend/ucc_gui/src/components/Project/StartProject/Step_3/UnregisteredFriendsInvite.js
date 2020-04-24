@@ -1,5 +1,4 @@
 import React from "react";
-import TextBlackSubHeading from "../../../General/Text/TextBlackSubHeading";
 import Input from "../../../General/Form/Input";
 import TextTheme from "../../../General/Text/TextTheme";
 import Add from "@material-ui/icons/Add";
@@ -12,7 +11,7 @@ class UnregisteredFriendsInvite extends React.Component {
       <div style={{ width:"100%"}}>
           <hr/>
         <div>
-          <TextBlackSubHeading message={this.props.message} />
+            <TextTheme message={this.props.message} className="text_medium text_black" />
         </div>
         <table >
             <tbody>

@@ -3,7 +3,7 @@ import React from "react";
 import AxiosConfig from '../../../../axiosConfig'
 import "./ActiveProjectInfo.css";
 import Image from "react-bootstrap/Image";
-import TextBlackHeading from "../../../General/Text/TextBlackHeading";
+import TextTheme from "../../../General/Text/TextTheme";
 import ProgressStepper from "../../ProgressStepper";
 import Button from 'react-bootstrap/Button';
 
@@ -125,26 +125,26 @@ class EachActiveProject extends React.Component {
             if("PlanningPhase1" === status) {
                 return (
                     <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/StartNewProject'}>
-                        <TextBlackHeading message={this.state.projectName}/>
+                        <TextTheme message={this.state.projectName} className="text_large text_black" />
                     </a>
                 );
               } else if ("PlanningPhase2" === status){
                 return (
                     <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/StartProjectStepTwo'}>
-                        <TextBlackHeading message={this.state.projectName}/>
+                        <TextTheme message={this.state.projectName} className="text_large text_black" />
                     </a>
                 );
               }else if ("PlanningPhase3" === status){
                 return (
                     <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/InviteFriends'}>
-                        <TextBlackHeading message={this.state.projectName}/>
+                        <TextTheme message={this.state.projectName} className="text_large text_black" />
                     </a>
                 );
               }else{
                   // if the status is planningStart                             
                 return (
                     <a className = "projectName" href = {'/Projects/'+ this.state.projectId}>
-                        <TextBlackHeading message={this.state.projectName}/>
+                        <TextTheme message={this.state.projectName} className="text_large text_black" />
                     </a>
                 );
               }          
@@ -152,19 +152,19 @@ class EachActiveProject extends React.Component {
             if("Challenge1Complete" === status) {
               return (
                 <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/ActiveProjectChallenge2'}>
-                    <TextBlackHeading message={this.state.projectName}/>
+                    <TextTheme message={this.state.projectName} className="text_large text_black" />
                 </a>
               );
             } else if ("Challenge2Complete" === status){
               return (                  
                 <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/SpreadTheWord'}>
-                    <TextBlackHeading message={this.state.projectName}/>
+                    <TextTheme message={this.state.projectName} className="text_large text_black" />
                 </a>
               );
             }else if ("Challenge3Complete" === status){
               return (
                 <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/LearnNewSkill'}>
-                    <TextBlackHeading message={this.state.projectName}/>
+                    <TextTheme message={this.state.projectName} className="text_large text_black" />
                 </a>
               );
             }else{
@@ -172,7 +172,7 @@ class EachActiveProject extends React.Component {
                 // as challenge1 is not completed yet
                 return (
                     <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/ActiveProjectChallenge1'}>
-                        <TextBlackHeading message={this.state.projectName}/>
+                        <TextTheme message={this.state.projectName} className="text_large text_black" />
                     </a>
                   );
             } 
@@ -180,7 +180,7 @@ class EachActiveProject extends React.Component {
             // if Invitation
             return (
                 <a className = "projectName" href = {`/Projects/${this.props.projectId}/ProjectInvitation/${this.props.inviterEmail}`}>
-                    <TextBlackHeading message={this.state.projectName}/>
+                    <TextTheme message={this.state.projectName} className="text_large text_black" />
                 </a>
               );
         }
