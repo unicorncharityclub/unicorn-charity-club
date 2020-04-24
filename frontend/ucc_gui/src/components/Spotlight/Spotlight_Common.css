@@ -17,7 +17,7 @@
 
 .social {
     margin-left: 0px;
-    border: solid 1px;
+    border: dotted 1px;
     border-radius: 10px;
     padding: 10px;
     width: 17%;
@@ -145,7 +145,7 @@ table {
     padding: 2%;
     margin: 0%; */
     margin-top: 5%;
-    padding-left: 35%;    
+    padding-left: 35%;
     color: darkgray;
 }
 
@@ -400,6 +400,12 @@ table {
     .statistics {
         color: #e7088a;
         font-size: 200%;
+    }
+
+    .row2{
+        margin-top: 5%;
+        padding-left: 5%;            
+        color: darkgray;
     }
 
     .statistics_titles{

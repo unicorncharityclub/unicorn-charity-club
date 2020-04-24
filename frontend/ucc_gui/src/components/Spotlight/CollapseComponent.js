@@ -1,7 +1,7 @@
 import React from 'react';
 import "./Spotlight_Common.css";
 import Image from 'react-bootstrap/Image';
-import { Container, Row, Col } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import VerticalSpotlightDetails from './VerticalSpotlightDetails';
 import AxiosConfig from '../../axiosConfig';
 import cookie from "react-cookies";
@@ -119,7 +119,7 @@ class CollapseComponent extends React.Component {
               this.state.completed_projects          
               .map((elem, index) => (
                   <Col>
-                    <ProjectCard className="completedproject" imageSrc={elem.project.badge} imageId={elem.project.id} onClick={this.projectSelectedHandler.bind(this)} />
+                    <ProjectCard className="completedproject" imageSrc={elem.project.badge} imageId={elem.project.id} key={index} onClick={this.projectSelectedHandler.bind(this)} />
                     {/* <ProjectCard imageSrc={elem.project_details.badge} imageId={elem.project_details.project_id} onClick={this.projectSelectedHandler.bind(this)} /> */}
                   </Col>                  
               )) ):(<span>No Completed Projects available</span>) }                                                    
@@ -168,37 +168,32 @@ class CollapseComponent extends React.Component {
 
   render() {
     
-    if (this.props.isVertical){      
-      return (
-          <VerticalSpotlightDetails isSpotlightPage = {true}/>
-        );
-    }else if (!this.props.isVertical){
-      // horizontal
-      console.log(this.props.title)
-      return (
-        <div className="content_section">
-          <div onClick={(e)=>this.togglePanel(e)} className="header_collapse">
-              <h3>             
-                <span className="collapse_title">{this.props.title}</span>
-                <span class='icon-down'>&#709;</span>
-              </h3>             
-          </div>
-          
-            {this.state.open ? 
-            (
-              <div className="content">    
-                {/* render inside content */}
-                { this.renderContent(this.props.title) } 
-                <br/>             
-                <hr className="horizontal"/>                         
-              </div>) : <hr className="horizontal_close"/>}
-          
-          </div>
-        );
-
-    }
-  
-    }
+        if (this.props.isVertical){      
+          return (
+              <VerticalSpotlightDetails isSpotlightPage = {true}/>
+            );
+        }else if (!this.props.isVertical){            
+          return (
+            <div className="content_section_profile">
+              <div onClick={(e)=>this.togglePanel(e)} className="header_collapse">
+                  <h3>             
+                    <span className="collapse_title">{this.props.title}</span>
+                    <span className='icon-down'>&#709;</span>
+                  </h3>             
+              </div>
+              
+                {this.state.open ? 
+                (
+                  <div className="content">                    
+                    { this.renderContent(this.props.title) } 
+                    <br/>             
+                    <hr className="horizontal"/>                         
+                  </div>) : <hr className="horizontal_close"/>}
+              
+              </div>
+            );
+        }  
+      }
   }
 
 export default CollapseComponent;

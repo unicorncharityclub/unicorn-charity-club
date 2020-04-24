@@ -39,13 +39,11 @@ class ImgMediaCard extends React.Component {
                 {this.props.removeInviteClick?(
                 <CardActions>
                     <div style={{width:"100%", textAlign:"center"}}>
-                    <Button size="small" color="primary" onClick={this.removeInviteClick.bind(this)}>
-                      Remove Invite
-                    </Button>
-                        </div>
-                </CardActions>
-                    ):(<div/>)}
-
+                        <Button size="small" color="primary" onClick={this.removeInviteClick.bind(this)}>
+                            Remove Invite
+                        </Button>
+                    </div>
+                </CardActions>):(<div/>)}
             </Card>
         );
     }

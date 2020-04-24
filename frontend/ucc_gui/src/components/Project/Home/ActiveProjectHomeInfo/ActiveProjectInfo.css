@@ -15,9 +15,13 @@
     border: 0px;    
 }
 
+.viewButton:hover {    
+    background-color: rgb(32, 145, 143);    
+}
+
 .ProjectInfo_MainDiv{
     border-radius: 10px;
-    border-style:solid;
+    border-style: outset;
     margin: 10px;
     margin-left: 1.5%;
     height:100%
@@ -26,7 +30,7 @@
 .ProjectInfo_Container
 {
     display:flex;
-    margin:1%;
+    /* margin:1%; */
     height:100%;
 }
 
@@ -35,9 +39,7 @@
 }
 
 .firstCell {
-    padding-top: 3%;
-    /* padding-left: 3%; */
-    
+    padding-top: 5%;        
 }
 
 .message {
@@ -103,6 +105,12 @@
 .horizontal_line
 {
     display: none;
+}
+
+.dateShown {
+    float: left;
+    color: gray;
+    font-size: medium;
 }
 
 

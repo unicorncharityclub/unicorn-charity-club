@@ -3,7 +3,6 @@ import "../Info/Account.css";
 import "./MyChildren.css";
 import ProfileForm from "../../../components/Account/ProfileForm";
 import AxiosConfig from "../../../axiosConfig";
-import cookie from "react-cookies";
 
 /**
  * @description Creates a form for all details of individual child
@@ -94,8 +93,6 @@ class AddChild extends React.Component {
       console.log(err);
     }
 
-
-    const user_email = cookie.load("user_email");
     return AxiosConfig
       .post('account/addchild/', form_data, {
         headers: {

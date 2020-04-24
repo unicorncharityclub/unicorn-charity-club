@@ -4,10 +4,6 @@ import "./Settings.css";
 import { connect } from 'react-redux';
 
 class Settings extends Component {
-  constructor(props) {
-    super(props);
-  }
-
 
   render() {
     return (

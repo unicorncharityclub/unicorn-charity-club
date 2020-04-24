@@ -2,7 +2,7 @@ import React from 'react';
 import Input from "../../Form/Input"
 import AxiosConfig from "../../../../axiosConfig";
 import "./Address.css"
-import TextBlackSubHeading from "../../Text/TextBlackSubHeading";
+import TextTheme from "../../Text/TextTheme";
 
 class Address extends React.Component {
 
@@ -22,8 +22,8 @@ class Address extends React.Component {
         return (
 
                 <form>
-                        <div className="project-form-address">                        
-                              <TextBlackSubHeading message = "1. Charitable Organization"/> <br/>
+                        <div className="project-form-address">
+                        <TextTheme message="1. Charitable Organization" className="text_medium text_black" /> <br/>
                               <Input type="text"
                                     name="name"
                                      placeholder="Name"

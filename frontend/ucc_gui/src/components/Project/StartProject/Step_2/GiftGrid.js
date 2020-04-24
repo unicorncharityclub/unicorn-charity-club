@@ -17,7 +17,11 @@ class GiftGrid extends React.Component {
           {this.props.prizeData          
           .map(elem => (
                    <Grid item xs={6} sm={4} md={4} key={this.props.prizeData.indexOf(elem)} >                     
-                   <ImgMediaCard imageSrc={elem.prize_url} imageId={elem.prize_id} onClick={this.giftSelectedHandler.bind(this)}/>
+                   <ImgMediaCard 
+                        imageSrc={elem.prize_url} 
+                        imageId={elem.prize_id} 
+                        onClick={this.giftSelectedHandler.bind(this)}
+                    />
             </Grid>
           ))}          
 

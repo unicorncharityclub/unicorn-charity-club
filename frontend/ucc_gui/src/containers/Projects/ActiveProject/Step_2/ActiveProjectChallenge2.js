@@ -23,39 +23,38 @@ class ActiveProjectChallenge2 extends React.Component {
             userEmailId: cookie.load('user_email'),
             goalDate: new Date(),
         }
-     }
-    onSubmit()
-    {
+    }
+
+    onSubmit() {
         AxiosConfig.put(`charityproject/update/Challenge/`, {
-            "project_id" : this.props.match.params.id ,
-            "goal_date" :  this.formatDate(this.state.goalDate),
-            "adventure_id" :   this.state.optionValue       
+            "project_id": this.props.match.params.id,
+            "goal_date": this.formatDate(this.state.goalDate),
+            "adventure_id": this.state.optionValue
         })
-        .then(
-            this.reRoute()
-        )
-        .catch(error => console.log(error))
+            .then(
+                this.reRoute()
+            )
+            .catch(error => console.log(error))
 
     }
 
-    reRoute()
-    {
-        if(this.state.optionValue==1){
+    reRoute() {
+        if (this.state.optionValue === 1) {
             this.props.history.push(`/Projects/${this.props.match.params.id}/SpreadTheWord`)
         }
-        if(this.state.optionValue==2) {
+        if (this.state.optionValue === 2) {
             this.props.history.push(`/Projects/${this.props.match.params.id}/LearnNewSkill`)
         }
-        if(this.state.optionValue==3) {
+        if (this.state.optionValue === 3) {
             this.props.history.push(`/Projects/${this.props.match.params.id}/DevelopNewHabit`)
         }
-        if(this.state.optionValue==4) {
+        if (this.state.optionValue === 4) {
             this.props.history.push(`/Projects/${this.props.match.params.id}/VolunteerTime`)
         }
-        if(this.state.optionValue==5) {
+        if (this.state.optionValue === 5) {
             this.props.history.push(`/Projects/${this.props.match.params.id}/GiveADonation`)
         }
-        if(this.state.optionValue==6) {
+        if (this.state.optionValue === 6) {
             this.props.history.push(`/Projects/${this.props.match.params.id}/Fundraise`)
         }
 
@@ -63,11 +62,11 @@ class ActiveProjectChallenge2 extends React.Component {
 
     handleClick(e) {
         this.setState({
-        selectedOption: e.target.value
-  });
+            selectedOption: e.target.value
+        });
     };
 
-    handleChecked(e){
+    handleChecked(e) {
         this.setState({
             checked: e.target.checked,
             optionValue: e.target.value
@@ -75,12 +74,12 @@ class ActiveProjectChallenge2 extends React.Component {
 
     }
 
-    handleDateChange= date =>{
-        var goalDate_Str  = this.formatDate(date)
-        
+    handleDateChange = date => {
+        var goalDate_Str = this.formatDate(date);
+
         this.setState({
             goalDate: new Date(goalDate_Str)
-        });        
+        });
     };
 
 
@@ -89,26 +88,24 @@ class ActiveProjectChallenge2 extends React.Component {
             month = '' + (d.getMonth() + 1),
             day = '' + d.getDate(),
             year = d.getFullYear();
-    
-        if (month.length < 2) 
+
+        if (month.length < 2)
             month = '0' + month;
-        if (day.length < 2) 
+        if (day.length < 2)
             day = '0' + day;
-    
+
         return [year, month, day].join('-');
     }
 
-    
+
     render() {
-      return(
+        return (
             <div>
-            <Container>
                 <Challenge2Details id={this.props.match.params.id}
-                handleChecked={this.handleChecked.bind(this)}
-                goalDate = {this.state.goalDate}
-                handleDateChange = {this.handleDateChange.bind(this)}
-                onSubmit = {this.onSubmit.bind(this)}/>
-            </Container>
+                                   handleChecked={this.handleChecked.bind(this)}
+                                   goalDate={this.state.goalDate}
+                                   handleDateChange={this.handleDateChange.bind(this)}
+                                   onSubmit={this.onSubmit.bind(this)}/>
             </div>
         )
     }

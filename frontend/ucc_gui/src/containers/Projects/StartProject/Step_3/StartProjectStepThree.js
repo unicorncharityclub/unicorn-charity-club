@@ -4,7 +4,6 @@ import "./StartProjectStepThree.css";
 import AxiosConfig from "../../../../axiosConfig";
 import ProjectBanner from "../../../../components/Project/ProjectBanner";
 import ProjectInfo from "../../../../components/Project/Details/ProjectInfo";
-import cookie from "react-cookies";
 import ProgressStepper from "../../../../components/Project/ProgressStepper";
 import InviteFriends from "../../../../components/Project/StartProject/Step_3/ImageFriends";
 import FriendsSearchGrid from "../../../../components/Project/StartProject/Step_3/FriendsSearchGrid";
@@ -12,241 +11,236 @@ import FriendsInvitedGrid from "../../../../components/Project/StartProject/Step
 import UnregisteredFriendsInvite from "../../../../components/Project/StartProject/Step_3/UnregisteredFriendsInvite";
 import TextArea from "../../../../components/General/Form/TextArea";
 import TwoButtonLayout from "../../../../components/General/TwoButtonLayout";
-import AlertMessage from "../../../../components/General/AlertMessage";
+import TextTheme from "../../../../components/General/Text/TextTheme";
 import * as FriendsSearchHelper from "../../../../components/Project/FriendsSearcHelper/FriendsSearchHelper";
-import TextBlackSubHeading from "../../../../components/General/Text/TextBlackSubHeading";
 
 class StartProjectStepThree extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      projectId: this.props.match.params.id,
-      projectBanner: "",
-      projectName: "",
-      projectDateStarted: "Date Started",
-      userEmail: cookie.load("user_email"),
-      popupSearch: false,
-      searchType: "",
-      searchValue: "",
-      searchMoreAvailable: true,
-      searchPage: 1,
-      selectedFriends: new Map(),
-      inviteMessage: "Hello Friends",
-      unregisteredUser: [
-        { email_address: "", issue: "" },
-        { email_address: "", issue: "" },
-        { email_address: "", issue: "" },
-        { email_address: "", issue: "" },
-        { email_address: "", issue: "" },
-      ],
-      unregisteredUserIssue: "",
-      sendInvitationIssue: "",
-      friendsSearchData: [],
-    };
-  }
-  componentDidMount() {
-    const project_id = this.props.match.params.id;
-    AxiosConfig.get(`charityproject/${project_id}/`)
-      .then((res) => {
-        this.setState({
-          projectName: res.data["name"],
-          projectBanner: res.data["banner"],
-        });
-      })
-      .catch((error) => console.log(error));
-  }
-
-  /*
-  This method will actually call the backend API and fetch the friends result based on the search query
-   */
-  fetchFriendsData(obj, searchType, searchValue, page, searchMoreFlag) {
-    FriendsSearchHelper.fetchFriendsDataHelper(
-      obj,
-      searchType,
-      searchValue,
-      page,
-      searchMoreFlag
-    );
-  }
-
-  saveButtonClick() {}
-
-  sendInviteButtonClick() {
-    this.setState({ sendInvitationIssue: "" });
-    if (
-      this.checkUnregisteredUsersErr() === false &&
-      this.checkInvitationMessageErr() === false
-    ) {
-      this.sendInvitationToRegisteredUsers(this);
+    constructor(props) {
+        super(props);
+        this.state = {
+            projectId: this.props.match.params.id,
+            projectBanner: "",
+            projectName: "",
+            projectDateStarted: "Date Started",
+            popupSearch: false,
+            searchType: "",
+            searchValue: "",
+            searchMoreAvailable: true,
+            searchPage: 1,
+            selectedFriends: new Map(),
+            inviteMessage: "Hello Friends",
+            unregisteredUser: [
+                {email_address: "", issue: ""},
+                {email_address: "", issue: ""},
+                {email_address: "", issue: ""},
+                {email_address: "", issue: ""},
+                {email_address: "", issue: ""},
+            ],
+            unregisteredUserIssue: "",
+            sendInvitationIssue: "",
+            friendsSearchData: [],
+        };
     }
-  }
 
-  checkInvitationMessageErr() {
-    if (this.state.inviteMessage.length === 0) {
-      this.setState({
-        sendInvitationIssue:
-          "Enter an Invitation message to be sent to your invitee's.",
-      });
-      return true;
+    componentDidMount() {
+        const project_id = this.props.match.params.id;
+        AxiosConfig.get(`charityproject/${project_id}/`)
+            .then((res) => {
+                this.setState({
+                    projectName: res.data["name"],
+                    projectBanner: res.data["banner"],
+                });
+            })
+            .catch((error) => console.log(error));
     }
-    return false;
-  }
 
-  checkUnregisteredUsersErr() {
-    let errorFlag = false;
-    for (let i = 0; i < this.state.unregisteredUser.length; i++) {
-      if (this.state.unregisteredUser[i]["issue"].trim().length !== 0) {
-        errorFlag = true;
-        this.setState({ unregisteredUser: this.state.unregisteredUser });
-        this.setState({
-          sendInvitationIssue: "Invalid Email of Unregistered User.",
-        });
-        break;
-      }
+    /*
+    This method will actually call the backend API and fetch the friends result based on the search query
+     */
+    fetchFriendsData(obj, searchType, searchValue, page, searchMoreFlag) {
+        FriendsSearchHelper.fetchFriendsDataHelper(
+            obj,
+            searchType,
+            searchValue,
+            page,
+            searchMoreFlag
+        );
     }
-    return errorFlag;
-  }
 
-  sendInvitationToUnregisteredUsers() {
-    var unregisterEmail = [];
-    for (let i = 0; i < this.state.unregisteredUser.length; i++) {
-      unregisterEmail.push(
-        this.state.unregisteredUser[i]["email_address"].trim()
-      );
+    saveButtonClick() {
     }
-    AxiosConfig.post(`charityproject/unregisteredInvitation`, {
-      user_email: this.state.userEmail,
-      project_id: this.state.projectId,
-      invitation_message: this.state.inviteMessage,
-      friend_list: unregisterEmail,
-    })
-      .then(function (response) {
-        // go to next page
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
 
-  sendInvitationToRegisteredUsers(obj) {
-    var friendsEmail = [];
-    for (const friends of this.state.selectedFriends.values()) {
-      friendsEmail.push(friends["user_email"]);
+    sendInviteButtonClick() {
+        this.setState({sendInvitationIssue: ""});
+        if (
+            this.checkUnregisteredUsersErr() === false &&
+            this.checkInvitationMessageErr() === false
+        ) {
+            this.sendInvitationToUsers(this);
+        }
     }
-    AxiosConfig.post(`charityproject/userInvitation`, {
-      user_email: this.state.userEmail,
-      project_id: this.state.projectId,
-      invitation_message: this.state.inviteMessage,
-      friend_list: friendsEmail,
-    })
-      .then(function (response) {
-        obj.sendInvitationToUnregisteredUsers();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
 
-  render() {
-    return (
-      <div className="header_main">
-        {this.state.popupSearch ? (
-          <div id="popup" className="friends-popup-window">
-            <FriendsSearchGrid
-              friendsSearchData={this.state.friendsSearchData}
-              searchStringType={this.state.searchType}
-              searchStringValue={this.state.searchValue}
-              searchMore={this.state.searchMoreAvailable}
-              searchResultCancelClick={FriendsSearchHelper.searchResultCancelClick.bind(this)}
-              searchResultMoreClick={FriendsSearchHelper.searchResultMoreClick.bind(this)}
-              searchResultImageClick={FriendsSearchHelper.searchResultImageClick.bind(this)}
-            />
-          </div>
-        ) : (
-          <div />
-        )}
+    checkInvitationMessageErr() {
+        if (this.state.inviteMessage.length === 0) {
+            this.setState({
+                sendInvitationIssue:
+                    "Enter an Invitation message to be sent to your invitee's.",
+            });
+            return true;
+        }
+        return false;
+    }
 
-        <div className="header_step_banner_main">
-          <div className="stepper_main">
-            <div className="stepper_main_content">
-              <ProgressStepper currentStep="2" />
-            </div>
-          </div>
+    checkUnregisteredUsersErr() {
+        let errorFlag = false;
+        for (let i = 0; i < this.state.unregisteredUser.length; i++) {
+            if (this.state.unregisteredUser[i]["issue"].trim().length !== 0) {
+                errorFlag = true;
+                this.setState({unregisteredUser: this.state.unregisteredUser});
+                this.setState({
+                    sendInvitationIssue: "Invalid Email of Unregistered User.",
+                });
+                break;
+            }
+        }
+        return errorFlag;
+    }
 
-          <div className="banner_main">
-            <div className="banner_main_content">
-              <ProjectBanner image={this.state.projectBanner} />
-            </div>
-          </div>
-        </div>
+    sendInvitationToUsers(obj) {
+        let form_data = new FormData();
 
-        <div className="page_info_hr_content_main">
-          <ProjectInfo id={this.props.match.params.id} />
-        </div>
+        for (const friends of this.state.selectedFriends.values()) {
+            form_data.append('registered_user', friends["user_email"])
+        }
+        for (let i = 0; i < this.state.unregisteredUser.length; i++) {
+            form_data.append('unregistered_user', this.state.unregisteredUser[i]["email_address"].trim());
+        }
+        form_data.append("project_id", this.state.projectId);
+        form_data.append("invitation_message", this.state.inviteMessage);
 
-        <div className="page_main">
-          <div className="page_info_vr_content_main">
-            <ProjectInfo vertical={true} id={this.state.projectId} />
-          </div>
+        AxiosConfig.post(`charityproject/invite_user/`, form_data)
+            .then(function (response) {
+                obj.props.history.push('/Projects')
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
 
-          <div className="page_details_main">
-            <div className="page_details_content_main">
-              <InviteFriends
-                showHeaderMessage={true}
-                message="1. Build your team by inviting family and friends to your project."
-                searchResultHandler={FriendsSearchHelper.searchResultHandler.bind(this)}
-                disabled={this.state.popupSearch}
-              />
-              <br />
-              <div>
-                <FriendsInvitedGrid
-                  friendsInvitedData={[...this.state.selectedFriends.values()]}
-                  removeInviteClick={FriendsSearchHelper.removeInviteClick.bind(this)}
-                />
-              </div>
+    render() {
+        return (
+            <div className="header_main">
+                {this.state.popupSearch ? (
+                    <div id="popup" className="friends-popup-window">
+                        <FriendsSearchGrid
+                            friendsSearchData={this.state.friendsSearchData}
+                            searchStringType={this.state.searchType}
+                            searchStringValue={this.state.searchValue}
+                            searchMore={this.state.searchMoreAvailable}
+                            searchResultCancelClick={FriendsSearchHelper.searchResultCancelClick.bind(this)}
+                            searchResultMoreClick={FriendsSearchHelper.searchResultMoreClick.bind(this)}
+                            searchResultImageClick={FriendsSearchHelper.searchResultImageClick.bind(this)}
+                        />
+                    </div>
+                ) : (
+                    <div/>
+                )}
 
-              <br />
-              <div>
-                <UnregisteredFriendsInvite
-                  message="2. Send invites to unregistered users."
-                  unregisteredUser={this.state.unregisteredUser}
-                  unregisteredUserIssue={this.state.unregisteredUserIssue}
-                  unregisteredUserAddMoreClick={FriendsSearchHelper.unregisteredUserAddMore.bind(this)}
-                  unregisteredUserEmailChange={FriendsSearchHelper.unregisteredUserEmailChange.bind(this)}
-                  unregisteredUserDeleteClick={FriendsSearchHelper.unregisteredUserDeleteClick.bind(this)}
-                  unregisteredUserEmailValidate={FriendsSearchHelper.unregisteredUserEmailValidate.bind(this)}
-                  disabled={this.state.popupSearch}
-                />
-              </div>
+                <div className="page_info_hr_content_main">
+                    <div className="header_step_banner_main">
+                        <div className="banner_main">
+                            <div className="banner_main_content">
+                                <ProjectBanner image={this.state.projectBanner}/>
+                            </div>
+                        </div>
 
-              <br />
-              <hr />
-              <div style={{ marginTop: "20px" }}>
-                <div>
-                  <TextBlackSubHeading message="3. Invitation message to friends." />
+                        <div className="stepper_main">
+                            <div className="stepper_main_content">
+                                <ProgressStepper currentStep="2"/>
+                            </div>
+                        </div>
+                    </div>
+                    <ProjectInfo id={this.props.match.params.id}/>
                 </div>
-                <TextArea
-                  value={this.state.inviteMessage}
-                  rows={5}
-                  handleChange={FriendsSearchHelper.inviteMessageChange.bind(this)}
-                />
-              </div>
 
-              <br />
-              <TwoButtonLayout
-                button1Text="SAVE"
-                button2Text="SEND INVITATIONS"
-                button1Click={this.saveButtonClick.bind(this)}
-                button2Click={this.sendInviteButtonClick.bind(this)}
-                disabled={this.state.popupSearch}
-              />
-              <AlertMessage alertMessage={this.state.sendInvitationIssue} />
+                <div className="page_main">
+                    <div className="page_info_vr_content_main">
+                        <ProjectInfo vertical={true} id={this.state.projectId}/>
+                    </div>
+
+                    <div className="header_step_banner_main_vr">
+                        <div className="banner_main_vr">
+                            <div className="banner_main_content">
+                                <ProjectBanner image={this.state.projectBanner}/>
+                            </div>
+                        </div>
+
+                        <div className="stepper_main_vr">
+                            <div className="stepper_main_content">
+                                <ProgressStepper currentStep="2"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="page_details_main">
+                        <div className="page_details_content_main">
+                            <InviteFriends
+                                showHeaderMessage={true}
+                                message="1. Build your team by inviting family and friends to your project."
+                                searchResultHandler={FriendsSearchHelper.searchResultHandler.bind(this)}
+                                disabled={this.state.popupSearch}
+                            />
+                            <br/>
+                            <div>
+                                <FriendsInvitedGrid
+                                    friendsInvitedData={[...this.state.selectedFriends.values()]}
+                                    removeInviteClick={FriendsSearchHelper.removeInviteClick.bind(this)}
+                                />
+                            </div>
+
+                            <br/>
+                            <div>
+                                <UnregisteredFriendsInvite
+                                    message="2. Send invites to unregistered users."
+                                    unregisteredUser={this.state.unregisteredUser}
+                                    unregisteredUserIssue={this.state.unregisteredUserIssue}
+                                    unregisteredUserAddMoreClick={FriendsSearchHelper.unregisteredUserAddMore.bind(this)}
+                                    unregisteredUserEmailChange={FriendsSearchHelper.unregisteredUserEmailChange.bind(this)}
+                                    unregisteredUserDeleteClick={FriendsSearchHelper.unregisteredUserDeleteClick.bind(this)}
+                                    unregisteredUserEmailValidate={FriendsSearchHelper.unregisteredUserEmailValidate.bind(this)}
+                                    disabled={this.state.popupSearch}
+                                />
+                            </div>
+
+                            <br/>
+                            <hr/>
+                            <div style={{marginTop: "20px"}}>
+                                <div>
+                                    <TextTheme message="3. Invitation message to friends."
+                                               className="text_medium text_black"/>
+                                </div>
+                                <TextArea
+                                    value={this.state.inviteMessage}
+                                    rows={5}
+                                    handleChange={FriendsSearchHelper.inviteMessageChange.bind(this)}
+                                />
+                            </div>
+
+                            <br/>
+                            <TwoButtonLayout
+                                button1Text="SAVE"
+                                button2Text="SEND INVITATIONS"
+                                button1Click={this.saveButtonClick.bind(this)}
+                                button2Click={this.sendInviteButtonClick.bind(this)}
+                                disabled={this.state.popupSearch}
+                            />
+                            <TextTheme message={this.state.sendInvitationIssue} className="text_medium text_red"/>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+        );
+    }
 }
 
 export default StartProjectStepThree;
