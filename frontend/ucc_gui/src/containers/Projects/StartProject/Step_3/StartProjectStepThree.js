@@ -12,7 +12,7 @@ import FriendsInvitedGrid from "../../../../components/Project/StartProject/Step
 import UnregisteredFriendsInvite from "../../../../components/Project/StartProject/Step_3/UnregisteredFriendsInvite";
 import TextArea from "../../../../components/General/Form/TextArea";
 import TwoButtonLayout from "../../../../components/General/TwoButtonLayout";
-import TextAlertLarge from "../../../../components/General/Text/TextAlertLarge";
+import TextTheme from "../../../../components/General/Text/TextTheme";
 import * as FriendsSearchHelper from "../../../../components/Project/FriendsSearcHelper/FriendsSearchHelper";
 import TextBlackSubHeading from "../../../../components/General/Text/TextBlackSubHeading";
 
@@ -220,7 +220,7 @@ class StartProjectStepThree extends React.Component {
                 button2Click={this.sendInviteButtonClick.bind(this)}
                 disabled={this.state.popupSearch}
               />
-              <TextAlertLarge alertMessage={this.state.sendInvitationIssue} />
+              <TextTheme message={this.state.sendInvitationIssue} className="text_medium text_red" />
             </div>
           </div>
         </div>

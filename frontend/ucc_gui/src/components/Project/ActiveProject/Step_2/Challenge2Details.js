@@ -2,7 +2,7 @@ import React from 'react';
 import "./Challenge2Details.css"
 import "react-datepicker/dist/react-datepicker.css";
 import TextBlueHeading from "../../../General/Text/TextBlueHeading";
-import TextBlack from "../../../General/Text/TextBlack";
+import TextTheme from "../../../General/Text/TextTheme";
 import "../../../../containers/ProjectCommon.css"
 import AxiosConfig from "../../../../axiosConfig";
 import ProgressStepper from "../../ProgressStepper";
@@ -85,27 +85,27 @@ class ProjectContent extends React.Component {
                                 
                                 <div className="OptionList">
                                         <input name="Option" type ="radio" value="1" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                                        <label htmlFor="Option"> <TextBlack message = "Spread the word by inviting 5+ friends to the project"/></label><br/>
+                                        <label htmlFor="Option"> <TextTheme message = "Spread the word by inviting 5+ friends to the project" className="text_small text_black"/></label><br/>
                                     <br/>
 
                                         <input name="Option" type="radio" value="2" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                                        <label htmlFor="Option"> <TextBlack message = "Learn a new skill that supports the mission"/></label><br/>
+                                        <label htmlFor="Option"> <TextTheme message = "Learn a new skill that supports the mission" className="text_small text_black"/></label><br/>
                                     <br/>
 
                                         <input name="Option" type="radio" value="3" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                                        <label htmlFor="Option"> <TextBlack message = "Develop a new habit that supports the mission"/></label><br/>
+                                        <label htmlFor="Option"> <TextTheme message = "Develop a new habit that supports the mission" className="text_small text_black"/></label><br/>
                                     <br/>
 
                                         <input name="Option" type="radio" value="4" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                                        <label htmlFor="Option"> <TextBlack message = "Volunteer time at a local organization"/></label><br/>
+                                        <label htmlFor="Option"> <TextTheme message = "Volunteer time at a local organization" className="text_small text_black"/></label><br/>
                                     <br/>
 
                                         <input name="Option" type="radio" value="5" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                                        <label htmlFor="Option"> <TextBlack message = "Give a donation to support the mission"/></label><br/>
+                                        <label htmlFor="Option"> <TextTheme message = "Give a donation to support the mission" className="text_small text_black"/></label><br/>
                                     <br/>
 
                                         <input name="Option" type="radio" value="6" checked={this.state.checked} onClick={this.props.handleChecked}/>
-                                        <label htmlFor="Option"> <TextBlack message = "Fundraise money to support the mission"/></label><br/>
+                                        <label htmlFor="Option"> <TextTheme message = "Fundraise money to support the mission" className="text_small text_black"/></label><br/>
                                     <br/>
                                 </div>
                             </ul>

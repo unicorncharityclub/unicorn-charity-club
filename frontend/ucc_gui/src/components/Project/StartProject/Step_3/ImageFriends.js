@@ -1,12 +1,11 @@
 import React from 'react';
 import TextBlueSubHeading from "../../../General/Text/TextBlueSubHeading";
 import TextBlueHeading from "../../../General/Text/TextBlueHeading";
-import TextBlack from "../../../General/Text/TextBlack";
 import TextBlackSubHeading from "../../../General/Text/TextBlackSubHeading";
 import Search from "@material-ui/icons/Search";
-import TextAlertLarge from "../../../General/Text/TextAlertLarge";
 import Input from "../../../General/Form/Input";
 import BlueButton from "../../../General/Form/BlueButton";
+import TextTheme from "../../../General/Text/TextTheme";
 
 
 class InviteFriends extends React.Component {
@@ -69,7 +68,7 @@ class InviteFriends extends React.Component {
                     <div>
                         <div style={{width:"100%", height:"50px", float:"left", textAlign:"left"}}>
                             <div style={{width:"30%", height:"100%", float:"left", position: "relative"}}>
-                                <TextBlack message="Find friends by their name : "
+                                <TextTheme message="Find friends by their name : " className="text_small text_black"
                                            top = "50%"
                                            position = "absolute"
                                            transform = "translateY(-50%)"
@@ -94,7 +93,7 @@ class InviteFriends extends React.Component {
 
                         <div style={{width:"100%", height:"50px", float:"left", textAlign:"left"}}>
                             <div style={{width:"30%", height:"100%", float:"left", position: "relative"}}>
-                                <TextBlack message="Find friends by their email : "
+                                <TextTheme message="Find friends by their email : " className="text_small text_black"
                                         top = "50%"
                                            position = "absolute"
                                            transform = "translateY(-50%)"
@@ -122,7 +121,7 @@ class InviteFriends extends React.Component {
                             disabled={this.props.disabled}
                             title="SEARCH&nbsp;"
                           />
-                          <AlertMessage alertMessage={this.state.searchStatus} />
+                          <TextTheme message={this.state.searchStatus} />
                     </div>
                 </div>
             </div>

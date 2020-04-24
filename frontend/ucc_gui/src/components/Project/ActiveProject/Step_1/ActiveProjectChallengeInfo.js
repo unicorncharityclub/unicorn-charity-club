@@ -2,7 +2,7 @@ import React from "react";
 import "./ActiveProjectChallengeInfo.css";
 import Image from "react-bootstrap/Image";
 import TextBlackHeading from "../../../General/Text/TextBlackHeading";
-import TextBlack from "../../../General/Text/TextBlack";
+import TextTheme from "../../../General/Text/TextTheme";
 import AxiosConfig from '../../../../axiosConfig'
 
 class ActiveProjectChallengeInfo extends React.Component {
@@ -53,28 +53,26 @@ class ActiveProjectChallengeInfo extends React.Component {
                           </tr>
                           <tr>
                             <td>
-                              <TextBlackHeading message={this.state.projectName} />
+                              <TextTheme message={this.state.projectName} className="text_small text_black" />
                             </td>
                           </tr>
                           <tr>
                             <td valign="top">
                               <b>
-                                <TextBlack className = "title" message={this.state.projectCategory} />
+                                <TextTheme message={this.state.projectCategory} className="text_small text_black" />
                               </b>
                             </td>
                           </tr>                          
                          
                           <tr>
                             <td valign="top">
-                                <b><TextBlack className = "title" message="Mission"/></b>
+                                <b><TextTheme message="Mission" className="text_small text_black" /></b>
                             </td>
                           </tr>
     
                           <tr>
                             <td>
-                              <TextBlack
-                                message={this.state.projectMission}
-                              />
+                                <TextTheme message={this.state.projectMission} className="text_small text_black" />
                             </td>
                           </tr>
                         </tbody>
@@ -104,12 +102,10 @@ class ActiveProjectChallengeInfo extends React.Component {
                           </tr>
                           <tr>
                             <td valign="top">
-                              <TextBlack message="Category" />
+                                <TextTheme message="Category" className="text_small text_black" />
                             </td>
                             <td>
-                              <TextBlack
-                                message={" : " + this.state.projectCategory}
-                              />
+                                <TextTheme message={" : " + this.state.projectCategory} className="text_small text_black" />
                             </td>
                           </tr>                                                    
                         </tbody>

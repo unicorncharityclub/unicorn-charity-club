@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import cookie from "react-cookies";
 import AxiosConfig from '../../../../axiosConfig'
 import { Player } from 'video-react';
-import TextAlertLarge from "../../../../components/General/Text/TextAlertLarge";
+import TextTheme from "../../../../components/General/Text/TextTheme";
 import ProjectBanner from "../../../../components/Project/ProjectBanner";
 import ProgressStepper from "../../../../components/Project/ProgressStepper";
 
@@ -91,8 +91,8 @@ class ProjectInvitation extends React.Component {
 
     showAlertMsg () {        
         if (!this.state.error_message !== "Success"){
-            return (                
-                <TextAlertLarge alertMessage={this.state.errorMessage} />
+            return (
+                <TextTheme message={this.state.errorMessage} className="text_medium text_red" />
             );
         }
     }

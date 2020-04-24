@@ -1,7 +1,7 @@
 import React from "react";
 import TextBlackSubHeading from "../../../General/Text/TextBlackSubHeading";
 import Input from "../../../General/Form/Input";
-import TextAlertLarge from "../../../General/Text/TextAlertLarge";
+import TextTheme from "../../../General/Text/TextTheme";
 import Add from "@material-ui/icons/Add";
 import BlueButton from "../../../General/Form/BlueButton";
 import DeleteButton from "../../../General/Form/DeleteButton";
@@ -38,7 +38,7 @@ class UnregisteredFriendsInvite extends React.Component {
                       )}
                     </td>
                     <td>
-                      <TextAlertLarge alertMessage={user.issue} />
+                      <TextTheme message={user.issue} className="text_large text_red" />
                     </td>
                   </tr>
           );
@@ -54,7 +54,7 @@ class UnregisteredFriendsInvite extends React.Component {
               />
           </div>
           <div style={{marginTop:"5px"}}>
-              <TextAlertLarge alertMessage={this.props.unregisteredUserIssue} />
+              <TextTheme message={this.props.unregisteredUserIssue} className="text_large text_red" />
             </div>
       </div>
     );

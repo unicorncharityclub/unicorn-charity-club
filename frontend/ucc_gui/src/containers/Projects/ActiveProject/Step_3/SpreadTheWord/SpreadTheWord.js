@@ -4,15 +4,13 @@ import AxiosConfig from "../../../../../axiosConfig";
 import ProgressStepper from "../../../../../components/Project/ProgressStepper";
 import ProjectBanner from "../../../../../components/Project/ProjectBanner";
 import TextBlueHeading from "../../../../../components/General/Text/TextBlueHeading";
-import TextBlack from "../../../../../components/General/Text/TextBlack";
-import cookie from "react-cookies";
 import InviteFriends from "../../../../../components/Project/StartProject/Step_3/ImageFriends";
 import FriendsInvitedGrid from "../../../../../components/Project/StartProject/Step_3/FriendsInvitedGrid";
 import UnregisteredFriendsInvite from "../../../../../components/Project/StartProject/Step_3/UnregisteredFriendsInvite";
 import TextArea from "../../../../../components/General/Form/TextArea";
 import FriendsSearchGrid from "../../../../../components/Project/StartProject/Step_3/FriendsSearchGrid";
 import TwoButtonLayout from "../../../../../components/General/TwoButtonLayout";
-import TextAlertLarge from "../../../../../components/General/Text/TextAlertLarge";
+import TextTheme from "../../../../../components/General/Text/TextTheme";
 import * as FriendsSearchHelper from '../../../../../components/Project/FriendsSearcHelper/FriendsSearchHelper';
 import TextBlackSubHeading from "../../../../../components/General/Text/TextBlackSubHeading";
 import TextBlackHeading from "../../../../../components/General/Text/TextBlackHeading";
@@ -193,19 +191,19 @@ class SpreadTheWord extends React.Component {
                         <TextBlueHeading message="CHALLENGE 3: Adventure"/>
                         <br/>
                         <TextBlackHeading message="SPREAD THE WORD"/>
-                        <TextBlack message="Spread the word by inviting your family and friends to join you on your project."/>
+                        <TextTheme message="Spread the word by inviting your family and friends to join you on your project." className="text_small text_black"/>
                         <br/>
                     </div>                          
                       <div >
-                            <TextBlackSubHeading message="1. Create a Personal Video to :"/>
+                            <TextBlackSubHeading message="1. Create a Personal Video to :" className="text_small text_black"/>
                             <table style={{marginTop: "10px"}}>
                             <tbody>
                             <tr>
                                     <td>
                                 <ul>
-                                  <li><TextBlack message="Explain why you choose this project."/></li>
-                                    <li><TextBlack message="Explain why people should support the project."/></li>
-                                    <li><TextBlack message="Ask your family and friends to join your project."/></li>
+                                  <li><TextTheme message="Explain why you choose this project." className="text_small text_black"/></li>
+                                    <li><TextTheme message="Explain why people should support the project." className="text_small text_black"/></li>
+                                    <li><TextTheme message="Ask your family and friends to join your project." className="text_small text_black"/></li>
                                 </ul>
                                     </td>
                             </tr>
@@ -257,7 +255,7 @@ class SpreadTheWord extends React.Component {
           </div>          
               <TwoButtonLayout button1Text="SAVE" button2Text="COMPLETE PROJECT"
                               button1Click={this.saveButtonClick.bind(this)} button2Click={this.sendInviteButtonClick.bind(this)}/>
-                              <TextAlertLarge alertMessage={this.state.sendInvitationIssue} />
+                              <TextTheme message={this.state.sendInvitationIssue} className="text_medium text_red" />
       </div>
       )
     }

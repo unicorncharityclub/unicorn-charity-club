@@ -2,7 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import FriendsMediaCard from "./FriendsCard";
 import TextBlackSubHeading from "../../../General/Text/TextBlackSubHeading";
-import TextRedSubHeading from "../../../General/Text/TextRedSubHeading";
+import TextTheme from "../../../General/Text/TextTheme";
 
 
 class FriendsInvitedGrid extends React.Component {
@@ -41,7 +41,7 @@ class FriendsInvitedGrid extends React.Component {
         </Grid>
             ) :
             (<div style={{textAlign:"center"}}>
-            <TextRedSubHeading message=" -- No Friends Selected -- "/>
+                <TextTheme message=" -- No Friends Selected -- " className="text_medium text_red" />
         </div>)}
       </div>
     );

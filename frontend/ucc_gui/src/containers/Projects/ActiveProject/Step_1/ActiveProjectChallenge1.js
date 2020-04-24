@@ -6,10 +6,6 @@ import ProjectBanner from "../../../../components/Project/ProjectBanner";
 import AxiosConfig from '../../../../axiosConfig'
 import { Player } from 'video-react';
 import ProjectInfo from "../../../../components/Project/Details/ProjectInfo";
-import TextWhite from "../../../../components/General/Text/TextWhite";
-import TextBlueHeading from "../../../../components/General/Text/TextBlueHeading";
-import TextBlackSubHeading from "../../../../components/General/Text/TextBlackSubHeading";
-import TextBlack from "../../../../components/General/Text/TextBlack";
 
 class ActiveProjectChallenge1 extends React.Component {
     constructor(props) {

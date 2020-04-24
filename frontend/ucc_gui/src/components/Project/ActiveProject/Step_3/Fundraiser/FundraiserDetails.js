@@ -1,6 +1,6 @@
 import React from 'react';
 import TextBlueHeading from "../../../../General/Text/TextBlueHeading";
-import TextBlack from "../../../../General/Text/TextBlack";
+import TextTheme from "../../../../General/Text/TextTheme";
 import TextArea from "../../../../General/Form/TextArea"
 import Input from  "../../../../../components/General/Form/Input"
 import ProjectInfo from "../../../Details/ProjectInfo";
@@ -86,7 +86,7 @@ class FundraiserDetails extends React.Component {
                             <div className="form_control">
                             <Input inputType="number" name="dollars" value={this.props.dollars} placeholder='0'
                                    handleChange={this.props.handleNumbers.bind(this)}/>
-                                    <label><TextBlack message="Dollars"/></label>
+                                    <label><TextTheme message="Dollars" className="text_small text_black"/></label>
                                 <br/>
 
                         </div>

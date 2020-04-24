@@ -1,6 +1,6 @@
 import React from 'react';
 import TextBlueHeading from "../../../../General/Text/TextBlueHeading";
-import TextBlack from "../../../../General/Text/TextBlack";
+import TextTheme from "../../../../General/Text/TextTheme";
 import TextArea from "../../../../General/Form/TextArea"
 import Input from  "../../../../../components/General/Form/Input"
 import ProjectInfo from "../../../Details/ProjectInfo";
@@ -87,7 +87,7 @@ class VolunteerTimeDetails extends React.Component {
                             <div className="form_control">
                             <Input inputType="number" name="hours" value={this.props.hours} placeholder='0'
                                    handleChange={this.props.handleNumbers.bind(this)}/>
-                                    <label><TextBlack message="Hours"/></label>
+                                    <label><TextTheme message="Hours" className="text_small text_black"/></label>
                                 <br/>
 
                         </div>

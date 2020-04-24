@@ -3,7 +3,6 @@ import VolunteerTimeDetails from "../../../../../components/Project/ActiveProjec
 import {Container} from "@material-ui/core";
 import cookie from "react-cookies";
 import AxiosConfig from "../../../../../axiosConfig";
-import TextAlertLarge from "../../../../../components/General/Text/TextAlertLarge";
 
 /**
  * @summary: Stores and retrieves the information from the challenge 3 - volunteer time page

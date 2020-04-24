@@ -1,6 +1,6 @@
 import React from 'react';
 import TextBlueHeading from "../../../General/Text/TextBlueHeading";
-import TextBlack from "../../../General/Text/TextBlack";
+import TextTheme from "../../../General/Text/TextTheme";
 import Video from "../../../General/Video/Video";
 class ProjectContent extends React.Component {
 
@@ -8,14 +8,14 @@ class ProjectContent extends React.Component {
         return (
                   <div style={{margin:"10px"}}>
                       <TextBlueHeading message="Share Your Story"/>
-                        <b><TextBlack message = "Create a personal video that tells your friends and family about your new project. Be sure to:"/></b>
+                        <b><TextTheme message = "Create a personal video that tells your friends and family about your new project. Be sure to:" className="text_small text_black" /></b>
                         <ul style={{paddingLeft:"60px"}}>
                             <br/>
-                            <li><TextBlack message = "Explain why you chose this project."/></li>
+                            <li><TextTheme message = "Explain why you chose this project." className="text_small text_black" /></li>
                             <br/>
-                            <li><TextBlack message = "Explain why people should support the project mission."/></li>
+                            <li><TextTheme message = "Explain why people should support the project mission." className="text_small text_black" /></li>
                             <br/>
-                            <li><TextBlack message = "Ask your friends and family to join your project."/></li>
+                            <li><TextTheme message = "Ask your friends and family to join your project." className="text_small text_black" /></li>
                         </ul>
                         <br/>
                       <div>

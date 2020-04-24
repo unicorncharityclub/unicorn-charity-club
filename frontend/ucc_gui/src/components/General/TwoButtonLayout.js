@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import TextBlue from "./Text/TextBlue";
-import TextWhite from "./Text/TextWhite";
+import TextTheme from "./Text/TextTheme";
 import "./TwoButtonLayout.css"
 
 class TwoButtonLayout extends React.Component {
@@ -11,13 +10,17 @@ class TwoButtonLayout extends React.Component {
                 <Button className="two_button_left_button" variant="light" size="lg"
                         disabled={this.props.disabled}
                         onClick={this.props.button1Click}>
-                    <b><TextBlue message={this.props.button1Text+ " "}/></b>
+                    <b>
+                        <TextTheme message={this.props.button1Text+ " "} className="text_small text_blue" />
+                    </b>
                 </Button>
                 <Button className="two_button_right_button"
                         disabled={this.props.disabled}
                         variant="success"
                         size="lg" onClick={this.props.button2Click}>
-                    <b><TextWhite message={this.props.button2Text+ " "}/></b>
+                    <b>
+                        <TextTheme message={this.props.button2Text+ " "} className="text_small text_white" />
+                    </b>
                 </Button>
             </div>
         );
