@@ -4,7 +4,6 @@ import "./StartProjectStepThree.css";
 import AxiosConfig from "../../../../axiosConfig";
 import ProjectBanner from "../../../../components/Project/ProjectBanner";
 import ProjectInfo from "../../../../components/Project/Details/ProjectInfo";
-import cookie from "react-cookies";
 import ProgressStepper from "../../../../components/Project/ProgressStepper";
 import InviteFriends from "../../../../components/Project/StartProject/Step_3/ImageFriends";
 import FriendsSearchGrid from "../../../../components/Project/StartProject/Step_3/FriendsSearchGrid";

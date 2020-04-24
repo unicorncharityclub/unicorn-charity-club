@@ -1,11 +1,7 @@
 import React from "react";
-import cookie from 'react-cookies'
 import AxiosConfig from '../../../axiosConfig'
-
-/** @import CSS styles */
 import "./Account.css";
 import ProfileForm from "../../../components/Account/ProfileForm";
-import { Container } from "@material-ui/core";
 
 /**
  * @description Creates the My Account page for the user
@@ -42,7 +38,6 @@ class Account extends React.Component {
     };
 
     componentDidMount() {
-        const user_email = cookie.load('user_email');
         AxiosConfig.get('profile/view_profile')
             .then(res => {
                     this.setState({
