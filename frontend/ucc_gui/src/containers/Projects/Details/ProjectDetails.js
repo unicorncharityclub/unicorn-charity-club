@@ -98,9 +98,11 @@ class ProjectDetails extends React.Component {
                             <div>
                                 <h2 className="textHeader">Project Video</h2>
                                 <p className="insideContent">
-                                    Project Name : {this.state.projectVideoName}
+                                    {this.state.projectVideoName}
                                 </p>
+                                <div style={{border:"solid 1px"}} >
                                 <Player playsInline src={this.state.projectVideo}/>
+                                </div>
                             </div>
                             <hr/>
                             {/* This should be a link later on.. */}
