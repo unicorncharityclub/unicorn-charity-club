@@ -8,12 +8,11 @@
  import AxiosConfig from "../../../axiosConfig";
 
  export const searchResultHandler = function(value) {
-    console.log(value);
     this.setState({ searchType: value[0] });
     this.setState({ searchValue: value[1] });
-    this.setState({ searchOffset: 0 });
+    this.setState({ searchPage: 1 });
     this.setState({ searchMoreAvailable: true });
-    this.fetchFriendsData(this, value[0], value[1], 0, true);
+    this.fetchFriendsData(this, value[0], value[1], 1, true);
   };
 
   /*
@@ -23,18 +22,18 @@
   export const searchResultCancelClick = function()
   {
     this.setState({ popupSearch: false });
-    this.setState({ searchOffset: 0 });
+    this.setState({ searchPage: 1 });
     this.setState({ searchMoreAvailable: true });
   };
 
   /*
   This method is called when from the popup friends screen the more button is pressed
-  searchOffset - is increased by 1 to fetch the next batch of result from the API
+  searchPage - is increased by 1 to fetch the next batch of result from the API
    */
   export const searchResultMoreClick = function()
   {
-    this.setState({ searchOffset: this.state.searchOffset + 1 });
-    this.fetchFriendsData(this, this.state.searchType, this.state.searchValue, this.state.searchOffset + 1 , true );
+    this.setState({ searchPage: this.state.searchPage + 1 });
+    this.fetchFriendsData(this, this.state.searchType, this.state.searchValue, this.state.searchPage + 1 , true );
   };
 
 
@@ -66,7 +65,7 @@
   {
     this.state.selectedFriends.delete(value);
     // This is just a useless state change just to notify changes in the state
-    this.setState({ searchOffset: 0 });
+    this.setState({ searchPage: 1 });
   };
 
   // Update the state when the invite message changes
@@ -87,7 +86,7 @@
         break;
       }
     }
-    console.log(errorFlag);
+
     if(errorFlag)
     {
       this.setState({unregisteredUserIssue:"Empty Spaces Available"})
@@ -97,7 +96,7 @@
       this.setState({unregisteredUserIssue:""});
       this.setState({unregisteredUser:[...this.state.unregisteredUser, {email_address:"", issue:""}]})
     }
-    console.log(this.state.unregisteredUser);
+
   };
 
   //When the email id on the unregistered user is updated
@@ -128,17 +127,33 @@
   /*
   This method will actually call the backend API and fetch the friends result based on the search query
    */
-  export const fetchFriendsDataHelper = function(obj, searchType, searchValue, offset, searchMoreFlag) {
+  export const fetchFriendsDataHelper = function(obj, searchType, searchValue, page, searchMoreFlag) {
     if(searchType==='email')
     {
       AxiosConfig
-        .post(`charityproject/friendByEmail`,
+      .get(`charityproject/search_friend_email/`,
+        {params: {
+              email: searchValue,
+                page: page
+            }})
+        .then(function(response)
+        {
+            if("results" in response.data)
             {
-              "friend_email" : searchValue
-            })
-        .then(function(response) {
-          obj.setState({ popupSearch: true });
-          obj.setState({friendsSearchData: response.data["friend_list"]})
+                obj.setState({ popupSearch: true });
+                obj.setState({friendsSearchData: response.data["results"]})
+            }
+            if("next" in response.data)
+            {
+                if (response.data["next"] == null)
+                {
+                    obj.setState({ searchMoreAvailable: false });
+                }
+                else
+                {
+                    obj.setState({ searchMoreAvailable: true });
+                }
+            }
         })
         .catch(function(error) {
           console.log(error);
@@ -146,16 +161,27 @@
     }
     else {
       AxiosConfig
-        .post(`charityproject/search`,
-            {
-              "text" : searchValue,
-              "offset_value" : offset
-            })
+        .get(`charityproject/search_friend_name/`,
+            {params: {
+                  text: searchValue,
+                    page: page
+                }})
         .then(function(response) {
-            if("friend_list" in response.data)
+            if("results" in response.data)
             {
                 obj.setState({ popupSearch: true });
-                obj.setState({friendsSearchData: response.data["friend_list"]})
+                obj.setState({friendsSearchData: response.data["results"]})
+            }
+            if("next" in response.data)
+            {
+                if (response.data["next"] == null)
+                {
+                    obj.setState({ searchMoreAvailable: false });
+                }
+                else
+                {
+                    obj.setState({ searchMoreAvailable: true });
+                }
             }
         })
         .catch(function(error) {
@@ -163,6 +189,4 @@
         });
     }
 
-    //Set this accordingly
-    obj.setState({ searchMoreAvailable: true });
-  }
+  };

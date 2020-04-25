@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import User
+from django.utils.timezone import now
 # Create your models here.
 from prize.models import Prize
 
@@ -37,7 +38,7 @@ class CharityProjects(models.Model):
 
 class ProjectUser(models.Model):
     objects = None
-    project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE)
+    project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     invited_by = models.EmailField(null=True, blank=True)
     date_joined = models.DateField(null=True, blank=True)
@@ -60,17 +61,18 @@ class ProjectUser(models.Model):
 
 class ProjectUserDetails(models.Model):
     objects = None
-    project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
-    prize_given = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
+    project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE,
+                                     null=True, related_name='pu_details')
+    prize = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True, related_name='pu_prize' )
     video = models.FileField(upload_to='upload/video/invitation_video', null=True)
 
     def __str__(self):
-        return '{} {} {} '.format(self.project_user,  self.prize_given, self.video)
+        return '{} {} {} '.format(self.project_user,  self.prize, self.video)
 
 
 class LearnNewSkill(models.Model):
     objects = None
-    new_skill = models.CharField(max_length=255)
+    new_skill = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     video = models.FileField(upload_to='upload/video/challenge_video', null=True)
     project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
@@ -85,27 +87,28 @@ class LearnNewSkill(models.Model):
 class UserInvitation(models.Model):
     objects = None
     project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    friend_id = models.IntegerField(blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='inviter')
+    friend = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='invitee')
     status = models.CharField(max_length=255, blank=True, null=True)
-    prize_given = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
+    prize = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
     invitation_message = models.TextField(blank=True)
     invitation_date = models.DateField(null=True, blank=True) #should not be empty
 
     def __str__(self):
-        return '{} {} {} {} {} {}'.format(self.project, self.user, self.friend_id, self.status, self.prize_given,
+        return '{} {} {} {} {} {}'.format(self.project, self.user, self.friend, self.status, self.prize,
                                           self.invitation_message, self.invitation_date)
 
 
 class UnregisterInvitation(models.Model):
     objects = None
-    project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
-    unregister_user_emailId = models.CharField(max_length=100, null=True)
-    prize_given = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
+    project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    unregister_user_email = models.CharField(max_length=100, null=True)
+    prize = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
     invitation_message = models.TextField(blank=True)
 
     def __str__(self):
-        return '{} {} {} {}'.format(self.project_user, self.unregister_user_emailId, self.prize_given, self.invitation_message)
+        return '{} {} {} {}'.format(self.project, self.user, self.unregister_user_email, self.prize, self.invitation_message)
 
 
 class VolunteerTime(models.Model):
@@ -118,18 +121,18 @@ class VolunteerTime(models.Model):
     organisation_website = models.CharField(max_length=200, blank=True)
     volunteer_hours = models.IntegerField(blank=True)
     volunteer_work_description = models.TextField(blank=True)
-    volunteer_exp = models.FileField(upload_to='upload/video/volunteer_exp', null=True)
+    exp_video = models.FileField(upload_to='upload/video/volunteer_exp', null=True)
 
     def __str__(self):
         return '{} {} {} {} {} {} {} {} {}'.format(self.project_user, self.organisation_name, self.organisation_address,
                                                    self.organisation_city, self.organisation_state,
                                                    self.organisation_website, self.volunteer_hours,
-                                                   self.volunteer_work_description, self.volunteer_exp)
+                                                   self.volunteer_work_description, self.exp_video)
 
 
 class DevelopNewHabit(models.Model):
     objects = None
-    new_habit = models.CharField(max_length=255)
+    new_habit = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     video = models.FileField(upload_to='upload/video/challenge_video', null=True)
     project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
@@ -159,12 +162,12 @@ class GiveDonation(models.Model):
     organisation_state = models.CharField(max_length=50, blank=True)
     organisation_website = models.CharField(max_length=200, blank=True)
     donation_details = models.TextField(blank=True, null=True)
-    donation_exp = models.FileField(upload_to='upload/video/volunteer_exp', null=True, blank=True)
+    exp_video = models.FileField(upload_to='upload/video/donation_exp', null=True, blank=True)
 
     def __str__(self):
         return '{} {} {} {} {} {} {} {}'.format(self.project_user, self.organisation_name, self.organisation_address,
                                                 self.organisation_city, self.organisation_state,
-                                                self.organisation_website, self.donation_details, self.donation_exp)
+                                                self.organisation_website, self.donation_details, self.exp_video)
 
 
 class Fundraise(models.Model):
@@ -177,10 +180,24 @@ class Fundraise(models.Model):
     organisation_website = models.CharField(max_length=200, blank=True)
     fundraise_details = models.TextField(blank=True, null=True)
     fundraise_amount = models.IntegerField(blank=True)
-    fundraise_exp = models.FileField(upload_to='upload/video/volunteer_exp', null=True, blank=True)
+    exp_video = models.FileField(upload_to='upload/video/fundraiser_exp', null=True, blank=True)
 
     def __str__(self):
         return '{} {} {} {} {} {} {} {} {}'.format(self.project_user, self.organisation_name, self.organisation_address,
                                                    self.organisation_city, self.organisation_state,
                                                    self.organisation_website, self.fundraise_details,
-                                                   self.fundraise_amount, self.fundraise_exp)
+                                                   self.fundraise_amount, self.exp_video)
+
+
+class Posts(models.Model):
+    objects = None
+    project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='posts_invitee')
+    friend = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='posts_inviter')
+    action_type = models.CharField(max_length=200, blank=True)
+    date = models.DateTimeField(default=now, blank=True)
+
+    def __str__(self):
+        return '{} {} {}'.format(self.project, self.user, self.action_type)
+
+

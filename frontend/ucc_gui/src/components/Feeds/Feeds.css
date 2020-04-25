@@ -1,0 +1,231 @@
+.feed-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.feed-wrapper {
+    width: 80%;
+    border: solid 1px #9d9d9d;
+    height: auto;
+    margin-bottom: 3%;
+    float: right;
+}
+
+.feed-form {
+    width: 100%;
+    float: left;
+    position: relative;
+    flex-flow: row;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 10px;
+    padding-bottom: 20px;
+    margin-right: 10px;
+}
+
+.feed-form label {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin-bottom: 0;
+    margin-left: 10px;
+    font-size: inherit;
+    line-height: 1.5rem;
+    float: left;
+    color: #000;
+    width: 100%;
+}
+
+.feed-form p {
+    margin-bottom: 0;
+}
+
+.profile-pic {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    font-size: unset;
+    border: 1px solid #000c17;
+    margin-left: 20px;
+}
+
+.feed-display {
+    width: 100%;
+    border: 1px solid black;
+    height: 250px;
+    margin-top: 100px;
+    text-align: center;
+    vertical-align: center;
+    justify-content: center;
+    align-items: center;
+    background-color: #13c2c2;
+    display: flex;
+    font-size: 30px;
+    color: white;
+}
+
+.feed-display-adjacent {
+    width: 100%;
+    border: 1px solid black;
+    height: 250px;
+    margin-top: 100px;
+    text-align: center;
+    vertical-align: center;
+    justify-content: center;
+    align-items: center;
+    background-color: #13c2c2;
+    display: flex;
+    font-size: 30px;
+    color: white;
+}
+
+.feed-display-pic {
+    width: 100%;
+    border: 1px solid black;
+    height: 250px;
+    margin-top: 100px;
+    display: flex;
+    background-size: cover;
+    background: no-repeat center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+.display-pic-adjacent {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    font-size: unset;
+    border: 1px solid #000c17;
+    margin-left: 20px;
+    background: white;
+}
+
+.feed-display-video {
+    width: 100%;
+    border: 1px solid black;
+    height: 250px;
+    margin-top: 100px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.video-player {
+    display: inline-block;
+    object-fit: cover;
+    font-size: unset;
+    align-content: center;
+    vertical-align: top;
+    margin: 20px;
+    border: solid;
+    width: 740px !important;
+    height: 245px !important;
+    position: relative !important;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.video-player > div {
+    position: absolute;
+}
+
+.mobile-profile-pic {
+    width: 12%;
+}
+
+.mobile-intro {
+    width: 85%;
+    float: right;
+}
+
+.button {
+    font-size: 18px;
+    height: 40px;
+    width: 30%;
+    border: 2px solid black;
+    border-radius: 15px;
+    cursor: pointer;
+    color: white;
+    background: #13c2c2;
+}
+
+.navigate-button {
+    width: 95%;
+    margin: 90px 10px 10px 10px;
+    text-align: right;
+}
+
+@media only screen and (max-width: 520px) {
+
+    .feed-content {
+        display: inline-block;
+        font-size: 14px;
+    }
+
+    .feed-wrapper {
+        width: 100%;
+        float: left;
+    }
+
+    .feed-form {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .feed-form label {
+        line-height: 1.2rem;
+    }
+
+    .mobile-profile-pic {
+        width: 23%;
+    }
+
+    .mobile-intro {
+        width: 70%;
+        float: right;
+    }
+
+    .feed-display {
+        height: 200px;
+    }
+
+    .feed-display-adjacent {
+        height: 200px;
+    }
+
+    .feed-display-pic {
+        height: 200px;
+    }
+
+    .feed-display-video {
+        height: 200px;
+    }
+
+    .video-player {
+        width: 320px !important;
+        height: 190px !important;
+    }
+
+    .display-pic-adjacent {
+        width: 150px;
+        height: 150px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .button {
+        font-size: 18px;
+        height: 40px;
+        width: 50%;
+    }
+}
+

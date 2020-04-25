@@ -98,7 +98,7 @@ class Toolbar extends Component {
             <div className="child-select__name child-select__name--add-child">
               <span className="add-child-web">Add new child</span>
               <span className="add-child-mobile">
-                <img src={AddChild} />
+                <img src={AddChild} alt="Add New Child"/>
               </span>
             </div>
           </a>

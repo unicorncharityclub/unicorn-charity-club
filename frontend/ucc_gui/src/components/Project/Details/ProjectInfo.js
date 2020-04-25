@@ -2,8 +2,7 @@ import React from "react";
 import AxiosConfig from "../../../axiosConfig";
 import "./ProjectInfo.css";
 import Image from "react-bootstrap/Image";
-import TextBlackHeading from "../../General/Text/TextBlackHeading";
-import TextBlack from "../../General/Text/TextBlack";
+import TextTheme from "../../General/Text/TextTheme";
 
 class ProjectInfo extends React.Component {
   constructor(props) {
@@ -45,35 +44,39 @@ class ProjectInfo extends React.Component {
                     <tr>
                         <td>
                           <Image
-                    src={this.state.projectBadge}
-                    className="start_project_info_badge_image"
-                    roundedCircle/>
+                              src={this.state.projectBadge}
+                              className="start_project_info_badge_image"
+                              roundedCircle
+                            />
                         </td>
-                      </tr> <br/>
-
-                    <div className="dottedLine">
+                      </tr>
                     <tr>
+                      <td>
+                        <br/>
+                      </td>
+                    </tr>
+                    <tr className="dottedLine">
                         <td valign="top">
-                          <hr/>
+                          <br/>
                         </td>
                     </tr>
-                    </div>
+
 
                       <tr>
                         <td>
-                          <TextBlackHeading message={this.state.projectName} />
+                          <TextTheme message={this.state.projectName} className="text_large text_blue" />
                         </td>
                       </tr>
                       <tr>
                         <td valign="top">
                           <b>
-                            <TextBlack message="Category" />
+                            <TextTheme message="Category" className="text_small text_blue" />
                           </b>
                         </td>
                       </tr>
                       <tr>
                         <td>
-                          <TextBlack message={this.state.projectCategory} />
+                          <TextTheme message={this.state.projectCategory} className="text_small" />
                         </td>
                       </tr>
 
@@ -83,12 +86,12 @@ class ProjectInfo extends React.Component {
 
                       <tr>
                         <td valign="top">
-                          <b><TextBlack message="Tags" /></b>
+                          <b><TextTheme message="Tags" className="text_small text_blue" /></b>
                         </td>
                       </tr>
                       <tr>
                         <td>
-                          <TextBlack message={this.state.projectTags} />
+                          <TextTheme message={this.state.projectTags} className="text_small" />
                         </td>
                       </tr>
                       <tr>
@@ -97,14 +100,14 @@ class ProjectInfo extends React.Component {
 
                       <tr>
                         <td valign="top">
-                            <b><TextBlack message="Mission" /></b>
+                            <b><TextTheme message="Mission" className="text_small text_blue" /></b>
                         </td>
                       </tr>
 
                     <tr>
                         <td>
-                          <TextBlack
-                            message={this.state.projectMission}
+                          <TextTheme
+                            message={this.state.projectMission} className="text_small"
                           />
                         </td>
                       </tr>
@@ -132,34 +135,34 @@ class ProjectInfo extends React.Component {
                     <tbody>
                       <tr>
                         <td colSpan={2}>
-                          <TextBlackHeading message={this.state.projectName} />
+                          <TextTheme message={this.state.projectName} className="text_large text_black" />
                         </td>
                       </tr>
                       <tr>
                         <td valign="top">
-                          <TextBlack message="Category" />
+                          <TextTheme message="Category" className="text_small text_black" />
                         </td>
                         <td>
-                          <TextBlack
-                            message={" : " + this.state.projectCategory}
+                          <TextTheme
+                            message={" : " + this.state.projectCategory} className="text_small text_black"
                           />
                         </td>
                       </tr>
                       <tr>
                         <td valign="top">
-                          <TextBlack message="Tags" />
+                          <TextTheme message="Tags" className="text_small text_black" />
                         </td>
                         <td>
-                          <TextBlack message={" : " + this.state.projectTags} />
+                          <TextTheme message={" : " + this.state.projectTags} className="text_small text_black" />
                         </td>
                       </tr>
                       <tr>
                         <td valign="top">
-                          <TextBlack message="Mission" />
+                          <TextTheme message="Mission" className="text_small text_black" />
                         </td>
                         <td>
-                          <TextBlack
-                            message={" : " + this.state.projectMission}
+                          <TextTheme
+                            message={" : " + this.state.projectMission} className="text_small text_black"
                           />
                         </td>
                       </tr>

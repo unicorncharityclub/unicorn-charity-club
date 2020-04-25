@@ -1,7 +1,8 @@
 import React from "react";
 import AxiosConfig from '../../../axiosConfig'
 import { Checkbox, FormControlLabel } from "@material-ui/core";
-import AlertMessage from "../../../components/General/AlertMessage";
+import TextTheme from "../../../components/General/Text/TextTheme";
+import Input from "../../../components/General/Form/Input";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
@@ -218,115 +219,126 @@ class RegisterForm extends React.Component {
           onSubmit={this.submitRegister}
         >
           <div className="form-content">
-            <Row>
+            <Row style={{paddingLeft:"unset", marginTop:"5px"}}>
               <Col md={{ span: 5, offset: 5}}>
-                <AlertMessage alertMessage={this.state.status} />
+                <TextTheme
+                      message={this.state.status}
+                      className="text_medium text_red"
+                    />
               </Col>
             </Row>
-            <Row>
+            <Row style={{paddingLeft:"unset", marginTop:"20px"}}>
               <Col md={{ span: 4, offset: 1 }}>
-                <div className="form-item">
-                  <label>First name:</label>
-                  <input
-                    name="firstName"
-                    type="text"
-                    id="firstName"
-                    placeholder="First Name"
-                    value={this.state.value}
-                    onChange={this.onFirstNameChange.bind(this)}
-                  />
-                  <small className="danger-error">
-                    {firstNameErr ? firstNameErr : ""}
-                  </small>
-                </div>
+                <TextTheme
+                      message="First name:"
+                      className="text_xsmall text_black"
+                    />
+                    <Input
+                      name="firstName"
+                      inputType="text"
+                      placeholder="First Name"
+                      value={this.state.value}
+                      handleChange={this.onFirstNameChange.bind(this)}
+                    />
+                    <TextTheme
+                      message={firstNameErr ? firstNameErr : ""}
+                      className="text_xsmall text_red"
+                    />
               </Col>
 
               <Col md={{ span: 4, offset: 2 }}>
-                <div className="form-item">
-                  <label>Last name:</label>
-                  <input
-                    name="lastName"
-                    type="text"
-                    id="lastName"
-                    placeholder="Last Name"
-                    value={this.state.value}
-                    onChange={this.onLastNameChange.bind(this)}
-                  />
-                  <small className="danger-error">
-                    {lastNameErr ? lastNameErr : ""}
-                  </small>
-                </div>
+                <TextTheme
+                      message="Last name:"
+                      className="text_xsmall text_black"
+                    />
+                    <Input
+                      name="lastName"
+                      inputType="text"
+                      placeholder="Last Name"
+                      value={this.state.value}
+                      handleChange={this.onLastNameChange.bind(this)}
+                    />
+                    <TextTheme
+                      message={lastNameErr ? lastNameErr : ""}
+                      className="text_xsmall text_red"
+                    />
               </Col>
             </Row>
-            <Row>
+            <Row style={{paddingLeft:"unset", marginTop:"20px"}}>
               <Col md={{ span: 4, offset: 1 }}>
-                <div className="form-item">
-                  <label>Email:</label>
-                  <input
-                    name="email"
-                    type="text"
-                    id="email"
-                    placeholder="Email"
-                    value={this.state.value}
-                    onChange={this.onEmailChange.bind(this)}
-                  />
-                  <small className="danger-error">
-                    {emailErr ? emailErr : ""}
-                  </small>
-                </div>
+                <TextTheme
+                        message="Email:"
+                        className="text_xsmall text_black"
+                      />
+                      <Input
+                        name="email"
+                        inputType="text"
+                        placeholder="Email"
+                        value={this.state.value}
+                        handleChange={this.onEmailChange.bind(this)}
+                      />
+                      <TextTheme
+                        message={emailErr ? emailErr : ""}
+                        className="text_xsmall text_red"
+                      />
               </Col>
 
               <Col md={{ span: 4, offset: 2 }}>
-                <div className="form-item">
-                  <label>Date of Birth:</label>
-                  <input
-                    id="dob"
-                    name="dob"
-                    type="date"
-                    placeholder="dd/mm/yyyy"
-                    value={this.state.dob}
-                    onChange={this.onDobChange.bind(this)}
-                  />
-                </div>
-                <small className="danger-error">{dobErr ? dobErr : ""}</small>
+                <TextTheme
+                        message="Date of Birth:"
+                        className="text_xsmall text_black"
+                      />
+                      <Input
+                        name="dob"
+                        inputType="date"
+                        placeholder="dd/mm/yyyy"
+                        value={this.state.value}
+                        handleChange={this.onDobChange.bind(this)}
+                      />
+                    <TextTheme
+                      message={dobErr ? dobErr : ""}
+                      className="text_xsmall text_red"
+                    />
               </Col>
             </Row>
-            <Row>
+            <Row style={{paddingLeft:"unset", marginTop:"20px"}}>
               <Col md={{ span: 4, offset: 1 }}>
-                <div className="form-item">
-                  <label>Password:</label>
-                  <input
-                    name="password"
-                    type="password"
-                    id="password"
-                    placeholder="Password"
-                    value={this.state.value}
-                    onChange={this.onPasswordChange.bind(this)}
-                  />
-                  <small className="danger-error">
-                    {passwordErr ? passwordErr : ""}
-                  </small>
-                </div>
+                <TextTheme
+                        message="Password:"
+                        className="text_xsmall text_black"
+                      />
+                      <Input
+                        name="password"
+                        inputType="password"
+                        placeholder="Password"
+                        value={this.state.value}
+                        handleChange={this.onPasswordChange.bind(this)}
+                      />
+                      <TextTheme
+                        message={passwordErr ? passwordErr : ""}
+                        className="text_xsmall text_red"
+                      />
               </Col>
 
               <Col md={{ span: 4, offset: 2 }}>
-                <div className="form-item">
-                  <label>Confirm Password:</label>
-                  <input
-                    name="password-confirmation"
-                    type="password"
-                    id="password-confirmation"
-                    placeholder="Confirm Password"
-                    value={this.state.value}
-                    onChange={this.onConfirmPasswordChange.bind(this)}
-                  />
-                  <small className="danger-error">
-                    {confirmPasswordErr ? confirmPasswordErr : ""}
-                  </small>
-                </div>
+                <TextTheme
+                        message="Confirm Password:"
+                        className="text_xsmall text_black"
+                      />
+                      <Input
+                        name="password-confirmation"
+                        inputType="password"
+                        placeholder="Confirm Password"
+                        value={this.state.value}
+                        handleChange={this.onConfirmPasswordChange.bind(this)}
+                      />
+                      <TextTheme
+                        message={confirmPasswordErr ? confirmPasswordErr : ""}
+                        className="text_xsmall text_red"
+                      />
               </Col>
             </Row>
-            <Row>
+            <Row style={{paddingLeft:"unset", marginTop:"20px"}}>
               <Col md={{ span: 6, offset: 4 }}>
                 <div className="terms-checkbox">
                   <FormControlLabel
@@ -342,15 +354,15 @@ class RegisterForm extends React.Component {
                     }
                     label="I agree to the terms of Unicorn Charity Club"
                   />
-                  <br />
-                  <small className="danger-error">
-                    {termsErr ? termsErr : ""}
-                  </small>
+                  <TextTheme
+                        message={termsErr ? termsErr : ""}
+                        className="text_xsmall text_red"
+                      />
                 </div>
               </Col>
             </Row>
 
-            <Row>
+            <Row style={{paddingLeft:"unset", marginTop:"20px"}}>
               <Col md={{ span: 4, offset: 4 }}>
                 <button
                   id="button"
@@ -363,10 +375,10 @@ class RegisterForm extends React.Component {
               </Col>
             </Row>
 
-            <Row>
+            <Row style={{paddingLeft:"unset", marginTop:"5px"}}>
               <Col md={{ span: 4, offset: 4 }}>
                 <a href="/">
-                  Already Registered? Continue to Login.
+                  Login.
                 </a>
               </Col>
             </Row>

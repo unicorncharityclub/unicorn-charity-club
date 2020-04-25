@@ -3,7 +3,6 @@ import "../Info/Account.css";
 import "./MyChildren.css";
 import ProfileForm from "../../../components/Account/ProfileForm";
 import AxiosConfig from "../../../axiosConfig";
-import cookie from "react-cookies";
 
 /**
  * @description Creates a form for all details of individual child
@@ -34,7 +33,8 @@ class AddChild extends React.Component {
       superPowers: "",
       support: "",
       school: "-",
-      schoolGrade: ""
+      schoolGrade: "",
+      projectInterest: []
     };
   }
 
@@ -42,9 +42,20 @@ class AddChild extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  onCheckboxDataChange(event) {
-    // do something here
-  }
+  onCheckboxDataChange(event){
+         if(event.target.checked) {
+             this.setState({
+                 projectInterest: this.state.projectInterest.concat(event.target.value)
+             })
+         }
+         else
+         {
+            let filteredArray = this.state.projectInterest.filter( item => item !== event.target.value);
+            this.setState({
+                 projectInterest: filteredArray
+            })
+         }
+     }
 
   onImageChange(event) {
     this.setState({
@@ -69,6 +80,9 @@ class AddChild extends React.Component {
       form_data.append("support", this.state.support);
       form_data.append("school", this.state.school);
       form_data.append("school_grade", this.state.schoolGrade);
+      this.state.projectInterest.forEach((item) => {
+         form_data.append('project_interest', item)
+      });
       if (this.state.finalImage)
         form_data.append(
           "profile_pic",
@@ -79,8 +93,6 @@ class AddChild extends React.Component {
       console.log(err);
     }
 
-
-    const user_email = cookie.load("user_email");
     return AxiosConfig
       .post('account/addchild/', form_data, {
         headers: {
@@ -108,6 +120,7 @@ class AddChild extends React.Component {
           profilePic={this.state.profilePic}
           school={this.state.school}
           schoolGrade={this.state.schoolGrade}
+          projectInterest={this.state.projectInterest}
           onDataChange={this.onDataChange.bind(this)}
           onImageChange={this.onImageChange.bind(this)}
           onSaveClicked={this.onSaveClicked.bind(this)}

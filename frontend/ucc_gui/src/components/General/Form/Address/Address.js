@@ -2,7 +2,7 @@ import React from 'react';
 import Input from "../../Form/Input"
 import AxiosConfig from "../../../../axiosConfig";
 import "./Address.css"
-import TextBlackSubHeading from "../../Text/TextBlackSubHeading";
+import TextTheme from "../../Text/TextTheme";
 
 class Address extends React.Component {
 
@@ -23,19 +23,18 @@ class Address extends React.Component {
 
                 <form>
                         <div className="project-form-address">
-                        <br/>
-                              <TextBlackSubHeading message = "1. Charitable Organization"/> <br/>
+                        <TextTheme message="1. Charitable Organization" className="text_medium text_black" /> <br/>
                               <Input type="text"
                                     name="name"
                                      placeholder="Name"
                                     value={this.props.name}
-                                     handleChange={this.props.changeHandler}/> <br/><br/>
+                                     handleChange={this.props.changeHandler}/> <br/>
 
                               <Input type="text"
                                     name="address"
                                      placeholder="Address"
                                     value={this.props.address}
-                                    handleChange={this.props.changeHandler}/> <br/><br/>
+                                    handleChange={this.props.changeHandler}/> <br/>
 
                                    <div className="Box1">
                                     <Input type="text"
@@ -52,7 +51,7 @@ class Address extends React.Component {
                                     name="stateName"
                                     value={this.props.stateName}
                                            placeholder="State"
-                                    handleChange={this.props.changeHandler}/> <br/><br/>
+                                    handleChange={this.props.changeHandler}/> <br/>
                                     </div>
 
                                     <Input type="text"

@@ -4,6 +4,8 @@ import "../../containers/Account/Info/Account.css";
 import "../../containers/Account/MyChildren/MyChildren.css";
 import ArrowBackward from "./../../image/arrow-backward.png";
 import UploadPhoto from "./../../image/Default-profile-picture.png";
+import { Container } from "@material-ui/core";
+import CheckBox from "../General/Form/Checkbox";
 
 class ProfileForm extends React.Component {
 
@@ -21,7 +23,7 @@ class ProfileForm extends React.Component {
     ];
 
     return (
-      <div style={{ display: "block" }}>
+      <div style={{ display: "block" }}>        
         <div className="header__wrapper">
           <div className="header__logo">
             <NavLink to={"/"}>
@@ -41,6 +43,7 @@ class ProfileForm extends React.Component {
             </div>
           </div>
         </div>
+        <Container>
         <form id="child-form" onSubmit={this.props.onSaveClicked.bind(this)}>
           <div className="form-wrapper">
             <div className="blessing-form">
@@ -189,7 +192,8 @@ class ProfileForm extends React.Component {
                     <option value="Grade 6">Grade 6</option>
                   </select>
                 </div>
-              </div>
+                
+              </div>              
             ) : (
               ""
             )}
@@ -234,21 +238,21 @@ class ProfileForm extends React.Component {
                 onChange={this.props.onDataChange.bind(this)}
               />
             </div>
-            {/*
+            {
             <div className="blessing-info">
-              <label>I want to make the world a better place by supporting(check all that apply):</label>
               <CheckBox
                 name="support"
                 title="I want to make the world a better place by supporting(check all that apply):"
+                handleChange={this.props.onCheckboxDataChange.bind(this)}
                 type="checkbox"
                 options={checkboxes}
-                //selectedOptions
-                onChange={this.props.onCheckboxDataChange.bind(this)}
+                selectedOptions = {this.props.projectInterest}
               />
             </div>
-          */}
+          }
           </div>
         </form>
+        </Container>
       </div>
     );
   }

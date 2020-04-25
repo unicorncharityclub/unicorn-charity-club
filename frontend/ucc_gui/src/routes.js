@@ -28,6 +28,7 @@ import SpotlightHome from "./containers/Spotlight/SpotlightHome";
 import GiveADonation from "./containers/Projects/ActiveProject/Step_3/GiveADonation/GiveADonation";
 import Fundraiser from "./containers/Projects/ActiveProject/Step_3/Fundraiser/Fundraiser";
 import ProjectComplete from "./containers/Projects/ActiveProject/ProjectComplete/ProjectComplete";
+import Skeleton from "./containers/Skeleton";
 
 class BaseRouter extends React.Component {
     render() {
@@ -59,7 +60,10 @@ class BaseRouter extends React.Component {
               <Route exact path='/AddChild' component={AddChild}/>
               <Route exact path="/Mobile_toolbar" component={Mobile_toolbar}/>
               <Route exact path="/Spotlight" component={SpotlightHome}/>
+              <Route exact path="/Skeleton" component={Skeleton}/>
               <Route exact path="/Logout" component={Logout} />
+              
+
             </div>
           );
         default:
