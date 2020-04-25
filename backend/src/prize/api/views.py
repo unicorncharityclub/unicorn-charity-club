@@ -3,6 +3,12 @@ from django.http import JsonResponse
 
 
 def prize_list(request):
+    """
+    This method is used to return all the prizes added by the admin. These prizes will be given on completion
+    of charity projects
+    :param request:
+    :return: List of prizes
+    """
     response = {'status': "Success"}
     images = Prize.objects.all()
     image_list_final = []

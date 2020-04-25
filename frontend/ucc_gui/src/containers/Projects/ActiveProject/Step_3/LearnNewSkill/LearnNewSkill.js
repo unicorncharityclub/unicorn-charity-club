@@ -127,6 +127,7 @@ class LearnNewSkill extends React.Component {
                     projectCategory={this.state.projectCategory}
                     projectJoinDate={this.state.projectJoinDate}
                     challengeStatus={this.state.challengeStatus}
+                    projectId={this.state.projectId}
                     defaultIfEmpty={this.defaultIfEmpty.bind(this)}
                     changeHandler={this.changeHandler.bind(this)}
                     videoHandler={this.videoHandler.bind(this)}

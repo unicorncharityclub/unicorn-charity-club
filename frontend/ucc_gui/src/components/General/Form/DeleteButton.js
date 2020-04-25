@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from "@material-ui/core/Button";
-import TextWhiteHeading from "../Text/TextWhiteHeading";
 import Close from "@material-ui/icons/Close";
 
 const DeleteButton = (props) => {

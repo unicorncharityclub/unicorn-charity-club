@@ -40,7 +40,7 @@ class DevelopNewHabit extends React.Component {
     componentDidMount() {
         Promise.all([
             AxiosConfig.get('charityproject/active_project_list/'),
-            AxiosConfig.get('charityproject/learn_new_skill/',{params: {project_id: this.state.projectId}})])
+            AxiosConfig.get('charityproject/develop_new_habit/',{params: {project_id: this.state.projectId}})])
             .then(([res1, res2]) => {
                 for (let i = 0; i < res1.data.length; i++) {
                     if (res1.data[i].project.id === parseInt(this.state.projectId)) {
@@ -127,6 +127,7 @@ class DevelopNewHabit extends React.Component {
                                           challengeStatus={this.state.challengeStatus}
                                           projectMission={this.state.projectMission}
                                           projectCategory={this.state.projectCategory}
+                                          projectId={this.state.projectId}
                                           defaultIfEmpty={this.defaultIfEmpty.bind(this)}
                                           changeHandler={this.changeHandler.bind(this)}
                                           videoHandler={this.videoHandler.bind(this)}

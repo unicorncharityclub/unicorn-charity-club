@@ -8,6 +8,7 @@ import RegisterBannerImage from "../components/Account/Register/RegisterBannerIm
 import { connect } from 'react-redux';
 import cookie from 'react-cookies';
 
+
 class UCC_App extends Component {
     constructor(props) {
     super(props);

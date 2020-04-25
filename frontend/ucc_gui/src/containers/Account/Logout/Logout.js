@@ -4,9 +4,6 @@ import cookie from "react-cookies";
 import {connect} from "react-redux";
 
 class Logout extends React.Component {
-constructor(props) {
-    super(props);
-  }
 
     componentDidMount() {
     const props = this.props;
