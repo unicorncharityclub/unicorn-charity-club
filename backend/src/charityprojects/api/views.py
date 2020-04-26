@@ -821,7 +821,7 @@ class QueryByProjectUserMixin(object):
             project_id = self.request.GET.get('project_id')
         elif self.request.method == 'PUT':
             project_id = self.request.data['project_id']
-        project_user_record = ProjectUser.objects.filter(user_id=self.request.user.id, project_id=project_id).first()
+        project_user_record = ProjectUser.objects.filter(user_id=self.request.user.id, project_id=project_id)[0]
         if project_user_record:
             self.project_user_record = project_user_record
             obj = get_object_or_404(queryset, project_user_id=project_user_record.id)
@@ -903,16 +903,17 @@ class StartProject(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
         status_to_set = None
         project_status = project_user_record.project_status
         # So the project is in step-0 going to step-1
-        if project_status is None or len(project_status) == 0:
+        if project_status == "PlanningStarted":
             if 'video' not in self.request.data:
                 raise Http404("Video not provided")
             status_to_set = "PlanningPhase1"
-
         # So the project is in step-1 going to step-2
         elif project_status == "PlanningPhase1":
             if 'prize' not in self.request.data:
                 raise Http404("Prize not provided")
             status_to_set = "PlanningPhase2"
+        else:
+            raise Http404("Query Error")
 
         if status_to_set is None:
             raise Http404("Invalid Status")

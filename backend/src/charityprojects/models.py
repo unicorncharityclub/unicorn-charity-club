@@ -41,8 +41,8 @@ class ProjectUser(models.Model):
     project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     invited_by = models.EmailField(null=True, blank=True)
-    date_joined = models.DateField(null=True, blank=True)
-    date_started = models.DateField(null=True, blank=True) # should not be null will update when start project method is fixed
+    date_joined = models.DateField(null=True,blank=True)  # challenge phase
+    date_started = models.DateTimeField(default=now, blank=True)  # planning phase
     goal_date = models.DateField(null=True, blank=True)
     challenge_status = models.CharField(max_length=100, blank=True)
     project_status = models.CharField(max_length=100, blank=True)
@@ -63,7 +63,7 @@ class ProjectUserDetails(models.Model):
     objects = None
     project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE,
                                      null=True, related_name='pu_details')
-    prize = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True, related_name='pu_prize' )
+    prize = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True, related_name='pu_prize', blank=True )
     video = models.FileField(upload_to='upload/video/invitation_video', null=True)
 
     def __str__(self):
