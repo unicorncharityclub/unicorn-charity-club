@@ -1,6 +1,7 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from accounts.models import User
+from profile.api.serializers import ProfileSerializer
 
 
 class AccountDetailsSerializer(serializers.ModelSerializer):
@@ -33,4 +34,27 @@ class AccountDetailsSerializer(serializers.ModelSerializer):
         result.pop('id')
         result.pop('is_active')
         result.pop('is_staff')
+        return result
+
+
+class SearchByNameSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer(many=False)  # django automatically creates a reverse relation using _set keyword
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email', 'profile')
+
+    def to_representation(self, obj):
+        result = super().to_representation(obj)
+        first_name = result.pop("first_name")
+        last_name = result.pop("last_name")
+        profile = result.pop("profile")
+        email = result.pop("email")
+        profile_pic = profile['profile_pic']
+        if not profile_pic:
+            profile_pic = ""
+
+        result.update({"user_email": email})
+        result.update({"user_name": first_name + " " + last_name})
+        result.update({"user_photo": profile_pic})
         return result

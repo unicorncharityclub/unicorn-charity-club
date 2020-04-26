@@ -13,10 +13,10 @@ class ProfileInfo extends React.Component {
         dob : '',
         full_name : '',
         address : '',  
-        total_projects  : '',
-        people_reached  : '',
-        volunteer_hours  : '',
-        funds_raised  : '',
+        total_projects  : '0',
+        people_reached  : '0',
+        volunteer_hours  : '0',
+        funds_raised  : '0',
         user_email: cookie.load('user_email')      
     }
  }
@@ -53,8 +53,7 @@ class ProfileInfo extends React.Component {
 
   }
 
-  setProfileInfo (response) {     
-    console.log(response)    
+  setProfileInfo (response) {          
       let dob = response.data['dob'];
       let full_name = response.data['full_name'];
       let address = response.data['address'];
@@ -121,36 +120,7 @@ class ProfileInfo extends React.Component {
   render() {    
     if (this.props.isSpotlightPage){
         return (
-          <div className="content_section vertical">
-
-            <div> 
-                {/* profile pic details here */}
-                <Image className="profile_pic_vertical" src={this.state.profile_pic} />
-            </div> 
-
-            <div className ="profileDetails_vertical">
-              <h3>{this.state.full_name}</h3>
-              <h6>Age : {this.getAge(this.state.dob)}</h6>
-              <h6>{this.state.address}</h6>
-            </div>
-
-            <hr className = "hr_vertical"/>
-            <div onClick={(e)=>this.togglePanel(e)} className="header">
-                <p>             
-                  <span className="collapse_title">{this.props.title}</span>
-                  <span class='icon-down-vertical'>&#709;</span>
-                </p>             
-            </div>                      
-                <div className="content_vertical">                    
-                  { this.renderContentVertical() } 
-                  <br/>                             
-                </div>          
-          </div>
-      );
-    }else{
-      // for projects page      
-      return (
-          <div className="content_section vertical_project">
+          <div>
 
             <div>                 
                 <Image className="profile_pic_vertical" src={this.state.profile_pic} />
@@ -166,7 +136,35 @@ class ProfileInfo extends React.Component {
             <div onClick={(e)=>this.togglePanel(e)} className="header">
                 <p>             
                   <span className="collapse_title">{this.props.title}</span>
-                  <span class='icon-down-vertical'>&#709;</span>
+                  <span className='icon-down-vertical'>&#709;</span>
+                </p>             
+            </div>                      
+                <div className="content_vertical">                    
+                  { this.renderContentVertical() } 
+                  <br/>                             
+                </div>          
+          </div>
+      );
+    }else{
+      // for projects page      
+      return (
+          <div className="content_section_sidebar vertical_project">
+
+            <div>                 
+                <Image className="profile_pic_vertical" src={this.state.profile_pic} />
+            </div> 
+
+            <div className ="profileDetails_vertical">
+              <h3>{this.state.full_name}</h3>
+              <h6>Age : {this.getAge(this.state.dob)}</h6>
+              <h6>{this.state.address}</h6>
+            </div>
+
+            <hr className = "hr_vertical"/>
+            <div onClick={(e)=>this.togglePanel(e)} className="header">
+                <p>             
+                  <span className="collapse_title">{this.props.title}</span>
+                  <span className='icon-down-vertical'>&#709;</span>
                 </p>             
             </div>                      
                 <div className="content_vertical">                    

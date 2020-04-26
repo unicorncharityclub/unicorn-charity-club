@@ -1,59 +1,255 @@
 /*This is for the format of the whole app*/
 
 .App {
-  height: 100%;
-  background: #e7088a;
+    height: 100%;
+    background: #e7088a;
 }
 
 @media only screen and (max-width: 40em) {
-  .App {
-    width: 100%;
-    background: #e7088a;
-  }
+    .App {
+        width: 100%;
+        background: #e7088a;
+    }
 }
 
 .content-wrapper {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 0;
-  margin-bottom: 0;
-  max-width: 62.5rem;
-  border: 12px solid #ffaacc;
-  border-top: 0px;
-  border-radius: 0px 0px 10px 10p;
-  background-color: #fff;
-  min-height: 1000px;
-  overflow: hidden !important;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    max-width: 62.5rem;
+    border: 12px solid #ffaacc;
+    border-top: 0px;
+    border-radius: 0px 0px 10px 10 p;
+    background-color: #fff;
+    min-height: 1000px;
+    overflow: hidden !important;
+    padding-bottom: 20px;
 }
 
 @media only screen and (max-width: 40em) {
-  .content-wrapper {
-    border: 0px;
-    /* width: auto; */
-  }
+    .content-wrapper {
+        border: 0px;
+        /* width: auto; */
+    }
 }
 
 /* move other className styles to respective files (later) */
 
 .container {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 0;
-  margin-bottom: 0;
-  max-width: 62.5rem;
-  background: #fff;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  overflow: hidden !important;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    max-width: 62.5rem;
+    background: #fff;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    overflow: hidden !important;
 }
+
 /*Mobile*/
 @media only screen and (max-width: 40em) {
-  .container {
-    padding-bottom: 0px;
-    padding-top: 0px;
+    .container {
+        padding-bottom: 0px;
+        padding-top: 0px;
+        width: 100%;
+        position: fixed;
+    }
+}
+
+/* Application template layout*/
+.header_main {
+    margin: 20px;
+}
+
+.header_step_banner_main {
+    height: 400px;
+    position: relative;
     width: 100%;
-    position: fixed;
-  }
+    margin-bottom: 3%;
+}
+
+.header_step_banner_main_vr {
+    height: 400px;
+    position: relative;
+    width: 80%;
+    float: right;
+    padding-left: 20px;
+    margin-bottom: 3%;
+}
+
+.header_banner_main {
+    height: 300px;
+    position: relative;
+    margin-bottom: 3%;
+}
+
+.header_banner_main_vr {
+    height: 300px;
+    position: relative;
+    width: 80%;
+    float: right;
+    margin-bottom: 3%;
+    padding-left: 20px;
+}
+
+.only_banner_main {
+    height: 100%;
+}
+
+.stepper_main {
+    height: 30%;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding-top: 20px;
+}
+
+.stepper_main_vr {
+    height: 30%;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding-top: 20px;
+    padding-right: 20px;
+}
+
+.stepper_main_content {
+    height: 100%;
+}
+
+.banner_main {
+    height: 70%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+}
+
+.banner_main_vr {
+    height: 70%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    padding-right: 20px;
+}
+
+.banner_main_content {
+    height: 100%;
+    object-fit: cover !important;
+    border: 1px solid grey;
+}
+
+.page_main {
+    background-color: white;
+    margin-top: 20px;
+    min-height: 500px;
+}
+
+.page_info_vr_content_main {
+    width: 20%;
+    float: left;
+}
+
+.page_info_hr_content_main {
+    display: none;
+    margin-top: 20px;
+}
+
+.page_details_main {
+    width: 80%;
+    float: left;
+}
+
+.page_details_content_main {
+    margin-left: 20px;
+    border: 1px solid #9d9d9d;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+@media screen and (max-width: 640px) {
+
+    .header_step_banner_main {
+        height: 300px;
+        position: relative;
+    }
+
+    .header_banner_main {
+        height: 250px;
+        position: relative;
+    }
+
+    .stepper_main {
+        height: 30%;
+        position: absolute;
+        top: 0;
+        bottom: unset;
+        padding-top: 0px;
+        width: 100%;
+    }
+
+    .banner_main {
+        bottom: 0;
+        height: 70%;
+        width: 100%;
+        top: unset;
+        position: absolute;
+        padding-top: 20px;
+    }
+
+    .page_info_hr_main {
+        display: block;
+    }
+
+    .page_info_hr_content_main {
+        display: block;
+    }
+
+    .page_info_vr_main {
+        display: none;
+    }
+
+    .page_info_vr_content_main {
+        display: none;
+    }
+
+    .page_details_main {
+        width: 100%;
+    }
+
+    .page_details_content_main {
+        margin-left: 0;
+    }
+
+    .header_step_banner_main_vr{
+        display: none;
+    }
+
+    .header_banner_main_vr{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .header_step_banner_main {
+        height: 250px;
+        position: relative;
+    }
+
+    .header_step_banner_main_vr {
+        height: 250px;
+        position: relative;
+    }
+
+    .header_banner_main {
+        height: 200px;
+        position: relative;
+    }
+
+    .header_banner_main_vr{
+        display: none;
+    }
 }

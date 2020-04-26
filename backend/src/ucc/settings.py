@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admindocs',
     'profile',
     'prize',
     'corsheaders',
@@ -150,7 +151,7 @@ REST_FRAMEWORK = {
 }
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-eCSRF_COOKIE_NAME = "XSRF-TOKEN"
+CSRF_COOKIE_NAME = "XSRF-TOKEN"
 REST_SESSION_LOGIN = False
 
 AUTH_USER_MODEL = 'accounts.User'

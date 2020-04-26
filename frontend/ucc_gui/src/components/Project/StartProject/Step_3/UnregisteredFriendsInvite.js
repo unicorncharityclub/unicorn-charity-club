@@ -1,7 +1,6 @@
 import React from "react";
-import TextBlackSubHeading from "../../../General/Text/TextBlackSubHeading";
 import Input from "../../../General/Form/Input";
-import AlertMessage from "../../../../components/General/AlertMessage";
+import TextTheme from "../../../General/Text/TextTheme";
 import Add from "@material-ui/icons/Add";
 import BlueButton from "../../../General/Form/BlueButton";
 import DeleteButton from "../../../General/Form/DeleteButton";
@@ -12,14 +11,14 @@ class UnregisteredFriendsInvite extends React.Component {
       <div style={{ width:"100%"}}>
           <hr/>
         <div>
-          <TextBlackSubHeading message={this.props.message} />
+            <TextTheme message={this.props.message} className="text_medium text_black" />
         </div>
         <table >
             <tbody>
         {this.props.unregisteredUser.map((user, index) => {
           return (
                   <tr key={index}>
-                    <td style={{width:"400px"}}>
+                    <td style={{width:"100%"}}>
                       <Input
                           width="100%"
                         placeholder="Email"
@@ -38,7 +37,7 @@ class UnregisteredFriendsInvite extends React.Component {
                       )}
                     </td>
                     <td>
-                      <AlertMessage alertMessage={user.issue} />
+                      <TextTheme message={user.issue} className="text_large text_red" />
                     </td>
                   </tr>
           );
@@ -54,10 +53,8 @@ class UnregisteredFriendsInvite extends React.Component {
               />
           </div>
           <div style={{marginTop:"5px"}}>
-              <AlertMessage alertMessage={this.props.unregisteredUserIssue} />
+              <TextTheme message={this.props.unregisteredUserIssue} className="text_large text_red" />
             </div>
-
-
       </div>
     );
   }

@@ -6,15 +6,14 @@ import ProfileDetails from "../../components/Spotlight/ProfileDetails";
 import SocialImpact from "../../components/Spotlight/SocialImpact";
 import CompletedProjects from "../../components/Spotlight/CompletedProjects";
 import TreasureTrove from "../../components/Spotlight/TreasureTrove";
-import { Container } from "@material-ui/core";
 
 class MySpotlight extends React.Component {
   render() {
     return (
-        <div className="SpotlightPage">
-            <Container>
+        <div className="header_main main_spotlight">
+            <div className="page_main main_page"> 
                 <ProfileInfo />
-                
+               
                 <ProfileDetails />
                 
                 <SocialImpact />
@@ -22,7 +21,7 @@ class MySpotlight extends React.Component {
                 <CompletedProjects />
                 
                 <TreasureTrove />           
-            </Container> 
+            </div> 
         </div>
     );
   }

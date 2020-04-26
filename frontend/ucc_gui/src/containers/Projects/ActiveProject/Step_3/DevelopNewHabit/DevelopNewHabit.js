@@ -31,30 +31,38 @@ class DevelopNewHabit extends React.Component {
             projectBanner: '',
             projectBadge: '',
             projectMission: '',
-            //project_join_date: '',
+            project_join_date: '',
             challengeStatus: '',
             projectCategory: ''
         }
     };
 
     componentDidMount() {
-        AxiosConfig.get(`charityproject/activeProjectList/${cookie.load('user_email')}`)
-            .then(res => {
-                for (let i = 0; i < res.data.active_project_list.length; i++) {
-                    if (res.data.active_project_list[i].project_id === parseInt(this.state.projectId)) {
-                        console.log("inside");
+        Promise.all([
+            AxiosConfig.get('charityproject/active_project_list/'),
+            AxiosConfig.get('charityproject/develop_new_habit/',{params: {project_id: this.state.projectId}})])
+            .then(([res1, res2]) => {
+                for (let i = 0; i < res1.data.length; i++) {
+                    if (res1.data[i].project.id === parseInt(this.state.projectId)) {
                         this.setState({
-                            projectName: res.data.active_project_list[i].project_name,
-                            projectBanner: res.data.active_project_list[i].project_banner,
-                            projectBadge: res.data.active_project_list[i].project_badge,
-                            projectMission: res.data.active_project_list[i].project_mission,
-                            projectCategory: res.data.active_project_list[i].project_category,
-                            projectJoinDate: res.data.active_project_list[i].project_join_date,
-                            challengeStatus: res.data.active_project_list[i].challenge_status
+                            projectName: res1.data[i].project.name,
+                            projectBanner: res1.data[i].project.banner,
+                            projectBadge: res1.data[i].project.badge,
+                            projectMission: res1.data[i].project.mission,
+                            projectCategory: res1.data[i].project.category,
+                            projectJoinDate: res1.data[i].date_joined,
+                            challengeStatus: res1.data[i].challenge_status
                         });
                     }
                 }
-                console.log(res.data);
+                if (res2.data) {
+                    this.setState({
+                        newHabit: res2.data.new_habit,
+                        description: res2.data.description,
+                        video: res2.data.video
+                    });
+                }
+                console.log(res1.data);
             }).catch(error => console.log(error))
     };
 
@@ -77,7 +85,7 @@ class DevelopNewHabit extends React.Component {
     };
 
 
-    saveHandler(event, requestType) {
+    saveHandler(event, action_type) {
         //event.preventDefault();
         let formData = new FormData();
         try {
@@ -88,23 +96,22 @@ class DevelopNewHabit extends React.Component {
             }
             formData.append('project_id', this.state.projectId);
             formData.append('email', cookie.load('user_email'));
+            formData.append('action_type', action_type);
         } catch (err) {
             console.log(err)
         }
 
-        switch (requestType) {
-            case 'post':
-                return AxiosConfig.post('charityproject/DevelopNewHabit', formData,
-                    {
-                        headers: {
-                            'content-type': 'multipart/form-data'
-                        }
-                    })
-                    .then(res => {
-                        console.log(res)
-                    })
-                    .catch(error => console.log(error))
-        }
+        return AxiosConfig.put('charityproject/develop_new_habit/', formData,
+            {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(error => console.log(error))
+
     };
 
     render() {
@@ -120,6 +127,7 @@ class DevelopNewHabit extends React.Component {
                                           challengeStatus={this.state.challengeStatus}
                                           projectMission={this.state.projectMission}
                                           projectCategory={this.state.projectCategory}
+                                          projectId={this.state.projectId}
                                           defaultIfEmpty={this.defaultIfEmpty.bind(this)}
                                           changeHandler={this.changeHandler.bind(this)}
                                           videoHandler={this.videoHandler.bind(this)}

@@ -15,9 +15,14 @@
   .header {
     background: #e7088a;
     height: 70px;
-    overflow: hidden;
+    /* display: none; */
+  }
+
+  .setting-icon {
+    display: none;
   }
 }
+
 
 /* header logo main */
 .header__logo {
@@ -395,6 +400,8 @@
   display: block;
   cursor: pointer;
 }
+
+
 
 /* in toolbar.css file
  .child-select__profile {

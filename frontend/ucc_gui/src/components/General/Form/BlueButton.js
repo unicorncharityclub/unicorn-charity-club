@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from "@material-ui/core/Button";
-import TextWhiteHeading from "../Text/TextWhiteHeading";
+import TextTheme from "../Text/TextTheme";
 
 const BlueButton = (props) => {
 	return(
@@ -12,7 +12,7 @@ const BlueButton = (props) => {
 		style= {{textTransform:"None", borderRadius : "20px 20px 20px 20px", backgroundColor:"#2BB9B7", border:"2px solid"}}
 		disabled={props.disabled}
 		onClick= {props.handleOnClick} >
-		<TextWhiteHeading message={props.title}/>
+		<TextTheme message={props.title} className="text_large text_white" />
 	</Button>)
 };
 

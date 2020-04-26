@@ -3,7 +3,7 @@ import "../../../../containers/Projects/ActiveProject/Step_3/LearnNewSkill/Learn
 import Button from "react-bootstrap/Button";
 import ProgressStepper from "../../ProgressStepper";
 import ProjectBanner from "../../ProjectBanner";
-import ProjectInfo from "../../ProjectHeader/ProjectInfo";
+import ProjectInfo from "../../Details/ProjectInfo";
 import Project_logo from "../../../../site_media/default-images/project_default.jpg";
 import SpreadTheWordSummary from "./SpreadTheWordSummary";
 import LearnNewSkillSummary from "./LearnNewSkillSummary";
@@ -29,35 +29,45 @@ import FundraiseSummary from "./FundraiseSummary";
 class ProjectCompleteComponent extends React.Component {
 
     render() {
+
         return (
-            <div className="form-wrapper">
-                <div className="mobile-content">
-                    <ProgressStepper currentStep="3"/>
-                    <ProjectBanner image={this.props.projectBanner}/>
-                    <ProjectInfo projectName={this.props.projectName} projectBadge={this.props.projectBadge}
-                                 projectCategory={this.props.projectCategory}
-                                 projectJoinDate={this.props.projectJoinDate}
-                                 challengeStatus={this.props.challengeStatus}
-                    />
-                </div>
-                <div className="adventure-project">
-                    <div className="desktop-content-header">
-                        <ProjectInfo projectName={this.props.projectName} projectBadge={this.props.projectBadge}
-                                     projectJoinDate={this.props.projectJoinDate}
-                                     challengeStatus={this.props.challengeStatus}
-                                     projectMission={this.props.projectMission}
-                        />
-                    </div>
-                    <div className="project-header-content">
-                        <div className="desktop-content">
-                            {(this.props.projectBanner) ?
-                                <div className="project-banner">
-                                    <ProjectBanner image={this.props.projectBanner}/>
-                                </div> : ''
-                            }
-                            <ProgressStepper currentStep="3"/>
+            <div className="header_main">
+                <div className="page_info_hr_content_main">
+                    <div className="header_step_banner_main">
+                        <div className="banner_main">
+                            <div className="banner_main_content">
+                                <ProjectBanner image={this.props.projectBanner}/>
+                            </div>
                         </div>
-                        <div className="project-content">
+
+                        <div className="stepper_main">
+                            <div className="stepper_main_content">
+                                <ProgressStepper currentStep="2"/>
+                            </div>
+                        </div>
+                    </div>
+                    <ProjectInfo id={this.props.projectId}/>
+                </div>
+                <div className="page_main">
+                    <div className="page_info_vr_content_main">
+                        <ProjectInfo vertical={true} id={this.props.projectId}/>
+                    </div>
+
+                    <div className="header_step_banner_main_vr">
+                        <div className="banner_main_vr">
+                            <div className="banner_main_content">
+                                <ProjectBanner image={this.props.projectBanner}/>
+                            </div>
+                        </div>
+
+                        <div className="stepper_main_vr">
+                            <div className="stepper_main_content">
+                                <ProgressStepper currentStep="2"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="page_details_main">
+                        <div className="page_details_content_main">
                             <div className="challenge-name">
                                 <label>CONGRATULATIONS!</label>
                             </div>
@@ -78,44 +88,24 @@ class ProjectCompleteComponent extends React.Component {
                                 (this.props.adventureId === 1) ? <SpreadTheWordSummary invitees={this.props.invitees}
                                                                                        video={this.props.video}/>
                                     : (this.props.adventureId === 2) ?
-                                    <LearnNewSkillSummary newSkill={this.props.newSkill}
-                                                          description={this.props.description}
-                                                          video={this.props.video}/>
+                                    <LearnNewSkillSummary projectId={this.props.projectId}/>
                                     : (this.props.adventureId === 3) ?
-                                        <DevelopNewHabitSummary newHabit={this.props.newHabit}
-                                                                description={this.props.description}
-                                                                video={this.props.video}/>
+                                        <DevelopNewHabitSummary projectId={this.props.projectId}/>
                                         : (this.props.adventureId === 4) ?
-                                            <VolunteerTimeSummary name={this.props.organisationName}
-                                                                  address={this.props.organisationAddress}
-                                                                  city={this.props.organisationCity}
-                                                                  state={this.props.organisationState}
-                                                                  website={this.props.organisationWebsite}
-                                                                  hours={this.props.volunteerHours}
-                                                                  description={this.props.description}
-                                                                  video={this.props.video}/>
+                                            <VolunteerTimeSummary projectId={this.props.projectId}
+                                                                  userEmail={this.props.userEmail}/>
                                             : (this.props.adventureId === 5) ?
-                                                <GiveADonationSummary name={this.props.organisationName}
-                                                                      address={this.props.organisationAddress}
-                                                                      city={this.props.organisationCity}
-                                                                      state={this.props.organisationState}
-                                                                      website={this.props.organisationWebsite}
-                                                                      description={this.props.description}
-                                                                      video={this.props.video}/>
+                                                <GiveADonationSummary projectId={this.props.projectId}
+                                                                      userEmail={this.props.userEmail}/>
                                                 : (this.props.adventureId === 6) ?
-                                                    <FundraiseSummary name={this.props.organisationName}
-                                                                      address={this.props.organisationAddress}
-                                                                      city={this.props.organisationCity}
-                                                                      state={this.props.organisationState}
-                                                                      website={this.props.organisationWebsite}
-                                                                      description={this.props.description}
-                                                                      video={this.props.video}/> :
-                                                    ''
+                                                    <FundraiseSummary projectId={this.props.projectId}
+                                                                      userEmail={this.props.userEmail}/>
+                                                    : ''
 
                             }
                             <div className="navigate-done">
                                 <Button className="done" id="done" variant="contained" type="submit"
-                                        onClick={(event) => this.props.saveHandler(event, 'post')}>DONE</Button>
+                                        onClick={(event) => this.props.saveHandler(event)}>DONE</Button>
                             </div>
                         </div>
                     </div>

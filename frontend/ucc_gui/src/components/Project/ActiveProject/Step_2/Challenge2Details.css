@@ -11,9 +11,10 @@
 
 .OptionList label {
     float: left;
+    display: inline-block;
     text-align: left;
     margin-left: 20px;
-    margin-top: -25px;
+    margin-top: -2px;
 }
 
 @media screen and (max-device-width: 720px){
@@ -25,6 +26,9 @@
         width:30%;
         text-align: center;
     }
+    .OptionList input[type=radio]{
+    float: left;
+}
 
     .OptionList
     {
@@ -34,7 +38,32 @@
         margin-bottom: 10px;
     }
 
+    @media screen and (max-device-width: 720px) {
+        .OptionList input[type=radio]{
+    float: left;
+}
+    }
+
 }
 @media screen and (max-device-width: 480px){
 
+    .OptionList input[type=radio]{
+    float: left;
+}
+
+    .OptionList
+    {
+        display: block;
+        min-height: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .OptionList label {
+    float: left;
+        display: inline-block;
+    text-align: left;
+    margin-left: 20px;
+    margin-top: -20px;
+}
 }
