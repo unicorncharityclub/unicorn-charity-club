@@ -26,40 +26,38 @@ class ActiveProjectChallenge2 extends React.Component {
     }
 
     onSubmit() {
-        AxiosConfig.put(`charityproject/update/Challenge/`, {
-            "project_id": this.props.match.params.id,
-            "goal_date": this.formatDate(this.state.goalDate),
-            "adventure_id": this.state.optionValue
-        })
-            .then(
-                this.reRoute()
-            )
+        let form_data = new FormData();
+        form_data.append("project_id", this.props.match.params.id);
+        form_data.append("goal_date", this.formatDate(this.state.goalDate));
+        form_data.append("adventure_id", this.state.optionValue);
+        const obj = this;
+
+        function reRoute() {
+            if (obj.state.optionValue === "1") {
+                obj.props.history.push(`/Projects/${obj.props.match.params.id}/SpreadTheWord`)
+            }
+            if (obj.state.optionValue === "2") {
+                obj.props.history.push(`/Projects/${obj.props.match.params.id}/LearnNewSkill`)
+            }
+            if (obj.state.optionValue === "3") {
+                obj.props.history.push(`/Projects/${obj.props.match.params.id}/DevelopNewHabit`)
+            }
+            if (obj.state.optionValue === "4") {
+                obj.props.history.push(`/Projects/${obj.props.match.params.id}/VolunteerTime`)
+            }
+            if (obj.state.optionValue === "5") {
+                obj.props.history.push(`/Projects/${obj.props.match.params.id}/GiveADonation`)
+            }
+            if (obj.state.optionValue === "6") {
+                obj.props.history.push(`/Projects/${obj.props.match.params.id}/Fundraise`)
+            }
+        }
+        AxiosConfig.put(`charityproject/update/Challenge/`, form_data)
+            .then(function(){
+                reRoute(this)
+            })
             .catch(error => console.log(error))
-
     }
-
-    reRoute() {
-        if (this.state.optionValue === 1) {
-            this.props.history.push(`/Projects/${this.props.match.params.id}/SpreadTheWord`)
-        }
-        if (this.state.optionValue === 2) {
-            this.props.history.push(`/Projects/${this.props.match.params.id}/LearnNewSkill`)
-        }
-        if (this.state.optionValue === 3) {
-            this.props.history.push(`/Projects/${this.props.match.params.id}/DevelopNewHabit`)
-        }
-        if (this.state.optionValue === 4) {
-            this.props.history.push(`/Projects/${this.props.match.params.id}/VolunteerTime`)
-        }
-        if (this.state.optionValue === 5) {
-            this.props.history.push(`/Projects/${this.props.match.params.id}/GiveADonation`)
-        }
-        if (this.state.optionValue === 6) {
-            this.props.history.push(`/Projects/${this.props.match.params.id}/Fundraise`)
-        }
-
-    }
-
     handleClick(e) {
         this.setState({
             selectedOption: e.target.value

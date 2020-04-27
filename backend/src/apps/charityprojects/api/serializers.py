@@ -1,3 +1,4 @@
+import pytz
 from rest_framework import serializers
 
 from apps.accounts.api.serializers import AccountDetailsSerializer
@@ -5,11 +6,13 @@ from charityprojects.models import CharityProjects, VolunteerTime, ProjectUserDe
     DevelopNewHabit, GiveDonation, Fundraise, ProjectUser, UserInvitation
 from prize.api.serializers import PrizeSerializer
 from prize.models import Prize
+from datetime import datetime
+PST = pytz.timezone('US/Pacific')
 
 
 class ProjectUserDetailsSerializer(serializers.ModelSerializer):
     project_user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-    prize = serializers.PrimaryKeyRelatedField(many=False, read_only=False, queryset=Prize.objects.all())
+    prize = serializers.PrimaryKeyRelatedField(many=False, read_only=False, queryset=Prize.objects.all(), required=False)
 
     class Meta:
         model = ProjectUserDetails
@@ -230,6 +233,23 @@ class ProjectUserNestedSerializer(serializers.ModelSerializer):
                     data.update({"video": request_here.build_absolute_uri(video_data)})
                 else:
                     data.update({"video": ""})
+
+            date_started_data = data.pop('date_started')
+            if date_started_data:
+                datetime_object = pytz.utc.localize(datetime.strptime(date_started_data, '%Y-%m-%dT%H:%M:%S.%fZ'))
+                datetime_object = datetime_object.astimezone(PST)
+                data.update({"date_started": datetime_object.date()})
+            else:
+                data.update({"date_started": ""})
+
+            date_joined_data = data.pop('date_joined')
+            if date_joined_data:
+                datetime_object =  pytz.utc.localize(datetime.strptime(date_joined_data, '%Y-%m-%dT%H:%M:%S.%fZ'))
+                datetime_object = datetime_object.astimezone(PST)
+                data.update({"date_joined": datetime_object.date()})
+            else:
+                data.update({"date_joined": ""})
+
         return data
 
 

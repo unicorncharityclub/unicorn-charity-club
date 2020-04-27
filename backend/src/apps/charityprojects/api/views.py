@@ -1,6 +1,7 @@
 import re
 from datetime import date
 from django.http import JsonResponse, Http404
+from django.utils.timezone import now
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.exceptions import ValidationError
@@ -170,7 +171,7 @@ class CharityProjectStartProject(ProjectUserMixin, CreateAPIView, UpdateAPIView)
         project_user_record = self.get_project_user_record()
         challenge_status = project_user_record.challenge_status
         if challenge_status == "StartChallenge":
-            join_date = date.today()
+            join_date = now()
             project_user_record.date_joined = join_date
             project_user_record.challenge_status = "Challenge1Complete"
             project_user_record.save()
@@ -183,7 +184,7 @@ class CharityProjectStartProject(ProjectUserMixin, CreateAPIView, UpdateAPIView)
             if 'goal_date' not in self.request.data:
                 raise Http404("Goal date not selected")
 
-            super().perform_update(serializer)
+            serializer.save()
             project_user_record.challenge_status = "Challenge2Complete"
             project_user_record.save()
             create_adventure_record(project_user_record.id, adventure_id)
@@ -191,7 +192,6 @@ class CharityProjectStartProject(ProjectUserMixin, CreateAPIView, UpdateAPIView)
                                  action_type="Goal_Set").save()
 
         elif challenge_status == 'Challenge3Complete':
-            super().perform_update(serializer)
             project_user_record.challenge_status = "UnlockedPrize"
             project_user_record.save()
 
@@ -199,7 +199,7 @@ class CharityProjectStartProject(ProjectUserMixin, CreateAPIView, UpdateAPIView)
         inviter_user_email = self.request.data['inviter_user_email']
         inviter_user_id = User.objects.get(email=inviter_user_email).id
         project_id = self.request.data['project_id']
-        join_date = date.today()
+        join_date = now()
         project_user = ProjectUser.objects.filter(user_id=self.request.user.id, project_id=project_id).first()
         inviter_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=inviter_user_id)
         if inviter_user_record:
@@ -235,22 +235,22 @@ def create_adventure_record(project_user_id, adventure_id):
     :param project_user_id:
     :param adventure_id:
     """
-    if adventure_id == 1:
+    if adventure_id == "1":
         spread_word = SpreadWord.objects.create(project_user_id=project_user_id)
         spread_word.save()
-    elif adventure_id == 2:
+    elif adventure_id == "2":
         learn_new_skill = LearnNewSkill.objects.create(project_user_id=project_user_id)
         learn_new_skill.save()
-    elif adventure_id == 3:
+    elif adventure_id == "3":
         develop_new_habit = DevelopNewHabit.objects.create(project_user_id=project_user_id)
         develop_new_habit.save()
-    elif adventure_id == 4:
+    elif adventure_id == "4":
         volunteer_time = VolunteerTime.objects.create(project_user_id=project_user_id)
         volunteer_time.save()
-    elif adventure_id == 5:
+    elif adventure_id == "5":
         give_donation = GiveDonation.objects.create(project_user_id=project_user_id)
         give_donation.save()
-    elif adventure_id == 6:
+    elif adventure_id == "6":
         fundraiser = Fundraise.objects.create(project_user_id=project_user_id)
         fundraiser.save()
 
@@ -290,7 +290,7 @@ class PlannedProjectListView(ProjectListByStatusMixin, ListAPIView):
         Method to get projects whose status is in "Planning State"
         :return: ProjectUserNested serialized data
         """
-        return self.queryset.filter(user=self.request.user, project_status__icontains="Planning")
+        return self.queryset.filter(user=self.request.user, project_status__icontains="Planning", challenge_status__exact='')
 
 
 class CompletedProjectListView(ProjectListByStatusMixin, ListAPIView):
@@ -820,7 +820,7 @@ class QueryByProjectUserMixin(object):
             project_id = self.request.GET.get('project_id')
         elif self.request.method == 'PUT':
             project_id = self.request.data['project_id']
-        project_user_record = ProjectUser.objects.filter(user_id=self.request.user.id, project_id=project_id).first()
+        project_user_record = ProjectUser.objects.filter(user_id=self.request.user.id, project_id=project_id)[0]
         if project_user_record:
             self.project_user_record = project_user_record
             obj = get_object_or_404(queryset, project_user_id=project_user_record.id)
@@ -902,16 +902,17 @@ class StartProject(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
         status_to_set = None
         project_status = project_user_record.project_status
         # So the project is in step-0 going to step-1
-        if project_status is None or len(project_status) == 0:
+        if project_status == "PlanningStarted":
             if 'video' not in self.request.data:
                 raise Http404("Video not provided")
             status_to_set = "PlanningPhase1"
-
         # So the project is in step-1 going to step-2
         elif project_status == "PlanningPhase1":
             if 'prize' not in self.request.data:
                 raise Http404("Prize not provided")
             status_to_set = "PlanningPhase2"
+        else:
+            raise Http404("Query Error")
 
         if status_to_set is None:
             raise Http404("Invalid Status")

@@ -24,6 +24,7 @@ renderList (type) {
                       <EachActiveProject 
                         key={index} projectId={elem.project.id}
                         projectStatus = {elem.project_status}
+                        badge = {elem.project.badge}
                         type = {type}
                         projectDate = {elem.date_started}
                       /> 
@@ -42,8 +43,10 @@ renderList (type) {
                     <EachActiveProject 
                       key={index} projectId={elem.project.id}
                       projectStatus = {elem.challenge_status}
+                      badge = {elem.project.badge}
                       type = {type} 
                       projectDate = {elem.date_started}
+                      adventureId = {elem.adventure_id}
                     /> 
                   </div>
                 </div>                
@@ -59,6 +62,7 @@ renderList (type) {
                   <div className="ProjectInfo_Container">    
                     <EachActiveProject 
                       key={index} projectId={elem.project.id}
+                      badge = {elem.project.badge}
                       type = {type}                       
                       projectDate = {elem.invitation_date}
                       inviterName = {elem.inviter_user_name}

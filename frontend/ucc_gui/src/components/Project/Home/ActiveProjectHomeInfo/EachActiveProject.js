@@ -12,10 +12,10 @@ class EachActiveProject extends React.Component {
   constructor(props) {
     super(props);    
     this.state = {      
-        projectId : this.props.projectId,        
+        projectId : this.props.projectId,
+        projectBadge : this.props.badge,
         projectName : '',
-        projectJoinDate : '',  
-        project_badge : 'http://127.0.0.1:8000/media/upload/image/project_badge/Default_Logo.png'        
+        projectJoinDate : ''
     }
  }
 
@@ -38,7 +38,7 @@ class EachActiveProject extends React.Component {
         return joinString; 
     }
 
-    renderdate (date, type) {
+    renderDate (date, type) {
         let msg;
         if(date !== null && type === "Planning") {            
             msg = "Started On: ";
@@ -66,54 +66,49 @@ class EachActiveProject extends React.Component {
 
     renderProgressStepper (status, type) {
         if(type === "Planning") {
-            if("PlanningPhase1" === status) {
+            if ("PlanningStarted" === status){
+                  return (
+                    <div className = "stepperWidth">
+                        <ProgressStepper currentStep="0"/>
+                    </div>
+                );
+              }
+            else if("PlanningPhase1" === status) {
                 return (
                     <div className = "stepperWidth">
-                        <ProgressStepper  currentStep={0}/>
+                        <ProgressStepper  currentStep="1"/>
                     </div>
                 );
               } else if ("PlanningPhase2" === status){
                 return (
                     <div className = "stepperWidth">
-                        <ProgressStepper currentStep={1}/>
+                        <ProgressStepper currentStep="2"/>
                     </div>
                 );
-              }else if ("PlanningPhase3" === status){
-                return (
-                    <div className = "stepperWidth">
-                        <ProgressStepper currentStep={2}/>
-                    </div>
-                );
-              }else{                  
-                  return (
-                    <div className = "stepperWidth">
-                        <ProgressStepper currentStep={0}/>
-                    </div>
-                );
-              }          
+              }
           }else {                 
               if("Challenge1Complete" === status) {
                 return (
                     <div className = "stepperWidth">
-                        <ProgressStepper className = "stepperWidth" currentStep={0}/>
+                        <ProgressStepper className = "stepperWidth" currentStep="1"/>
                     </div>
                 );
               } else if ("Challenge2Complete" === status){
                 return (
                     <div className = "stepperWidth">
-                        <ProgressStepper currentStep={1}/>
+                        <ProgressStepper currentStep="2"/>
                     </div>
                 );
               }else if ("Challenge3Complete" === status){
                 return (
                     <div className = "stepperWidth">
-                        <ProgressStepper currentStep={2}/>
+                        <ProgressStepper currentStep="3"/>
                     </div>
                 );
               }else{                  
                   return (
                     <div className = "stepperWidth">
-                        <ProgressStepper currentStep={0}/>
+                        <ProgressStepper currentStep="0"/>
                     </div>
                 );
               } 
@@ -122,19 +117,19 @@ class EachActiveProject extends React.Component {
 
     renderOnClick(status, type) {
         if(type === "Planning") {
-            if("PlanningPhase1" === status) {
+            if("PlanningStarted" === status) {
                 return (
                     <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/StartNewProject'}>
                         <TextTheme message={this.state.projectName} className="text_large text_black" />
                     </a>
                 );
-              } else if ("PlanningPhase2" === status){
+              } else if ("PlanningPhase1" === status){
                 return (
                     <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/StartProjectStepTwo'}>
                         <TextTheme message={this.state.projectName} className="text_large text_black" />
                     </a>
                 );
-              }else if ("PlanningPhase3" === status){
+              }else if ("PlanningPhase2" === status){
                 return (
                     <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/InviteFriends'}>
                         <TextTheme message={this.state.projectName} className="text_large text_black" />
@@ -156,20 +151,43 @@ class EachActiveProject extends React.Component {
                 </a>
               );
             } else if ("Challenge2Complete" === status){
-              return (                  
-                <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/SpreadTheWord'}>
+                let nextUrl = '';
+                if(this.props.adventureId===1)
+                {
+                    nextUrl = '/Projects/' + this.state.projectId + '/SpreadTheWord'
+                }
+                else if(this.props.adventureId===2)
+                {
+                    nextUrl = '/Projects/' + this.state.projectId + '/LearnNewSkill'
+                }
+                else if(this.props.adventureId===3)
+                {
+                    nextUrl = '/Projects/' + this.state.projectId + '/DevelopNewHabit'
+                }
+                else if(this.props.adventureId===4)
+                {
+                    nextUrl = '/Projects/' + this.state.projectId + '/VolunteerTime'
+                }
+                else if(this.props.adventureId===5)
+                {
+                    nextUrl = '/Projects/' + this.state.projectId + '/GiveADonation'
+                }
+                else if(this.props.adventureId===6)
+                {
+                    nextUrl = '/Projects/' + this.state.projectId + '/Fundraise'
+                }
+              return (
+                <a className = "projectName" href = {nextUrl}>
                     <TextTheme message={this.state.projectName} className="text_large text_black" />
                 </a>
               );
             }else if ("Challenge3Complete" === status){
               return (
-                <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/LearnNewSkill'}>
+                <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/Congratulations'}>
                     <TextTheme message={this.state.projectName} className="text_large text_black" />
                 </a>
               );
             }else{
-                // if the status is startChallenge             
-                // as challenge1 is not completed yet
                 return (
                     <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/ActiveProjectChallenge1'}>
                         <TextTheme message={this.state.projectName} className="text_large text_black" />
@@ -216,7 +234,7 @@ class EachActiveProject extends React.Component {
       return(
         <div>                          
             <div className="ActiveProjectInfo_Badge">                  
-                <Image src={this.state.project_badge}  style={{width: "80%", height: "80%"}} roundedCircle/>                
+                <Image src={this.state.projectBadge}  style={{width: "80%", height: "80%"}} roundedCircle/>
             </div>
             <div className="ActiveProjectInfo_Text" >             
                 <table >
@@ -225,7 +243,7 @@ class EachActiveProject extends React.Component {
                     <td className="firstCell" colSpan={2}>
                         {this.renderOnClick(this.props.projectStatus, this.props.type)}                                                                            
                         <br /> <br/>
-                        {this.renderdate(this.props.projectDate, this.props.type)}                                                 
+                        {this.renderDate(this.props.projectDate, this.props.type)}
                     </td>                                  
                     <td className = "stepperspace">
                         {this.renderProgressStepperOrButton(this.props.type)}                 
