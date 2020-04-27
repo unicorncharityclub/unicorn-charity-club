@@ -2,13 +2,14 @@ import React from "react";
 import Image from 'react-bootstrap/Image';
 import AxiosConfig from '../../axiosConfig';
 import cookie from "react-cookies";
+import DefaultProfilePic from "../../site_media/Images/Default_Avatar.png";
 
 class ProfileInfo extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-        profile_pic : 'http://127.0.0.1:8000/media/upload/image/project_badge/Default_Logo.png',
+        profile_pic : DefaultProfilePic,
         cover_pic : 'https://cdn.pixabay.com/photo/2016/10/18/21/22/california-1751455_1280.jpg',
         dob : '',
         full_name : '',
@@ -62,7 +63,7 @@ class ProfileInfo extends React.Component {
             dob : dob,
             full_name : full_name,
             address : address,
-            profile_pic : profile_pic
+            profile_pic : (profile_pic!=='') ? profile_pic:DefaultProfilePic
     })); 
   
   }
