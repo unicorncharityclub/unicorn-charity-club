@@ -1,3 +1,4 @@
+import pytz
 from rest_framework import serializers
 
 from accounts.api.serializers import AccountDetailsSerializer
@@ -6,6 +7,7 @@ from charityprojects.models import CharityProjects, VolunteerTime, ProjectUserDe
 from prize.api.serializers import PrizeSerializer
 from prize.models import Prize
 from datetime import datetime
+PST = pytz.timezone('US/Pacific')
 
 
 class ProjectUserDetailsSerializer(serializers.ModelSerializer):
@@ -234,10 +236,19 @@ class ProjectUserNestedSerializer(serializers.ModelSerializer):
 
             date_started_data = data.pop('date_started')
             if date_started_data:
-                datetime_object = datetime.strptime(date_started_data, '%Y-%m-%dT%H:%M:%S.%fZ')
+                datetime_object = pytz.utc.localize(datetime.strptime(date_started_data, '%Y-%m-%dT%H:%M:%S.%fZ'))
+                datetime_object = datetime_object.astimezone(PST)
                 data.update({"date_started": datetime_object.date()})
             else:
                 data.update({"date_started": ""})
+
+            date_joined_data = data.pop('date_joined')
+            if date_joined_data:
+                datetime_object =  pytz.utc.localize(datetime.strptime(date_joined_data, '%Y-%m-%dT%H:%M:%S.%fZ'))
+                datetime_object = datetime_object.astimezone(PST)
+                data.update({"date_joined": datetime_object.date()})
+            else:
+                data.update({"date_joined": ""})
 
         return data
 

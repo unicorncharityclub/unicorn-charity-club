@@ -46,6 +46,7 @@ renderList (type) {
                       badge = {elem.project.badge}
                       type = {type} 
                       projectDate = {elem.date_started}
+                      adventureId = {elem.adventure_id}
                     /> 
                   </div>
                 </div>                

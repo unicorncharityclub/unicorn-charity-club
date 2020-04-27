@@ -41,7 +41,7 @@ class ProjectUser(models.Model):
     project = models.ForeignKey(CharityProjects, on_delete=models.CASCADE )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     invited_by = models.EmailField(null=True, blank=True)
-    date_joined = models.DateField(null=True,blank=True)  # challenge phase
+    date_joined = models.DateTimeField(null=True,blank=True)  # challenge phase
     date_started = models.DateTimeField(default=now, blank=True)  # planning phase
     goal_date = models.DateField(null=True, blank=True)
     challenge_status = models.CharField(max_length=100, blank=True)
@@ -72,7 +72,7 @@ class ProjectUserDetails(models.Model):
 
 class LearnNewSkill(models.Model):
     objects = None
-    new_skill = models.CharField(max_length=255, blank=True, null=True)
+    new_skill = models.CharField(max_length=255, blank=True, null=True, default='')
     description = models.TextField(blank=True, null=True)
     video = models.FileField(upload_to='upload/video/challenge_video', null=True)
     project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
@@ -114,12 +114,12 @@ class UnregisterInvitation(models.Model):
 class VolunteerTime(models.Model):
     objects = None
     project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
-    organisation_name = models.CharField(max_length=100, blank=True)
-    organisation_address = models.CharField(max_length=100, blank=True)
-    organisation_city = models.CharField(max_length=50, blank=True)
-    organisation_state = models.CharField(max_length=50, blank=True)
-    organisation_website = models.CharField(max_length=200, blank=True)
-    volunteer_hours = models.IntegerField(blank=True)
+    organisation_name = models.CharField(max_length=100, blank=True, default='')
+    organisation_address = models.CharField(max_length=100, blank=True, default='')
+    organisation_city = models.CharField(max_length=50, blank=True, default='')
+    organisation_state = models.CharField(max_length=50, blank=True, default='')
+    organisation_website = models.CharField(max_length=200, blank=True, default='')
+    volunteer_hours = models.IntegerField(blank=True, default=0)
     volunteer_work_description = models.TextField(blank=True)
     exp_video = models.FileField(upload_to='upload/video/volunteer_exp', null=True)
 
@@ -132,7 +132,7 @@ class VolunteerTime(models.Model):
 
 class DevelopNewHabit(models.Model):
     objects = None
-    new_habit = models.CharField(max_length=255, blank=True, null=True)
+    new_habit = models.CharField(max_length=255, blank=True, null=True, default='')
     description = models.TextField(blank=True, null=True)
     video = models.FileField(upload_to='upload/video/challenge_video', null=True)
     project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
@@ -156,11 +156,11 @@ class SpreadWord(models.Model):
 class GiveDonation(models.Model):
     objects = None
     project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
-    organisation_name = models.CharField(max_length=100, blank=True)
-    organisation_address = models.CharField(max_length=100, blank=True)
-    organisation_city = models.CharField(max_length=50, blank=True)
-    organisation_state = models.CharField(max_length=50, blank=True)
-    organisation_website = models.CharField(max_length=200, blank=True)
+    organisation_name = models.CharField(max_length=100, blank=True, default='')
+    organisation_address = models.CharField(max_length=100, blank=True, default='')
+    organisation_city = models.CharField(max_length=50, blank=True, default='')
+    organisation_state = models.CharField(max_length=50, blank=True, default='')
+    organisation_website = models.CharField(max_length=200, blank=True, default='')
     donation_details = models.TextField(blank=True, null=True)
     exp_video = models.FileField(upload_to='upload/video/donation_exp', null=True, blank=True)
 
@@ -173,13 +173,13 @@ class GiveDonation(models.Model):
 class Fundraise(models.Model):
     objects = None
     project_user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
-    organisation_name = models.CharField(max_length=100, blank=True)
-    organisation_address = models.CharField(max_length=100, blank=True)
-    organisation_city = models.CharField(max_length=50, blank=True)
-    organisation_state = models.CharField(max_length=50, blank=True)
-    organisation_website = models.CharField(max_length=200, blank=True)
+    organisation_name = models.CharField(max_length=100, blank=True, default='')
+    organisation_address = models.CharField(max_length=100, blank=True, default='')
+    organisation_city = models.CharField(max_length=50, blank=True, default='')
+    organisation_state = models.CharField(max_length=50, blank=True, default='')
+    organisation_website = models.CharField(max_length=200, blank=True, default='')
     fundraise_details = models.TextField(blank=True, null=True)
-    fundraise_amount = models.IntegerField(blank=True)
+    fundraise_amount = models.IntegerField(blank=True, default=0)
     exp_video = models.FileField(upload_to='upload/video/fundraiser_exp', null=True, blank=True)
 
     def __str__(self):

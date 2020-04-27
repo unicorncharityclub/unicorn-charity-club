@@ -66,54 +66,49 @@ class EachActiveProject extends React.Component {
 
     renderProgressStepper (status, type) {
         if(type === "Planning") {
-            if("PlanningPhase1" === status) {
+            if ("PlanningStarted" === status){
+                  return (
+                    <div className = "stepperWidth">
+                        <ProgressStepper currentStep="0"/>
+                    </div>
+                );
+              }
+            else if("PlanningPhase1" === status) {
                 return (
                     <div className = "stepperWidth">
-                        <ProgressStepper  currentStep={0}/>
+                        <ProgressStepper  currentStep="1"/>
                     </div>
                 );
               } else if ("PlanningPhase2" === status){
                 return (
                     <div className = "stepperWidth">
-                        <ProgressStepper currentStep={1}/>
+                        <ProgressStepper currentStep="2"/>
                     </div>
                 );
-              }else if ("PlanningPhase3" === status){
-                return (
-                    <div className = "stepperWidth">
-                        <ProgressStepper currentStep={2}/>
-                    </div>
-                );
-              }else{                  
-                  return (
-                    <div className = "stepperWidth">
-                        <ProgressStepper currentStep={0}/>
-                    </div>
-                );
-              }          
+              }
           }else {                 
               if("Challenge1Complete" === status) {
                 return (
                     <div className = "stepperWidth">
-                        <ProgressStepper className = "stepperWidth" currentStep={0}/>
+                        <ProgressStepper className = "stepperWidth" currentStep="1"/>
                     </div>
                 );
               } else if ("Challenge2Complete" === status){
                 return (
                     <div className = "stepperWidth">
-                        <ProgressStepper currentStep={1}/>
+                        <ProgressStepper currentStep="2"/>
                     </div>
                 );
               }else if ("Challenge3Complete" === status){
                 return (
                     <div className = "stepperWidth">
-                        <ProgressStepper currentStep={2}/>
+                        <ProgressStepper currentStep="3"/>
                     </div>
                 );
               }else{                  
                   return (
                     <div className = "stepperWidth">
-                        <ProgressStepper currentStep={0}/>
+                        <ProgressStepper currentStep="0"/>
                     </div>
                 );
               } 
@@ -156,20 +151,43 @@ class EachActiveProject extends React.Component {
                 </a>
               );
             } else if ("Challenge2Complete" === status){
-              return (                  
-                <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/SpreadTheWord'}>
+                let nextUrl = '';
+                if(this.props.adventureId===1)
+                {
+                    nextUrl = '/Projects/' + this.state.projectId + '/SpreadTheWord'
+                }
+                else if(this.props.adventureId===2)
+                {
+                    nextUrl = '/Projects/' + this.state.projectId + '/LearnNewSkill'
+                }
+                else if(this.props.adventureId===3)
+                {
+                    nextUrl = '/Projects/' + this.state.projectId + '/DevelopNewHabit'
+                }
+                else if(this.props.adventureId===4)
+                {
+                    nextUrl = '/Projects/' + this.state.projectId + '/VolunteerTime'
+                }
+                else if(this.props.adventureId===5)
+                {
+                    nextUrl = '/Projects/' + this.state.projectId + '/GiveADonation'
+                }
+                else if(this.props.adventureId===6)
+                {
+                    nextUrl = '/Projects/' + this.state.projectId + '/Fundraise'
+                }
+              return (
+                <a className = "projectName" href = {nextUrl}>
                     <TextTheme message={this.state.projectName} className="text_large text_black" />
                 </a>
               );
             }else if ("Challenge3Complete" === status){
               return (
-                <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/LearnNewSkill'}>
+                <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/Congratulations'}>
                     <TextTheme message={this.state.projectName} className="text_large text_black" />
                 </a>
               );
             }else{
-                // if the status is startChallenge             
-                // as challenge1 is not completed yet
                 return (
                     <a className = "projectName" href = {'/Projects/'+ this.state.projectId +'/ActiveProjectChallenge1'}>
                         <TextTheme message={this.state.projectName} className="text_large text_black" />
