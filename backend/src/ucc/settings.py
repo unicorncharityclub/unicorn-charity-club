@@ -17,7 +17,16 @@ from corsheaders.defaults import default_headers
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'site_media')
+STATIC_URL = '/site_media/'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
+MEDIA_URL = '/upload/'
+
+LOCAL_STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = (
+    LOCAL_STATIC_ROOT,
+)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -40,12 +49,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
-    'profile',
-    'prize',
+
+    #3rd party
     'corsheaders',
     'rest_framework',
-    'accounts',
-    'charityprojects',
+
+    #custom apps
+    'apps.profile',
+    'apps.prize',
+    'apps.accounts',
+    'apps.charityprojects',
 ]
 
 MIDDLEWARE = [
@@ -123,21 +136,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-STATICFILES_DIRS = (
-    #This lets Django's collectstatic store our bundles
-    os.path.join(BASE_DIR, 'resources'),
-)
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, '')
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
