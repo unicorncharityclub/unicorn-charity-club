@@ -193,7 +193,7 @@ class CharityProjectStartProject(ProjectUserMixin, CreateAPIView, UpdateAPIView)
 
         elif challenge_status == 'Challenge3Complete':
             project_user_record.challenge_status = "UnlockedPrize"
-            serializer.save()
+            project_user_record.save()
 
     def create_by_invite(self):
         inviter_user_email = self.request.data['inviter_user_email']

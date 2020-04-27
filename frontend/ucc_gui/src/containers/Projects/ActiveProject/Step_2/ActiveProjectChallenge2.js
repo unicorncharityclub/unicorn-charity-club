@@ -33,8 +33,6 @@ class ActiveProjectChallenge2 extends React.Component {
         const obj = this;
 
         function reRoute() {
-            console.log("in");
-            console.log(obj);
             if (obj.state.optionValue === "1") {
                 obj.props.history.push(`/Projects/${obj.props.match.params.id}/SpreadTheWord`)
             }
