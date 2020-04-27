@@ -2,10 +2,10 @@ import pytz
 from rest_framework import serializers
 
 from apps.accounts.api.serializers import AccountDetailsSerializer
-from charityprojects.models import CharityProjects, VolunteerTime, ProjectUserDetails, LearnNewSkill, \
+from apps.charityprojects.models import CharityProjects, VolunteerTime, ProjectUserDetails, LearnNewSkill, \
     DevelopNewHabit, GiveDonation, Fundraise, ProjectUser, UserInvitation
-from prize.api.serializers import PrizeSerializer
-from prize.models import Prize
+from apps.prize.api.serializers import PrizeSerializer
+from apps.prize.models import Prize
 from datetime import datetime
 PST = pytz.timezone('US/Pacific')
 

@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from apps.accounts import User
-from profile.models import Profile, ChildProfile, ProjectInterest
+from apps.accounts.models import User
+from apps.profile.models import Profile, ChildProfile, ProjectInterest
 
 
 def get_child_profile(user):

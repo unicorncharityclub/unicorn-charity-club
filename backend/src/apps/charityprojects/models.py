@@ -1,8 +1,8 @@
 from django.db import models
-from apps.accounts import User
+from apps.accounts.models import User
 from django.utils.timezone import now
 # Create your models here.
-from prize.models import Prize
+from apps.prize.models import Prize
 
 
 class CharityProjects(models.Model):

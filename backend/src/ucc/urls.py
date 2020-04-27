@@ -22,9 +22,9 @@ urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('admin/', admin.site.urls),
-    path('account/', include('accounts.api.urls')),
-    path('profile/', include('profile.api.urls')),
-    path('charityproject/', include('charityprojects.api.urls')),
-    path('prize/', include('prize.api.urls'))
+    path('account/', include('apps.accounts.api.urls')),
+    path('profile/', include('apps.profile.api.urls')),
+    path('charityproject/', include('apps.charityprojects.api.urls')),
+    path('prize/', include('apps.prize.api.urls'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

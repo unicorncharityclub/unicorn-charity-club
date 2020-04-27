@@ -7,9 +7,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from apps.accounts.api.serializers import AccountDetailsSerializer
-from apps.accounts import User
-from profile.api.serializers import ProfileSerializer, ChildProfileSerializer
-from profile.models import Profile, ChildProfile
+from apps.accounts.models import User
+from apps.profile.api.serializers import ProfileSerializer, ChildProfileSerializer
+from apps.profile.models import Profile, ChildProfile
 
 
 class ChildrenListMixin(object):

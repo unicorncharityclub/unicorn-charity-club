@@ -13,14 +13,14 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 
-from prize.models import Prize
-from apps.accounts import User
-from profile.models import ChildProfile, Profile
-from charityprojects.models import CharityProjects, ProjectUser, ProjectUserDetails, UserInvitation, \
+from apps.prize.models import Prize
+from apps.accounts.models import User
+from apps.profile.models import ChildProfile, Profile
+from apps.charityprojects.models import CharityProjects, ProjectUser, ProjectUserDetails, UserInvitation, \
     UnregisterInvitation, SpreadWord, GiveDonation, LearnNewSkill, DevelopNewHabit, VolunteerTime, Fundraise, Posts
 
 from apps.accounts.api.serializers import SearchByNameSerializer
-from charityprojects.api.serializers import ProjectUserDetailsSerializer, LearnNewSkillSerializer, \
+from apps.charityprojects.api.serializers import ProjectUserDetailsSerializer, LearnNewSkillSerializer, \
     VolunteerTimeSerializer, DevelopNewHabitSerializer, GiveDonationSerializer, FundraiserSerializer, \
     CharityProjectSerializer, ProjectUserSerializer, ProjectUserNestedSerializer, UserInvitationNestedSerializer
 

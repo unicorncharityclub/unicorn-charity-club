@@ -13,11 +13,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from profile.api.serializers import ProfileSerializer, ChildProfileSerializer
-from profile.api.views import ChildrenListMixin
-from profile.models import Profile, ChildProfile
-from accounts.models import User
-from accounts.api.serializers import AccountDetailsSerializer
+from apps.profile.api.serializers import ProfileSerializer, ChildProfileSerializer
+from apps.profile.api.views import ChildrenListMixin
+from apps.profile.models import Profile, ChildProfile
+from apps.accounts.models import User
+from apps.accounts.api.serializers import AccountDetailsSerializer
 
 child_email_id_extension = "@ucc.child.com"
 

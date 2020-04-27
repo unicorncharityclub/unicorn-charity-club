@@ -4,7 +4,7 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 # Create your models here.
-from apps.accounts import User
+from apps.accounts.models import User
 
 
 class ProjectInterest(models.Model):

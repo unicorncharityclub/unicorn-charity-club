@@ -2,7 +2,7 @@ from .views import all_project_list, \
     spotlight_stats, unlock_prize, user_feed
 
 from django.urls import path
-from charityprojects.api import views
+from apps.charityprojects.api import views
 
 
 urlpatterns = [
