@@ -2,7 +2,7 @@ from django.test import RequestFactory, TestCase
 from rest_framework.test import force_authenticate
 from .api.views import CharityProjectCategory, CharityProjectListView, CharityProjectDetailsView,\
     CharityProjectStartProject, ChallengeVolunteerTimeDetailsView
-from apps.accounts import User
+from apps.accounts.models import User
 from .models import CharityProjects, ProjectUser, VolunteerTime
 
 
