@@ -183,10 +183,7 @@ class CharityProjectStartProject(ProjectUserMixin, CreateAPIView, UpdateAPIView)
                 adventure_id = self.request.data["adventure_id"]
             if 'goal_date' not in self.request.data:
                 raise Http404("Goal date not selected")
-
-            serializer.save()
-            project_user_record.challenge_status = "Challenge2Complete"
-            project_user_record.save()
+            serializer.save(challenge_status = "Challenge2Complete")
             create_adventure_record(project_user_record.id, adventure_id)
             Posts.objects.create(user_id= project_user_record.user_id, project_id=project_user_record.project_id,
                                  action_type="Goal_Set").save()
