@@ -44,6 +44,11 @@ class CharityProjectDetailsView(RetrieveAPIView):
     """
     The primary key for the Charity Projects is passed from URL.py
     Based on the PK and the serializer mentioned the data is returned in JSON format
+
+    :param Charity Project id
+
+    **Returns**
+    Detailed view of the given charity project
     """
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
@@ -253,6 +258,13 @@ def create_adventure_record(project_user_id, adventure_id):
 
 
 def all_project_list(request):
+    """
+    List of names of projects
+
+    :param request:
+
+    :return: Name of all projects
+    """
     response = {'status': "Success"}
     project_list = []
     projects = CharityProjects.objects.all()
@@ -273,29 +285,34 @@ class ProjectListByStatusMixin(object):
 
 
 class ActiveProjectListView(ProjectListByStatusMixin, ListAPIView):
+    """
+    Method to get projects which are in active state i.e "Challenge State"
+
+    :return: List of  projects
+    """
     def get_queryset(self):
-        """
-        Method to get projects whose status is in "Challenge State"
-        :return: ProjectUserNested serialized data
-        """
+
         return self.queryset.filter(user=self.request.user, challenge_status__icontains="Challenge")
 
 
 class PlannedProjectListView(ProjectListByStatusMixin, ListAPIView):
+    """
+    Method to get projects which are in Planning State
+
+    :return: List of projects
+   """
     def get_queryset(self):
-        """
-        Method to get projects whose status is in "Planning State"
-        :return: ProjectUserNested serialized data
-        """
+
         return self.queryset.filter(user=self.request.user, project_status__icontains="Planning", challenge_status__exact='')
 
 
 class CompletedProjectListView(ProjectListByStatusMixin, ListAPIView):
+    """
+    Method to get projects which are completed
+
+    :return: List of  projects
+    """
     def get_queryset(self):
-        """
-        Method to get projects whose challenge status is in "UnlockedPrize"
-        :return: ProjectUserNested serialized data
-        """
         return self.queryset.filter(user=self.request.user, challenge_status__icontains="UnlockedPrize")
 
 
@@ -310,15 +327,23 @@ class UserInvitationListMixin(object):
 
 
 class ProjectInvitationsListView(UserInvitationListMixin, ListAPIView):
+    """
+    Method to get pending project invitations
+
+    :return: List of project invitations
+    """
     def get_queryset(self):
-        """
-        Method to get project invitation whose status is in "Pending State"
-        :return: UserInvitationNested serialized data
-        """
+
         return self.queryset.filter(friend_id=self.request.user.id, status__icontains="Pending")
 
 
 class ProjectInvitationsView(UserInvitationListMixin, RetrieveAPIView, CreateAPIView):
+    """
+    Method to get detailed view of project invitation
+
+    **Returns**
+    200 Success
+    """
     def get_object(self):
         queryset = self.get_queryset()
         obj = None
@@ -877,7 +902,9 @@ class QueryByProjectUserMixin(object):
 
 class ChallengeLearNewSkillView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
     """
-    This is the views for adventure Learn new skill. Updates and gets the adventure details
+    This is the view for adventure Learn new skill. Update and get the adventure details
+
+    **Context** An instance of :model:`charityprojects.LearnNewSkill`
     """
     model = LearnNewSkill
     serializer_class = LearnNewSkillSerializer
@@ -929,7 +956,9 @@ class StartProject(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
 
 class ChallengeVolunteerTimeDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
     """
-    This is the views for adventure Volunteer time. Updates and gets the adventure details
+    This is the view for adventure Volunteer time. Update and get the adventure details
+
+    **Context** An instance of :model:`charityprojects.VolunteerTime`
     """
     model = VolunteerTime
     serializer_class = VolunteerTimeSerializer
@@ -948,7 +977,9 @@ class ChallengeVolunteerTimeDetailsView(QueryByProjectUserMixin, RetrieveAPIView
 
 class ChallengeDevelopNewHabitDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
     """
-    This is the views for adventure Develop new habit. Updates and gets the adventure details
+    This is the view for adventure Develop new habit. Update and get the adventure details
+
+    **Context** An instance of :model:`charityprojects.DevelopNewHabit`
     """
     model = DevelopNewHabit
     serializer_class = DevelopNewHabitSerializer
@@ -967,7 +998,9 @@ class ChallengeDevelopNewHabitDetailsView(QueryByProjectUserMixin, RetrieveAPIVi
 
 class ChallengeGiveDonationDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
     """
-    This is the views for adventure Give donation. Updates and gets the adventure details
+    This is the view for adventure Give donation. Update and get the adventure details
+
+    **Context** An instance of :model:`charityprojects.GiveDonation`
     """
     model = GiveDonation
     serializer_class = GiveDonationSerializer
@@ -986,7 +1019,9 @@ class ChallengeGiveDonationDetailsView(QueryByProjectUserMixin, RetrieveAPIView,
 
 class ChallengeFundraiserDetailsView(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
     """
-    This is the views for adventure fundraiser. Updates and gets the adventure details
+    This is the view for adventure fundraiser. Update and get the adventure details
+
+    **Context** An instance of :model:`charityprojects.Fundraise`
     """
     model = Fundraise
     serializer_class = FundraiserSerializer

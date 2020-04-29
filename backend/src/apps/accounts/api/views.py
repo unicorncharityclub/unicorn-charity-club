@@ -47,11 +47,24 @@ class UserRegisterMixin(object):
 
 
 class UserRegistrationView(UserRegisterMixin, APIView):
+    """
+     Register new user to the application
+
+    **Returns**
+    201 Success.
+    """
     def post(self, request, *args, **kwargs):
         return super().post(request.data)
 
 
 class UserLoginView(ChildrenListMixin, APIView):
+    """
+    Login registered user to the application
+
+    **Returns**
+    200 Success.
+
+    """
     authentication_classes = (SessionAuthentication,)
 
     @method_decorator(csrf_exempt)
@@ -94,6 +107,15 @@ class UserLoginView(ChildrenListMixin, APIView):
 
 
 class AddChildView(UserRegisterMixin, APIView):
+    """
+    Add child for the parent user
+
+    **Context**
+    An instance of :model:`accounts.User`
+
+    **Returns**
+    201 Success.
+    """
     def post(self, request, *args, **kwargs):
         """
         Add children for the parent user
@@ -138,6 +160,12 @@ class AddChildView(UserRegisterMixin, APIView):
 
 
 class UserSwitchAccountView(APIView):
+    """
+    Switch user based on parent and child type
+
+    **Returns**
+    200 Success
+    """
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
 
@@ -188,6 +216,9 @@ class UserSwitchAccountView(APIView):
 
 
 class UserExitView(APIView):
+    """
+    Logout the user and remove the user cookies and session
+    """
 
     def post(self, request):
         response = HttpResponse('Cookies Deleted')
