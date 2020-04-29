@@ -61,9 +61,13 @@ class VolunteerTime extends React.Component {
                     'content-type': 'multipart/form-data'
                 }
             })
-            .then(
-                this.props.history.push(`/Projects/${this.state.projectId}/Congratulations`)
-            )
+            .then(res => {
+                if (action_type === 'save') {
+                    this.props.history.push('/Projects/');
+                } else if (action_type === 'done') {
+                    this.props.history.push(`/Projects/${this.state.projectId}/Congratulations`);
+                }
+            })
             .catch(error => console.log(error))
     }
 
