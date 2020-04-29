@@ -42,7 +42,7 @@ class ProjectCompleteComponent extends React.Component {
 
                         <div className="stepper_main">
                             <div className="stepper_main_content">
-                                <ProgressStepper currentStep="2"/>
+                                <ProgressStepper currentStep="3"/>
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,7 @@ class ProjectCompleteComponent extends React.Component {
 
                         <div className="stepper_main_vr">
                             <div className="stepper_main_content">
-                                <ProgressStepper currentStep="2"/>
+                                <ProgressStepper currentStep="3"/>
                             </div>
                         </div>
                     </div>

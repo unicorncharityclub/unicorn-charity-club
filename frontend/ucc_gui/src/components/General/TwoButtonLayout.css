@@ -10,7 +10,7 @@
 {
     border-radius : 15px 0px 0px 15px;
     background-color: white;
-    border:1px solid #2BB9B7;
+    border:2px solid #2BB9B7;
     border-right: 0;
     font-size: 0.8em;
     width : 40%;
@@ -20,7 +20,7 @@
 .two_button_right_button
 {
     border-radius : 0px 15px 15px 0px;
-    border:1px solid #2BB9B7;
+    border:2px solid #2BB9B7;
     width : 40%;
     font-size: 0.8em;
     background-color: #2BB9B7;
@@ -32,7 +32,7 @@
     width:120%;
     margin-left: 2%;
     margin-bottom: 10px;
-    align-text: center;
+    text-align: center;
     justify-content: center;
     }
 }
@@ -43,7 +43,7 @@
     width:120%;
     margin-left: 2%;
     margin-bottom: 10px;
-    align-text: center;
+    text-align: center;
     justify-content: center;
     }
 }
@@ -53,34 +53,34 @@
     width:110%;
     margin-left: 5%;
     margin-bottom: 10px;
-    align-text: center;
+    text-align: center;
     justify-content: center;
     }
 }
 
 @media screen and (max-width: 480px){
   .two_button_div{
-    width:110%;
-    margin-left: 0%;
+    width:100%;
+    margin-left: 0;
     margin-bottom: 10px;
-    align-text: center;
+    text-align: center;
     justify-content: center;
     }
 
     .two_button_left_button
     {
-        border-radius : 15px 0px 0px 15px;
-        background-color: white;
-        border:1px solid #2BB9B7;
+        border-radius : 15px 0 0 15px;
+        background-color: white !important;
+        border:2px solid #2BB9B7;
         border-right: 0;
         width : 40%;
     }
 
     .two_button_right_button
     {
-        border-radius : 0px 15px 15px 0px;
-        border:1px solid #2BB9B7;
-        width : 40%;
+        border-radius : 0 15px 15px 0;
+        border:2px solid #2BB9B7;
+        width : 50%;
         background-color: #2BB9B7;
     }
 }
