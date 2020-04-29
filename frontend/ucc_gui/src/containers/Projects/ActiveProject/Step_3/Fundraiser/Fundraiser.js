@@ -41,10 +41,10 @@ class Fundraiser extends React.Component {
             formData.append('organisation_name', this.state.name);
             formData.append('organisation_address', this.state.address);
             formData.append('organisation_city', this.state.city);
-            formData.append('website', this.state.website);
+            formData.append('organisation_website', this.state.website);
             formData.append('organisation_state', this.state.stateName);
-            formData.append('amount', this.state.dollars);
-            formData.append('details', this.state.description);
+            formData.append('fundraise_amount', this.state.dollars);
+            formData.append('fundraise_details', this.state.description);
             formData.append('action_type', action_type);
             formData.append('exp_video', this.state.finalVideo);
         } catch (err) {
@@ -57,9 +57,13 @@ class Fundraiser extends React.Component {
                     'content-type': 'multipart/form-data'
                 }
             })
-            .then(
-                this.props.history.push(`/Projects/${this.state.projectId}/Congratulations`)
-            )
+            .then(res => {
+                if (action_type === 'save') {
+                    this.props.history.push('/Projects/');
+                } else if (action_type === 'done') {
+                    this.props.history.push(`/Projects/${this.state.projectId}/Congratulations`);
+                }
+            })
             .catch(error => console.log(error))
     }
 
@@ -101,10 +105,10 @@ class Fundraiser extends React.Component {
                     name: res.data.organisation_name,
                     address: res.data.organisation_address,
                     city: res.data.organisation_city,
-                    website: res.data.website,
+                    website: res.data.organisation_website,
                     stateName: res.data.organisation_state,
-                    dollars: res.data.amount,
-                    description: res.data.details,
+                    dollars: res.data.fundraise_amount,
+                    description: res.data.fundraise_details,
                     finalVideo: res.data.exp_video
                 });
             }).catch(error => console.log(error))

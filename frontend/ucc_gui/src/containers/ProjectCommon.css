@@ -110,11 +110,12 @@
     }
 
     .content_section_profile {
-        width: 100%;
+        width: 90%;
         padding-bottom: 0;
         margin-left: 10px;
         margin-right: 10px;
         float: left;
+        border: none;
     }
 }
 
