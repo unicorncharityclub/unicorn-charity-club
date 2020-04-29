@@ -598,7 +598,10 @@ def user_feed(request):
             if action_type == "Started_Project":
                 user = User.objects.get(pk=record.user_id)
                 profile = Profile.objects.get(user_id=record.user_id)
-                profile_pic = request.build_absolute_uri(profile.profile_pic.url)
+                if profile.profile_pic:
+                    profile_pic = request.build_absolute_uri(profile.profile_pic.url)
+                else:
+                    profile_pic = ''
                 project_badge = request.build_absolute_uri(project.badge.url)
                 user_name = user.first_name+' '+user.last_name
                 project_details = {"project_name": project.name, "project_badge": project_badge, "time": record.date,
@@ -608,7 +611,10 @@ def user_feed(request):
             elif action_type == "Completed_Project":
                 user = User.objects.get(pk=record.user_id)
                 profile = Profile.objects.get(user_id=record.user_id)
-                profile_pic = request.build_absolute_uri(profile.profile_pic.url)
+                if profile.profile_pic:
+                    profile_pic = request.build_absolute_uri(profile.profile_pic.url)
+                else:
+                    profile_pic = ' '
                 project_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=user_id).first()
                 pu_id = project_user_record.id
                 adventure_id = project_user_record.adventure_id
@@ -621,7 +627,10 @@ def user_feed(request):
             elif action_type == "Goal_Set":
                 user = User.objects.get(pk=record.user_id)
                 profile = Profile.objects.get(user_id=record.user_id)
-                profile_pic = request.build_absolute_uri(profile.profile_pic.url)
+                if profile.profile_pic:
+                    profile_pic = request.build_absolute_uri(profile.profile_pic.url)
+                else:
+                    profile_pic = ' '
                 project_user_record = ProjectUser.objects.filter(project_id=project_id, user_id=user_id).first()
                 adventure_id = project_user_record.adventure_id
                 goal_date = project_user_record.goal_date
