@@ -107,7 +107,11 @@ class LearnNewSkill extends React.Component {
                 }
             })
             .then(res => {
-                this.props.history.push(`/Projects/${this.state.projectId}/Congratulations`)
+                if(action_type === 'save'){
+                    this.props.history.push('/Projects/');
+                } else if(action_type === 'done') {
+                    this.props.history.push(`/Projects/${this.state.projectId}/Congratulations`);
+                }
             })
             .catch(error => console.log(error));
     };
