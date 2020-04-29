@@ -45,10 +45,10 @@ class VolunteerTime extends React.Component {
             formData.append('organisation_name', this.state.name);
             formData.append('organisation_address', this.state.address);
             formData.append('organisation_city', this.state.city);
-            formData.append('website', this.state.website);
+            formData.append('organisation_website', this.state.website);
             formData.append('organisation_state', this.state.stateName);
-            formData.append('hours', this.state.hours);
-            formData.append('description', this.state.description);
+            formData.append('volunteer_hours', this.state.hours);
+            formData.append('volunteer_work_description', this.state.description);
             formData.append('action_type', action_type);
             formData.append('exp_video', this.state.finalVideo);
 
@@ -111,10 +111,10 @@ class VolunteerTime extends React.Component {
                     name: res.data.organisation_name,
                     address: res.data.organisation_address,
                     city: res.data.organisation_city,
-                    website: res.data.website,
+                    website: res.data.organisation_website,
                     stateName: res.data.organisation_state,
-                    hours: res.data.hours,
-                    description: res.data.description,
+                    hours: res.data.volunteer_hours,
+                    description: res.data.volunteer_work_description,
                     finalVideo: res.data.exp_video
                 });
             }).catch(error => console.log(error))
