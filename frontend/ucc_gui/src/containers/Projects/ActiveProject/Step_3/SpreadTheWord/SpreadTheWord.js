@@ -77,7 +77,7 @@ class SpreadTheWord extends React.Component {
 
         AxiosConfig.post(`charityproject/spread_the_word/`, form_data)
             .then(function (response) {
-                obj.props.history.push(`/Projects/${this.state.projectId}/Congratulations`)
+                obj.props.history.push(`/Projects/${this.state.projectId}/Congratulations`);
             })
             .catch(function (error) {
                 console.log(error);
@@ -127,7 +127,7 @@ class SpreadTheWord extends React.Component {
     }
 
     saveButtonClick() {
-
+        this.props.history.push('/Projects/');
     }
 
     render() {

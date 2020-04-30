@@ -27,31 +27,20 @@ class LearnNewSkill extends React.Component {
             video: '',
             finalVideo: '',
             projectId: this.props.match.params.id,
-            projectName: '',
             projectBanner: '',
-            projectBadge: '',
-            projectMission: '',
-            //project_join_date: '',
-            challengeStatus: '',
-            projectCategory: ''
+            errorMessage: ''
         }
     };
 
     componentDidMount() {
         Promise.all([
             AxiosConfig.get('charityproject/active_project_list/'),
-            AxiosConfig.get('charityproject/learn_new_skill/',{params: {project_id: this.state.projectId}})])
+            AxiosConfig.get('charityproject/learn_new_skill/', {params: {project_id: this.state.projectId}})])
             .then(([res1, res2]) => {
                 for (let i = 0; i < res1.data.length; i++) {
                     if (res1.data[i].project.id === parseInt(this.state.projectId)) {
                         this.setState({
-                            projectName: res1.data[i].project.name,
                             projectBanner: res1.data[i].project.banner,
-                            projectBadge: res1.data[i].project.badge,
-                            projectMission: res1.data[i].project.mission,
-                            projectCategory: res1.data[i].project.category,
-                            projectJoinDate: res1.data[i].date_joined,
-                            challengeStatus: res1.data[i].challenge_status
                         });
                     }
                 }
@@ -70,10 +59,34 @@ class LearnNewSkill extends React.Component {
         return value === "" ? "" : value;
     }
 
+    checkEmptySkill() {
+        if (!this.state.newSkill) {
+            this.setState({errorMessage: "Please enter a skill."});
+            return true;
+        }
+        return false;
+    }
+
+    checkEmptyDescription() {
+        if (!this.state.description) {
+            this.setState({errorMessage: "Please enter a description of the skill."});
+            return true;
+        }
+        return false;
+    }
+
+    checkEmptyVideo() {
+        if (!this.state.finalVideo) {
+            this.setState({errorMessage: "Please upload a video."});
+            return true;
+        }
+        return false;
+    }
+
     changeHandler(event) {
         this.setState({
             ...this.state,
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value.trim()
         })
     };
 
@@ -100,16 +113,31 @@ class LearnNewSkill extends React.Component {
         } catch (err) {
             console.log(err)
         }
-        return AxiosConfig.put('charityproject/learn_new_skill/', formData,
-            {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            })
-            .then(res => {
-                this.props.history.push(`/Projects/${this.state.projectId}/Congratulations`)
-            })
-            .catch(error => console.log(error));
+
+        if (action_type === 'done' && this.checkEmptySkill() === false && this.checkEmptyDescription() === false
+            && this.checkEmptyVideo() === false) {
+            return AxiosConfig.put('charityproject/learn_new_skill/', formData,
+                {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                })
+                .then(
+                    this.props.history.push(`/Projects/${this.state.projectId}/Congratulations`)
+                )
+                .catch(error => console.log(error));
+        } else if (action_type === 'save') {
+            return AxiosConfig.put('charityproject/learn_new_skill/', formData,
+                {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                })
+                .then(
+                    this.props.history.push('/Projects/')
+                )
+                .catch(error => console.log(error))
+        }
     };
 
     render() {
@@ -120,17 +148,12 @@ class LearnNewSkill extends React.Component {
                     description={this.state.description}
                     video={this.state.video}
                     projectBanner={this.state.projectBanner}
-                    projectBadge={this.state.projectBadge}
-                    projectName={this.state.projectName}
-                    projectMission={this.state.projectMission}
-                    projectCategory={this.state.projectCategory}
-                    projectJoinDate={this.state.projectJoinDate}
-                    challengeStatus={this.state.challengeStatus}
                     projectId={this.state.projectId}
                     defaultIfEmpty={this.defaultIfEmpty.bind(this)}
                     changeHandler={this.changeHandler.bind(this)}
                     videoHandler={this.videoHandler.bind(this)}
-                    saveHandler={this.saveHandler.bind(this)}/>
+                    saveHandler={this.saveHandler.bind(this)}
+                    errorMessage={this.state.errorMessage}/>
             </div>
         )
     }

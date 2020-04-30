@@ -5,6 +5,7 @@ import ProgressStepper from "../../../ProgressStepper";
 import ProjectBanner from "../../../ProjectBanner";
 import TwoButtonLayout from "../../../../General/TwoButtonLayout";
 import ProjectInfo from "../../../Details/ProjectInfo";
+import TextTheme from "../../../../General/Text/TextTheme";
 
 /**
  * @description Creates a form displaying all the information of the Challenge 3 Develop new habit
@@ -87,10 +88,11 @@ class DevelopNewHabitComponent extends React.Component {
                                    accept="video/*"
                                    onChange={this.props.videoHandler.bind(this)}/>
                             <div className="navigate-save">
-                                <TwoButtonLayout button1Text="SAVE" button2Text="DONE"
+                                <TwoButtonLayout button1Text="SAVE" button2Text="COMPLETE PROJECT"
                                                  button1Click={(event) => this.props.saveHandler(event, 'save')}
                                                  button2Click={(event) => this.props.saveHandler(event, 'done')}/>
                             </div>
+                            <TextTheme message={this.props.errorMessage} className="text_medium text_red"/>
                         </div>
                     </div>
                 </div>

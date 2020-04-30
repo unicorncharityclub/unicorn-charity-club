@@ -102,20 +102,17 @@
 .done {
     font-size: 18px;
     height: 50px;
-    width: 40%;
-    border: 2px solid;
-    border-radius: 15px;
+    width: 35%;
+    border-radius: 10px;
     cursor: pointer;
+    background: #13c2c2;
+    color: white;
 }
 
 .navigate-done {
-    width: 100%;
+    width: 95%;
     margin: 70px 10px 10px 10px;
     text-align: right;
-}
-
-.navigate-done button:hover {
-    background: #3b9f9d;
 }
 
 /*.navigate-save button:hover {*/

@@ -1,4 +1,6 @@
 import React from 'react';
+import "./Feeds.css";
+import DefaultProfilePic from "../../site_media/default-images/default-profile-pic-feeds.png";
 
 /**
  * @description Displays the project started by the user.
@@ -27,12 +29,12 @@ class UserStartedProject extends React.Component {
         return (
             <div className="feed-wrapper">
                 <div className="feed-form">
-                    <p className="mobile-profile-pic"><img className="profile-pic" src={this.props.profilePic}/></p>
+                    <p className="mobile-profile-pic"><img className="profile-pic" src={this.props.profilePic || DefaultProfilePic}/></p>
                     <p className="mobile-intro"><label style={{fontWeight: 'bold'}}>{this.props.userName}</label>
                         <label>Project was started on {formattedDate}, {time}</label></p>
                 </div>
                 <div className="feed-display-adjacent">
-                    <p><img className="display-pic-adjacent" src={this.props.profilePic}/></p>
+                    <p><img className="display-pic-adjacent" src={this.props.profilePic || DefaultProfilePic}/></p>
                     <p><img className="display-pic-adjacent" src={this.props.projectBadge}/></p>
                 </div>
                 <div className="feed-form">
