@@ -17,13 +17,13 @@ from corsheaders.defaults import default_headers
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'site_media')
-STATIC_URL = '/site_media/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
 MEDIA_URL = '/upload/'
 
-LOCAL_STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+LOCAL_STATIC_ROOT = os.path.join(BASE_DIR, 'resources')
 STATICFILES_DIRS = (
     LOCAL_STATIC_ROOT,
 )
