@@ -59,9 +59,16 @@ class CharityProjectDetailsView(RetrieveAPIView):
 
 class CharityProjectListView(ListAPIView):
     """
-    The ListAPIView will use the model and the serializer provided.
+    The ListAPIView will use the charity project model and the serializer provided.
     Based on the queryset it will return all the result from the DB
-    Currently no pagination is in place
+
+    **Context**
+    An instance of :model:`charityprojects.CharityProjects`
+
+    **Returns**
+    Details of charity project
+    200 Success
+
     """
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
@@ -71,6 +78,13 @@ class CharityProjectListView(ListAPIView):
 
 
 class CharityProjectCategory(ListAPIView):
+    """
+    Different categories of charity projects
+
+    **Returns**
+    List of categories
+    200 Success
+    """
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
 
@@ -121,6 +135,12 @@ class ProjectUserMixin(object):
 
 
 class CharityProjectStartProject(ProjectUserMixin, CreateAPIView, UpdateAPIView):
+    """
+    Start a charity project and update different challenge steps
+
+    **Context**
+    An instance of :model:`charityprojects.ProjectUser`
+    """
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
     model = ProjectUser
@@ -261,9 +281,8 @@ def all_project_list(request):
     """
     List of names of projects
 
-    :param request:
-
-    :return: Name of all projects
+    **Returns**
+    Name of all projects
     """
     response = {'status': "Success"}
     project_list = []
@@ -288,7 +307,8 @@ class ActiveProjectListView(ProjectListByStatusMixin, ListAPIView):
     """
     Method to get projects which are in active state i.e "Challenge State"
 
-    :return: List of  projects
+    **Returns**
+    List of active projects
     """
     def get_queryset(self):
 
@@ -299,7 +319,8 @@ class PlannedProjectListView(ProjectListByStatusMixin, ListAPIView):
     """
     Method to get projects which are in Planning State
 
-    :return: List of projects
+    **Returns**
+    List of planned projects
    """
     def get_queryset(self):
 
@@ -310,7 +331,8 @@ class CompletedProjectListView(ProjectListByStatusMixin, ListAPIView):
     """
     Method to get projects which are completed
 
-    :return: List of  projects
+    **Returns**
+    List of completed projects
     """
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user, challenge_status__icontains="UnlockedPrize")
@@ -330,7 +352,8 @@ class ProjectInvitationsListView(UserInvitationListMixin, ListAPIView):
     """
     Method to get pending project invitations
 
-    :return: List of project invitations
+    **Returns**
+    List of project invitations
     """
     def get_queryset(self):
 
@@ -469,6 +492,14 @@ class InviteUserMixin(object):
 
 
 class InviteUser(ProjectUserMixin, InviteUserMixin, APIView):
+    """
+    Invite users to be part of the charity project
+
+    **Context** An instance of :model:`charityprojects.UserInvitation`
+
+    **Returns**
+    200 Success
+    """
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
 
@@ -493,6 +524,12 @@ class InviteUser(ProjectUserMixin, InviteUserMixin, APIView):
 
 
 class SearchFriendByEmailView(ListAPIView):
+    """
+    Find users by email
+
+    **Returns**
+    List of users having the given email
+    """
     pagination_class = CustomPagination
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
@@ -516,6 +553,12 @@ class SearchFriendByEmailView(ListAPIView):
 
 
 class SearchFriendByNameView(ListAPIView):
+    """
+    Find users by name
+
+    **Returns**
+    List of users having the given name
+    """
     pagination_class = CustomPagination
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
@@ -533,6 +576,11 @@ class SearchFriendByNameView(ListAPIView):
 
 
 class ChallengeSpreadTheWord(ProjectUserMixin, InviteUserMixin, APIView):
+    """
+    This is the view for adventure Spread the word. Update and get the adventure details
+
+    **Context** An instance of :model:`charityprojects.SpreadWord`
+    """
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
 
@@ -567,9 +615,10 @@ class ChallengeSpreadTheWord(ProjectUserMixin, InviteUserMixin, APIView):
 def spotlight_stats(request, user_email):
     """
     This method is used to find the statistics for user activities to be displayed on the spotlight page.
-    :param request:
     :param user_email:
-    :return:
+
+    **Returns**
+    Users social Impact
     """
     response = {'status': "Invalid Request"}
     total_volunteer_hours = 0
@@ -922,6 +971,14 @@ class ChallengeLearNewSkillView(QueryByProjectUserMixin, RetrieveAPIView, Update
 
 
 class StartProject(QueryByProjectUserMixin, RetrieveAPIView, UpdateAPIView):
+    """
+    Initiate a charity project. Update prize and invite friends
+
+    **Context** An instance of :model:`charityprojects.ProjectUserDetails`
+
+    **Returns**
+    200 Success
+    """
     model = ProjectUserDetails
     serializer_class = ProjectUserDetailsSerializer
     queryset = ProjectUserDetails.objects.all()

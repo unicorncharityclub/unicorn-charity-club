@@ -99,6 +99,59 @@ class CharityProjectTest(TestCase):
         response = ChallengeGiveDonationDetailsView.as_view()(request, *[], **{})
         self.assertEqual(response.status_code, 200)
 
+    def test_update_volunteer_time_adventure(self):
+        request = self.factory.put('volunteer_time/', {'project_id': 2, 'volunteer_hours': 20}, content_type='application/json')
+        request.user = self.user
+        force_authenticate(request, user=self.user)
+        response = ChallengeVolunteerTimeDetailsView.as_view()(request, *[], **{})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['volunteer_hours'], 20)
+
+    def test_update_develop_new_habit_adventure(self):
+        self.new_habit = 'UpdateHabit'
+        request = self.factory.put('develop_new_habit/', {'project_id': 2, 'new_habit': self.new_habit}, content_type='application/json')
+        request.user = self.user
+        force_authenticate(request, user=self.user)
+        response = ChallengeDevelopNewHabitDetailsView.as_view()(request, *[], **{})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['new_habit'], self.new_habit)
+
+    def test_update_give_donation_adventure(self):
+        self.address = 'California'
+        request = self.factory.put('give_donation/', {'project_id': 2, 'organisation_address': self.address},
+                                   content_type='application/json')
+        request.user = self.user
+        force_authenticate(request, user=self.user)
+        response = ChallengeGiveDonationDetailsView.as_view()(request, *[], **{})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['organisation_address'], self.address)
+
+    def test_update_fundraiser_adventure(self):
+        self.address = 'California'
+        request = self.factory.put('fundraiser/', {'project_id': 2, 'organisation_address': self.address},
+                                   content_type='application/json')
+        request.user = self.user
+        force_authenticate(request, user=self.user)
+        response = ChallengeFundraiserDetailsView.as_view()(request, *[], **{})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['organisation_address'], self.address)
+
+    def test_update_learn_new_skill_adventure(self):
+        self.new_skill = 'UpdateSkill'
+        request = self.factory.put('learn_new_skill/', {'project_id': 2, 'new_habit': self.new_habit},
+                                   content_type='application/json')
+        request.user = self.user
+        force_authenticate(request, user=self.user)
+        response = ChallengeLearNewSkillView.as_view()(request, *[], **{})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['new_skill'], self.new_skill)
+
+
+
+
+
+
+
 
 
 
