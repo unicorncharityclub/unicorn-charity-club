@@ -41,6 +41,15 @@ class ChildrenListMixin(object):
 
 
 class ProfileDetailView(APIView):
+    """
+    Get details of user's profile
+
+    **Context**
+    An instance of :model:`profile.Profile`
+
+    **Returns**
+    200 Success
+    """
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated]
 
@@ -101,5 +110,14 @@ class ProfileDetailView(APIView):
 
 
 class ChildrenListView(ChildrenListMixin, APIView):
+    """
+    Get details of childs's profile
+
+    **Context**
+    An instance of :model:`profile.ChildProfile`
+
+    **Returns**
+    200 Success
+    """
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
