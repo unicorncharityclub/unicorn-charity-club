@@ -1,5 +1,6 @@
 
 ## Installation Steps
+0. Complete Documentation - https://drive.google.com/open?id=1uLhpOdIpR0D6TgWHCOhag_eDvRJw7KPGKFM8BEHLFCE
 
 1. Install pip
 2. Install virtualenv using command 
@@ -25,7 +26,6 @@
 ## API Documentation
 URL for the localhost - http://127.0.0.1:8000/admin/doc/
 URL for the server - http://198.199.110.71/admin/doc/
-API Documentation - https://documenter.getpostman.com/view/1318900/SzfDxkBH?version=latest
 
 ## Coding Standards
 - [Django](https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/)
