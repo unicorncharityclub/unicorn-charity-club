@@ -22,6 +22,10 @@
 	- then "npm run build"
 	- then "npm start"
 
+## API Documentation
+URL for the localhost - http://127.0.0.1:8000/admin/doc/
+URL for the server - http://198.199.110.71/admin/doc/
+API Documentation - https://documenter.getpostman.com/view/1318900/SzfDxkBH?version=latest
 
 ## Coding Standards
 - [Django](https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/)
