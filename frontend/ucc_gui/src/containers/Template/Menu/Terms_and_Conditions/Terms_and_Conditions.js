@@ -2,17 +2,57 @@
  * 'npm i --save react'
  * 'npm i --save react-router-dom'
  */
-import React from "react";
-
+/** */
+import React, {
+  Component
+} from "react";
+import AxiosConfig from "../../../../axiosConfig";
+import VerticalSpotlightDetails from '../../../../components/Spotlight/VerticalSpotlightDetails';
+/** @import CSS styles */
+import './Terms_and_Conditions.css';
 class Terms_and_Conditions extends React.Component {
+  _isMounted = false;
+  constructor(props) {
+      super(props);
+      this.state = {
+          TermsTitle: "",
+          TermsContent: "",
+      };
+  }
+  componentDidMount() {
+      AxiosConfig.get(`misc/terms/`)
+          .then((res) => {
+              this.setState({
+                  TermsTitle: res.data.title,
+                  TermsContent: res.data.content,
+              });
+          })
+          .catch((error) => console.log(error));
+  }
   render() {
-    return (
-    <div>
-        <p> Terms and Conditions Page </p>
-    </div>
-    );
+      switch (this.props.userState) {
+          default:
+          case "registered":
+              return (
+              <div className="header_main">
+                  <div className="page_main">
+                      <VerticalSpotlightDetails isSpotlightPage={ false }/>
+                      <div className="page_details_main">
+                          <div className="page_details_content_main">
+                              <div>
+                                  <h1> { this.state.TermsTitle }
+                                      </h1>
+                                          < br className="br" />
+                                          <div dangerouslySetInnerHTML={ { __html: this.state.TermsContent } }>
+                                              </div>
+                                                  <hr className="horizontal_line" />
+                          </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              );
+      }
   }
 }
-
-
 export default Terms_and_Conditions;

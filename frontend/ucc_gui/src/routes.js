@@ -39,7 +39,7 @@ class BaseRouter extends React.Component {
               <Route exact path="/" component={Feeds} />
               <Route exact path="/Account" component={Account} />
               <Route exact path='/Menu/Payment' component={Payment} />
-              <Route exact path='/Menu/Terms_and_Conditions' component={Terms_and_Conditions} />
+              <Route exact path='/Terms_and_Conditions' component={Terms_and_Conditions} />
               <Route exact path='/Menu/Security_and_Privacy' component={Security_and_Privacy} />
               <Route exact path='/MyChildrenList' component={ChildrenList} />
               <Route exact path='/Projects/' component={ProjectsHome} />
